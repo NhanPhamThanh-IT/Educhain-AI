@@ -23,9 +23,15 @@ class Course(BaseModel):
     name: str # Tên của khóa học
     category: str # Danh mục của khóa học
     introduction: str # Giới thiệu về khóa học
-    learning_materials_path: str # Đường dẫn tới tài liệu học
     description: str # Mô tả của khóa học
     price: Decimal # Giá của khóa học
+
+    learning_materials_path: str # Đường dẫn tới tài liệu học
+    lesson: List[str] # Danh sách các bài học
+    QuizQuestion: List[str] # Danh sách các câu hỏi trắc nghiệm
+    ExamQuestion: List[str] # Danh sách các câu hỏi thi cuối khóa
+    Video: List[str] # Danh sách các video hướng dẫn
+    
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
 
@@ -35,6 +41,33 @@ class ChatHistory(BaseModel):
     question: str # Câu hỏi của người dùng
     answer: str # Câu trả lời của chatbot
     created_at: datetime = datetime.now()
+
+
+class QuizQuestion(BaseModel):
+    id: int
+    question_id: str # ID của câu hỏi
+    question: str # Nội dung của câu hỏi
+    options: List[str] # Danh sách các phương án
+    correct_answer: str # Đáp án đúng
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
+
+class ExamQuestion(BaseModel):
+    id: int
+    exam_id: str # ID của câu hỏi
+    question: str # Nội dung của câu hỏi
+    options: List[str] # Danh sách các phương án
+    correct_answer: str # Đáp án đúng
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
+
+class StudyGuide(BaseModel):
+    id: int
+    guide_id: str # ID của bài học
+    topic: str # Chủ đề của bài học
+    content: str # Nội dung của bài học
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
 
 
 
