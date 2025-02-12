@@ -31,7 +31,7 @@ class Course(BaseModel):
     QuizQuestion: List[str] # Danh sách các câu hỏi trắc nghiệm
     ExamQuestion: List[str] # Danh sách các câu hỏi thi cuối khóa
     Video: List[str] # Danh sách các video hướng dẫn
-    
+
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
 
@@ -68,6 +68,3 @@ class StudyGuide(BaseModel):
     content: str # Nội dung của bài học
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
-
-
-
