@@ -1,4 +1,4 @@
-from utils.agent_tools import GetKnowledgeTool, CreateQuizTool , CreateStudyGuideTool, CreateExamTool
+from .agent_tools import GetKnowledgeTool, CreateQuizTool, CreateStudyGuideTool, CreateExamTool
 
 __all__ = [
     "GetKnowledgeTool",

@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, Dict, Annotated
 
 # Này t ghi đại, tức là mình sẽ traverse knowledge graph để lấy thông tin
-from app.database.neo4j import traverse_knowledge_graph, get_quiz_questions, get_study_guide, get_exam_questions 
+from app.database.neo4j_usage import traverse_knowledge_graph, get_quiz_questions, get_study_guide, get_exam_questions 
 from decimal import Decimal
 
 class GetKnowledgeTool(BaseTool):
