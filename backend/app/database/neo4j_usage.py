@@ -1,5 +1,5 @@
 # neo4j.py
-
+import os
 from neo4j import GraphDatabase
 from neo4j.exceptions import ServiceUnavailable
 
@@ -56,9 +56,9 @@ class Neo4jConnection:
 # --------------------------
 if __name__ == "__main__":
     # Replace these credentials with your actual Neo4j connection details.
-    uri = "bolt://localhost:7687"
-    user = "neo4j"
-    password = "password"
+    uri = os.getenv("NEO4J_URI")
+    user = os.getenv("NEO4J_USER")
+    password = os.getenv("NEO4J_PASS")
 
     # Import the KG model classes from neo4j_model.py
     from backend.app.models.neo4j_model import KGNode, KGRelationship
