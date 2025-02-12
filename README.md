@@ -24,3 +24,71 @@ To provide a dynamic and decentralized platform that makes education accessible,
 - Secure and Transparent Ecosystem: Web3 guarantees secure transactions and traceable ownership of educational resources, reducing fraud and increasing trust.
 
 - Empowering Creators and Learners: With AI automating content generation and Web3 ensuring equitable distribution, the platform fosters a collaborative and inclusive learning environment.
+
+# Installation
+
+## Back-end
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/yourusername/Educhain-AI.git
+    cd Educhain-AI
+    ```
+
+2. Set up a virtual environment and install dependencies:
+    ```sh
+    python -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    pip install -r requirements.txt
+    ```
+
+3. Configure environment variables:
+    Create a [.env](http://_vscodecontentref_/0) file in the root directory and add the necessary environment variables.
+
+4. Run database migrations:
+    ```sh
+    python manage.py migrate
+    ```
+
+5. Start the development server:
+    ```sh
+    python manage.py runserver
+    ```
+
+## Front-end
+1. Navigate to the front-end directory:
+    ```sh
+    cd frontend
+    ```
+
+2. Install dependencies:
+    ```sh
+    npm install
+    ```
+
+3. Start the development server:
+    ```sh
+    npm start
+    ```
+
+# Deployment
+1. Build the front-end for production:
+    ```sh
+    cd frontend
+    npm run build
+    ```
+
+2. Collect static files for the back-end:
+    ```sh
+    cd ..
+    python manage.py collectstatic
+    ```
+
+3. Configure your web server (e.g., Nginx) and WSGI server (e.g., Gunicorn) to serve the application.
+
+4. Set up a production database and run migrations.
+
+5. Ensure all environment variables are set for production.
+
+6. Start the application using your WSGI server.
+
+For detailed deployment instructions, refer to the documentation of your chosen hosting provider.
