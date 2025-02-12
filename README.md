@@ -15,12 +15,12 @@ To provide a dynamic and decentralized platform that makes education accessible,
 - For All Users: Blockchain ensures secure, transparent transactions, while a token economy promotes motivation, fairness, and inclusivity within the learning ecosystem.
 
 ## Why Web3 x AI?
-The synergy of Web3 and AI offers opportunities for innovation in education:
+- The synergy of Web3 and AI offers opportunities for innovation in education:
 
-Personalization at Scale: AI tailors learning paths and content to individual needs, while Web3 ensures transparency and ownership of data.
+- Personalization at Scale: AI tailors learning paths and content to individual needs, while Web3 ensures transparency and ownership of data.
 
-Tokenized Incentives: Blockchain enables a decentralized reward system, motivating learners to stay engaged while providing fair compensation to creators.
+- Tokenized Incentives: Blockchain enables a decentralized reward system, motivating learners to stay engaged while providing fair compensation to creators.
 
-Secure and Transparent Ecosystem: Web3 guarantees secure transactions and traceable ownership of educational resources, reducing fraud and increasing trust.
+- Secure and Transparent Ecosystem: Web3 guarantees secure transactions and traceable ownership of educational resources, reducing fraud and increasing trust.
 
-Empowering Creators and Learners: With AI automating content generation and Web3 ensuring equitable distribution, the platform fosters a collaborative and inclusive learning environment.
+- Empowering Creators and Learners: With AI automating content generation and Web3 ensuring equitable distribution, the platform fosters a collaborative and inclusive learning environment.
