@@ -44,6 +44,21 @@ To provide a dynamic and decentralized platform that makes education accessible,
 3. Configure environment variables:
     Create a [.env](http://_vscodecontentref_/0) file in the root directory and add the necessary environment variables.
 
+    ```
+    OPENAI_API_KEY = ""
+
+    # Postgre:
+    DB_NAME = 'DB_NAME'
+    DB_USER = 'DB_USERNAME'
+    DB_PASSWORD = 'DB_PASSWORD'
+    DB_HOST = 'DB_HOST'
+    DB_PORT = 'DB_PORT'
+
+    # Neo4j
+    NEO4J_URI = ''
+    NEO4J_USER = ''
+    NEO4J_PASS = ''
+
 4. Run database migrations:
     ```sh
     python manage.py migrate

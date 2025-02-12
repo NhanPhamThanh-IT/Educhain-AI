@@ -9,7 +9,7 @@ from app.database.chat_history_service import save_chat_history, get_recent_chat
 from pydantic import BaseModel, Field
 from langchain_core.messages import AIMessageChunk
 from langchain.callbacks.base import BaseCallbackHandler
-from .agent_tools import GetKnowledgeTool, CreateQuizTool , CreateStudyGuideTool, CreateExamTool
+from ..utils.agent_tools import GetKnowledgeTool, CreateQuizTool , CreateStudyGuideTool, CreateExamTool
 
 
 load_dotenv()
