@@ -61,7 +61,7 @@ if __name__ == "__main__":
     password = "password"
 
     # Import the KG model classes from neo4j_model.py
-    from neo4j_model import KGNode, KGRelationship
+    from backend.app.models.neo4j_model import KGNode, KGRelationship
 
     # Establish a connection to the Neo4j database.
     conn = Neo4jConnection(uri, user, password)

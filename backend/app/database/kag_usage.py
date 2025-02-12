@@ -11,7 +11,7 @@ Prerequisites:
 """
 
 from neo4j import GraphDatabase
-from neo4j_model import KGNode, KGRelationship
+from backend.app.models.neo4j_model import KGNode, KGRelationship
 from neo4j import Neo4jConnection  # from neo4j.py
 
 def create_knowledge_graph(conn: Neo4jConnection):
