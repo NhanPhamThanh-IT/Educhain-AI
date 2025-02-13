@@ -69,7 +69,9 @@ class Neo4jConnection:
             print(f"Lỗi khi kết nối hoặc xóa dữ liệu: {e}")
         finally:
             driver.close()
+    def traverse_knowledge_graph(self):
 
+    
 
 # --------------------------
 # Example usage of the Neo4jConnection and KG model:
