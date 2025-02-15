@@ -5,6 +5,7 @@ from neo4j.exceptions import ServiceUnavailable
 # Import the KG model classes from neo4j_model.py
 from app.models.neo4j_model import KGNode, KGRelationship
 
+
 class Neo4jConnection:
     """
     Manages connection to a Neo4j database and provides methods to execute queries.
