@@ -1,0 +1,27 @@
+{
+  "doc-addb4618e1697da0445ec72a648e1f92": {
+    "content_summary": "﻿The Project Gutenberg eBook of A Christmas Carol\n    \nThis ebook is for the use of anyone anywhere ...",
+    "content_length": 185064,
+    "status": "failed",
+    "created_at": "2025-02-15T23:14:59.193351",
+    "updated_at": "2025-02-15T23:17:22.870519",
+    "chunks_count": 179,
+    "error": "RetryError[<Future at 0x226de5a2d90 state=finished raised RateLimitError>]"
+  },
+  "doc-5824ec97720347ad398d62160ccfac6d": {
+    "content_summary": "﻿The Project Gutenberg eBook of A Christmas Carol\n    \nThis ebook is for the use of anyone anywhere ...",
+    "content_length": 133831,
+    "status": "processing",
+    "created_at": "2025-02-15T23:14:02.886259",
+    "updated_at": "2025-02-15T23:14:03.703263",
+    "chunks_count": 131
+  },
+  "doc-6ff64898abcdc8d10486623b2b1b6c2c": {
+    "content_summary": "﻿The Project Gutenberg eBook of A Christmas Carol\n    \nThis ebook is for the use of anyone anywhere ...",
+    "content_length": 69524,
+    "status": "processed",
+    "created_at": "2025-02-17T12:33:46.263799",
+    "updated_at": "2025-02-17T12:39:00.692965",
+    "chunks_count": 69
+  }
+}
