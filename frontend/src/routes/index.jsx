@@ -40,20 +40,23 @@ export default function Router() {
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
+    {
+      path: "learning",
+      children: [
+        { path: "leaderboard", element: <LeaderBoard />},
+        { path: "mission", element: <MissionPage />},
+        { path: "course", element: <LearningPage />},
+        { path: "exchange", element: <ExchangeCoin />},
+      ],
+    }
   ]);
 }
 
 // AUTHENTICATION
 const Login = Loadable(lazy(() => import("../pages/authentication/Login")));
-const Register = Loadable(
-  lazy(() => import("../pages/authentication/Register"))
-);
-const ForgotPassword = Loadable(
-  lazy(() => import("../pages/authentication/ForgotPassword"))
-);
-const VerifyCode = Loadable(
-  lazy(() => import("../pages/authentication/VerifyCode"))
-);
+const Register = Loadable(lazy(() => import("../pages/authentication/Register")));
+const ForgotPassword = Loadable(lazy(() => import("../pages/authentication/ForgotPassword")));
+const VerifyCode = Loadable(lazy(() => import("../pages/authentication/VerifyCode")));
 
 // MAIN
 const Page500 = Loadable(lazy(() => import("../pages/Page500")));
@@ -61,3 +64,9 @@ const Page404 = Loadable(lazy(() => import("../pages/Page404")));
 const AboutUs = Loadable(lazy(() => import("../pages/AboutUs")));
 const ComingSoon = Loadable(lazy(() => import("../pages/ComingSoon")));
 const Maintenance = Loadable(lazy(() => import("../pages/Maintenance")));
+
+// LEARNING
+const LearningPage = Loadable(lazy(() => import("../pages/LearningPage")));
+const MissionPage = Loadable(lazy(() => import("../pages/MissionPage")));
+const LeaderBoard = Loadable(lazy(() => import("../pages/LeaderBoard")));
+const ExchangeCoin = Loadable(lazy(() => import("../pages/ExchangeCoin")));

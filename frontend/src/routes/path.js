@@ -23,3 +23,11 @@ export const PATH_PAGE = {
   page404: "/404",
   page500: "/500",
 };
+
+export const LEARNING_PAGE = {
+  root: "/learning",
+  learningPage: path("/learning", "/course"),
+  mission: path("/learning", "/mission"),
+  leaderboard: path("/learning", "/leaderboard"),
+  exchangeCoin: path("/learning", "/exchange"),
+}
