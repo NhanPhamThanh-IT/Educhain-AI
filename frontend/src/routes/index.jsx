@@ -49,6 +49,7 @@ export default function Router() {
     {
       path: "mylearning",
       children: [
+        { path: "createcourse", element: <CreateCourse /> },
         { path: "", element: <MyLearningPage /> },
       ],
     },
@@ -100,6 +101,7 @@ const HomePage = Loadable(lazy(() => import("../pages/HomePage")));
 
 // MYLEARNING
 const MyLearningPage = Loadable(lazy(() => import("../pages/MyLearningPage")));
+const CreateCourse = Loadable(lazy(() => import("../pages/CreateCourse")));
 
 // COURSESDOCS
 const CoursesDocs = Loadable(lazy(() => import("../pages/CoursesDocs")));

@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import MainRouter from "./routes";
 // components
 import NotistackProvider from "./components/NotistackProvider";
-import AppBarComponent from "./components/AppBarComponent";
+import AppBarComponent from "./components/AppBar";
 
 export default function App() {
   return (

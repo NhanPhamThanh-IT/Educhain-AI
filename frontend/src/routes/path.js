@@ -32,6 +32,7 @@ export const HOME_PAGE = {
 export const MY_LEARNING = {
   root: "/mylearning",
   main: path("/mylearning", ""),
+  createCourse: path("/mylearning", "/createcourse"),
 }
 
 export const COURSES_DOCS = {

@@ -11,6 +11,7 @@ const MyLearning = () => {
             try {
                 const data = [
                     {
+                        id: 1,
                         "title": "VBI Web Design Tutorial",
                         "description": "Learn HTML, CSS, and responsive design.",
                         "images": ["/path-to-image1.jpg", "/path-to-image2.jpg", "/path-to-image3.jpg"],
@@ -20,6 +21,7 @@ const MyLearning = () => {
                         "curriculum": ["Introduction to HTML", "Styling with CSS", "Building a Website"]
                     },
                     {
+                        id: 2,
                         "title": "JavaScript Fundamentals",
                         "description": "Master JavaScript from basics to advanced topics.",
                         "images": ["/path-js1.jpg", "/path-js2.jpg", "/path-js3.jpg"],
@@ -29,6 +31,7 @@ const MyLearning = () => {
                         "curriculum": ["Variables & Data Types", "Functions & Scope", "Asynchronous JavaScript"]
                     },
                     {
+                        id: 3,
                         "title": "React Development",
                         "description": "Build modern web applications using React.",
                         "images": ["/path-react1.jpg", "/path-react2.jpg", "/path-react3.jpg"],
@@ -55,7 +58,7 @@ const MyLearning = () => {
         <Container maxWidth="xl" sx={{ mt: 15 }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
                 <Typography variant="h4" fontWeight="bold">My Learning</Typography>
-                <Button onClick={() => navigate("/createcourse")} variant="contained" startIcon={<AddIcon sx={{ fontWeight: "bold", fontSize: "24px" }} />} sx={{ backgroundColor: "#3F51B5", color: "white", borderRadius: "12px", textTransform: "none", fontSize: "16px", padding: "8px 16px", fontWeight: "bold", "&:hover": { backgroundColor: "#303F9F" } }}>
+                <Button onClick={() => navigate("/mylearning/createcourse")} variant="contained" startIcon={<AddIcon sx={{ fontWeight: "bold", fontSize: "24px" }} />} sx={{ backgroundColor: "#3F51B5", color: "white", borderRadius: "12px", textTransform: "none", fontSize: "16px", padding: "8px 16px", fontWeight: "bold", "&:hover": { backgroundColor: "#303F9F" } }}>
                     Create Course
                 </Button>
             </Box>
