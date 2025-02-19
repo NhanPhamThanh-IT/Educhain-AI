@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Paper, Avatar, TextField, Button, Typography, Box, MenuItem, Grid } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 
+import defaultvalue from "../constants/ProfileSetupPage/default";
+
 const fetchUserData = async () => {
   try {
     return await new Promise((resolve) => setTimeout(() => resolve({
@@ -25,10 +27,7 @@ const ProfileSetup = () => {
   useEffect(() => {
     const savedData = localStorage.getItem("userProfile");
     savedData ? setUserData(JSON.parse(savedData)) : fetchUserData().then((data) => data && setUserData(data));
-    fetch("/src/utils/data.json")
-      .then((res) => res.json())
-      .then((data) => { setGenders(data.genders); setCountries(data.countries); })
-      .catch((error) => console.error("Error loading JSON:", error));
+    setGenders(defaultvalue.genders); setCountries(defaultvalue.countries);
   }, []);
 
   const handleChange = (field) => (event) => setUserData({ ...userData, [field]: event.target.value });
