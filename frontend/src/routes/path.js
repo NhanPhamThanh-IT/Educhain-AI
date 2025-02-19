@@ -24,6 +24,11 @@ export const PATH_PAGE = {
   page500: "/500",
 };
 
+export const HOME_PAGE = {
+  root: "/",
+  main: path("/", ""),
+}
+
 export const LEARNING_PAGE = {
   root: "/learning",
   learningPage: path("/learning", "/course"),
@@ -34,5 +39,5 @@ export const LEARNING_PAGE = {
 
 export const MY_LEARNING = {
   root: "/mylearning",
-  main: path("/mylearning", "/main"),
+  main: path("/mylearning", ""),
 }

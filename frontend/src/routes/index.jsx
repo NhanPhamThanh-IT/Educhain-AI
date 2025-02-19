@@ -30,31 +30,37 @@ export default function Router() {
     // Main Routes
     {
       path: "*",
-    //   element: <LogoOnlyLayout />,
+      //   element: <LogoOnlyLayout />,
       children: [
         { path: "coming-soon", element: <ComingSoon /> },
         { path: "maintenance", element: <Maintenance /> },
-        { path: "about-us", element: <AboutUs/>},
+        { path: "about-us", element: <AboutUs /> },
         { path: "500", element: <Page500 /> },
         { path: "404", element: <Page404 /> },
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
     {
-      path: "learning",
+      path: "homepage",
       children: [
-        { path: "leaderboard", element: <LeaderBoard />},
-        { path: "mission", element: <MissionPage />},
-        { path: "course", element: <LearningPage />},
-        { path: "exchange", element: <ExchangeCoin />},
+        { path: "", element: <HomePage /> },
       ],
     },
     {
       path: "mylearning",
       children: [
-        { path: "main", element: <MyLearningPage />},
+        { path: "", element: <MyLearningPage /> },
       ],
-    }
+    },
+    {
+      path: "learning",
+      children: [
+        { path: "leaderboard", element: <LeaderBoard /> },
+        { path: "mission", element: <MissionPage /> },
+        { path: "course", element: <LearningPage /> },
+        { path: "exchange", element: <ExchangeCoin /> },
+      ],
+    },
   ]);
 }
 
@@ -71,11 +77,14 @@ const AboutUs = Loadable(lazy(() => import("../pages/AboutUs")));
 const ComingSoon = Loadable(lazy(() => import("../pages/ComingSoon")));
 const Maintenance = Loadable(lazy(() => import("../pages/Maintenance")));
 
+// HOMEPAGE
+const HomePage = Loadable(lazy(() => import("../pages/HomePage")));
+
+// MYLEARNING
+const MyLearningPage = Loadable(lazy(() => import("../pages/MyLearningPage")));
+
 // LEARNING
 const LearningPage = Loadable(lazy(() => import("../pages/LearningPage")));
 const MissionPage = Loadable(lazy(() => import("../pages/MissionPage")));
 const LeaderBoard = Loadable(lazy(() => import("../pages/LeaderBoard")));
 const ExchangeCoin = Loadable(lazy(() => import("../pages/ExchangeCoin")));
-
-// MYLEARNING
-const MyLearningPage = Loadable(lazy(() => import("../pages/MyLearningPage")));
