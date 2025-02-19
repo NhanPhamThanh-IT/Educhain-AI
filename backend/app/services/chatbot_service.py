@@ -91,9 +91,9 @@ Example flow:
         temperature=0, 
         streaming=True, 
         model="gpt-4", 
-        api_key=OPENAI_API_KEY,
+        api_key=OPENAI_API_KEY, 
         callbacks=[CustomHandler()]
-    )
+    )   
     
     tools = [
         get_knowledge_tool,
@@ -142,7 +142,7 @@ def get_answer(question: str, thread_id: str) -> Dict:
     # Get recent chat history
     history = get_recent_chat_history(thread_id)
     chat_history = format_chat_history(history)
-    
+
     result = agent.invoke({
         "input": question,
         "chat_history": chat_history
