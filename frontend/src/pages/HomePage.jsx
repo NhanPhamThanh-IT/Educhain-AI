@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 import IntroSection from "../sections/HomePage/Introduction";
 import BenefitsSection from "../sections/HomePage/Benefits";
 import RecommendedCourses from "../sections/HomePage/RecommendedCourses";
@@ -8,13 +8,13 @@ import FAQSection from "../sections/HomePage/FAQ";
 
 const Homepage = () => {
     return (
-        <Container maxWidth="xl" sx={{ mt: 15 }}>
+        <Box maxWidth="2xl" sx={{ mt: 13}}>
             <IntroSection />
             <BenefitsSection />
             <RecommendedCourses />
             <ExchangeRate />
             <FAQSection />
-        </Container>
+        </Box>
     );
 };
 

@@ -4,7 +4,7 @@ import { School as SchoolIcon, MonetizationOn as MonetizationOnIcon } from "@mui
 import { motion } from "framer-motion";
 
 const IntroSection = () => (
-    <Box sx={{ position: "relative", overflow: "hidden", textAlign: "center", color: "white", py: 18, backgroundImage: "url('HomePage/IntroBanner.jpg')", backgroundSize: "cover", backgroundPosition: "center", "&::before": { content: '""', position: "absolute", top: 0, left: 0, width: "100%", height: "100%" } }}>
+    <Box sx={{ position: "relative", textAlign: "center", color: "white", py: 19.5 , backgroundImage: "url('HomePage/IntroBanner.jpg')", backgroundSize: "cover", backgroundPosition: "center", "&::before": { content: '""', position: "absolute", top: 0, left: 0, width: "100%", height: "100%" } }}>
         <Container maxWidth="md" sx={{ position: "relative", zIndex: 2 }}>
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
                 <Typography variant="h3" fontWeight="bold" gutterBottom>⚡ Unlock Your Creative Potential</Typography>
