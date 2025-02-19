@@ -7,7 +7,9 @@ const IntroSection = () => (
     <Box sx={{ position: "relative", textAlign: "center", color: "white", py: 19.5 , backgroundImage: "url('HomePage/IntroBanner.jpg')", backgroundSize: "cover", backgroundPosition: "center", "&::before": { content: '""', position: "absolute", top: 0, left: 0, width: "100%", height: "100%" } }}>
         <Container maxWidth="md" sx={{ position: "relative", zIndex: 2 }}>
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-                <Typography variant="h3" fontWeight="bold" gutterBottom>⚡ Unlock Your Creative Potential</Typography>
+                <Typography variant="h3" fontWeight="bold" gutterBottom>
+                    <img src="/HomePage/IntroIcon.png" alt="Not found" height="60" /> Unlock Your Creative Potential
+                </Typography>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }}>
                 <Typography variant="h6" sx={{ mb: 2 }}>Empower Learning, Revolutionize Knowledge, Earn while learning!</Typography>

@@ -17,7 +17,7 @@ const CourseCard = ({ course }) => (
                 </Box>
                 <Box display="flex" alignItems="center" gap={0.5}>
                     <Typography variant="body2" color="rgba(76, 76, 77, 1)">{course.price}</Typography>
-                    <img src="/partials/ecoin.png" alt="Not found" height="30" />
+                    <img src="/Partials/Ecoin.png" alt="Not found" height="30" />
                 </Box>
             </Box>
             <Typography variant="h6" fontWeight={600} mt={1}>{course.title}</Typography>
