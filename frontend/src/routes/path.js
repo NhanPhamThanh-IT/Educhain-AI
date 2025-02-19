@@ -31,3 +31,8 @@ export const LEARNING_PAGE = {
   leaderboard: path("/learning", "/leaderboard"),
   exchangeCoin: path("/learning", "/exchange"),
 }
+
+export const MY_LEARNING = {
+  root: "/mylearning",
+  main: path("/mylearning", "/main"),
+}

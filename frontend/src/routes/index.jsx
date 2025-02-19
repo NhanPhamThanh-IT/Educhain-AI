@@ -48,6 +48,12 @@ export default function Router() {
         { path: "course", element: <LearningPage />},
         { path: "exchange", element: <ExchangeCoin />},
       ],
+    },
+    {
+      path: "mylearning",
+      children: [
+        { path: "main", element: <MyLearningPage />},
+      ],
     }
   ]);
 }
@@ -70,3 +76,6 @@ const LearningPage = Loadable(lazy(() => import("../pages/LearningPage")));
 const MissionPage = Loadable(lazy(() => import("../pages/MissionPage")));
 const LeaderBoard = Loadable(lazy(() => import("../pages/LeaderBoard")));
 const ExchangeCoin = Loadable(lazy(() => import("../pages/ExchangeCoin")));
+
+// MYLEARNING
+const MyLearningPage = Loadable(lazy(() => import("../pages/MyLearningPage")));
