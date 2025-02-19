@@ -29,6 +29,11 @@ export const HOME_PAGE = {
   main: path("/", ""),
 }
 
+export const MY_LEARNING = {
+  root: "/mylearning",
+  main: path("/mylearning", ""),
+}
+
 export const LEARNING_PAGE = {
   root: "/learning",
   learningPage: path("/learning", "/course"),
@@ -37,7 +42,7 @@ export const LEARNING_PAGE = {
   exchangeCoin: path("/learning", "/exchange"),
 }
 
-export const MY_LEARNING = {
-  root: "/mylearning",
-  main: path("/mylearning", ""),
+export const PROFILE_SETUP = {
+  root: "/profilesetup",
+  main: path("/profilesetup", ""),
 }

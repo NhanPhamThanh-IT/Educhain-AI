@@ -61,6 +61,12 @@ export default function Router() {
         { path: "exchange", element: <ExchangeCoin /> },
       ],
     },
+    {
+      path: "profilesetup",
+      children: [
+        { path: "", element: <ProfileSetup /> },
+      ],
+    }
   ]);
 }
 
@@ -88,3 +94,6 @@ const LearningPage = Loadable(lazy(() => import("../pages/LearningPage")));
 const MissionPage = Loadable(lazy(() => import("../pages/MissionPage")));
 const LeaderBoard = Loadable(lazy(() => import("../pages/LeaderBoard")));
 const ExchangeCoin = Loadable(lazy(() => import("../pages/ExchangeCoin")));
+
+// PROFILESETUP
+const ProfileSetup = Loadable(lazy(() => import("../pages/ProfileSetup")));
