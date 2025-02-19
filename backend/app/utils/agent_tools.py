@@ -1,12 +1,11 @@
 # Define tools like get_knowledge_tool, create_quiz_tool, create_study_guide_tool, create_exam_tool, etc.
 # In backend/app/services/agent_tools.py.
-
 from langchain.tools import BaseTool
 from pydantic import BaseModel, Field
 from typing import Optional, Dict, Annotated
 
 # Này t ghi đại, tức là mình sẽ traverse knowledge graph để lấy thông tin
-from app.database.neo4j_usage import traverse_knowledge_graph, get_quiz_questions, get_study_guide, get_exam_questions 
+from backend.app.database.lightrag_usage import traverse_knowledge_graph, get_quiz_questions, get_study_guide, get_exam_questions 
 from decimal import Decimal
 
 class GetKnowledgeTool(BaseTool):

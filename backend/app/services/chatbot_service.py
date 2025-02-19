@@ -20,7 +20,7 @@ if not OPENAI_API_KEY:
 
 
 # Create tools
-get_knowledge_tool = GetKnowledgeTool()
+# get_knowledge_tool = GetKnowledgeTool()
 create_quiz_tool = CreateQuizTool()
 create_study_guide_tool = CreateStudyGuideTool()
 create_exam_tool = CreateExamTool()
@@ -33,7 +33,7 @@ class CustomHandler(BaseCallbackHandler):
         super().__init__()
 
 def get_llm_and_agent() -> AgentExecutor:  # Phần prompt này nên làm riêng rồi import vào
-    system_message = """You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
+    system_message = """Your name is Ambatublow. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
 
 For general questions or greetings:
 - Respond naturally without using any tools
