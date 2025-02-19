@@ -4,25 +4,28 @@ import { BrowserRouter } from "react-router-dom";
 import MainRouter from "./routes";
 
 // Import MUI global styles
-import { GlobalStyles } from "@mui/system";
+import { ThemeProvider, CssBaseline } from '@mui/material';
 
 // components
+import theme from "./utils/themes";
 import NotistackProvider from "./components/NotistackProvider";
 import AppBarComponent from "./components/AppBar";
 
 export default function App() {
   return (
     <>
-      <GlobalStyles styles={{ body: { marginLeft: "0px !important", marginRight: "0px !important" } }} />
-      <HelmetProvider>
-        <BrowserRouter>
-          <NotistackProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HelmetProvider>
+          <BrowserRouter>
             {/* Use appbar for all pages in the system */}
             <AppBarComponent />
-            <MainRouter />
-          </NotistackProvider>
-        </BrowserRouter>
-      </HelmetProvider>
+            <NotistackProvider>
+              <MainRouter />
+            </NotistackProvider>
+          </BrowserRouter>
+        </HelmetProvider>
+      </ThemeProvider>
     </>
   );
 }
