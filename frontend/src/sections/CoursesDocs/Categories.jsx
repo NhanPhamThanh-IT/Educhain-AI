@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Grid, Card, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
-import AnimatedHeading from "../../components/AnimateHeading";
+import AnimatedHeading from "../../components/HomePage/AnimateHeading";
 
 const categories = [
     { title: "Business Management", color: "#EAF6FF", icon: "/CoursesDocs/Category1.png" },

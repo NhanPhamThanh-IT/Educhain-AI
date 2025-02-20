@@ -41,6 +41,9 @@ export default function Router() {
       ],
     },
     {
+      path: "/", element: <Navigate to="/homepage" replace />,
+    },
+    {
       path: "homepage",
       children: [
         { path: "", element: <HomePage /> },
