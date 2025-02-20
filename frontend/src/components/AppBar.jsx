@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Tabs, Tab, Box, Typography, Avatar, IconButton, Menu, MenuItem } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, Tabs, Tab, Box, Typography, Avatar, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Menu as MenuIcon, AccountCircle, MonetizationOn, Assignment, Logout } from "@mui/icons-material";
 import { motion } from "framer-motion";
+
+const menuOptions = [
+    { icon: <AccountCircle />, label: "Profile" },
+    { icon: <MonetizationOn />, label: "Coin Exchange" },
+    { icon: <Assignment />, label: "Missions" },
+    { icon: <Logout />, label: "Logout" },
+];
 
 const AppBarComponent = () => {
     const navigate = useNavigate();
@@ -15,29 +22,26 @@ const AppBarComponent = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const handleMenuOpen = (event) => {
-        setMenuAnchor(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setMenuAnchor(null);
-    };
+    const toggleMenu = (event) => setMenuAnchor(menuAnchor ? null : event.currentTarget);
 
     return (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <AppBar
                 sx={{
                     color: elevated ? "#fff" : "#000",
                     background: elevated ? "#1E2A46" : "white",
                     boxShadow: elevated ? "0px 4px 10px rgba(0, 0, 0, 0.1)" : "none",
-                    paddingY: 2.5,
-                    transition: "all 0.2s ease-in-out",
+                    py: 2.5,
+                    transition: "all 0.2s",
                     backdropFilter: elevated ? "blur(10px)" : "none",
                 }}
             >
-                <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", px: 0 }}>
+                <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 0 }}>
+                    {/* Logo */}
                     <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, height: 50 }} />
-                    <Tabs textColor="primary" indicatorColor="primary" sx={{ flexGrow: 1, marginLeft: 3 }}>
+
+                    {/* Navigation Tabs */}
+                    <Tabs textColor="primary" indicatorColor="primary" sx={{ flexGrow: 1, ml: 3 }}>
                         {["Home", "My Learning", "Courses & Docs", "Leaderboard"].map((label, index) => (
                             <Tab
                                 key={index}
@@ -45,48 +49,60 @@ const AppBarComponent = () => {
                                 onClick={() => navigate(label === "Home" ? "/homepage" : `/${label.toLowerCase().replace(/ & /g, "").replace(/ /g, "")}`)}
                                 sx={{
                                     color: elevated ? "#fff" : "#000",
-                                    transition: "all 0.3s ease-in-out",
+                                    transition: "all 0.3s",
                                     "&:hover": { color: "#F5A623", textShadow: "0px 0px 10px rgba(245, 166, 35, 0.5)" },
                                 }}
                             />
                         ))}
                     </Tabs>
+
+                    {/* User Info */}
                     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                         <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
-                            <img src="/Partials/Ecoin.png" alt="Not found" height="30" /> 12,312.44
+                            <img src="/Partials/Ecoin.png" alt="Coin" height="30" /> 12,312.44
                         </Typography>
                         <Typography sx={{ color: elevated ? "#fff" : "#000" }}>Gia Bao</Typography>
+
+                        {/* Avatar */}
                         <motion.div whileHover={{ rotate: 10 }} whileTap={{ scale: 0.9 }}>
                             <Avatar
                                 src="/user-avatar.png"
                                 alt="Gia Bao"
                                 onClick={() => navigate("/profilesetup")}
-                                sx={{
-                                    cursor: "pointer",
-                                    transition: "transform 0.3s ease-in-out",
-                                    "&:hover": { transform: "scale(1.1) rotate(5deg)" },
-                                }}
+                                sx={{ cursor: "pointer", "&:hover": { transform: "scale(1.1) rotate(5deg)" } }}
                             />
                         </motion.div>
-                        <Box
-                            onMouseEnter={handleMenuOpen}
-                            onMouseLeave={handleMenuClose}
-                        >
+
+                        {/* Dropdown Menu */}
+                        <Box onMouseEnter={toggleMenu} onMouseLeave={toggleMenu}>
                             <motion.div animate={{ rotate: menuAnchor ? 180 : 0 }} transition={{ duration: 0.5 }}>
                                 <IconButton sx={{ color: elevated ? "#fff" : "#000" }}>
                                     <MenuIcon />
                                 </IconButton>
                             </motion.div>
+
+                            {/* Menu UI */}
                             <Menu
                                 anchorEl={menuAnchor}
                                 open={Boolean(menuAnchor)}
-                                onClose={handleMenuClose}
-                                MenuListProps={{ onMouseLeave: handleMenuClose }}
+                                onClose={toggleMenu}
+                                MenuListProps={{ onMouseLeave: toggleMenu }}
+                                sx={{ "& .MuiPaper-root": { minWidth: 180, borderRadius: 2, boxShadow: 3 } }}
                             >
-                                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleMenuClose}>Coin Exchange</MenuItem>
-                                <MenuItem onClick={handleMenuClose}>Missions</MenuItem>
-                                <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+                                {menuOptions.map(({ icon, label }) => (
+                                    <MenuItem
+                                        key={label}
+                                        onClick={toggleMenu}
+                                        sx={{
+                                            px: 2,
+                                            py: 1,
+                                            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.08)" },
+                                        }}
+                                    >
+                                        <ListItemIcon sx={{ minWidth: 36, color: "#1E2A46" }}>{icon}</ListItemIcon>
+                                        <ListItemText primary={label} />
+                                    </MenuItem>
+                                ))}
                             </Menu>
                         </Box>
                     </Box>

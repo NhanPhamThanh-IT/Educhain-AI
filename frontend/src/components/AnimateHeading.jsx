@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Typography } from "@mui/material";
 
 const AnimatedHeading = ({
+    icon: Icon,
     title,
     description,
     titleAnimation = { initial: { opacity: 0, y: -30 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.8 } },
@@ -11,6 +12,7 @@ const AnimatedHeading = ({
         <>
             <motion.div {...titleAnimation}>
                 <Typography variant="h4" fontWeight={600} textAlign="center" gutterBottom>
+                    {Icon && <Icon sx={{ fontSize: 40, mr: 1 }} />}
                     {title}
                 </Typography>
             </motion.div>

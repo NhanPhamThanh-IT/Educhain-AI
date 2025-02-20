@@ -8,7 +8,7 @@ import FAQSection from "../sections/HomePage/FAQ";
 
 const Homepage = () => {
     return (
-        <Box maxWidth="2xl" sx={{ mt: 13}}>
+        <Box maxWidth="2xl" sx={{ mt: 13 }}>
             <IntroSection />
             <BenefitsSection />
             <RecommendedCourses />

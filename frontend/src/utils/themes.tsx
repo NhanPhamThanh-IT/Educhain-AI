@@ -1,3 +1,5 @@
+// Code: Config theme for the application.
+
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
