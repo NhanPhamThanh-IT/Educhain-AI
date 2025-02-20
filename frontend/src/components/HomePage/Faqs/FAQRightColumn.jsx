@@ -13,8 +13,8 @@ const FAQRightColumn = () => {
 
     return (
         <motion.div variants={{ hidden: { opacity: 0, y: -30 }, visible: { opacity: 1, y: 0, transition: { when: 'beforeChildren', staggerChildren: 0.15 } } }} initial="hidden" animate="visible">
-            <TextField fullWidth placeholder="Search FAQs..." variant="outlined" size="small" sx={{ mb: 3, backgroundColor: '#fff', borderRadius: 1, boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#365ACA' }, '&:hover fieldset': { borderColor: '#365ACA' }, '&.Mui-focused fieldset': { borderColor: '#365ACA' } } }} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-            <Box sx={{ flex: 2, p: 4, background: "#365ACA", borderRadius: 3, boxShadow: "0px 4px 12px rgba(0,0,0,0.1)", display: "flex", flexDirection: "column", gap: 2 }}>
+            <TextField fullWidth placeholder="Looking for something? Type your keywords here…" variant="outlined" size="small" sx={{ mb: 3, backgroundColor: '#fff', borderRadius: 1, boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#365ACA' }, '&:hover fieldset': { borderColor: '#365ACA' }, '&.Mui-focused fieldset': { borderColor: '#365ACA' } } }} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <Box sx={{ flex: 2, p: 2, background: "white", border: 'solid #365ACA 1px', borderRadius: 3, boxShadow: "0px 4px 12px rgba(0,0,0,0.1)", display: "flex", flexDirection: "column", gap: 2 }}>
                 <AnimatePresence>
                     {filteredFaqs.map((faq, index) => (
                         <motion.div key={index} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 60, damping: 15 } }, exit: { opacity: 0, y: -20, transition: { duration: 0.3 } } }} initial="hidden" animate="visible" exit="exit" transition={{ duration: 0.5, delay: index * 0.1 }}>

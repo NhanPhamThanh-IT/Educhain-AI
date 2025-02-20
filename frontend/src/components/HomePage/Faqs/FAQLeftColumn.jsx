@@ -13,7 +13,7 @@ const FAQLeftColumn = () => {
                     support@skillbridge.com
                 </Typography>
             </Typography>
-            <Button variant="contained" sx={{ mt: 2, textTransform: 'none', fontSize: '1rem', borderRadius: 2, bgcolor: '#365ACA', fontWeight: 'bold' }}>
+            <Button variant="contained" sx={{ mt: 2, textTransform: 'none', fontSize: '1rem', borderRadius: 2, bgcolor: 'white', fontWeight: 'bold', border: 'solid #365ACA 1px', color: '#365ACA' }}>
                 See All FAQ's
             </Button>
         </Box>
