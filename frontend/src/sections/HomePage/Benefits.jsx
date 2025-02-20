@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Grid, Card, CardContent, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import AnimatedHeading from "../../components/AnimateHeading";
+import AnimatedHeading from "../../components/HomePage/AnimateHeading";
 import benefits from "../../constants/HomePage/benefits";
 
 const BenefitsSection = () => {

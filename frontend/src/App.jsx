@@ -9,7 +9,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 // components
 import theme from "./utils/themes";
 import NotistackProvider from "./components/NotistackProvider";
-import AppBarComponent from "./components/AppBar";
+import AppBarComponent from "./components/Partials/AppBar";
 
 export default function App() {
   return (
