@@ -3,7 +3,7 @@ import { Box, Typography, Button } from '@mui/material';
 
 const FAQLeftColumn = () => {
     return (
-        <Box sx={{ flex: 1, maxWidth: { xs: '100%', md: '35%' }, textAlign: 'left' }}>
+        <Box sx={{ flex: 1, textAlign: 'left' }}>
             <Typography variant="h4" fontWeight="bold" gutterBottom>
                 Frequently Asked Questions
             </Typography>
@@ -13,7 +13,7 @@ const FAQLeftColumn = () => {
                     support@skillbridge.com
                 </Typography>
             </Typography>
-            <Button variant="contained" sx={{ mt: 2, textTransform: 'none', fontSize: '1rem', borderRadius: 2 }}>
+            <Button variant="contained" sx={{ mt: 2, textTransform: 'none', fontSize: '1rem', borderRadius: 2, bgcolor: '#365ACA', fontWeight: 'bold' }}>
                 See All FAQ's
             </Button>
         </Box>
