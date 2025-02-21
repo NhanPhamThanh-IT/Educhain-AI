@@ -7,6 +7,8 @@ from enum import Enum
 
 class ResponseTags(Enum):
     MULTIPLE_CHOICE = f"Multiple Choice {QUESTION_RESPONSE_TAG_SUFFIX}"
+    TRUE_FALSE = f"True False {QUESTION_RESPONSE_TAG_SUFFIX}"
+    SHORT_ANSWER = f"Short Answer {QUESTION_RESPONSE_TAG_SUFFIX}"
     UNDERSTANDING = f"Understanding {QUESTION_RESPONSE_TAG_SUFFIX}"
     APPLICATION = f"Application {QUESTION_RESPONSE_TAG_SUFFIX}"
     ANSWER_CORRECTNESS = "Answer Correctness Response"
@@ -18,6 +20,8 @@ class ResponseTags(Enum):
 # Define command tags as an Enum
 class CommandTags(Enum):
     MULTIPLE_CHOICE = f"Multiple Choice {PROMPT_TAG_SUFFIX}"
+    TRUE_FALSE = f"True False {PROMPT_TAG_SUFFIX}"
+    SHORT_ANSWER = f"Short Answer {PROMPT_TAG_SUFFIX}"
     UNDERSTANDING = f"Understanding {PROMPT_TAG_SUFFIX}"
     APPLICATION = f"Application {PROMPT_TAG_SUFFIX}"
     ANSWER_CORRECTNESS = f"Answer Correctness {PROMPT_TAG_SUFFIX}"
