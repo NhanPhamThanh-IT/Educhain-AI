@@ -25,90 +25,84 @@ const AppBarComponent = () => {
     const toggleMenu = (event) => setMenuAnchor(menuAnchor ? null : event.currentTarget);
 
     return (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <AppBar
-                sx={{
-                    color: elevated ? "#fff" : "#000",
-                    background: elevated ? "#1E2A46" : "white",
-                    boxShadow: elevated ? "0px 4px 10px rgba(0, 0, 0, 0.1)" : "none",
-                    py: 2.5,
-                    transition: "all 0.2s",
-                    backdropFilter: elevated ? "blur(10px)" : "none",
-                }}
-            >
-                <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 0 }}>
-                    {/* Logo */}
-                    <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, height: 50 }} />
+        <AppBar
+            sx={{
+                color: elevated ? "#fff" : "#000",
+                background: elevated ? "#1E2A46" : "white",
+                boxShadow: elevated ? "0px 4px 10px rgba(0, 0, 0, 0.1)" : "none",
+                py: 2.5,
+                transition: "all 0.2s",
+                backdropFilter: elevated ? "blur(10px)" : "none",
+            }}
+        >
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 0 }}>
+                {/* Logo */}
+                <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, height: 50 }} />
 
-                    {/* Navigation Tabs */}
-                    <Tabs textColor="primary" indicatorColor="primary" sx={{ flexGrow: 1, ml: 3 }}>
-                        {["Home", "My Learning", "Courses & Docs", "Leaderboard"].map((label, index) => (
-                            <Tab
-                                key={index}
-                                label={label}
-                                onClick={() => navigate(label === "Home" ? "/homepage" : `/${label.toLowerCase().replace(/ & /g, "").replace(/ /g, "")}`)}
-                                sx={{
-                                    color: elevated ? "#fff" : "#000",
-                                    transition: "all 0.3s",
-                                    "&:hover": { color: "#F5A623", textShadow: "0px 0px 10px rgba(245, 166, 35, 0.5)" },
-                                }}
-                            />
-                        ))}
-                    </Tabs>
+                {/* Navigation Tabs */}
+                <Tabs textColor="primary" indicatorColor="primary" sx={{ flexGrow: 1, ml: 3 }}>
+                    {["Home", "My Learning", "Courses & Docs", "Leaderboard"].map((label, index) => (
+                        <Tab
+                            key={index}
+                            label={label}
+                            onClick={() => navigate(label === "Home" ? "/homepage" : `/${label.toLowerCase().replace(/ & /g, "").replace(/ /g, "")}`)}
+                            sx={{
+                                color: elevated ? "#fff" : "#000",
+                                transition: "all 0.3s",
+                                "&:hover": { color: "#F5A623", textShadow: "0px 0px 10px rgba(245, 166, 35, 0.5)" },
+                            }}
+                        />
+                    ))}
+                </Tabs>
 
-                    {/* User Info */}
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                        <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
-                            <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> 12,312.44
-                        </Typography>
-                        <Typography sx={{ color: elevated ? "#fff" : "#000" }}>Gia Bao</Typography>
+                {/* User Info */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
+                        <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> 12,312.44
+                    </Typography>
+                    <Typography sx={{ color: elevated ? "#fff" : "#000" }}>Gia Bao</Typography>
 
-                        {/* Avatar */}
-                        <motion.div whileHover={{ rotate: 10 }} whileTap={{ scale: 0.9 }}>
-                            <Avatar
-                                src="/user-avatar.png"
-                                alt="Gia Bao"
-                                onClick={() => navigate("/profilesetup")}
-                                sx={{ cursor: "pointer", "&:hover": { transform: "scale(1.1) rotate(5deg)" } }}
-                            />
-                        </motion.div>
+                    {/* Avatar */}
+                    <Avatar
+                        src="/user-avatar.png"
+                        alt="Gia Bao"
+                        onClick={() => navigate("/profilesetup")}
+                        sx={{ cursor: "pointer", "&:hover": { transform: "scale(1.1) rotate(5deg)" } }}
+                    />
 
-                        {/* Dropdown Menu */}
-                        <Box onMouseEnter={toggleMenu} onMouseLeave={toggleMenu}>
-                            <motion.div animate={{ rotate: menuAnchor ? 180 : 0 }} transition={{ duration: 0.5 }}>
-                                <IconButton sx={{ color: elevated ? "#fff" : "#000" }}>
-                                    <MenuIcon />
-                                </IconButton>
-                            </motion.div>
+                    {/* Dropdown Menu */}
+                    <Box onMouseEnter={toggleMenu} onMouseLeave={toggleMenu}>
+                        <IconButton sx={{ color: elevated ? "#fff" : "#000" }}>
+                            <MenuIcon />
+                        </IconButton>
 
-                            {/* Menu UI */}
-                            <Menu
-                                anchorEl={menuAnchor}
-                                open={Boolean(menuAnchor)}
-                                onClose={toggleMenu}
-                                MenuListProps={{ onMouseLeave: toggleMenu }}
-                                sx={{ "& .MuiPaper-root": { minWidth: 180, borderRadius: 2, boxShadow: 3 } }}
-                            >
-                                {menuOptions.map(({ icon, label }) => (
-                                    <MenuItem
-                                        key={label}
-                                        onClick={toggleMenu}
-                                        sx={{
-                                            px: 2,
-                                            py: 1,
-                                            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.08)" },
-                                        }}
-                                    >
-                                        <ListItemIcon sx={{ minWidth: 36, color: "#1E2A46" }}>{icon}</ListItemIcon>
-                                        <ListItemText primary={label} />
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
+                        {/* Menu UI */}
+                        <Menu
+                            anchorEl={menuAnchor}
+                            open={Boolean(menuAnchor)}
+                            onClose={toggleMenu}
+                            MenuListProps={{ onMouseLeave: toggleMenu }}
+                            sx={{ "& .MuiPaper-root": { minWidth: 180, borderRadius: 2, boxShadow: 3 } }}
+                        >
+                            {menuOptions.map(({ icon, label }) => (
+                                <MenuItem
+                                    key={label}
+                                    onClick={toggleMenu}
+                                    sx={{
+                                        px: 2,
+                                        py: 1,
+                                        "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.08)" },
+                                    }}
+                                >
+                                    <ListItemIcon sx={{ minWidth: 36, color: "#1E2A46" }}>{icon}</ListItemIcon>
+                                    <ListItemText primary={label} />
+                                </MenuItem>
+                            ))}
+                        </Menu>
                     </Box>
-                </Toolbar>
-            </AppBar>
-        </motion.div>
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 };
 
