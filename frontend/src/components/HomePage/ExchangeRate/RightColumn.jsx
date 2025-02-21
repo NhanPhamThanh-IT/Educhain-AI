@@ -1,91 +1,62 @@
+// Importing necessary hooks and components
+// Importing necessary icons and images
 import React, { useEffect, useState } from 'react';
-import { Box, Card, Avatar, Typography, Pagination, Grid, Skeleton } from "@mui/material";
-import { green, red } from "@mui/material/colors";
+import { Box, Card, Typography, Pagination, Grid, Skeleton, Tooltip } from "@mui/material";
+import { styled } from "@mui/system";
 import { motion, AnimatePresence } from "framer-motion";
 import cryptocurrencies from "../../../constants/HomePage/cryptocurrencies";
 
-// Các variants cho hiệu ứng chuyển trang
-const pageVariants = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -30 },
-};
+// Defining pageVariants, skeletonVariants and transitionSettings
+const pageVariants = { initial: { opacity: 0, x: 30 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -30 } };
+const skeletonVariants = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } };
+const transitionSettings = { duration: 0.5, ease: "easeInOut" };
 
-const skeletonVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
-};
+// Defining CryptoCard, SkeletonCard and SkeletonContainer components
+const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(({ theme }) => ({
+  "& .MuiTooltip-tooltip": {
+    background: "radial-gradient(circle, rgba(212,149,236,1) 0%, rgba(117,134,228,1) 50%, rgba(216,86,205,1) 100%)",
+    color: "#fff", fontSize: "0.875rem", fontWeight: "bold", padding: "10px 14px", borderRadius: "10px",
+    boxShadow: "0px 6px 18px rgba(0, 0, 0, 0.25)", backdropFilter: "blur(6px)", transition: "opacity 0.3s ease-in-out, transform 0.2s ease-in-out",
+  },
+  "& .MuiTooltip-arrow": { color: "rgba(117,134,228,1)" },
+}));
 
-const transitionSettings = {
-  duration: 0.5,
-  ease: "easeInOut",
+const CryptoCard = ({ crypto }) => {
+  return (
+    <CustomTooltip title={`Change: ${crypto.change}`} arrow placement="top" PopperProps={{ modifiers: [{ name: "preventOverflow", options: { boundary: "window" } }] }}>
+      <Card variant="outlined" sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 3, bgcolor: "background.paper", position: "relative", overflow: "hidden", transition: "transform 0.3s, box-shadow 0.3s", "&:hover": { transform: "scale(1.03)" }, width: "100%", minHeight: { xs: 120, sm: 130, md: 150 }, "&::before": { content: '""', position: "absolute", inset: 0, borderRadius: "inherit", padding: "2px", background: "linear-gradient(120deg, #D495EC, #7586E4, #D856CD)", WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", maskComposite: "destination-out", opacity: 0.8 } }}>
+        <img src={crypto.image} alt={crypto.name} style={{ width: 50, height: 50 }} />
+        <Box sx={{ flexGrow: 1, ml: 2 }}>
+          <Typography fontWeight="bold" variant="body1">{crypto.name}</Typography>
+          <Typography variant="body2" color="gray">{crypto.symbol.toUpperCase()}</Typography>
+        </Box>
+        <Box textAlign="right">
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="body1">{crypto.price}</Typography>
+            <img src="/Partials/Ecoin.png" alt="Ecoin" height="24" />
+          </Box>
+        </Box>
+      </Card>
+    </CustomTooltip>
+  );
 };
-
-const CryptoCard = ({ crypto }) => (
-  <Card
-    variant="outlined"
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      p: 2,
-      borderRadius: 3,
-      boxShadow: 2,
-      bgcolor: "background.paper",
-      transition: "transform 0.3s, box-shadow 0.3s",
-      "&:hover": {
-        transform: "scale(1.03)",
-        boxShadow: 4,
-      },
-      width: "100%",
-      minHeight: { xs: 140, sm: 150, md: 160 },
-    }}
-  >
-    <Avatar sx={{ bgcolor: "transparent", fontSize: { xs: 20, sm: 24 } }}>
-      {crypto.icon}
-    </Avatar>
-    <Box sx={{ flexGrow: 1, ml: 2 }}>
-      <Typography fontWeight="bold" variant="h6">
-        {crypto.name}
-      </Typography>
-      <Typography variant="body2" color="gray">
-        {crypto.symbol}
-      </Typography>
-    </Box>
-    <Box textAlign="right">
-      <Typography fontWeight="bold" variant="subtitle1">
-        {crypto.price}
-      </Typography>
-      <Typography sx={{ color: crypto.change.startsWith("+") ? green[500] : red[500] }}>
-        {crypto.change}
-      </Typography>
-    </Box>
-  </Card>
-);
 
 const SkeletonCard = () => (
   <Card
     variant="outlined"
     sx={{
-      p: 2,
-      borderRadius: 3,
-      boxShadow: 2,
-      width: "100%",
-      minHeight: { xs: 140, sm: 150, md: 160 },
+      display: "flex", alignItems: "center", p: 2, borderRadius: 3, bgcolor: "background.paper", position: "relative", overflow: "hidden",
+      transition: "transform 0.3s, box-shadow 0.3s", "&:hover": { transform: "scale(1.03)" }, width: "100%", minHeight: { xs: 120, sm: 130, md: 150 },
+      "&::before": {
+        content: '""', position: "absolute", inset: 0, borderRadius: "inherit", padding: "2px", background: "linear-gradient(90deg, #D495EC, #7586E4, #D856CD)",
+        WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", maskComposite: "exclude"
+      }
     }}
   >
     <Grid container spacing={2}>
-      <Grid item>
-        <Skeleton variant="circular" width={40} height={40} />
-      </Grid>
-      <Grid item xs>
-        <Skeleton variant="text" width="80%" height={30} />
-        <Skeleton variant="text" width="60%" height={20} />
-      </Grid>
-      <Grid item>
-        <Skeleton variant="text" width={50} height={30} />
-        <Skeleton variant="text" width={30} height={20} />
-      </Grid>
+      <Grid item><Skeleton variant="circular" width={40} height={40} /></Grid>
+      <Grid item xs><Skeleton variant="text" width="80%" height={30} /><Skeleton variant="text" width="60%" height={20} /></Grid>
+      <Grid item><Skeleton variant="text" width={50} height={30} /><Skeleton variant="text" width={30} height={20} /></Grid>
     </Grid>
   </Card>
 );
@@ -95,9 +66,7 @@ const SkeletonContainer = () => {
   return (
     <Grid container spacing={2}>
       {skeletonItems.map((_, index) => (
-        <Grid item xs={12} sm={12} md={6} key={index}>
-          <SkeletonCard />
-        </Grid>
+        <Grid item xs={12} sm={12} md={6} key={index}><SkeletonCard /></Grid>
       ))}
     </Grid>
   );
@@ -106,26 +75,18 @@ const SkeletonContainer = () => {
 const RightColumn = () => {
   const itemsPerPage = 4;
   const totalPages = Math.ceil(cryptocurrencies.length / itemsPerPage);
-
-  // "phase" sẽ xác định trạng thái hiển thị:
-  // "page": nội dung trang được hiển thị trong 4s
-  // "loading": Skeleton Loading được hiển thị trong 2s
   const [page, setPage] = useState(1);
   const [phase, setPhase] = useState("page");
 
   useEffect(() => {
     let timer;
     if (phase === "page") {
-      // Hiển thị nội dung trang trong 4 giây
-      timer = setTimeout(() => {
-        setPhase("loading");
-      }, 4000);
+      timer = setTimeout(() => { setPhase("loading"); }, 6000);
     } else if (phase === "loading") {
-      // Hiển thị skeleton trong 2 giây, sau đó cập nhật trang mới và chuyển sang hiển thị trang
       timer = setTimeout(() => {
         setPage(prev => (prev < totalPages ? prev + 1 : 1));
         setPhase("page");
-      }, 2000);
+      }, 1500);
     }
     return () => clearTimeout(timer);
   }, [phase, totalPages]);
@@ -134,28 +95,14 @@ const RightColumn = () => {
   const currentItems = cryptocurrencies.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 }, backgroundColor: "#f5f5f5", borderRadius: 2 }}>
+    <Box sx={{ p: { xs: 2, sm: 3 } }}>
       <AnimatePresence mode="wait">
         {phase === "loading" ? (
-          <motion.div
-            key="skeleton"
-            variants={skeletonVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={transitionSettings}
-          >
+          <motion.div key="skeleton" variants={skeletonVariants} initial="initial" animate="animate" exit="exit" transition={transitionSettings}>
             <SkeletonContainer />
           </motion.div>
         ) : (
-          <motion.div
-            key={page}
-            variants={pageVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={transitionSettings}
-          >
+          <motion.div key={page} variants={pageVariants} initial="initial" animate="animate" exit="exit" transition={transitionSettings}>
             <Grid container spacing={2}>
               {currentItems.map((crypto, index) => (
                 <Grid item xs={12} sm={12} md={6} key={crypto.id || index}>
@@ -167,19 +114,7 @@ const RightColumn = () => {
         )}
       </AnimatePresence>
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-        {/* Nếu cần, bạn vẫn có thể cho phép người dùng chuyển trang thủ công */}
-        <Pagination 
-          count={totalPages} 
-          page={page} 
-          onChange={(e, value) => {
-            // Khi chuyển trang thủ công, chuyển ngay sang trạng thái loading rồi hiển thị trang mới
-            setPhase("loading");
-            setTimeout(() => {
-              setPage(value);
-              setPhase("page");
-            }, 2000);
-          }} 
-        />
+        <Pagination count={totalPages} page={page} onChange={(e, value) => { setPhase("loading"); setTimeout(() => { setPage(value); setPhase("page"); }, 2000); }} />
       </Box>
     </Box>
   );
