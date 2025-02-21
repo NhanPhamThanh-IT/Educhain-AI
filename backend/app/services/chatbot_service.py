@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import os
 from typing import List, Dict, AsyncGenerator, Any
 from dotenv import load_dotenv
-from app.database.chat_history_service import save_chat_history, get_recent_chat_history, format_chat_history
+from backend.app.database.chat_history import save_chat_history, get_recent_chat_history, format_chat_history
 from pydantic import BaseModel, Field
 from langchain_core.messages import AIMessageChunk
 from langchain.callbacks.base import BaseCallbackHandler

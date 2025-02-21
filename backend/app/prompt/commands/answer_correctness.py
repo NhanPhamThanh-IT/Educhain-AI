@@ -33,6 +33,12 @@ def answer_correctness_command(question: str, answer: str) -> dict:
     }
 
 # Example usage:
-question = "What is the capital of France?"
-answer = "Berlin"
-print(answer_correctness_command(question, answer))
+# Write main function to test the command
+
+if __name__ == "__main__":
+    question = "What is the capital of France?"
+    answer = "Paris"
+    print(answer_correctness_command(question, answer))
+
+
+
