@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Tabs, Tab, Box, Typography, Avatar, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { Menu as MenuIcon, AccountCircle, MonetizationOn, Assignment, Logout } from "@mui/icons-material";
-import { motion } from "framer-motion";
 
 const menuOptions = [
     { icon: <AccountCircle />, label: "Profile" },
