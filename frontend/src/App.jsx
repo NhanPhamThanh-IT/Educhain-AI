@@ -9,7 +9,6 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 // components
 import theme from "./utils/themes";
 import NotistackProvider from "./components/NotistackProvider";
-import AppBarComponent from "./components/Partials/AppBar";
 
 export default function App() {
   return (
@@ -18,8 +17,6 @@ export default function App() {
         <CssBaseline />
         <HelmetProvider>
           <BrowserRouter>
-            {/* Use appbar for all pages in the system */}
-            <AppBarComponent />
             <NotistackProvider>
               <MainRouter />
             </NotistackProvider>

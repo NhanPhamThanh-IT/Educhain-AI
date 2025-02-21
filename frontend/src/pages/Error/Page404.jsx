@@ -4,14 +4,12 @@ import { Link } from 'react-router-dom';
 import Page from '../../components/Page';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-// Hiệu ứng cho toàn trang: fade-in & scale
 const pageVariants = {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1, transition: { duration: 1, ease: 'easeOut' } },
     exit: { opacity: 0, scale: 0.95, transition: { duration: 0.5, ease: 'easeIn' } },
 };
 
-// Hiệu ứng nền gradient chuyển động mượt mà
 const backgroundVariants = {
     animate: {
         background: [
@@ -28,7 +26,6 @@ const backgroundVariants = {
     },
 };
 
-// Hiệu ứng xoay và scale cho icon
 const iconVariants = {
     animate: {
         rotate: [0, 360],
