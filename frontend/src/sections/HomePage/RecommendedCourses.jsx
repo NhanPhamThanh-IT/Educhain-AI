@@ -1,34 +1,30 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Typography, Button, Box, Grid, Container } from "@mui/material";
+import { Box, Button, Typography, Grid } from "@mui/material";
 import courses from "../../constants/HomePage/courses";
-
-const CourseCard = ({ course }) => (
-    <Card sx={{ borderRadius: 3, boxShadow: 2, height: "100%" }}>
-        <CardMedia component="img" height="200" image={course.image} alt={course.title} />
-        <CardContent>
-            <Typography variant="body2" color="text.secondary">By {course.author}</Typography>
-            <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>{course.title}</Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{course.description}</Typography>
-            <Button variant="outlined" fullWidth sx={{ mt: 2 }}>Get it Now</Button>
-        </CardContent>
-    </Card>
-);
+import CourseCard from "../../components/HomePage/RecommendedCourses/CourseCard";
 
 const RecommendedCourses = () => (
-    <Box sx={{ p: 4, bgcolor: "#f8f9fa" }}>
-        <Container>
-            <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "center", mb: 2 }}>Recommended Courses</Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", mb: 4 }}>
-                Discover handpicked courses tailored to your learning journey. From beginner to advanced, find the perfect match to elevate your skills and achieve your goals.
-            </Typography>
-            <Grid container spacing={3} justifyContent="center">
-                {courses.map(course => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={course.id}>
-                        <CourseCard course={course} />
-                    </Grid>
-                ))}
+    <Box sx={{ p: 4 }}>
+        <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }}>
+            <Grid item xs={12} sm={12} md={6}>
+                <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: 'left' }}>🎓 Recommended Courses 🎓</Typography>
             </Grid>
-        </Container>
+            <Grid item xs={12} sm={12} md={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button variant="contained" sx={{ textTransform: 'none', fontSize: '1rem', borderRadius: 2, color: '#365ACA', bgcolor: 'white', border: 'solid 2px #365ACA', fontWeight: 'bold' }}>
+                    Explore All Courses
+                </Button>
+            </Grid>
+        </Grid>
+        <Typography variant="body1" color="text.secondary" sx={{ textAlign: "justify", mb: 4 }}>
+            Discover handpicked courses tailored to your learning journey. Whether you're a beginner looking to build a strong foundation or an advanced learner seeking to refine your expertise, our carefully curated selection covers a wide range of topics. Explore interactive lessons, expert-led tutorials, and practical exercises designed to elevate your skills and help you achieve your personal and professional goals with confidence.
+        </Typography>
+        <Grid container spacing={3} justifyContent="center">
+            {courses.map(course => (
+                <Grid item xs={12} sm={12} md={6} key={course.id}>
+                    <CourseCard course={course} />
+                </Grid>
+            ))}
+        </Grid>
     </Box>
 );
 

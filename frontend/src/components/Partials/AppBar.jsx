@@ -59,7 +59,7 @@ const AppBarComponent = () => {
                     {/* User Info */}
                     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                         <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
-                            <img src="/Partials/Ecoin.png" alt="Coin" height="30" /> 12,312.44
+                            <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> 12,312.44
                         </Typography>
                         <Typography sx={{ color: elevated ? "#fff" : "#000" }}>Gia Bao</Typography>
 

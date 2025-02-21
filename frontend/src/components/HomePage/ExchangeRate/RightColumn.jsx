@@ -14,8 +14,8 @@ const transitionSettings = { duration: 0.5, ease: "easeInOut" };
 // Defining CryptoCard, SkeletonCard and SkeletonContainer components
 const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(({ theme }) => ({
   "& .MuiTooltip-tooltip": {
-    background: "radial-gradient(circle, rgba(212,149,236,1) 0%, rgba(117,134,228,1) 50%, rgba(216,86,205,1) 100%)",
-    color: "#fff", fontSize: "0.875rem", fontWeight: "bold", padding: "10px 14px", borderRadius: "10px",
+    background: "white",
+    color: "black", fontSize: "0.875rem", padding: "10px 14px", borderRadius: "10px",
     boxShadow: "0px 6px 18px rgba(0, 0, 0, 0.25)", backdropFilter: "blur(6px)", transition: "opacity 0.3s ease-in-out, transform 0.2s ease-in-out",
   },
   "& .MuiTooltip-arrow": { color: "rgba(117,134,228,1)" },
@@ -23,17 +23,36 @@ const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} cl
 
 const CryptoCard = ({ crypto }) => {
   return (
-    <CustomTooltip title={`Change: ${crypto.change}`} arrow placement="top" PopperProps={{ modifiers: [{ name: "preventOverflow", options: { boundary: "window" } }] }}>
+    <CustomTooltip title={
+      <>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", mb: 1, width: 250 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>Full name</Typography>
+            <Typography variant='body1'>{crypto.name}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>Code</Typography>
+            <Typography variant='body1'>{crypto.symbol.toUpperCase()}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>Price</Typography>
+            <Typography variant='body1'>{crypto.price}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>Change</Typography>
+            <Typography variant='body1'>{crypto.change}</Typography>
+          </Box>
+        </Box>
+      </>} arrow placement="top" PopperProps={{ modifiers: [{ name: "preventOverflow", options: { boundary: "window" } }] }}>
       <Card variant="outlined" sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 3, bgcolor: "background.paper", position: "relative", overflow: "hidden", transition: "transform 0.3s, box-shadow 0.3s", "&:hover": { transform: "scale(1.03)" }, width: "100%", minHeight: { xs: 120, sm: 130, md: 150 }, "&::before": { content: '""', position: "absolute", inset: 0, borderRadius: "inherit", padding: "2px", background: "linear-gradient(120deg, #D495EC, #7586E4, #D856CD)", WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", maskComposite: "destination-out", opacity: 0.8 } }}>
         <img src={crypto.image} alt={crypto.name} style={{ width: 50, height: 50 }} />
         <Box sx={{ flexGrow: 1, ml: 2 }}>
-          <Typography fontWeight="bold" variant="body1">{crypto.name}</Typography>
-          <Typography variant="body2" color="gray">{crypto.symbol.toUpperCase()}</Typography>
+          <Typography variant="body1" color="gray">{crypto.symbol.toUpperCase()}</Typography>
         </Box>
         <Box textAlign="right">
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="body1">{crypto.price}</Typography>
-            <img src="/Partials/Ecoin.png" alt="Ecoin" height="24" />
+            <img src="/Partials/Ecoin.png" alt="Ecoin" height="35" />
           </Box>
         </Box>
       </Card>
@@ -46,7 +65,7 @@ const SkeletonCard = () => (
     variant="outlined"
     sx={{
       display: "flex", alignItems: "center", p: 2, borderRadius: 3, bgcolor: "background.paper", position: "relative", overflow: "hidden",
-      transition: "transform 0.3s, box-shadow 0.3s", "&:hover": { transform: "scale(1.03)" }, width: "100%", minHeight: { xs: 120, sm: 130, md: 150 },
+      transition: "transform 0.3s, box-shadow 0.3s", width: "100%", minHeight: { xs: 120, sm: 130, md: 150 },
       "&::before": {
         content: '""', position: "absolute", inset: 0, borderRadius: "inherit", padding: "2px", background: "linear-gradient(90deg, #D495EC, #7586E4, #D856CD)",
         WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", maskComposite: "exclude"
@@ -81,7 +100,7 @@ const RightColumn = () => {
   useEffect(() => {
     let timer;
     if (phase === "page") {
-      timer = setTimeout(() => { setPhase("loading"); }, 6000);
+      timer = setTimeout(() => { setPhase("loading"); }, 5000);
     } else if (phase === "loading") {
       timer = setTimeout(() => {
         setPage(prev => (prev < totalPages ? prev + 1 : 1));

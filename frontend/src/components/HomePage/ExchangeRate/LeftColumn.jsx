@@ -2,9 +2,9 @@ import { Box, Button, Typography } from "@mui/material";
 
 const LeftColumn = () => {
     return (
-        <Box sx={{ flex: 1, textAlign: 'left' }}>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
-                Exchange Rate
+        <Box sx={{ flex: 1, textAlign: 'left', justifyContent: 'center', height: '100%', display: 'flex', flexDirection: 'column', paddingBottom: 6 }}>
+            <Typography variant="h4" fontWeight="bold" alignContent={"center"} gutterBottom>
+            💱 Exchange Rate 💱
             </Typography>
             <Typography variant="body1" sx={{ color: '#333', mb: 2, textAlign: 'justify' }}>
                 Stay updated with the latest exchange rates for Educhain Token. Our platform ensures transparency and accuracy, helping you make informed decisions when converting cryptocurrency.
