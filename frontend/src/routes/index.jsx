@@ -93,8 +93,8 @@ const ForgotPassword = Loadable(lazy(() => import("../pages/authentication/Forgo
 const VerifyCode = Loadable(lazy(() => import("../pages/authentication/VerifyCode")));
 
 // MAIN
-const Page500 = Loadable(lazy(() => import("../pages/Page500")));
-const Page404 = Loadable(lazy(() => import("../pages/Page404")));
+const Page500 = Loadable(lazy(() => import("../pages/Error/Page500")));
+const Page404 = Loadable(lazy(() => import("../pages/Error/Page404")));
 const AboutUs = Loadable(lazy(() => import("../pages/AboutUs")));
 const ComingSoon = Loadable(lazy(() => import("../pages/ComingSoon")));
 const Maintenance = Loadable(lazy(() => import("../pages/Maintenance")));
