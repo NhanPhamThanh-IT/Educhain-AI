@@ -44,7 +44,7 @@ const questions = [
     const getColor = (index) => {
       if (submitted) return answers[index] === questions[index].answer ? "green" : "red";
       if (currentQuestion === index)
-        return "white";
+        return "#adadad";
       return "#ddd";
     };
     const getOptionColor = (option, index) => {
@@ -55,9 +55,9 @@ const questions = [
     };
   
     return (
-      <Box sx={{ p: 4, backgroundColor: "#fce4ec", borderRadius: 2 }}>
+      <Box sx={{ p: 4, borderRadius: 2, height: "80vh"}}>
         <Typography variant="h6" textAlign="center">Quizzes</Typography>
-        <Grid container spacing={1} justifyContent="center" sx={{ mb: 2 }}>
+        <Grid container spacing={1} sx={{ mb: 5, mt: 5 }}>
           {questions.map((_, index) => (
             <Grid item key={index}>
               <Button

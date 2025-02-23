@@ -109,7 +109,6 @@ export default function EduchainApp() {
           borderRadius: 3,
           boxShadow: 3,
           m: 4,
-          mt: 10,
         }}
       >
         {sections.find((s) => s.key === selectedSection)?.content}

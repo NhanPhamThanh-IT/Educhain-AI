@@ -7,14 +7,13 @@ import { Navigate, useRoutes } from "react-router-dom";
 // ----------------------------------------------------------------------
 
 // Importing components
-import LoadingScreen from "../components/LoadingScreen";
 import AppBarComponent from "../components/Partials/AppBar";
 
 // ----------------------------------------------------------------------
 
 // Function to wrap the component with Suspense
 const Loadable = (Component) => (props) => (
-  <Suspense fallback={<LoadingScreen />}>
+  <Suspense>
     <Component {...props} />
   </Suspense>
 );
@@ -102,6 +101,7 @@ const routes = [
   {
     path: "learning",
     children: [
+      { path: "", element: <Navigate to="/learning/course" replace /> },
       { path: "leaderboard", element: <LazyPages.LeaderBoard /> },
       { path: "mission", element: <LazyPages.MissionPage /> },
       { path: "course", element: <LazyPages.LearningPage /> },
