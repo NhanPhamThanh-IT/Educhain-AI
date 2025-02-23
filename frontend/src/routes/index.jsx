@@ -8,6 +8,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 
 // Importing components
 import AppBarComponent from "../components/Partials/AppBar";
+import AllCourses from "../pages/AllCourses";
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +42,7 @@ const pages = {
   LeaderBoard: "../pages/LeaderBoard",
   ExchangeCoin: "../pages/ExchangeCoin",
   ProfileSetup: "../pages/ProfileSetup",
+  AllCourses: "../pages/AllCourses"
 };
 
 // ----------------------------------------------------------------------
@@ -96,16 +98,17 @@ const routes = [
       { path: "", element: <WithAppBar><LazyPages.MyLearningPage /></WithAppBar> },
     ],
   },
+  {path: "allcourse", element: <WithAppBar><LazyPages.AllCourses /></WithAppBar>},
   { path: "coursesdocs", element: <WithAppBar><LazyPages.CoursesDocs /></WithAppBar> },
   { path: "coursedetails", element: <WithAppBar><LazyPages.CourseDetails /></WithAppBar> },
   {
     path: "learning",
     children: [
       { path: "", element: <Navigate to="/learning/course" replace /> },
-      { path: "leaderboard", element: <LazyPages.LeaderBoard /> },
-      { path: "mission", element: <LazyPages.MissionPage /> },
-      { path: "course", element: <LazyPages.LearningPage /> },
-      { path: "exchange", element: <LazyPages.ExchangeCoin /> },
+      { path: "leaderboard", element: <WithAppBar><LazyPages.LeaderBoard /></WithAppBar> },
+      { path: "mission", element: <WithAppBar><LazyPages.MissionPage /></WithAppBar> },
+      { path: "course", element: <WithAppBar><LazyPages.LearningPage /></WithAppBar> },
+      { path: "exchange", element: <WithAppBar><LazyPages.ExchangeCoin /></WithAppBar> },
     ],
   },
   { path: "profilesetup", element: <WithAppBar><LazyPages.ProfileSetup /></WithAppBar> },
