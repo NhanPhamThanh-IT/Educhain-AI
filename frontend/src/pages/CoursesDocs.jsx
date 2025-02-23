@@ -3,17 +3,20 @@ import { Container } from "@mui/material";
 import IntroSection from "../sections/CoursesDocs/Intro";
 import CategorySection from "../sections/CoursesDocs/Categories";
 import ListCourses from "../sections/CoursesDocs/ListCourses";
+import Page from "../components/Page";
 
-const Homepage = () => {
+const CoursesDocs = () => {
     return (
-        <Container maxWidth="xl" sx={{ mt: 15 }}>
-            <IntroSection />
-            <CategorySection />
-            <ListCourses title="Highly Recommended Courses" subcontent="Edunity Course Student Can Join With Us!"/>
-            <ListCourses title="Courses For You" subcontent="Course Tailored Just For You!"/>
-            <ListCourses title="Top Popular Course" subcontent="Course Tailored Just For You!"/>
-        </Container>
+        <Page title="Courses&Docs">
+            <Container maxWidth="xl" sx={{ mt: 15 }}>
+                <IntroSection />
+                <CategorySection />
+                <ListCourses title="Highly Recommended Courses" subcontent="Edunity Course Student Can Join With Us!" />
+                <ListCourses title="Courses For You" subcontent="Course Tailored Just For You!" />
+                <ListCourses title="Top Popular Course" subcontent="Course Tailored Just For You!" />
+            </Container>
+        </Page>
     );
 };
 
-export default Homepage;
+export default CoursesDocs;

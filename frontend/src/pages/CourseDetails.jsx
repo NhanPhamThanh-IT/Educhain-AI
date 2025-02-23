@@ -8,32 +8,37 @@ import DescriptionSection from "../sections/CourseDetails/Description";
 import LearningOutcomesSection from "../sections/CourseDetails/LearningOutcomes";
 import LearningMaterialsSection from "../sections/CourseDetails/LearningMaterials";
 
+// Import built-in components
+import Page from "../components/Page";
+
 const CoursePage = () => (
-    <Container maxWidth="xl" sx={{ mt: 12 }}>
-        {/* Basic informations */}
-        <BasicInformationsSection />
+    <Page title="Course Details">
+        <Container maxWidth="xl" sx={{ mt: 12 }}>
+            {/* Basic informations */}
+            <BasicInformationsSection />
 
-        {/* Advanced incformations */}
-        <Grid container spacing={4} sx={{ my: 4 }}>
+            {/* Advanced incformations */}
+            <Grid container spacing={4} sx={{ my: 4 }}>
 
-            {/* Left column */}
-            <Grid item xs={12} md={8}>
-                {/* Course Description */}
-                <DescriptionSection />
+                {/* Left column */}
+                <Grid item xs={12} md={8}>
+                    {/* Course Description */}
+                    <DescriptionSection />
 
-                {/* Learning Outcomes */}
-                <LearningOutcomesSection />
+                    {/* Learning Outcomes */}
+                    <LearningOutcomesSection />
+                </Grid>
+
+                {/* Right column */}
+                <Grid item xs={12} md={4}>
+
+                    {/* Learning Materials */}
+                    <LearningMaterialsSection />
+                </Grid>
+
             </Grid>
-
-            {/* Right column */}
-            <Grid item xs={12} md={4}>
-
-                {/* Learning Materials */}
-                <LearningMaterialsSection />
-            </Grid>
-
-        </Grid>
-    </Container>
+        </Container>
+    </Page>
 );
 
 export default CoursePage;

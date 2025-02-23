@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import defaultvalue from "../constants/ProfileSetupPage/default";
+import Page from "../components/Page";
 
 // Các hàm trợ giúp chuyển đổi thời gian
 const getTimeObjectFromDate = (date) => ({
@@ -212,28 +213,30 @@ const ProfileSetup = () => {
   if (!userData.fullname) return <Typography>Loading...</Typography>;
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 15, mb: 5 }}>
-      <Paper elevation={6} sx={{ p: 5, borderRadius: 3, backgroundColor: "#f9f9f9" }}>
-        <ProfileHeader userData={userData} />
-        <ProfileForm
-          userData={userData}
-          handleChange={handleChange}
-          genders={genders}
-          countries={countries}
-        />
-        <EmailSection
-          emails={userData.email}
-          showAllEmails={showAllEmails}
-          toggleShowEmails={toggleShowEmails}
-          handleAddEmail={handleAddEmail}
-        />
-        <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
-          <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ fontWeight: 700 }}>
-            Submit
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+    <Page title="Profile Setup">
+      <Container maxWidth="xl" sx={{ mt: 15, mb: 5 }}>
+        <Paper elevation={6} sx={{ p: 5, borderRadius: 3, backgroundColor: "#f9f9f9" }}>
+          <ProfileHeader userData={userData} />
+          <ProfileForm
+            userData={userData}
+            handleChange={handleChange}
+            genders={genders}
+            countries={countries}
+          />
+          <EmailSection
+            emails={userData.email}
+            showAllEmails={showAllEmails}
+            toggleShowEmails={toggleShowEmails}
+            handleAddEmail={handleAddEmail}
+          />
+          <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
+            <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ fontWeight: 700 }}>
+              Submit
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Page>
   );
 };
 
