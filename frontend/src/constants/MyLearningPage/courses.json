@@ -1,0 +1,58 @@
+{
+    "courses": [
+        {
+            "id": 1,
+            "title": "VBI Web Design Tutorial",
+            "description": "Learn HTML, CSS, and responsive design.",
+            "images": [
+                "https://s3-alpha-sig.figma.com/img/dfd1/4f5a/2a1b8774ac452db1e2b7551ba9f4f9f2?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Ic00Mbbq6S2Qh~VI1UMW0MqMtqmCF5HCxHnLMYEX86C~~JNTxZf2kfYgcD~cfe~xB7n8oatAp-f2rNU~cQWf5~tgv~k5ZwOL70N4Ry~iknvO4otqyc3HgUI~IDbuV4aYBlU1tId1QWGUHKlGIpcHxI9ja-mq~ykDHji9fU2MXDET~olpTRHysEZ6pWJsPWlqkxq2dwoaBAhnZq1hmGnoPJM8DFw8gFmE7RWIqtgIxHguydUkQsNihkCaLgZbE6WUl3XtrDm0H~-RH5zpumV4M1Uyt4L-N81SVyQ4zkUw1NfltnYijkIIiJg7zr-UBN07S-xxGIDcDTSg89rQXFNrFA__",
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__",
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__"
+            ],
+            "duration": "4 Weeks",
+            "level": "Beginner",
+            "instructor": "John Smith",
+            "curriculum": [
+                "Introduction to HTML",
+                "Styling with CSS",
+                "Building a Website"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "JavaScript Fundamentals",
+            "description": "Master JavaScript from basics to advanced topics.",
+            "images": [
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__",
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__",
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__"
+            ],
+            "duration": "6 Weeks",
+            "level": "Intermediate",
+            "instructor": "Jane Doe",
+            "curriculum": [
+                "Variables & Data Types",
+                "Functions & Scope",
+                "Asynchronous JavaScript"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "React Development",
+            "description": "Build modern web applications using React.",
+            "images": [
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__",
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__",
+                "https://s3-alpha-sig.figma.com/img/51e6/eca8/6461c79646a72642654d9078a4229880?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DyxOAv4Rnho0SWOYBATI9vEiV4ugVVwD-yOa3y3mieiAA6pClH3DXYrtI-ijET-iaEecfPNKXAsaBbnN75Paau6FbBtU1Lvu2PvLs4DUfKwSuaDXmIYdcNav-rXYEd1ajbdZR9unK94wSAx~1iHcsfs1LsEt2b3T8ZmM2VTgcM0sjboU~QY7AWryqeKPuAcG3AmBtbGlEWZNtNhDZlLitRj9OTDuyTGQtQYG3iV8~XR1rgcgTtGL~~iu7L0ArAdpLV4ESQUMt75oEc8YNEdVp-7lmqO7XG70NN3193yX8oEch9fmmzYmxKrMiTMmw7FHi~qIODBT3cFo3j29dds~9w__"
+            ],
+            "duration": "8 Weeks",
+            "level": "Advanced",
+            "instructor": "Emily Davis",
+            "curriculum": [
+                "JSX & Components",
+                "State Management",
+                "React Hooks"
+            ]
+        }
+    ]
+}
