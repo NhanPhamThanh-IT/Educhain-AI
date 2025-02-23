@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Box, Card, Typography, LinearProgress, Button } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
-import ecoin from "/ecoin.png"; // Import icon coin
+import { Container, Grid, Card, CardContent, Typography, Box, LinearProgress, Button } from "@mui/material";
+import { motion } from "framer-motion";
+import { HiBadgeCheck } from "react-icons/hi";
 import Page from "../components/Page";
+import ecoin from "/ecoin.png"; // Import icon coin
 
 const initialMissions = [
   { id: 1, title: "Watch video 30 minutes", points: 30, progress: 30, total: 30 },
@@ -11,6 +12,18 @@ const initialMissions = [
   { id: 4, title: "Upload a file or video", points: 25, progress: 1, total: 1 },
   { id: 5, title: "Join a study group", points: 50, progress: 45, total: 45 },
 ];
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } }
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 10 } },
+  hover: { scale: 1.05, rotate: 1, transition: { type: "spring", stiffness: 300 } },
+  tap: { scale: 0.98 }
+};
 
 const MissionSection = () => {
   const [missions, setMissions] = useState(initialMissions);
@@ -21,91 +34,73 @@ const MissionSection = () => {
 
   return (
     <Page title="Mission Page">
-    <Box sx={{ my: 4 }}>
-      <Typography variant="h5" fontWeight="bold" mb={2}>
-        Today Missions
-      </Typography>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)", // Tối đa 3 mission trên 1 hàng
-          gap: 2,
-          p: 2,
-          borderRadius: 3,
-          bgcolor: "white",
-          boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
-          "@media (max-width: 900px)": { gridTemplateColumns: "repeat(2, 1fr)" },
-          "@media (max-width: 600px)": { gridTemplateColumns: "repeat(1, 1fr)" },
-        }}
-      >
-        <AnimatePresence>
-          {missions.map((mission) => {
-            const isCompleted = mission.progress >= mission.total;
-            return (
-              <motion.div
-                key={mission.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
-              >
-                <Card
-                  sx={{
-                    p: 2,
-                    borderRadius: 3,
-                    background: "linear-gradient(to bottom, #ffffff, #afc2ff)",
-                    boxShadow: "0px 3px 10px rgba(0,0,0,0.1)",
-                    position: "relative",
-                    minHeight: 140, // Đảm bảo mọi ô mission có chiều cao đồng đều
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography fontWeight="bold">{mission.title}</Typography>
-                  <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-                    <img src={ecoin} alt="ecoin" width={20} height={20} />
-                    <Typography sx={{ fontWeight: "bold", ml: 1 }}>
-                      {mission.points}
-                    </Typography>
-                  </Box>
-                  <LinearProgress
-                    variant="determinate"
-                    value={(mission.progress / mission.total) * 100}
-                    sx={{
-                      height: 8,
-                      borderRadius: 5,
-                      bgcolor: "#e0e0e0",
-                      mt: 1,
-                      "& .MuiLinearProgress-bar": { bgcolor: "#4CAF50" },
-                    }}
-                  />
-                  <Typography variant="body2" sx={{ mt: 1, textAlign: "right" }}>
-                    {mission.progress}/{mission.total}
-                  </Typography>
-                  <Box sx={{ mt: 1.5, height: 36 }}> {/* Giữ không gian cho nút */}
-                    <Button
-                      variant="contained"
-                      onClick={() => handleClaim(mission.id)}
+      <Container sx={{ py: 8 }}>
+        <Typography variant="h4" fontWeight={700} textAlign="center" gutterBottom>
+          🎯 Today Missions 🎯
+        </Typography>
+        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+          <Grid container spacing={3}>
+            {missions.map((mission) => {
+              const isCompleted = mission.progress >= mission.total;
+              return (
+                <Grid item xs={12} sm={6} md={4} key={mission.id} sx={{ display: "flex" }}>
+                  <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+                    <Card
                       sx={{
-                        bgcolor: "#3f51b5",
                         color: "white",
-                        width: "100%",
-                        borderRadius: 2,
-                        textTransform: "none",
-                        "&:hover": { bgcolor: "#303f9f" },
-                        visibility: isCompleted ? "visible" : "hidden", // Ẩn nhưng vẫn chiếm chỗ
+                        p: 3,
+                        boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.15)",
+                        borderRadius: 3,
+                        flexGrow: 1,
+                        background: "linear-gradient(135deg, #4F46E5, #6366F1)",
+                        transition: "background 0.4s",
+                        "&:hover": { background: "linear-gradient(135deg, #6366F1, #4F46E5)" },
                       }}
                     >
-                      Claim
-                    </Button>
-                  </Box>
-                </Card>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </Box>
-    </Box>
+                      <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <Typography variant="h6" fontWeight={600} color="white">{mission.title}</Typography>
+                          {mission.progress === mission.total && <HiBadgeCheck size={30} color="#FDE047" />}
+
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+                          <img src={ecoin} alt="ecoin" width={20} height={20} />
+                          <Typography sx={{ fontWeight: "bold", ml: 1 }}>{mission.points}</Typography>
+                        </Box>
+                        <LinearProgress
+                          variant="determinate"
+                          value={(mission.progress / mission.total) * 100}
+                          sx={{ height: 8, borderRadius: 5, bgcolor: "#e0e0e0", mt: 2 }}
+                        />
+                        <Typography variant="body2" sx={{ mt: 1, textAlign: "right" }}>
+                          {mission.progress}/{mission.total}
+                        </Typography>
+                        <Box sx={{ mt: 2 }}>
+                          <Button
+                            variant="contained"
+                            onClick={() => handleClaim(mission.id)}
+                            sx={{
+                              bgcolor: "#FDE047",
+                              color: "black",
+                              width: "100%",
+                              borderRadius: 2,
+                              textTransform: "none",
+                              "&:hover": { bgcolor: "#FACC15" },
+                              visibility: isCompleted ? "visible" : "hidden",
+                            }}
+                          >
+                            Claim
+                          </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </motion.div>
+      </Container>
     </Page>
   );
 };

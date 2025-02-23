@@ -8,7 +8,7 @@ export default function Logo({ disabledLink = false, sx }) {
 
   const logo = (
     <Box sx={{ width: 40, height: 40, ...sx }}>
-      <img alt="logo" src="" />
+      <img alt="logo" src="public/Partials/Logo.png" />
     </Box>
   );
 

@@ -5,10 +5,9 @@ export default function StudyGuidesSection() {
     <Box
       sx={{
         p: 4,
-        backgroundColor: "#e8f5e9",
         borderRadius: 2,
-        maxHeight: "400px", // Giới hạn chiều cao
         overflowY: "auto", // Thêm thanh cuộn nếu nội dung quá dài
+        height: "80vh",
       }}
     >
       <Typography variant="h6" gutterBottom>
