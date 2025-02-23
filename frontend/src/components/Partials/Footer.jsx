@@ -14,26 +14,26 @@ const Footer = () => {
                 <Grid container spacing={4}>
                     {/* Logo & Description */}
                     <Grid item xs={12} md={4}>
-                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>MyCompany</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>EduchanAI</Typography>
                         <Typography variant="body2" sx={{ mt: 1 }}>
-                            Cung cấp giải pháp công nghệ tiên tiến giúp doanh nghiệp phát triển bền vững.
+                            Providing advanced technology solutions to help businesses grow sustainably.
                         </Typography>
                     </Grid>
 
                     {/* Links */}
                     <Grid item xs={12} md={4}>
-                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>Liên kết</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>Links</Typography>
                         <Box sx={{ mt: 1 }}>
-                            <Link href="#" color="inherit" display="block" sx={{ mb: 1 }}>Về chúng tôi</Link>
-                            <Link href="#" color="inherit" display="block" sx={{ mb: 1 }}>Dịch vụ</Link>
-                            <Link href="#" color="inherit" display="block" sx={{ mb: 1 }}>Hỗ trợ</Link>
-                            <Link href="#" color="inherit" display="block">Liên hệ</Link>
+                            <Link href="/about-us" color="inherit" display="block" sx={{ mb: 1 }}>About Us</Link>
+                            <Link href="#" color="inherit" display="block" sx={{ mb: 1 }}>Services</Link>
+                            <Link href="#" color="inherit" display="block" sx={{ mb: 1 }}>Support</Link>
+                            <Link href="#" color="inherit" display="block">Contact</Link>
                         </Box>
                     </Grid>
 
                     {/* Social Media */}
                     <Grid item xs={12} md={4}>
-                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>Kết nối với chúng tôi</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>Connect with Us</Typography>
                         <Box sx={{ mt: 1 }}>
                             <IconButton color="inherit" href="#" sx={{ mx: 0.5 }}>
                                 <Facebook />

@@ -85,7 +85,7 @@ const routes = [
     children: [
       { path: "coming-soon", element: <LazyPages.ComingSoon /> },
       { path: "maintenance", element: <LazyPages.Maintenance /> },
-      { path: "about-us", element: <LazyPages.AboutUs /> },
+      { path: "about-us", element: <WithHeaderFooter><LazyPages.AboutUs /></WithHeaderFooter> },
       { path: "500", element: <LazyPages.Page500 /> },
       { path: "404", element: <LazyPages.Page404 /> },
       { path: "*", element: <Navigate to="/404" replace /> },
