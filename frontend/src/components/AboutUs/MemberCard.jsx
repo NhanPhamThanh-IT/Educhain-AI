@@ -2,10 +2,10 @@
 //       This component is used to display information about a team member.
 //       It receives a member object as a prop and displays the member's name, role, experience, and image.
 //       The member object has the following properties:
-//       - name: the name of the team member
-//       - role: the role of the team member
-//       - experience: a brief description of the team member's experience
-//       - image: the URL of the team member's image
+//          - name: the name of the team member
+//          - role: the role of the team member
+//          - experience: a brief description of the team member's experience
+//          - image: the URL of the team member's image
 //       The component uses Material-UI components such as Avatar, CardContent, Paper, and Typography to display the information.
 //       It also uses framer-motion for animations.
 //       The cardVariants object defines the animation variants for the card.
@@ -27,7 +27,8 @@
 import React from "react";
 
 // Importing necessary components from Material-UI
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, IconButton } from "@mui/material";
+import { Facebook } from "@mui/icons-material";
 
 // Importing necessary components from framer-motion
 import { motion } from "framer-motion";
@@ -50,7 +51,7 @@ const MemberCard = ({ member }) => {
                     transformStyle: "preserve-3d"
                 }}
             >
-                {/* After loading and not hovering */}
+                {/* Front side */}
                 <Paper
                     elevation={6}
                     sx={{
@@ -81,7 +82,7 @@ const MemberCard = ({ member }) => {
                     </Typography>
                 </Paper>
 
-                {/* When hovering */}
+                {/* Back side */}
                 <Paper
                     elevation={6}
                     sx={{
@@ -108,6 +109,13 @@ const MemberCard = ({ member }) => {
                     <Typography variant="body2" sx={{ color: "#e2e8f0" }}>
                         {member.experience}
                     </Typography>
+                    <IconButton
+                        href={member.facebook}
+                        target="_blank"
+                        sx={{ position: "absolute", bottom: 10, right: 10, color: "#1877f2" }}
+                    >
+                        <Facebook fontSize="large" />
+                    </IconButton>
                 </Paper>
             </motion.div>
         </Box>

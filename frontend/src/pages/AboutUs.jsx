@@ -1,32 +1,27 @@
+// Importing React and necessary MUI components
 import React from 'react';
-import { Container, Typography, Box, Stack } from '@mui/material';
-import { motion } from 'framer-motion';
+import { Container, Box } from '@mui/material';
 
+// Importing built-in components
 import Page from '../components/Page';
 import BubbleBackground from '../components/animate/BubbleBackground';
-import SectionTitle from '../components/AboutUs/SectionTitle';
 import TeamIntroduction from '../sections/AboutUs/TeamIntroduction';
+import ProductIntroduction from '../sections/AboutUs/ProductIntroduction';
 
-import { fadeIn } from '../utils/motionVariants';
-
+// Main content of the About Us page
 const MainContent = () => (
     <Container maxWidth="xl" sx={{ pt: 8 }}>
-        <Stack alignItems="center" textAlign="center">
-            <motion.div initial="hidden" animate="visible" variants={fadeIn}>
-                <SectionTitle title="About SoftAI" />
-            </motion.div>
-            <motion.div initial="hidden" animate="visible" variants={fadeIn}>
-                <Typography variant="body1" sx={{ color: '#94a3b8', maxWidth: 900, textAlign: 'justify' }}>
-                    We are a team of third-year and fourth-year students from the University of Science, Vietnam National University, Ho Chi Minh City, majoring in Software Engineering and Artificial Intelligence. Driven by a passion for technology and digital transformation, especially in AI and Web3 development, we aspire to harness our knowledge and energy to pursue this shared ambition with boundless enthusiasm and dedication.
-                </Typography>
-            </motion.div>
-        </Stack>
 
         {/* Team introduction */}
         <TeamIntroduction />
+
+        {/* Product introduction */}
+        <ProductIntroduction />
+
     </Container>
 );
 
+// About Us page
 export default function AboutUs() {
     return (
         <Page title="About Us">

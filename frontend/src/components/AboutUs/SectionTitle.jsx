@@ -3,22 +3,23 @@
 // Importing MUI components
 import { Box, Typography } from '@mui/material';
 
-// Impoting motion from framer-motion
+// Importing motion from framer-motion
 import { motion } from 'framer-motion';
 
-const fadeIn = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-};
-
+// Section title component with fade-in effect
 const SectionTitle = ({ title }) => (
     <Box textAlign="center" sx={{ my: 4 }}>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-            <Typography variant="h3" fontWeight="bold" sx={{ color: '#facc15', textTransform: 'capitalize' }}>
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+            <Typography variant="h3" fontWeight="bold" sx={{ color: '#1E3A8A', textTransform: 'capitalize' }}>
                 {title}
             </Typography>
         </motion.div>
     </Box>
 );
 
+// Exporting SectionTitle component
 export default SectionTitle;
