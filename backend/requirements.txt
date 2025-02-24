@@ -9,6 +9,7 @@ neo4j
 azure-storage-blob
 azure.ai.formrecognizer
 python-multipart
+lightrag-hku
 
 
 
