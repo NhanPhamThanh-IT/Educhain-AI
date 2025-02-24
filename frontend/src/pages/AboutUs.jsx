@@ -21,7 +21,7 @@ const zoomIn = {
 const SectionTitle = ({ title }) => (
     <Box textAlign="center" sx={{ my: 4 }}>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-            <Typography variant="h3" fontWeight="bold" sx={{ color: '#facc15', textTransform: 'uppercase' }}>
+            <Typography variant="h3" fontWeight="bold" sx={{ color: '#facc15', textTransform: 'capitalize' }}>
                 {title}
             </Typography>
         </motion.div>
@@ -85,7 +85,7 @@ export default function AboutUs() {
     return (
         <Page title="About Us">
             <BubbleBackground />
-            <Box sx={{ background: 'white', minHeight: '100vh', py: 8 }}>
+            <Box sx={{ background: 'transparent', minHeight: '100vh', py: 8 }}>
                 <MainContent />
             </Box>
         </Page>
