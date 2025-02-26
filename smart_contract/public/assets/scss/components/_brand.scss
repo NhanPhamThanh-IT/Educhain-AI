@@ -1,0 +1,179 @@
+/*----------------------------------------*/
+/*  11. brand
+/*----------------------------------------*/
+.brand {
+    &__marquee {
+        min-height: 232px;
+        z-index: 2;
+        position: relative;
+        @include respond(xs) {
+            min-height: 120px;
+        }
+    }
+    &__item {
+        width: 232px;
+        height: 232px;
+        @include border-radius(50%);
+        @include center;
+        float: left;
+        position: relative;
+        @include transition(.3s);
+        @include respond(xs) {
+            width: 120px;
+            height: 120px;
+            img {
+                max-width: 80px;
+            }
+        }
+        &:not(:last-child) {
+            margin-right: 30px;
+        }
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            @include border-radius(50%);
+            border: 1px solid #2B2B54;
+            content: "";
+            @include transition(.3s);
+        }
+        &:hover {
+            background-color: #1D1D3E;
+            &::before {
+                border-style: dashed;
+                animation: spin 12s infinite linear;
+                border-color: var(--color-white);
+            }
+        }
+    }
+    &__wrap {
+        padding: 115px 95px;
+        padding-top: 110px;
+        position: relative;
+        @media (max-width: 1200px) {
+            padding: 98px 95px;
+            padding-top: 86px;
+        }
+        @include respond(xs) {
+            padding: 0;
+        }
+        &::before,
+        &::after {
+            position: absolute;
+            top: 29px;
+            left: 4px;
+            width: 54px;
+            height: 65px;
+            content: "";
+            background-color: #fff;
+            clip-path: polygon(0 0, 0 100%, 100% 0);
+            @include transition(.3s);
+            @include respond(lg) {
+                top: 26px;
+                left: 16px;
+            }
+            @include respond(md) {
+                top: 30px;
+                left: 24px;
+            }
+            @include respond(xs) {
+                display: none;
+            }
+        }
+        &::after {
+            top: auto;
+            left: auto;
+            bottom: 63px;
+            right: 11px;
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+            @include respond(lg) {
+                bottom: 50px;
+                right: 21px;
+            }
+            @include respond(md) {
+                bottom: 55px;
+            }
+        }
+    }
+    &__bg {
+        position: absolute;
+        top: 0;
+        left: -35px;
+        width: 105%;
+        height: 100%;
+        background-image: url(../img/bg/faq_bg.png);
+        content: "";
+        z-index: -1;
+        background-repeat: no-repeat;
+        background-size: contain;
+        @include respond(lg) {
+            left: -20px;
+            width: 100%;
+            background-size: cover;
+        }
+        @include respond(xs) {
+            display: none;
+        }
+    }
+    &__item-wrap {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    &__single {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 16.666%;
+        padding: 28px 20px;
+        @include respond(md) {
+            width: 25%;
+        }
+        @include respond(xs) {
+            width: 50%;
+            padding: 20px 10px;
+        }
+        a {
+            @include transition(.3s);
+            opacity: 0.4;
+            &:hover {
+                @include transform(translateY(-5px));
+                opacity: 1;
+            }
+        }    
+    }
+    &__sec-bg {
+        z-index: 1;
+        background-repeat: no-repeat;
+        background-position: center 6%;
+        background-size: contain;
+        @include respond(xs) {
+            background-image: none !important;
+        }
+    }
+    &__title {
+        h3 {
+            font-size: 28px;
+            line-height: 38px;
+            letter-spacing: -1.12px;
+            margin-bottom: 10px;
+        }
+    }
+    &__logo-wrap {
+        margin-left: -20px;
+        @include respond(xs) {
+            justify-content: start;
+        }
+    }
+    &__logo-item {
+        margin-top: 30px;
+        @include transition(.3s);
+        display: inline-block;
+        padding: 0 20px;
+        &:hover {
+            @include transform(translateY(-5px));
+        }
+    }
+}

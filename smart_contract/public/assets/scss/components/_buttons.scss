@@ -1,0 +1,121 @@
+.thm-btn {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: None;
+    color: var(--color-white);
+    border-style: none;
+    padding: 18px 38px;
+    align-self: center;
+    position: relative;
+    display: inline-block;
+    @include border-radius(5px);
+    text-transform: uppercase;
+    line-height: 1.1;
+    @include transition(all 300ms linear 0ms);
+    background-color: var(--color-primary);
+    &:hover {
+        color: var(--color-white);
+    }
+    &--dark {
+        background-color: var(--color-dark);
+        &:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+    }
+    
+}
+
+.blc-btn {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-white);
+    
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 15px 60px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    @include transition(.3s);
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    &::before,
+    &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        content: "";
+        background-image: url(../img/icon/btn-border.svg);
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: -1;
+        @include transition(.3s);
+    }
+    &::after {
+        background-image: url(../img/icon/btn-border-hover.svg);
+        opacity: 0;
+    }
+    &:hover {
+        transform: translateY(-2px);
+        color: var(--color-white);
+        &::after {
+            opacity: 1;
+        }
+    }
+    &--white {
+        &::before {
+            background-image: url(../img/icon/btn-border-white.svg); 
+        }
+        &::after {
+            background-image: url(../img/icon/btn-border.svg);
+        }
+    }
+}
+
+.btc-btn {
+    background-color: #DAEDF8;
+    display: inline-block;
+    padding: 12px 35px;
+    padding-right: 100px;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0B1121;
+    letter-spacing: 1.5px;
+    position: relative;
+    @include respond(lg) {
+        padding-right: 80px;
+    }
+    &:hover {
+        color: #0B1121;
+        i {
+            right: 30px;
+        }
+    }
+    i {
+        position: absolute;
+        top: 50%;
+        right: 35px;
+        @include transform(translateY(-50%));
+        @include transition(.3s);
+    }
+    &--gradient {
+        color: var(--color-white);
+        &:hover {
+            color: var(--color-white);
+        }
+    }
+}
+
+
+.btns {
+    margin: -12px;
+    a {
+        margin: 12px;
+    }
+}

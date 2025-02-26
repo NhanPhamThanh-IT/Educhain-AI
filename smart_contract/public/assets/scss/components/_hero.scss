@@ -1,0 +1,490 @@
+/*----------------------------------------*/
+/*  04. hero
+/*----------------------------------------*/
+.hero {
+  &__bitcoin {
+    min-height: 790px;
+    display: flex;
+    align-items: center;
+    @include respond(laptop) {
+      min-height: 750px;
+    }
+    @include respond(lg) {
+      min-height: 700px;
+    }
+    @include respond(md) {
+      min-height: 575px;
+    }
+  }
+  &__bitcoin-content {
+    @include transform(translateY(55px));
+    @include respond(md) {
+      @include transform(translateY(30px));
+    }
+    .title {
+      font-size: 102px;
+      line-height: 1.1;
+      margin-bottom: 40px;
+      letter-spacing: -3.06px;
+      @include respond(lg) {
+        font-size: 80px;
+      }
+      @include respond(md) {
+        font-size: 50px;
+      }
+      span {
+        display: inline-block;
+      }
+    }
+    p {
+      font-size: 20px;
+      line-height: 29px;
+    }
+    .btc-btn {
+      font-size: 18px;
+      text-transform: capitalize;
+      letter-spacing: -0.18px;
+      max-width: 412px;
+      width: 100%;
+      padding: 22px 50px;
+      &:hover i {
+        right: 45px;
+      }
+      i {
+        right: 50px;
+      }
+    }
+  }
+  &__img {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    max-width: 1270px;
+    z-index: -2;
+    @include respond(laptop) {
+      top: 67px;
+      max-width: 900px;
+    }
+    @include respond(lg) {
+      top: 100px;
+      max-width: 700px;
+    }
+    @include respond(md) {
+      top: 131px;
+      max-width: 650px;
+      right: -100px;
+    }
+    @include respond(xs) {
+      top: 92px;
+      max-width: 450px;
+      right: -120px;
+    }
+  }
+  &__ico {
+    min-height: 1080px;
+    padding-top: 220px;
+    @include respond(lg) {
+      min-height: 930px;
+    }
+    @include respond(md) {
+      min-height: 1270px;
+    }
+    @include respond(xs) {
+      padding-top: 180px;
+    }
+  }
+  &__blockchain {
+    min-height: 1060px;
+    padding-top: 260px;
+    @include respond(lg) {
+      min-height: 820px;
+    }
+    @include respond(md) {
+      padding-top: 160px;
+      min-height: 780px;
+    }
+    @include respond(xs) {
+      padding-top: 130px;
+      min-height: 800px;
+    }
+  }
+  &__bg {
+    background-position: center 250px;
+    position: absolute;
+    bottom: 0;
+    background-repeat: no-repeat;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 100%;
+    z-index: -1;
+    @include respond(laptop) {
+      background-position: center 422px;
+    }
+    @include respond(lg) {
+      display: none;
+    }
+  }
+  &__content {
+    .title {
+      font-size: 60px;
+      line-height: 75px;
+      letter-spacing: -2.4px;
+      @include respond(md) {
+        font-size: 54px;
+        line-height: 69px;
+      }
+      @include respond(xs) {
+        font-size: 43px;
+        line-height: 57px;
+      }
+      span {
+        background: linear-gradient(270deg, #5E2FF4 0%, #8CA7FF 17.47%, #E4DAFF 39.54%, #C570FB 60.49%, #C3B1FE 84.44%, #5E2FF4 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+  &__shape {
+    .shape {
+      position: absolute;
+      z-index: -2;
+      &--1 {
+        top: 0;
+        left: 0;
+      }
+      &--2 {
+        top: 0;
+        left: 0;
+      }
+      &--3 {
+        bottom: -100px;
+        right: 0;
+      }
+    }
+  }
+  &__coin {
+    .coin {
+      position: absolute;
+      &--1 {
+        left: 1%;
+        bottom: 15.5%;
+        @include respond(laptop) {
+          bottom: 20.5%;
+        }
+        @include respond(lg) {
+          bottom: 7.5%;
+        }
+        @include respond(xs) {
+          bottom: 3.5%;
+          left: 0;
+        }
+      }
+      &--2 {
+        left: 26%;
+        bottom: 17.7%;
+        @include respond(laptop) {
+          bottom: 21.7%;
+        }
+        @include respond(lg) {
+          bottom: 9.7%;
+        }
+        @include respond(xs) {
+          bottom: 4.7%;
+          left: 36%;
+        }
+      }
+      &--3 {
+        right: 43%;
+        bottom: 16%;
+        @include respond(laptop) {
+          right: 41.5%;
+          bottom: 21%;
+        }
+        @include respond(lg) {
+          bottom: 8%;
+        }
+        @include respond(xs) {
+          right: 3%;
+          bottom: 5%;
+        }
+      }
+      &--4 {
+        right: 35%;
+        bottom: 57%;
+        @include respond(laptop) {
+          right: 32%;
+          bottom: 53%;
+        }
+        @include respond(md) {
+          right: 19%;
+          bottom: 64%;
+        }
+      }
+      &--5 {
+        right: 13%;
+        top: 22%;
+        @include respond(laptop) {
+          top: 36%;
+        }
+        @include respond(lg) {
+          right: 3%;
+          top: 20%;
+        }
+        @include respond(xs) {
+          right: 0;
+          top: 24%;
+        }
+      }
+      &--6 {
+        right: 3%;
+        bottom: 36%;
+        @include respond(lg) {
+          bottom: 21%;
+        }
+        @include respond(xs) {
+          bottom: 28%;
+        }
+      }
+    }
+  }
+  &__explore {
+    span {
+      color: var(--color-white);
+      font-size: 20px;
+      margin-top: 13px;
+      display: inline-block;
+    }
+    .scroll-down {
+      width: 22px;
+      height: 33px;
+      border: 1px solid var(--color-white);
+      border-radius: 11px;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto; 
+
+    &:before{
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 18px;
+        width: 2px;
+        height: 2px;
+        border-radius: 100%;
+        transform: translateX(-50%);
+        background: var(--color-white);
+        animation: scrollDown 1.5s ease infinite;
+    }
+    &:after{
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 8px;
+        width: 2px;
+        height: 8px;
+        border-radius: 3px;
+        transform: translateX(-50%);
+        background: var(--color-white);
+    }
+    }
+  }
+  &__countdown {
+    h6 {
+      color: var(--color-white);
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 40px;
+      letter-spacing: -0.96px;
+    }
+    .countdown {
+      .single {
+        min-width: 100px;
+        height: 100px;
+        background-color: #1F1F48;
+        @include border-radius(50%);
+        color: var(--color-white);
+        @include center;
+        flex-direction: column;
+        margin-top: 10px;
+        @include respond(lg) {
+          min-width: 80px;
+          height: 80px;
+        }
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+        h1 {
+          font-size: 30px;
+          color: var(--color-white);
+          font-weight: 600;
+          margin-bottom: 2px;
+          @include respond(lg) {
+            font-size: 20px;
+          }
+        }
+        p {
+          font-size: 14px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.60);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  &__explore-wrap {
+    @include transform(translate(24%, 31%));
+    @include respond(laptop) {
+      @include transform(translate(-2%, 63%));
+    }
+    @include respond(lg) {
+      @include transform(translate(0, 5%));
+    }
+    @include respond(md) {
+      margin-top: 30px;
+    }
+  }
+  &__explore {
+    margin-bottom: 260px;
+    @include respond(laptop) {
+      margin-bottom: 200px;
+    }
+    @include respond(lg) {
+      margin-bottom: 100px;
+    }
+  }
+  &__progress {
+    max-width: 672px;
+    .progress {
+      overflow: unset;
+      height: 6px;
+      @include border-radius(60px);
+      background: rgba(255, 255, 255, 0.10);
+    }
+    .progress-bar {
+      @include border-radius(1px);
+      background: var(--gardient, linear-gradient(270deg, #5E2FF4 0%, #8CA7FF 17.47%, #E4DAFF 39.54%, #C570FB 60.49%, #C3B1FE 84.44%, #5E2FF4 100%));
+      height: 8px;
+      top: -1px;
+      position: relative;
+    }
+    .progress-title {
+      margin-bottom: 22px;
+      span {
+        color: var(--color-white);
+        font-weight: 600;
+        font-size: 14px;
+        span {
+          color: #B3B3C0;
+        }
+      }
+    }
+    ul {
+      margin-top: 38px;
+      li {
+        font-size: 14px;
+        color: var(--color-white);
+        font-weight: 600;
+        text-transform: uppercase;
+        position: relative;
+        &::before {
+          position: absolute;
+          left: 50%;
+          @include transform(translateX(-50%));
+          content: "";
+          width: 2px;
+          height: 10px;
+          background-color: var(--color-white);
+          top: -18px;
+        }
+      }
+    }
+  }
+  &__blockchain-icon {
+    .icon {
+      span {
+        display: inline-block;
+        @include transform(translate(32px, -10px));
+      }
+      &--1 {
+        top: -176px;
+        left: 25%;
+        @include respond(laptop) {
+          top: -170px;
+          left: 20%;
+        }
+        @include respond(lg) {
+          left: 0;
+        }
+        @include respond(md) {
+          top: auto;
+          bottom: -135px;
+        }
+      }
+      &--2 {
+        bottom: -207px;
+        left: 4%;
+      }
+      &--3 {
+        top: -188px;
+        right: -43%;
+        @include respond(laptop) {
+          top: -170px;
+          right: 0;
+        }
+        @include respond(lg) {
+          right: 0;
+        }
+        @include respond(md) {
+          top: auto;
+          bottom: -100px;
+        }
+      }
+      &--4 {
+        bottom: -222px;
+        right: -24%;
+        span {
+          @include transform(translate(-32px, -10px));
+        }
+        @include respond(laptop) {
+          right: 0;
+        }
+        @include respond(lg) {
+          right: 0;
+        }
+        @include respond(md) {
+          bottom: -208px;
+        }
+      }
+    }
+  }
+}
+.blockchain-hero {
+  &__content {
+    .title {
+      @include respond(lg) {
+        font-size: 60px;
+      }
+      @include respond(xs) {
+        font-size: 40px;
+      }
+    }
+  }
+}
+
+@keyframes scrollDown{
+    0%{
+        transform: translate(-50%, 0px);
+        opacity: 0;
+    }
+    50%{
+        transform: translate(-50%, 4px);
+        opacity: 1;
+    }
+    100%{
+        transform: translate(-50%, 7px);
+        opacity: 0;
+    }
+}

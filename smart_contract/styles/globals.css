@@ -1,0 +1,46 @@
+@import url("../public/assets/css/bootstrap.min.css");
+@import url("../public/assets/css/fontawesome.css");
+@import url("../public/assets/css/animate.css");
+@import url("../public/assets/css/metisMenu.css");
+@import url("../public/assets/css/magnific-popup.css");
+@import url("../public/assets/css/main.css");
+
+.new-margin {
+  margin-top: 7rem;
+}
+
+.new-owner {
+  margin-top: 9rem;
+}
+/* ??LOADER */
+.custom-loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(1, 0, 0, 0.485);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 11;
+}
+
+.custom-loader {
+  border: 16px solid #25252538;
+  border-top: 16px solid #3c13d4;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* END LOADER */
