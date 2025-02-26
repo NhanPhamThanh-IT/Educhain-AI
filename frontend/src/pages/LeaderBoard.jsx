@@ -46,12 +46,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function LeaderBoard() {
   const [tab, setTab] = useState(0);
   return (
-    <Page title="Leader Board">
+    <Page title="Leader Board" sx={{mt: 15}}>
       <Box
         sx={{
-          width: "100%",
           background: "linear-gradient(to right, #e0c3fc, #8ec5fc)",
-          padding: { xs: "80px 20px", md: "120px 80px" },
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -81,7 +79,7 @@ export default function LeaderBoard() {
               display: { xs: "none", md: "block" },
             }}
           >
-            <Box component="img" src={creditcard} alt="Reward Card" />
+            <Box component="img" src={creditcard} alt="Reward Card" sx={{width: '80%',}}/>
           </Grid>
         </Grid>
       </Box>

@@ -59,7 +59,7 @@ const LazyPages = Object.fromEntries(
 // ----------------------------------------------------------------------
 
 // Component to wrap the AppBar
-const WithHeaderFooter = ({ children, displayHeader = true, displayFooter = true }) => (
+const MainLayout = ({ children, displayHeader = true, displayFooter = true }) => (
   <>
     {displayHeader && <AppBarComponent />}
     {children}
@@ -85,35 +85,35 @@ const routes = [
     children: [
       { path: "coming-soon", element: <LazyPages.ComingSoon /> },
       { path: "maintenance", element: <LazyPages.Maintenance /> },
-      { path: "about-us", element: <WithHeaderFooter><LazyPages.AboutUs /></WithHeaderFooter> },
+      { path: "about-us", element: <MainLayout><LazyPages.AboutUs /></MainLayout> },
       { path: "500", element: <LazyPages.Page500 /> },
       { path: "404", element: <LazyPages.Page404 /> },
       { path: "*", element: <Navigate to="/404" replace /> },
     ],
   },
   { path: "/", element: <Navigate to="/homepage" replace /> },
-  { path: "homepage", element: <WithHeaderFooter><LazyPages.HomePage /></WithHeaderFooter> },
+  { path: "homepage", element: <MainLayout><LazyPages.HomePage /></MainLayout> },
   {
     path: "mylearning",
     children: [
-      { path: "createcourse", element: <WithHeaderFooter><LazyPages.CreateCourse /></WithHeaderFooter> },
-      { path: "", element: <WithHeaderFooter><LazyPages.MyLearningPage /></WithHeaderFooter> },
+      { path: "createcourse", element: <MainLayout><LazyPages.CreateCourse /></MainLayout> },
+      { path: "", element: <MainLayout><LazyPages.MyLearningPage /></MainLayout> },
     ],
   },
-  { path: "allcourse", element: <WithHeaderFooter><LazyPages.AllCourses /></WithHeaderFooter> },
-  { path: "coursesdocs", element: <WithHeaderFooter><LazyPages.CoursesDocs /></WithHeaderFooter> },
-  { path: "coursedetails", element: <WithHeaderFooter><LazyPages.CourseDetails /></WithHeaderFooter> },
+  { path: "allcourse", element: <MainLayout><LazyPages.AllCourses /></MainLayout> },
+  { path: "coursesdocs", element: <MainLayout><LazyPages.CoursesDocs /></MainLayout> },
+  { path: "coursedetails", element: <MainLayout><LazyPages.CourseDetails /></MainLayout> },
   {
     path: "learning",
     children: [
       { path: "", element: <Navigate to="/learning/course" replace /> },
-      { path: "leaderboard", element: <WithHeaderFooter><LazyPages.LeaderBoard /></WithHeaderFooter> },
-      { path: "mission", element: <WithHeaderFooter><LazyPages.MissionPage /></WithHeaderFooter> },
-      { path: "course", element: <WithHeaderFooter><LazyPages.LearningPage /></WithHeaderFooter> },
-      { path: "exchange", element: <WithHeaderFooter><LazyPages.ExchangeCoin /></WithHeaderFooter> },
+      { path: "leaderboard", element: <MainLayout><LazyPages.LeaderBoard /></MainLayout> },
+      { path: "mission", element: <MainLayout><LazyPages.MissionPage /></MainLayout> },
+      { path: "course", element: <MainLayout><LazyPages.LearningPage /></MainLayout> },
+      { path: "exchange", element: <MainLayout><LazyPages.ExchangeCoin /></MainLayout> },
     ],
   },
-  { path: "profilesetup", element: <WithHeaderFooter><LazyPages.ProfileSetup /></WithHeaderFooter> },
+  { path: "profilesetup", element: <MainLayout><LazyPages.ProfileSetup /></MainLayout> },
 ];
 
 // ----------------------------------------------------------------------
