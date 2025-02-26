@@ -77,7 +77,8 @@ export default function ExchangeCoin() {
     };
     getData();
   }, []);
-  return (<Page title="Exchange coin">
+  
+  return (<Page title="Exchange coin" sx={{mt: 7}}>
     <Box
       sx={{
         display: "flex",
@@ -145,7 +146,7 @@ export default function ExchangeCoin() {
           >
             <Box display="flex" alignItems="center" gap={1}>
               <Avatar
-                src="/educhain.png"
+                src="/ecoin.png"
                 alt="Educhain Token"
                 sx={{ width: 32, height: 32 }}
               />
