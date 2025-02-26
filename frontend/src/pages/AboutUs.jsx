@@ -4,7 +4,6 @@ import { Container, Box } from '@mui/material';
 
 // Importing built-in components
 import Page from '../components/Page';
-import BubbleBackground from '../components/animate/BubbleBackground';
 import TeamIntroduction from '../sections/AboutUs/TeamIntroduction';
 import ProductIntroduction from '../sections/AboutUs/ProductIntroduction';
 
@@ -25,7 +24,6 @@ const MainContent = () => (
 export default function AboutUs() {
     return (
         <Page title="About Us">
-            <BubbleBackground />
             <Box sx={{ background: 'transparent', minHeight: '100vh', py: 8 }}>
                 <MainContent />
             </Box>
