@@ -1,11 +1,10 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from decimal import Decimal
 
 class UserInfo(BaseModel):
     id: int
-    user_id: str # ID của người dùng
     fullname: str # Tên của người dùng
     nickname: str # Biệt danh của người dùng
     gender: str # Giới tính của người dùng
@@ -19,7 +18,6 @@ class UserInfo(BaseModel):
 
 class Course(BaseModel):
     id: int
-    course_id: str # ID của khóa học
     name: str # Tên của khóa học
     category: str # Danh mục của khóa học
     introduction: str # Giới thiệu về khóa học
@@ -28,8 +26,8 @@ class Course(BaseModel):
 
     learning_materials_path: str # Đường dẫn tới tài liệu học
     lesson: List[str] # Danh sách các bài học
-    QuizQuestion: List[str] # Danh sách các câu hỏi trắc nghiệm
-    ExamQuestion: List[str] # Danh sách các câu hỏi thi cuối khóa
+    QuizQuestion: List[int] # Danh sách các câu hỏi trắc nghiệm
+    ExamQuestion: List[int] # Danh sách các câu hỏi thi cuối khóa
     Video: List[str] # Danh sách các video hướng dẫn
 
     created_at: datetime = Field(default_factory=datetime.now)
@@ -46,7 +44,6 @@ class ChatHistory(BaseModel):
 
 class QuizQuestion(BaseModel):
     id: int
-    question_id: str # ID của câu hỏi
     question: str # Nội dung của câu hỏi
     options: List[str] # Danh sách các phương án
     correct_answer: str # Đáp án đúng
@@ -55,7 +52,6 @@ class QuizQuestion(BaseModel):
 
 class ExamQuestion(BaseModel):
     id: int
-    exam_id: str # ID của câu hỏi
     question: str # Nội dung của câu hỏi
     options: List[str] # Danh sách các phương án
     correct_answer: str # Đáp án đúng
@@ -64,7 +60,6 @@ class ExamQuestion(BaseModel):
 
 class StudyGuide(BaseModel):
     id: int
-    guide_id: str # ID của bài học
     topic: str # Chủ đề của bài học
     content: str # Nội dung của bài học
     created_at: datetime = Field(default_factory=datetime.now)

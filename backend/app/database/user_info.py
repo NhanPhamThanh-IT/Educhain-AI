@@ -4,16 +4,16 @@ import psycopg
 from psycopg.rows import dict_row
 from datetime import datetime
 from typing import List, Dict
-from models.postgre_model import UserInfo
+from app.models.postgre_model import UserInfo
 
 load_dotenv()
 
 # Nên đổi lại cái này để phù hợp với cấu trúc của project
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USERNAME')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-DB_HOST = os.getenv('DB_HOST')
-DB_PORT = os.getenv('DB_PORT')
+DB_NAME = "postgres"
+DB_USER = "admintu"
+DB_PASSWORD = 'educhain123@'
+DB_HOST = "educhain.postgres.database.azure.com"
+DB_PORT = 5432
 
 def get_db_connection():
     """
@@ -38,12 +38,12 @@ def init_user_info():
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             # Enable UUID extension if not exists
-            cur.execute("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
+            # cur.execute("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
             
             # Create table if not exists
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS user_info (
-                    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                    id SERIAL PRIMARY KEY,
                     fullname VARCHAR(255) NOT NULL,
                     nickname VARCHAR(255),
                     gender VARCHAR(50),
@@ -89,7 +89,7 @@ def get_user_info(user_id: int) -> UserInfo:
         user_id (int): ID của người dùng
         
     Returns:
-        UserInfo: Thông tin người dùng
+    UserInfo: Thông tin người dùng
     """
     with get_db_connection() as conn:
         with conn.cursor() as cur:

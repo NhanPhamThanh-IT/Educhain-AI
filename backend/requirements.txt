@@ -10,6 +10,7 @@ azure-storage-blob
 azure.ai.formrecognizer
 python-multipart
 lightrag-hku
+psycopg[binary,pool]
 
 
 

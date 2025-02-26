@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from app.models import UserInfo, Course, ChatHistory, QuizQuestion, ExamQuestion, StudyGuide
 
-DATABASE_URL = ""
+DATABASE_URL = "postgresql+asyncpg://admintu:educhain123@@educhain.postgres.database.azure.com:5432/postgres"
 
 # Khởi tạo engine kết nối với Azure PostgreSQL
 engine = create_async_engine(DATABASE_URL, echo=True)
