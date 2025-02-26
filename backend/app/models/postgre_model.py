@@ -94,5 +94,6 @@ class LightRAG(BaseModel):
     course_id: int  
     document_id: list[int]
     age_name: str # Dùng để truy vấn lightrag của cái document document đó hoặc của cả course
+    
     created_at: datetime = datetime.now()
 
