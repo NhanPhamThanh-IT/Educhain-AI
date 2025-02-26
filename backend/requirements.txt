@@ -6,6 +6,10 @@ python-dotenv==1.0.1
 fastapi
 uvicorn
 neo4j
+azure-storage-blob
+azure.ai.formrecognizer
+python-multipart
+lightrag-hku
 
 
 

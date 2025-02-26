@@ -4,8 +4,7 @@ from typing import Optional, List
 from decimal import Decimal
 
 class UserInfo(BaseModel):
-    id: int
-    user_id: str # ID của người dùng
+    id: int # ID của người dùng
     fullname: str # Tên của người dùng
     nickname: str # Biệt danh của người dùng
     gender: str # Giới tính của người dùng
@@ -18,8 +17,7 @@ class UserInfo(BaseModel):
     updated_at: datetime = datetime.now() 
 
 class Course(BaseModel):
-    id: int
-    course_id: str # ID của khóa học
+    id: int # ID của khóa học
     name: str # Tên của khóa học
     category: str # Danh mục của khóa học
     introduction: str # Giới thiệu về khóa học
@@ -27,34 +25,56 @@ class Course(BaseModel):
     price: Decimal # Giá của khóa học
 
     learning_materials_path: str # Đường dẫn tới tài liệu học
-    lesson: List[str] # Danh sách các bài học
-    QuizQuestion: List[str] # Danh sách các câu hỏi trắc nghiệm
-    ExamQuestion: List[str] # Danh sách các câu hỏi thi cuối khóa
-    Video: List[str] # Danh sách các video hướng dẫn
+    lessons: List[str] # Danh sách các bài học
+    quiz_id_list: List[int] # Danh sách các câu hỏi trắc nghiệm
+    exam_id_list: List[int] # Danh sách các câu hỏi thi cuối khóa
+    study_guide_id_list: List[int] # Danh sách các bài học hướng dẫn
+    video_id_list: List[int] # Danh sách các video hướng dẫn
 
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
 
+class Document(BaseModel):
+    id: int # ID của tài liệu
+    title: str # Tiêu đề của tài liệu
+    type: str # Loại tài liệu
+    url: str # Đường dẫn tới tài liệu
+    created_at: datetime = datetime.now()
+
 class ChatHistory(BaseModel):
     id: int # ID của tin nhắn
-    thread_id: str # ID của cuộc trò chuyện
+    thread_id: str 
     question: str # Câu hỏi của người dùng
     answer: str # Câu trả lời của chatbot
+
     created_at: datetime = datetime.now()
 
 
-class QuizQuestion(BaseModel):
+class QuizMultipleChoice(BaseModel):
     id: int
-    question_id: str # ID của câu hỏi
     question: str # Nội dung của câu hỏi
     options: List[str] # Danh sách các phương án
     correct_answer: str # Đáp án đúng
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
 
-class ExamQuestion(BaseModel):
+class QuizTrueFalse(BaseModel):
     id: int
-    exam_id: str # ID của câu hỏi
+    question: str # Nội dung của câu hỏi, 0 là bên trái 1 là bên phải
+    correct_answer: bool # Đáp án đúng
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
+
+class QuizFillInBlank(BaseModel):
+    id: int
+    question: str # Nội dung của câu hỏi
+    correct_answer: str # Đáp án đúng
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
+
+
+class Exam(BaseModel):
+    id: int
     question: str # Nội dung của câu hỏi
     options: List[str] # Danh sách các phương án
     correct_answer: str # Đáp án đúng
@@ -63,8 +83,16 @@ class ExamQuestion(BaseModel):
 
 class StudyGuide(BaseModel):
     id: int
-    guide_id: str # ID của bài học
-    topic: str # Chủ đề của bài học
-    content: str # Nội dung của bài học
+    topic: List[str] # Chủ đề của bài học
+    sub_topic: List[str] # Chủ đề phụ của bài học
+    content: List[List[str]] # Nội dung của bài học
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
+
+class LightRAG(BaseModel):
+    id: int
+    course_id: int  
+    document_id: list[int]
+    age_name: str # Dùng để truy vấn lightrag của cái document document đó hoặc của cả course
+    created_at: datetime = datetime.now()
+

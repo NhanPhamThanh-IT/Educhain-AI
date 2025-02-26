@@ -15,3 +15,5 @@ function VideoSection() {
         </>
     );
   }
+  
+export default VideoSection;

@@ -1,0 +1,29 @@
+[
+    {
+        "title": "VBI Web Design Tutorial",
+        "description": "Learn HTML, CSS, and responsive design.",
+        "images": ["/path-to-image1.jpg", "/path-to-image2.jpg", "/path-to-image3.jpg"],
+        "duration": "4 Weeks",
+        "level": "Beginner",
+        "instructor": "John Smith",
+        "curriculum": ["Introduction to HTML", "Styling with CSS", "Building a Website"]
+    },
+    {
+        "title": "JavaScript Fundamentals",
+        "description": "Master JavaScript from basics to advanced topics.",
+        "images": ["/path-js1.jpg", "/path-js2.jpg", "/path-js3.jpg"],
+        "duration": "6 Weeks",
+        "level": "Intermediate",
+        "instructor": "Jane Doe",
+        "curriculum": ["Variables & Data Types", "Functions & Scope", "Asynchronous JavaScript"]
+    },
+    {
+        "title": "React Development",
+        "description": "Build modern web applications using React.",
+        "images": ["/path-react1.jpg", "/path-react2.jpg", "/path-react3.jpg"],
+        "duration": "8 Weeks",
+        "level": "Advanced",
+        "instructor": "Emily Davis",
+        "curriculum": ["JSX & Components", "State Management", "React Hooks"]
+    }
+]
