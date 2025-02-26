@@ -1,0 +1,43 @@
+/*----------------------------------------*/
+/*  19. product
+/*----------------------------------------*/
+.product {
+    &__single {
+        padding: 50px 65px 70px 57px;
+        background-color: #111828;
+        @include respond(lg) {
+            padding: 40px 20px;
+        }
+        .thumb {
+            padding-bottom: 45px;
+            display: flex;
+            justify-items: center;
+            justify-content: center;
+            img {
+                max-height: 197px;
+                @include transition(.3s);
+            }
+        }
+        &:hover img {
+            @include transform(scale(1.04));
+        }
+    }
+    &__holder {
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.10);
+        h4 {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(167, 221, 220, 0.38);
+            letter-spacing: 1.44px;
+            margin-bottom: 15px;
+            span {
+                color: #A7DDDC;
+            }
+        }
+        h3 {
+            font-size: 20px;
+            letter-spacing: -0.6px;
+        }
+    }
+}

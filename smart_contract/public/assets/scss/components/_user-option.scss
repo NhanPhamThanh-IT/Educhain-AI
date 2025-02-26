@@ -1,0 +1,99 @@
+/*----------------------------------------*/
+/*  14. user option
+/*----------------------------------------*/
+.user-option {
+    .sec-title {
+        @include respond(lg) {
+            margin-bottom: 60px;
+        }
+    }
+    &__item {
+        background-image: url(../img/bg/ui_bg1.svg);
+        background-position: center 17px;
+        background-repeat: no-repeat;
+        margin-right: -90px;
+        background-position-x: -39px;
+        padding: 50px;
+        padding-right: 45px;
+        position: relative;
+        @include respond(lg) {
+            background: #0b0e13;
+            padding-top: 0;
+        }
+        @include respond(md) {
+            margin-right: 0;
+        }
+        &::before {
+            position: absolute;
+            top: 46px;
+            left: 2px;
+            width: 54px;
+            height: 64px;
+            content: "";
+            background-color: #fff;
+            clip-path: polygon(0 0, 0 100%, 100% 0);
+            -webkit-transition: 0.3s;
+            -o-transition: 0.3s;
+            transition: 0.3s;
+            @include respond(lg) {
+                display: none;
+            }
+        }
+        .icon {
+            bottom: -22px;
+            left: -38px;
+        }
+        .heading {
+            font-weight: 600;
+            letter-spacing: -0.96px;
+        }
+        &.style2 {
+            margin-right: 0;
+            margin-left: -90px;
+            background-image: url(../img/bg/ui_bg2.svg);
+            @include respond(lg) {
+                background: #0b0e13;
+            }
+            @include respond(md) {
+                margin-left: 0;
+            }
+            &::before {
+                left: auto;
+                right: 4px;
+                top: auto;
+                bottom: 2px;
+                clip-path: polygon(100% 0, 0 100%, 100% 100%);
+            }
+        }
+    }
+    &__list {
+        li {
+            padding-left: 28px;
+            position: relative;
+            span {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            h4 {
+                font-weight: 600;
+                margin-bottom: 8px;
+                letter-spacing: -0.54px;
+            }
+            p {
+                line-height: 24px;
+            }
+            &:not(:last-child) {
+                margin-bottom: 20px;
+            }
+        }
+    }
+    &__img {
+        z-index: -1;
+        position: relative;
+        margin-top: 36px;
+        @include respond(md) {
+            margin-top: 0;
+        }
+    }
+}

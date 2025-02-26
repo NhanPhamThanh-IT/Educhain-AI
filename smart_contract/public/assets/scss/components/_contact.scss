@@ -1,0 +1,138 @@
+/*----------------------------------------*/
+/*  12. contact
+/*----------------------------------------*/
+.ico-contact {
+    z-index: 1;
+    &__wrap {
+        background-color: #1D1D3E;
+        padding: 94px 204px 60px;
+        @include border-radius(20px);
+        margin-bottom: -376px;
+        z-index: 2;
+        position: relative;
+        @include respond(xs) {
+            padding: 40px 20px;
+        }
+        .title {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        input, textarea {
+            height: 50px;
+            background-color: #0B0B29;
+            @include border-radius(5px);
+            margin-bottom: 20px;
+            padding: 20px 33px;
+            @include placeholder(#B3B3C0);
+            color: var(--color-white);
+            border: 2px solid transparent;
+            &:focus {
+                border-color: var(--color-primary);
+            }
+        }
+        textarea {
+            min-height: 200px;
+        }
+    }
+    &__shape-img {
+        .shape {
+            position: absolute;
+            top: 51%;
+            @include transform(translateY(-50%));
+            @include respond(xs) {
+                display: none;
+            }
+            &--1 {
+                left: -85px;
+                @include respond(laptop) {
+                    left: -35px;
+                }
+                @include respond(lg) {
+                    left: -20px;
+                }
+            }
+            &--2 {
+                right: -100px;
+                @include respond(laptop) {
+                    right: -35px;
+                }
+                @include respond(lg) {
+                    right: -20px;
+                }
+            }
+        }
+    }
+    &__shape {
+        .shape {
+            position: absolute;
+            z-index: -1;
+            &--1 {
+                left: 0;
+                top: -48px;
+            }
+            &--2 {
+                left: 0;
+                top: -58%;
+            }
+            &--3 {
+                right: 0;
+                top: -48px;
+            }
+        }
+    }
+}
+.contact-info {
+    &__item {
+        background-color: #1D1D3E;
+        @include border-radius(20px);
+        padding: 70px 60px;
+        @include respond(lg) {
+            padding: 50px 35px;
+        }
+        .icon {
+            width: 56px;
+            height: 56px;
+            border: 1px solid #333159;
+            @include border-radius(50%);
+            @include center;
+            margin-right: 16px;
+        }
+        h3 {
+            font-size: 20px;
+        }
+        p {
+            font-size: 32px;
+            line-height: 40px;
+            color: var(--color-white);
+            @include respond(lg) {
+                font-size: 20px;
+                line-height: 30px;
+            }
+            a {
+                color: currentColor;
+            }
+        }
+        a {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+.google-map {
+    &__inner {
+        height: 626px;
+        @include respond(md) {
+            height: 350px;
+        }
+        iframe {
+            height: 100%;
+            width: 100%;
+            -webkit-filter: invert(1);
+            filter: invert(1);
+            @include border-radius(20px);
+        }
+    }
+}

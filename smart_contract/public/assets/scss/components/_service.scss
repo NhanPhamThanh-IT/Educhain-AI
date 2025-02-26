@@ -1,0 +1,35 @@
+/*----------------------------------------*/
+/*  18. service
+/*----------------------------------------*/
+.service {
+    &__single {
+        padding: 50px;
+        background-color: #111828;
+        position: relative;
+        z-index: 1;
+        @include respond(xs) {
+            padding: 50px 30px;
+        }
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: "";
+            z-index: -1;
+            opacity: 0;
+            @include transition(.3s);
+            @include transform(scale(0.9));
+        }
+        &:hover::before {
+            opacity: 1;
+            @include transform(scale(1));
+            
+        }
+        h3 {
+            font-size: 24px;
+            letter-spacing: -0.72px;
+        }
+    }
+}

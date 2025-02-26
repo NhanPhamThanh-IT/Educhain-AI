@@ -1,0 +1,191 @@
+/* Navigation css */
+.main-menu {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    &__wrap {
+        position: static;
+    }
+    ul {
+        @include d-flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+            position: relative;
+            &:not(:last-child) {
+                margin-right: 7px;
+            }
+            .submenu li {
+                margin-right: 0;
+            }
+            a {
+                display: inline-block;
+                text-decoration: none;
+                font-size: 18px;
+                font-weight: 400;
+                color: var(--color-white);
+                padding: 40px 18px;
+                position: relative;
+                line-height: 22px;
+                text-transform: capitalize;
+                position: relative;
+                &::before {
+                    position: absolute;
+                    content: '';
+                    bottom: 0;
+                    height: calc(100% + 42px);
+                    height: -webkit-calc(100% + 42px);
+                    width: 100%;
+                    left: 0;
+                    z-index: -1;
+                    -webkit-transition: all .25s cubic-bezier(.645,.045,.355,1);
+                    -khtml-transition: all .25s cubic-bezier(.645,.045,.355,1);
+                    -moz-transition: all .25s cubic-bezier(.645,.045,.355,1);
+                    -ms-transition: all .25s cubic-bezier(.645,.045,.355,1);
+                    -o-transition: all .25s cubic-bezier(.645,.045,.355,1);
+                    transition: all .25s cubic-bezier(.645,.045,.355,1);
+                    transform: scaleY(0);
+                    transform-origin: bottom center;
+                    background: rgba(255, 255, 255, 0.03);
+                    // opacity: 0;
+
+                }
+            }
+            &:hover > a:before,
+            &.active > a::before {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+            &.menu-item-has-children {
+                & > a::after {
+                    content: "\f078";
+                    transform: translateY(-1px);
+                    display: inline-block;
+                    padding-left: 4px;
+                    font-family: "Font Awesome 5 Pro";
+                    font-weight: 900;
+                    font-size: 12px;
+                }
+                &:hover > .submenu {
+                    opacity: 1;
+                    visibility: visible;
+                    top: 100%;
+                    pointer-events: all;
+                }
+            }
+            .submenu {
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                        flex-direction: column;
+                position: absolute;
+                min-width: 240px;
+                top: calc(100% + 10px);
+                opacity: 0;
+                visibility: hidden;
+                background: #151534;
+                left: 0;
+                padding: 20px 0;
+                @include transition(0.3s ease-out);
+                z-index: 3;
+                text-align: left;
+                pointer-events: none;
+                box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.10);
+                li {
+                    a {
+                        color: var(--color-white);
+                        padding: 8px 30px;
+                        display: block;
+                        margin: 0;
+                        &::before {
+                            display: none;
+                        }
+                    }
+                    &:hover > a {
+                        letter-spacing: 1px;
+                    }
+                }
+                ul {
+                    left: 100%;
+                    top: 0px;
+                }
+                .active {
+                    >a {
+                        letter-spacing: 1px;
+                    }
+                }
+            }
+            &.has-mega-menu {
+                position: static;
+                li {
+                    width: 100%;
+                }
+            }
+            .mega-menu {
+                width: 100%;
+                left: 0;
+                right: 0;
+                position: absolute;
+                box-shadow: none;
+                background-color: transparent;
+                padding: 0;
+                max-width: 1287px;
+                margin: 0 auto;
+                padding: 40px 35px;
+                padding-bottom: 0;
+                background-color: #151534;
+                .mega-menu-content {
+                    a {
+                        padding: 0;
+                    }
+                    .col {
+                        margin-bottom: 30px;
+                    }
+                    .demo-pic {
+                        margin-bottom: 10px;
+                        position: relative;
+                        height: 350px;
+                        overflow: hidden;
+                        @include transition(.3s);
+                        &:hover {
+                            @include transform(translateY(-10px));
+                        }
+                        @include respond(lg) {
+                            height: 230px;
+                        }
+                        &.coming-soon {
+                            &:hover {
+                                @include transform(translateY(0px));
+                            }
+                        }
+                    }
+                }
+                h3 {
+                    font-size: 15px;
+                    text-align: center;
+                    font-family: var(--font-body);
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
+
+.main-menu ul li.menu-last ul.submenu {
+	right: 0;
+	left: auto;
+}
+.main-menu ul li.menu-last ul.submenu ul {
+    right: auto;
+    left: -100%;
+}
+
+
+.main-menu ul li ul.submenu .menu-item-has-children > a::after {
+	position: absolute;
+    top: 9px;
+    right: 15px;
+    content: "\f105";
+    font-size: 13px;
+}
