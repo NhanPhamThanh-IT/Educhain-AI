@@ -41,7 +41,7 @@ const IntroSection = () => {
             bg: "#f9f9f9",
             hoverBg: "rgba(255, 255, 255, 0.1)",
             color: "black",
-            link: "/homepage"
+            link: "/learning/exchange"
         }
     ];
 

@@ -1,89 +1,126 @@
-import React, { useState } from "react";
-import { TextField, Button, Card, CardContent, Typography, Grid, Box, IconButton, Autocomplete, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { AddPhotoAlternate, InsertDriveFile, OndemandVideo } from "@mui/icons-material";
-import Page from "../components/Page";
+// Description: Create Course Page
 
-const categories = ["Information Technology", "Computer Science", "Business", "Design", "Marketing"];
+// Import React & Hooks
+import React, { useState } from "react";
+
+// Import MUI Components
+import { Button, Card, CardContent, Typography, Box, Grid } from "@mui/material";
+
+// Import Custom Components
+import Page from "../components/Page";
+import CourseForm from "../components/CreateCourse/CourseForm";
+import CourseMaterials from "../components/CreateCourse/CourseMaterials";
+import CourseImages from "../components/CreateCourse/CourseImages";
 
 const CreateCourse = () => {
-  const [courseImages, setCourseImages] = useState([]);
+  // State Management
+  const [courseData, setCourseData] = useState({
+    courseName: "",
+    category: null,
+    introduction: "",
+    description: "",
+    learningMaterials: [],
+    courseImages: [],
+  });
 
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    setCourseImages((prev) => [...prev, ...files.map((file) => URL.createObjectURL(file))]);
+  const [errors, setErrors] = useState({});
+
+  // Handle Input Change
+  const handleInputChange = (field, value) => {
+    setCourseData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Form Validation
+  const validateForm = () => {
+    const { courseName, category, introduction, description } = courseData;
+    let tempErrors = {};
+
+    if (!courseName) tempErrors.courseName = "Course name is required";
+    if (!category) tempErrors.category = "Category is required";
+    if (!introduction) tempErrors.introduction = "Introduction is required";
+    if (!description) tempErrors.description = "Description is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  // Handle Submit
+  const handleSubmit = () => {
+    if (!validateForm()) return;
+    console.log("Course Created", courseData);
   };
 
   return (
     <Page title="Create Course">
-      <Box sx={{ maxWidth: "xl", mx: "auto", mt: 15, px: 3, mb: 5 }}>
-        <Typography variant="h4" fontWeight={700} color="primary" textAlign="center" gutterBottom>
-          ✏️ Create Your Own Course
-        </Typography>
-        <Typography color="textSecondary" textAlign="center" mb={3}>
-          Fill in the details below to create your course and share it with others!
-        </Typography>
-        <Card sx={{ p: 4, borderRadius: 3, boxShadow: 3 }}>
-          <CardContent>
-            <Grid container spacing={3}>
+      <Box sx={styles.container}>
+        <Box sx={styles.titleWrapper}>
+          <Typography sx={styles.title}>✏️ Create Your Own Course ✏️</Typography>
+        </Box>
+        <Card sx={styles.card}>
+          <CardContent sx={styles.content}>
+            <CourseForm {...courseData} setCourseData={handleInputChange} errors={errors} />
+            <Grid container spacing={3} sx={{ mt: 1 }}>
               <Grid item xs={12} md={6}>
-                <Typography fontWeight={500} color="primary">Course Name</Typography>
-                <TextField fullWidth placeholder="Name Your Course" variant="outlined" sx={{ mt: 1 }} />
+                <CourseMaterials {...courseData} setCourseData={handleInputChange} />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography fontWeight={500} color="primary">Categories</Typography>
-                <Autocomplete options={categories} renderInput={(params) => <TextField {...params} placeholder="Select a category" sx={{ mt: 1 }} />} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography fontWeight={500} color="primary">Course Introduction</Typography>
-                <TextField fullWidth multiline rows={3} placeholder="Introduce your course" sx={{ mt: 1 }} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography fontWeight={500} color="primary">Course Description</Typography>
-                <TextField fullWidth multiline rows={3} placeholder="Write something about your course" sx={{ mt: 1 }} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography fontWeight={500} color="primary">Learning Materials</Typography>
-                <List>
-                  <ListItem>
-                    <ListItemIcon><InsertDriveFile color="primary" /></ListItemIcon>
-                    <ListItemText primary="Slide1_Introduction to Web Design" secondary="PDF" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon><OndemandVideo color="primary" /></ListItemIcon>
-                    <ListItemText primary="ABI Web Design Fundamentals" secondary="Video" />
-                  </ListItem>
-                </List>
-                <Button variant="contained" sx={{ mt: 2 }}>+ Add file</Button>
-                <Typography sx={{ mt: 1, textAlign: "center" }}>Or</Typography>
-                <TextField fullWidth sx={{ mt: 1 }} placeholder="+ Paste video link here" />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography fontWeight={500} color="primary">Course Image</Typography>
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: 150, border: "2px dashed #1976d2", mt: 1, borderRadius: 2 }}>
-                  <input accept="image/*" type="file" multiple onChange={handleImageUpload} hidden id="image-upload" />
-                  <label htmlFor="image-upload">
-                    <IconButton component="span">
-                      <AddPhotoAlternate fontSize="large" color="primary" />
-                    </IconButton>
-                  </label>
-                </Box>
-                <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
-                  {courseImages.map((src, index) => (
-                    <img key={index} src={src} alt="Course" width={80} height={50} style={{ border: "1px solid #1976d2" }} sx={{ borderRadius: 5 }} />
-                  ))}
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Button variant="contained" fullWidth sx={{ mt: 4, py: 1.5, borderRadius: 2, fontSize: "1rem" }}>
-                  ➕ Create
-                </Button>
+                <CourseImages {...courseData} setCourseData={handleInputChange} />
               </Grid>
             </Grid>
+            <Button variant="contained" sx={styles.submitButton} onClick={handleSubmit}>
+              Create Course
+            </Button>
           </CardContent>
         </Card>
       </Box>
     </Page>
   );
+};
+
+// Styles Object
+const styles = {
+  container: { maxWidth: "xl", mx: "auto", mt: 15, mb: 5, px: 3 },
+  titleWrapper: { display: "flex", justifyContent: "center", mb: 3 },
+  title: {
+    border: "solid 2px rgba(54, 90, 202, 1)",
+    borderRadius: 3,
+    py: 2,
+    px: 3,
+    display: "inline-block",
+    fontSize: "1.8rem",
+    fontWeight: 700,
+    textAlign: "center",
+    color: "white",
+    background: "linear-gradient(135deg, #365ACA, #4A90E2)",
+    boxShadow: "4px 4px 12px rgba(54, 90, 202, 0.4)",
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
+    position: "relative",
+    overflow: "hidden",
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      width: "150%",
+      height: "100%",
+      top: 0,
+      left: "-150%",
+      background: "rgba(255,255,255,0.2)",
+      transform: "skewX(-30deg)",
+      transition: "left 0.8s ease-in-out",
+    },
+    "&:hover::before": { left: "150%" },
+  },
+  card: { px: 4, pt: 4, borderRadius: 3, boxShadow: 3 },
+  content: { display: "flex", flexDirection: "column", alignItems: "center" },
+  submitButton: {
+    mt: 2,
+    py: 1.5,
+    borderRadius: 2,
+    fontSize: "1rem",
+    bgcolor: "rgba(54, 90, 202, 1)",
+    fontWeight: "bold",
+    textTransform: "capitalize",
+  },
 };
 
 export default CreateCourse;

@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const LeftColumn = () => {
+    const navigator = useNavigate();
     return (
         <Box sx={{ flex: 1, textAlign: 'left', justifyContent: 'center', height: '100%', display: 'flex', flexDirection: 'column', paddingBottom: 6 }}>
             <Typography variant="h4" fontWeight="bold" alignContent={"center"} gutterBottom>
@@ -9,7 +11,7 @@ const LeftColumn = () => {
             <Typography variant="body1" sx={{ color: '#333', mb: 2, textAlign: 'justify' }}>
                 Stay updated with the latest exchange rates for Educhain Token. Our platform ensures transparency and accuracy, helping you make informed decisions when converting cryptocurrency.
             </Typography>
-            <Button variant="contained" sx={{ mt: 2, textTransform: 'none', fontSize: '1rem', borderRadius: 2, bgcolor: 'white', fontWeight: 'bold', border: 'solid #365ACA 1px', color: '#365ACA' }}>
+            <Button variant="contained" sx={{ mt: 2, textTransform: 'none', fontSize: '1rem', borderRadius: 2, bgcolor: 'white', fontWeight: 'bold', border: 'solid #365ACA 1px', color: '#365ACA' }} onClick={() => navigator('/learning/exchange')}>
                 Get your Educhain Token!
             </Button>
         </Box>
