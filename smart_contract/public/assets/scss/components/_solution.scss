@@ -1,0 +1,118 @@
+/*----------------------------------------*/
+/*  16. solution
+/*----------------------------------------*/
+.solution {
+    &__list {
+        li {
+            padding-left: 68px;
+            position: relative;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            display: inline-block;
+            min-width: 505px;
+            &::before,
+            &::after {
+                position: absolute;
+                content: "";
+                background-color: #262932;
+                width: 0%;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                @include transition(.5s);
+            }
+            &::before {
+                width: 100%;
+                opacity: 0;
+            }
+            &::after {
+                background-color: #15B785;
+                width: 0;
+            }
+            .icon {
+                position: absolute;
+                top: 0;
+                left: 0;
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 30px;
+                    height: 30px;
+                    background-color: #262932;
+                    @include border-radius(50%);
+                    content: "";
+                    z-index: -1;
+                    top: -4px;
+                    left: 10px;
+                }
+            }
+            h4 {
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                margin-bottom: 10px;
+                letter-spacing: -0.54px;
+            }
+            &:hover {
+                &::before {
+                    opacity: 1;
+                }
+                &::before,
+                &::after {
+                    width: 100%;
+                }
+                &::after {
+                    width: 100%;
+                    transition-delay: .3s;
+                }
+            }
+        }
+    }
+    &__img {
+        margin-left: -70px;
+        margin-right: -34px;
+        z-index: -1;
+    }
+    &__img-sml {
+        .circle {
+            position: absolute;
+            z-index: -1;
+            &--1 {
+                top: 4%;
+                left: 44%;
+                @include respond(lg) {
+                    top: 8%;
+                    left: 43%;
+                    max-width: 150px;
+                }
+            }
+            &--2 {
+                left: 12%;
+                bottom: 1%;
+            }
+            &--3 {
+                right: 5%;
+                bottom: 6%;
+                @include respond(md) {
+                    right: 13%;
+                    bottom: 20%;
+                    max-width: 150px;
+                }
+            }
+        }
+    }
+    &__icon {
+        position: absolute;
+        top: 53%;
+        left: 56%;
+        @include transform(translate(-50%, -50%));
+        @include respond(md) {
+            left: 52%;
+        }
+        @include respond(xs) {
+            left: 56%;
+            max-width: 102px;
+        }
+    }
+}

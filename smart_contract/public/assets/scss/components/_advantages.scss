@@ -1,0 +1,138 @@
+/*----------------------------------------*/
+/*  15. advantages
+/*----------------------------------------*/
+.advantages-bg {
+    background-repeat: no-repeat;
+    background-position: center 76%;
+}
+.advantages-table {
+    background-image: url(../img/bg/table_bg.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-collapse: separate;
+    padding: 50px;
+    table-layout: auto;
+    border-spacing: 0;
+    fill: #0B0E13;
+    stroke: #262932;
+    filter: drop-shadow(0px 11px 40px rgba(0, 0, 0, 0.90));
+    position: relative;
+    @include respond(md) {
+        padding: 50px 20px;
+    }
+    &::before,
+    &::after {
+        position: absolute;
+        top: 2px;
+        left: 1px;
+        width: 54px;
+        height: 64px;
+        content: "";
+        background-color: #fff;
+        clip-path: polygon(0 0, 0 100%, 100% 0);
+        -webkit-transition: 0.3s;
+        -o-transition: 0.3s;
+        transition: 0.3s;
+        @include respond(md) {
+            display: none;
+        }
+    }
+    &::after {
+        top: auto;
+        left: auto;
+        bottom: 3px;
+        right: 1px;
+        clip-path: polygon(100% 0, 0 100%, 100% 100%);
+    }
+    thead {
+        background-color: #03050E;
+        border: 1px solid #262932;
+        
+        tr {
+            padding: 10px 50px;
+            padding-top: 50px;
+        }
+        th {
+            font-size: 18px;
+            padding: 17px 50px;
+            @include respond(lg) {
+                padding: 17px 20px;
+            }
+        }
+    }
+    thead tr th,
+    tbody tr td {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--color-white);
+        @include respond(md) {
+            font-size: 16px;
+        }
+    }
+    tbody {
+        tr {
+            &:first-child {
+                td {
+                    padding-top: 46px;
+                    @include respond(xs) {
+                        padding-top: 12px;
+                    }
+                }
+            }
+            &:nth-child(even) {
+                background-color: #03050E;
+            }
+            td {
+                padding: 12px 50px;
+                @include respond(lg) {
+                    padding: 12px 20px;
+                }
+                &:first-child {
+                    text-align: left;
+                    @include respond(xs) {
+                        text-align: center;
+                    }
+                }
+            }
+            
+        }
+        td {
+            text-align: center;
+        }
+        
+    }
+}
+@media (max-width: 600px) {
+    .advantages-table thead {
+        display: none;
+    }
+    .advantages-table {
+        background-image: none;
+        border: 1px solid #262932;
+        padding: 0;
+    }
+        
+    .advantages-table table, 
+    .advantages-table th,
+    .advantages-table td,
+    .advantages-table tr, 
+    .advantages-table tbody {
+        width: 100%;
+        display: block;
+        border: 0;
+        text-align: center;
+    }
+
+    .advantages-table table {
+        border: 1px solid #262932;
+        margin: 0 -1px 24px 0;
+        text-align: left;
+        width: 100%;
+        border-collapse: separate;
+        border-radius: 5px;
+    }
+    .advantages-table tbody > tr + tr {
+        border-top: 1px solid #262932;
+        background-color: #03050E;
+    }
+}

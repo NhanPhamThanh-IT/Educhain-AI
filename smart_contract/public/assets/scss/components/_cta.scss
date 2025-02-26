@@ -1,0 +1,50 @@
+/*----------------------------------------*/
+/*  20. cta
+/*----------------------------------------*/
+.btc-cta {
+    &__holder {
+        padding: 100px 20px;
+        background-image: linear-gradient(227deg, #45ACAB 0%, #4788AC 100%);
+        h2 {
+            font-size: 60px;
+            margin-bottom: 25px;
+            letter-spacing: -1.8px;
+            @include respond(xs) {
+                font-size: 40px;
+            }
+        }
+        p {
+            font-size: 20px;
+            color: #C7E5F0;
+            margin-bottom: 30px;
+        }
+        .btc-btn {
+            padding: 23px 114px 21px 50px;
+            font-size: 18px;
+            text-transform: capitalize;
+            letter-spacing: -0.18px;
+            &:hover {
+                i {
+                    right: 45px;
+                }
+            }
+            i {
+                right: 50px;
+            }
+        }
+    }
+    &__img {
+        .cta-shape {
+            position: absolute;
+            top: 50%;
+            @include transform(translateY(-50%));
+            z-index: -1;
+            &--1 {
+                left: 0;
+            }
+            &--2 {
+                right: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,92 @@
+/*-----------------------------------------------------------------------------------
+
+    Project Name: Coindox - ICO & Crypto Landing HTML Template
+    Author: XpressBuddy -->> (https://themeforest.net/user/xpressbuddy)
+    Support: wasimmia.info@gmail.com
+    Description: Coindox - ICO & Crypto Landing HTML Template
+    Developer: Mohammad Wasim Mia -> wasimmia.info@gmail.com
+    Version: 1.0
+
+-----------------------------------------------------------------------------------
+
+    CSS INDEX
+    ===================
+
+	01. Theme default CSS
+    02. header
+    03. global
+    04. hero
+    05. about
+    06. feature
+    07. token
+    08. roadmap
+    09. team
+    10. faq
+    11. brand
+    12. contact
+    13. blog
+    14. user option
+    15. advantages
+    16. solution
+    17. pricing
+    18. service
+    19. product
+    20. cta
+    21. newslatter
+    22. preloader
+    23. backtotop
+    24. breadcrumb
+    25. sec-title
+    
+
+-----------------------------------------------------------------------------------*/
+// abstracts scss
+@import
+    'abstracts/variables',
+    'abstracts/mixins';
+
+// base scss
+@import 
+    'base/fonts',
+    'base/base',
+    'base/spacing',
+    'base/typography',
+    'base/animation',
+    'base/overlay';
+
+// layout scss
+@import 
+    'layout/header',
+    'layout/navigation';
+ 
+// components scss
+@import 
+    'components/buttons',
+    'components/global',
+    'components/hero',
+    'components/about',
+    'components/feature',
+    'components/token',
+    'components/roadmap',
+    'components/team',
+    'components/faq',
+    'components/brand',
+    'components/contact',
+    'components/blog',
+    'components/user-option',
+    'components/advantages',
+    'components/solution',
+    'components/pricing',
+    'components/service',
+    'components/product',
+    'components/cta',
+    'components/newslatter',
+    'components/preloader',
+    'components/backtotop',
+    'components/breadcrumb',
+    'components/sec-title';
+
+
+// layout scss
+@import
+    'layout/footer';
