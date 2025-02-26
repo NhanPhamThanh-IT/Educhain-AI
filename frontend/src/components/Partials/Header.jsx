@@ -4,10 +4,10 @@ import { AppBar, Toolbar, Tabs, Tab, Box, Typography, Avatar, IconButton, Menu, 
 import { Menu as MenuIcon, AccountCircle, MonetizationOn, Assignment, Logout } from "@mui/icons-material";
 
 const menuOptions = [
-    { icon: <AccountCircle />, label: "Profile" },
-    { icon: <MonetizationOn />, label: "Coin Exchange" },
-    { icon: <Assignment />, label: "Missions" },
-    { icon: <Logout />, label: "Logout" },
+    { icon: <AccountCircle />, label: "Profile", link: "/profilesetup" },
+    { icon: <MonetizationOn />, label: "Coin Exchange", link: "/learning/exchange" },
+    { icon: <Assignment />, label: "Missions", link: "/learning/mission" },
+    { icon: <Logout />, label: "Logout", link: "auth/logout" },
 ];
 
 const AppBarComponent = () => {
@@ -83,10 +83,10 @@ const AppBarComponent = () => {
                             MenuListProps={{ onMouseLeave: toggleMenu }}
                             sx={{ "& .MuiPaper-root": { minWidth: 180, borderRadius: 2, boxShadow: 3 } }}
                         >
-                            {menuOptions.map(({ icon, label }) => (
+                            {menuOptions.map(({ icon, label, link }) => (
                                 <MenuItem
                                     key={label}
-                                    onClick={toggleMenu}
+                                    onClick={() => navigate(link)}
                                     sx={{
                                         px: 2,
                                         py: 1,
