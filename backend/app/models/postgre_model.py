@@ -18,6 +18,7 @@ class UserInfo(BaseModel):
 
 class Course(BaseModel):
     id: int
+    user_id: int
     name: str # Tên của khóa học
     category: str # Danh mục của khóa học
     introduction: str # Giới thiệu về khóa học
@@ -29,7 +30,7 @@ class Course(BaseModel):
     QuizQuestion: List[int] # Danh sách các câu hỏi trắc nghiệm
     ExamQuestion: List[int] # Danh sách các câu hỏi thi cuối khóa
     Video: List[str] # Danh sách các video hướng dẫn
-
+    ChatThreads: List[str]
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
 
@@ -60,7 +61,7 @@ class ExamQuestion(BaseModel):
 
 class StudyGuide(BaseModel):
     id: int
-    topic: str # Chủ đề của bài học
-    content: str # Nội dung của bài học
+    content: List[Dict]
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
+
