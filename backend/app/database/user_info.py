@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import psycopg
 from psycopg.rows import dict_row
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import List, Dict
 from app.database import get_db_connection
 
 # UserInfo Functions
@@ -56,7 +56,7 @@ def get_user_info(user_id: int) -> Dict:
                 (user_id,)
             )
             result = cur.fetchone()
-            return result['id'] if result else None
+        return result if result else None
 
 def updateUserInfo(user_id: int, fullname: str, nickname: str, gender: str, country: str, 
                   address: str, phonenumber: str) -> Dict:
@@ -75,8 +75,8 @@ def updateUserInfo(user_id: int, fullname: str, nickname: str, gender: str, coun
                  datetime.now(), user_id)
             )
             result = cur.fetchone()
-            conn.commit()
-            return result['id'] if result else None
+        conn.commit()
+        return result if result else None
 
 def updateUserWallet(user_id: int, edutoken: float, learntoken: float) -> Dict:
     """Update user's wallet tokens"""
@@ -92,8 +92,8 @@ def updateUserWallet(user_id: int, edutoken: float, learntoken: float) -> Dict:
                 (Decimal(str(edutoken)), Decimal(str(learntoken)), datetime.now(), user_id)
             )
             result = cur.fetchone()
-            conn.commit()
-            return result['id'] if result else None
+        conn.commit()
+        return result if result else None
 
 def delUserInfo(user_id: int) -> bool:
     """Delete user information"""
@@ -103,5 +103,5 @@ def delUserInfo(user_id: int) -> bool:
                 "DELETE FROM user_info WHERE id = %s RETURNING *",
                 (user_id,)
             )
-            conn.commit()
-            return cur.rowcount > 0
+        conn.commit()
+        return cur.rowcount > 0

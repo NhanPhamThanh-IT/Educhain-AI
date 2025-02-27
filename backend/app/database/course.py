@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 import psycopg
 from psycopg.rows import dict_row
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import List, Dict
 from app.database import get_db_connection
 
 # Course Functions
-def initCourse():
+def init_course():
     """Initialize course table"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -16,6 +16,7 @@ def initCourse():
                 CREATE TABLE IF NOT EXISTS course (
                     id SERIAL PRIMARY KEY,
                     user_id INTEGER,
+                    threads TEXT[],
                     name VARCHAR(255) NOT NULL,
                     category VARCHAR(255) NOT NULL,
                     introduction VARCHAR(50),
@@ -25,7 +26,8 @@ def initCourse():
                     lesson TEXT[],
                     quiz_question INTEGER[],
                     exam_question INTEGER[],
-                    video TEXT[],
+                    study_guide INTERGER[],
+                    video INTERGER[],
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
@@ -37,7 +39,7 @@ def initCourse():
             """)
         conn.commit()
 
-def insertCourse(name:str, category:str, introduction:str, description:str, price:float, learning_materials_path:str) -> Dict:
+def save_course(name:str, category:str, introduction:str, description:str, price:float, learning_materials_path:str) -> Dict:
     """Insert course into database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -56,25 +58,42 @@ def insertCourse(name:str, category:str, introduction:str, description:str, pric
         conn.commit()
         return result['id']
 
-def getCourseId(course_id: int) -> Optional[Course]:
+def append_thread(course_id: int ,thread_id: str) -> Dict:
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE course
+                SET threads = array_append(threads, %s)
+                WHERE id = %s
+                RETURNING *;
+                """,
+                (thread_id, course_id)
+            )
+            result = cur.fetchone()
+        conn.commit()
+        return result
+
+
+def get_course_id(course_id: int) -> Dict:
     """Get course by ID"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM course WHERE id = %s", (course_id,))
             result = cur.fetchone()
-            return Course(**result) if result else None
+        return result if result else None
 
-def getCourseAll() -> List[Course]:
+def get_course_all() -> List[Dict]:
     """Get all courses"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM course")
             rows = cur.fetchall()
-            return [Course(**row) for row in rows] if rows else []
+        return rows
 
-def updateCourse(course_id: int, name: str, category: str, intro: str, desc: str, price: float,
+def update_course(course_id: int, name: str, category: str, intro: str, desc: str, price: float,
                 path: str, lesson: List[str], quizzes: List[int], exams: List[int], 
-                videos: List[str]) -> Optional[Course]:
+                videos: List[str]) -> Dict:
     """Update course information"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -92,13 +111,13 @@ def updateCourse(course_id: int, name: str, category: str, intro: str, desc: str
                  quizzes, exams, videos, datetime.now(), course_id)
             )
             result = cur.fetchone()
-            conn.commit()
-            return Course(**result) if result else None
+        conn.commit()
+        return result if result else None
 
-def delCourse(course_id: int) -> bool:
+def delete_course(course_id: int) -> bool:
     """Delete course"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("DELETE FROM course WHERE id = %s RETURNING *", (course_id,))
-            conn.commit()
-            return cur.rowcount > 0
+        conn.commit()
+        return cur.rowcount > 0
