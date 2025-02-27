@@ -31,7 +31,8 @@ class CustomHandler(BaseCallbackHandler):
         super().__init__()
 
 def get_llm_and_study_set_agent() -> AgentExecutor:
-    system_message = """You are a friendly and professional in study set creation. Your task is to help students create their study sets including quiz questions, study guides, and exams.
+    system_message = """You are a professional in study set creation. Your task is to help students create their study sets including quiz questions, study guides, and exams.
+    
 1. When user confirms create a quiz:
    - Use create_quiz_tool to generate a high-quality quiz
    - Present the quiz to the user
@@ -86,14 +87,12 @@ def get_llm_and_study_set_agent() -> AgentExecutor:
 
     return agent_executor
 
-def get_study_set(type: str) -> Dict:
+def get_study_set(type: str) -> Dict: 
     """
     Hàm lấy câu trả lời cho một câu hỏi
     
     Args:
-        question (str): Câu hỏi của người dùng
-        thread_id (str): ID của cuộc trò chuyện
-        
+        type: quiz, study_guide, exam
     Returns:
         str: Câu trả lời từ AI
     """

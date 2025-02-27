@@ -11,7 +11,7 @@ azure.ai.formrecognizer
 python-multipart
 lightrag-hku
 psycopg[binary,pool]
-
+pipmaster
 
 
 
