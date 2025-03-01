@@ -69,7 +69,8 @@ def delete_study_guide(sg_id: int) -> bool:
                 "DELETE FROM study_guide WHERE id = %s RETURNING *",
                 (sg_id,)
             )
+            deleted = cur.rowcount > 0
         conn.commit()
-        return cur.rowcount > 0
+        return deleted
 
 
