@@ -70,6 +70,7 @@ def delete_quiz(quiz_id: int) -> bool:
                 "DELETE FROM quiz_question WHERE id = %s RETURNING *",
                 (quiz_id,)
             )
+            deleted = cur.rowcount > 0 
         conn.commit()
-        return cur.rowcount > 0
+        return deleted
 

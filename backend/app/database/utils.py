@@ -39,10 +39,11 @@ def get_db_connection():
 
 if __name__ == "__main__":
     # Initialize all tables when running directly
-    initUserInfo()
-    initCourse()
-    initChatHistory()
-    initQuiz()
-    initExam()
-    initStudyGuide()
+    init_user_info()
+    init_course()
+    init_quiz()
+    init_exam()
+    init_study_guide()
+    init_document()
+    init_chat_history_table()
     print("Database tables initialized successfully")

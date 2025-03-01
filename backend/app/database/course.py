@@ -15,37 +15,37 @@ def init_course():
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS course (
                     id SERIAL PRIMARY KEY,
-                    user_id INTEGER,
+                    user_id INTEGER NOT NULL,
                     threads TEXT[],
                     name VARCHAR(255) NOT NULL,
                     category VARCHAR(255) NOT NULL,
                     introduction VARCHAR(50),
                     description VARCHAR(100),
                     price DECIMAL(100, 2) DEFAULT 0,
-                    learning_materials_path TEXT,
                     lesson TEXT[],
                     quiz_question INTEGER[],
                     exam_question INTEGER[],
                     study_guide INTERGER[],
-                    video INTERGER[],
+                    document INTERGER[],
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
                 )
                 
             """)
             cur.execute("""
                 CREATE INDEX IF NOT EXISTS idx_course_user_id 
-                ON message(user_id)
+                ON course(user_id)
             """)
         conn.commit()
 
-def save_course(name:str, category:str, introduction:str, description:str, price:float, learning_materials_path:str) -> Dict:
+def save_course(user_id: int, name:str, category:str, introduction:str, description:str, price:float) -> Dict:
     """Insert course into database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO course (name, category, introduction, description, price, learning_materials_path, 
+                INSERT INTO course (user_id, name, category, introduction, description, price, 
                                   created_at, updated_at)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
@@ -91,24 +91,19 @@ def get_course_all() -> List[Dict]:
             rows = cur.fetchall()
         return rows
 
-def update_course(course_id: int, name: str, category: str, intro: str, desc: str, price: float,
-                path: str, lesson: List[str], quizzes: List[int], exams: List[int], 
-                videos: List[str]) -> Dict:
+def update_course(course_id: int,user_id: int, name: str, category: str, intro: str, desc: str, price: float) -> Dict:
     """Update course information"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
                 UPDATE course
-                SET name = %s, category = %s, introduction = %s, description = %s,
-                    price = %s, learning_materials_path = %s, lesson = %s,
-                    quiz_question = %s, exam_question = %s, video = %s, 
-                    updated_at = %s
+                SET user_id = %s, name = %s, category = %s, introduction = %s, description = %s,
+                    price = %s, updated_at = %s
                 WHERE id = %s
                 RETURNING *
                 """,
-                (name, category, intro, desc, Decimal(str(price)), path, lesson,
-                 quizzes, exams, videos, datetime.now(), course_id)
+                (user_id, name, category, intro, desc, Decimal(str(price)), datetime.now(), course_id)
             )
             result = cur.fetchone()
         conn.commit()
@@ -118,6 +113,7 @@ def delete_course(course_id: int) -> bool:
     """Delete course"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("DELETE FROM course WHERE id = %s RETURNING *", (course_id,))
+            cur.execute("DELETE FROM course WHERE id = %s", (course_id,))
+            deleted = cur.rowcount > 0
         conn.commit()
-        return cur.rowcount > 0
+        return deleted
