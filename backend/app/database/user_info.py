@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import List, Dict
 from app.database import get_db_connection
 
+
 # UserInfo Functions
 def init_user_info():
     """Initialize user_info table if it doesn't exist"""
