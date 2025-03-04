@@ -24,6 +24,7 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
         ERC20,
         TOKEN_ADDRESS,
         addTokenToMetaMask,
+        claimedTokenBalance,
     } = useContext(TOKEN_ICO_Context);
 
     const [tokenBalance, setTokenBalance] = useState(0);
@@ -45,7 +46,7 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
                 // Fetch and display token balance
                 const tokenDetails = await ERC20(TOKEN_ADDRESS);
                 if (tokenDetails) {
-                    setTokenBalance(tokenDetails.balance);
+                    setTokenBalance(parseFloat(tokenDetails.balance));
                 }
             }
         } catch (error) {
@@ -62,12 +63,15 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
                 // Fetch token balance
                 const tokenDetails = await ERC20(TOKEN_ADDRESS);
                 if (tokenDetails) {
-                    setTokenBalance(tokenDetails.balance);
+                    setTokenBalance(parseFloat(tokenDetails.balance));
                 }
             }
         };
         checkWallet();
-    }, [CONNECT_WALLET, setAccount, ERC20, TOKEN_ADDRESS]);
+    }, [CONNECT_WALLET, setAccount, ERC20, TOKEN_ADDRESS, addTokenToMetaMask]);
+
+    // Total displayed balance = real MetaMask balance + claimed tokens
+    const totalDisplayedBalance = (tokenBalance + claimedTokenBalance).toFixed(2);
 
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -97,7 +101,7 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
                 </button>
             ) : (
                 <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
-                    <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> {tokenBalance}
+                    <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> {totalDisplayedBalance}
                 </Typography>
             )
             }

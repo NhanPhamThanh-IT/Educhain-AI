@@ -21,6 +21,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     const network = "holesky"; // Default to Sepolia, or change to "holesky"
     const [loader, setLoader] = useState(false);
     const [account, setAccount] = useState('');
+    const [claimedTokenBalance, setClaimedTokenBalance] = useState(0);
 
     const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
     const notifyError = (msg) => toast.error(msg, { duration: 2000 });
@@ -72,26 +73,50 @@ export const TOKEN_ICO_Provider = ({ children }) => {
                 setLoader(false);
                 return;
             }
+
+            // Validate input
+            const tokenAmount = Number(amount);
+            if (isNaN(tokenAmount) || tokenAmount <= 0) {
+                notifyError("Please enter a valid token amount.");
+                setLoader(false);
+                return;
+            }
+
             const contract = await TOKEN_ICO_CONTRACT();
             const tokenDetails = await contract.getTokenDetails();
-            const availableToken = ethers.utils.formatEther(tokenDetails[2].toString()); // balanceOf(address(this))
+            const availableTokens = ethers.utils.formatEther(tokenDetails[2].toString());
+            const pricePerToken = ethers.utils.formatEther(tokenDetails[4].toString());
+            const totalCostEth = tokenAmount * pricePerToken;
 
-            if (Number(availableToken) > 1) {
-                const price = ethers.utils.formatEther(tokenDetails[4].toString()); // tokeSalePrice
-                const payAmount = ethers.utils.parseEther((price * amount).toString());
-
-                const transaction = await contract.buyTokens(amount, { value: payAmount.toString(), gasLimit: ethers.utils.hexlify(8000000) });
-                await transaction.wait();
+            // Check available tokens
+            if (tokenAmount > Number(availableTokens)) {
+                notifyError(`Only ${availableTokens} tokens available.`);
                 setLoader(false);
-                notifySuccess('Transaction completed successfully');
-                window.location.reload();
-            } else {
-                notifyError('Insufficient tokens available');
-                setLoader(false);
+                return;
             }
+
+            // Check user's ETH balance
+            const ethBalance = await GET_BALANCE();
+            if (Number(ethBalance) < totalCostEth) {
+                notifyError("Insufficient ETH balance.");
+                setLoader(false);
+                return;
+            }
+
+            const payAmount = ethers.utils.parseEther(totalCostEth.toString());
+            const transaction = await contract.buyTokens(
+                tokenAmount,
+                { value: payAmount, gasLimit: ethers.utils.hexlify(8000000) }
+            );
+            await transaction.wait();
+
+            setLoader(false);
+            notifySuccess('Token purchase completed successfully!');
+            window.location.reload(); // Optional: Could use state update instead
         } catch (error) {
-            console.log(error);
-            notifyError('Error, try again!');
+            console.error(error);
+            const errorMsg = error.reason || error.message || "Transaction failed.";
+            notifyError(`Error: ${errorMsg}`);
             setLoader(false);
         }
     };
@@ -231,26 +256,67 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         }
     };
 
+    const TRANSFER_FROM_SUPPLY = async (missionId, recipient, amount) => {
+        try {
+            setLoader(true);
+            const address = await CHECK_WALLET_CONNECTED();
+            if (!address) {
+                notifyError("Please connect your wallet and switch to the testnet.");
+                setLoader(false);
+                return;
+            }
+
+            const contract = await ERC20_CONTRACT(TOKEN_ADDRESS);
+            const supplyAccount = "0x5Ad474CdDd73F8A506C04A6ddAA23450D9611943"; // OWNER_ADDRESS from constants.js
+            const payAmount = ethers.utils.parseEther(amount.toString());
+
+            // Check supply account balance and allowance
+            const balance = await contract.balanceOf(supplyAccount);
+            if (balance.lt(payAmount)) {
+                notifyError("Supply account has insufficient EDT.");
+                setLoader(false);
+                return;
+            }
+
+            const allowance = await contract.allowance(supplyAccount, address);
+            if (allowance.lt(payAmount)) {
+                notifyError("Supply account has not approved enough EDT. Please contact support.");
+                setLoader(false);
+                return;
+            }
+
+            // Transfer EDT from supply account to recipient
+            const transaction = await contract.transferFrom(
+                supplyAccount,
+                recipient,
+                payAmount,
+                { gasLimit: ethers.utils.hexlify(8000000) }
+            );
+            await transaction.wait();
+
+            setLoader(false);
+            notifySuccess(`Claimed ${amount} EDT for Mission ${missionId} successfully!`);
+        } catch (error) {
+            console.error(error);
+            const errorMsg = error.reason || error.message || "Claim failed.";
+            notifyError(`Error: ${errorMsg}`);
+            setLoader(false);
+        }
+    };
+
+    const addClaimedTokens = (amount) => {
+        setClaimedTokenBalance((prev) => prev + amount);
+        notifySuccess(`Claimed ${amount} EDT!`);
+    };
+
     return (
         <TOKEN_ICO_Context.Provider value={{
-            TOKEN_ICO,
-            BUY_TOKEN,
-            TRANSFER_ETHER,
-            DONATE,
-            UPDATE_TOKEN,
-            UPDATE_TOKEN_PRICE,
-            TOKEN_WITHDRAW,
-            TRANSFER_TOKEN,
-            CONNECT_WALLET,
-            ERC20,
-            CHECK_ACCOUNT_BALANCE,
-            setAccount,
-            setLoader,
-            addTokenToMetaMask,
-            TOKEN_ADDRESS,
-            loader,
-            account,
-            currency,
+            TOKEN_ICO, BUY_TOKEN, TRANSFER_ETHER, DONATE,
+            UPDATE_TOKEN, UPDATE_TOKEN_PRICE, TOKEN_WITHDRAW,
+            TRANSFER_TOKEN, CONNECT_WALLET, ERC20,
+            CHECK_ACCOUNT_BALANCE, setAccount, setLoader,
+            addTokenToMetaMask, TOKEN_ADDRESS, loader, account, currency,
+            TRANSFER_FROM_SUPPLY, addClaimedTokens, claimedTokenBalance,
         }}>{children}</TOKEN_ICO_Context.Provider>
     );
 };

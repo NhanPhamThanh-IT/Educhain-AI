@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Grid, Card, CardContent, Typography, Box, LinearProgress, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { HiBadgeCheck } from "react-icons/hi";
 import Page from "../components/Page";
 import ecoin from "/ecoin.png"; // Import icon coin
+import { TOKEN_ICO_Context } from "../context/index";
 
 const initialMissions = [
   { id: 1, title: "Watch video 30 minutes", points: 30, progress: 30, total: 30 },
@@ -26,10 +27,26 @@ const cardVariants = {
 };
 
 const MissionSection = () => {
+  const { CONNECT_WALLET, account, addClaimedTokens } = useContext(TOKEN_ICO_Context);
   const [missions, setMissions] = useState(initialMissions);
+  const [claiming, setClaiming] = useState(false); // Simulate loader
 
   const handleClaim = (id) => {
-    setMissions((prevMissions) => prevMissions.filter((mission) => mission.id !== id));
+    const mission = missions.find((m) => m.id === id);
+    if (!mission || mission.progress < mission.total) return; // Ensure mission is completed
+
+    if (!account) {
+      CONNECT_WALLET();
+      return;
+    }
+
+    // Simulate claiming process visually
+    setClaiming(true);
+    setTimeout(() => {
+      addClaimedTokens(mission.points); // Increment claimed tokens
+      setMissions((prevMissions) => prevMissions.filter((mission) => mission.id !== id)); // Remove mission
+      setClaiming(false);
+    }, 1000); // Simulate delay
   };
 
   return (
@@ -61,7 +78,6 @@ const MissionSection = () => {
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                           <Typography variant="h6" fontWeight={600} color="white">{mission.title}</Typography>
                           {mission.progress === mission.total && <HiBadgeCheck size={30} color="#FDE047" />}
-
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                           <img src={ecoin} alt="ecoin" width={20} height={20} />
@@ -88,8 +104,9 @@ const MissionSection = () => {
                               "&:hover": { bgcolor: "#FACC15" },
                               visibility: isCompleted ? "visible" : "hidden",
                             }}
+                            disabled={claiming}
                           >
-                            Claim
+                            {claiming ? "Claiming..." : "Claim"}
                           </Button>
                         </Box>
                       </CardContent>

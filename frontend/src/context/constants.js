@@ -240,3 +240,15 @@ export const addTokenToMetaMask = async () => {
     }
   }
 };
+
+export const calculateEthCost = async (tokenAmount) => {
+  try {
+    const contract = await TOKEN_ICO_CONTRACT();
+    const tokenDetails = await contract.getTokenDetails();
+    const pricePerToken = ethers.utils.formatEther(tokenDetails[4].toString());
+    return (tokenAmount * pricePerToken).toString();
+  } catch (error) {
+    console.error("Error calculating ETH cost:", error);
+    return "0";
+  }
+};
