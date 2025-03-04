@@ -60,6 +60,10 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
             const connectedAccount = await CONNECT_WALLET();
             if (connectedAccount) {
                 setAccount(connectedAccount);
+
+                // Add token to MetaMask
+                // await addTokenToMetaMask();
+
                 // Fetch token balance
                 const tokenDetails = await ERC20(TOKEN_ADDRESS);
                 if (tokenDetails) {
