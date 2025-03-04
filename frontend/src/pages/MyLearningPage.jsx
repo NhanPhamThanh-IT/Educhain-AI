@@ -11,7 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Page from "../components/Page";
 import CourseList from "../components/MyLearningPage/CoursesList";
 
-const API_URL = "http://localhost:5000/courses";
+const API_URL = `${import.meta.env.VITE_MOCK_API_2}mylearningcourses`;
 
 const MyLearning = () => {
     const navigate = useNavigate();
