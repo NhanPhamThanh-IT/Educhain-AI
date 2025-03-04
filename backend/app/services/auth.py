@@ -119,30 +119,30 @@ async def signup(response: Response, signup_data: SignupRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi server: {str(e)}")
 
-# Lấy GOOGLE_CLIENT_ID từ biến môi trường
-GOOGLE_CLIENT_ID = "GOOGLE_CLIENT_ID"
+# # Lấy GOOGLE_CLIENT_ID từ biến môi trường
+# GOOGLE_CLIENT_ID = "GOOGLE_CLIENT_ID"
 
-# Định nghĩa request body
-class GoogleToken(BaseModel):
-    credential: str  # Nhận ID Token từ frontend
+# # Định nghĩa request body
+# class GoogleToken(BaseModel):
+#     credential: str  # Nhận ID Token từ frontend
 
-@router.post("/google")
-def verify_google_token(token_data: GoogleToken):
-    try:
-        # Xác thực và giải mã ID Token từ Google
-        id_info = id_token.verify_oauth2_token(
-            token_data.credential, requests.Request(), GOOGLE_CLIENT_ID
-        )
+# @router.post("/google")
+# def verify_google_token(token_data: GoogleToken):
+#     try:
+#         # Xác thực và giải mã ID Token từ Google
+#         id_info = id_token.verify_oauth2_token(
+#             token_data.credential, requests.Request(), GOOGLE_CLIENT_ID
+#         )
 
-        # Trích xuất thông tin user
-        user_info = {
-            "email": id_info.get("email"),
-            "name": id_info.get("name"),
-            "picture": id_info.get("picture"),
-            "sub": id_info.get("sub"),  # Google User ID
-        }
+#         # Trích xuất thông tin user
+#         user_info = {
+#             "email": id_info.get("email"),
+#             "name": id_info.get("name"),
+#             "picture": id_info.get("picture"),
+#             "sub": id_info.get("sub"),  # Google User ID
+#         }
 
-        return {"user": user_info}
+#         return {"user": user_info}
 
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid Google Token")
+#     except ValueError:
+#         raise HTTPException(status_code=400, detail="Invalid Google Token")
