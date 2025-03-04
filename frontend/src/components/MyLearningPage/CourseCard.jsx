@@ -1,10 +1,20 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Box, Chip, Grid, Typography, Button } from "@mui/material";
+import { Rocket } from "lucide-react";
 
 const CourseCard = ({ course }) => {
     return (
         <Grid item xs={12}>
-            <Card sx={{ borderRadius: 3, boxShadow: 4, overflow: "hidden", p: 3 }}>
+            <Card
+                sx={{
+                    borderRadius: 3,
+                    boxShadow: 4,
+                    overflow: "hidden",
+                    p: 3,
+                    transition: "0.3s",
+                    "&:hover": { boxShadow: 6, transform: "translateY(-5px)" }
+                }}
+            >
                 <CardContent>
                     <Box
                         display="flex"
@@ -26,17 +36,22 @@ const CourseCard = ({ course }) => {
                         <Button
                             variant="outlined"
                             sx={{
-                                borderColor: "blue",
-                                color: "black",
+                                border: "2px solid #3F51B5",
+                                color: "#3F51B5",
                                 borderRadius: "12px",
                                 textTransform: "none",
                                 fontSize: "16px",
                                 fontWeight: "bold",
                                 padding: "8px 16px",
-                                "&:hover": { borderColor: "blue", backgroundColor: "rgba(0, 0, 255, 0.05)" }
+                                transition: "0.3s",
+                                "&:hover": {
+                                    backgroundColor: "rgba(0, 0, 255, 0.1)",
+                                    transform: "scale(1.05)"
+                                }
                             }}
+                            startIcon={<Rocket size={20} />}
                         >
-                            View Course
+                            Get Started Now
                         </Button>
                     </Box>
                     <Grid container spacing={2} mt={2}>
@@ -49,8 +64,9 @@ const CourseCard = ({ course }) => {
                                     alt={`Course image ${i + 1}`}
                                     sx={{
                                         borderRadius: 2,
+                                        boxShadow: 3,
                                         transition: "0.3s",
-                                        '&:hover': { transform: "scale(1.05)" }
+                                        "&:hover": { transform: "scale(1.08)", boxShadow: 6 }
                                     }}
                                 />
                             </Grid>
@@ -73,9 +89,24 @@ const CourseCard = ({ course }) => {
                         <Typography variant="body2" gutterBottom sx={{ fontSize: 18, fontWeight: "bold" }}>
                             Curriculum
                         </Typography>
-                        <Box display="flex" flexWrap="wrap" gap={1} justifyContent={{ xs: "center", sm: "flex-end" }}>
+                        <Box display="flex" flexWrap="wrap" gap={2} justifyContent={{ xs: "center", sm: "flex-end" }}>
                             {course.curriculum?.map(topic => (
-                                <Chip key={topic} label={topic} variant="outlined" color="secondary" sx={{ fontSize: 14, px: 2, py: 1 }} />
+                                <Chip
+                                    key={topic}
+                                    label={topic}
+                                    variant="outlined"
+                                    color="secondary"
+                                    sx={{
+                                        fontSize: 14,
+                                        px: 2,
+                                        py: 1,
+                                        transition: "0.3s",
+                                        "&:hover": {
+                                            backgroundColor: "rgba(0, 0, 255, 0.1)",
+                                            transform: "scale(1.1)"
+                                        }
+                                    }}
+                                />
                             ))}
                         </Box>
                     </Box>
