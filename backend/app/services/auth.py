@@ -7,8 +7,8 @@ from fastapi import Response, HTTPException, status, Depends, APIRouter, Form
 import secrets
 from datetime import datetime, timedelta
 import jwt
-from google.oauth2 import id_token
-from google.auth.transport import requests
+# from google.oauth2 import id_token
+# from google.auth.transport import requests
 
 router = APIRouter()
 

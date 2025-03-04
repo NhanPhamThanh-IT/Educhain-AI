@@ -44,7 +44,7 @@ def init_study_guide():
             )
         conn.commit()
 
-def save_section(sg_id:int, topic:str):
+def save_section(sg_id:int, topic:str)->Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -70,7 +70,7 @@ def save_section(sg_id:int, topic:str):
         conn.commit()
         return {"section": sec_res, "updated_course": sg_res}
 
-def save_subsection(section_id:int, name: str, content: str):
+def save_subsection(sec_id:int, name: str, content: str) ->Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(

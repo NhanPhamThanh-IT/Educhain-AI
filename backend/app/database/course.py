@@ -19,8 +19,8 @@ def init_course():
                     threads TEXT[],
                     name VARCHAR(255) NOT NULL,
                     category VARCHAR(255) NOT NULL,
-                    introduction VARCHAR(50),
-                    description VARCHAR(100),
+                    introduction TEXT,
+                    description TEXT,
                     price DECIMAL(100, 2) DEFAULT 0,
                     lesson TEXT[],
                     quiz_question INTEGER[],
@@ -51,8 +51,8 @@ def save_course(user_id: int, name:str, category:str, introduction:str, descript
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
-                (name, category, introduction, description,
-                 Decimal(str(price)), learning_materials_path,
+                (user_id, name, category, introduction, description,
+                 Decimal(str(price)),
                  datetime.now(), datetime.now())
             )
             result = cur.fetchone()

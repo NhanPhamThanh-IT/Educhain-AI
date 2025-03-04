@@ -24,7 +24,7 @@ def init_exam():
             """)
         conn.commit()
 
-def save_exam(course_id:int, question: str, options: List[str], correct_answer: str) -> int:
+def save_exam(course_id:int, question: str, options: List[str], correct_answer: str) -> Dict:
     """Insert exam question"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
