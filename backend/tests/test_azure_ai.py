@@ -8,8 +8,6 @@ AZURE_ENDPOINT = "      "
 API_KEY = "8KpvDitYPgpWNDZwA0c4vZd8AVctIGXiQMFF2ezqCmh9jaTGMKu9JQQJ99BBACqBBLyXJ3w3AAALACOGe77M"
 MODEL_ID = "prebuilt-layout"  # Change based on the model you need
 
-
-
 # File to upload
 FILE_PATH = "document3.pdf"  # Change to your file path
 

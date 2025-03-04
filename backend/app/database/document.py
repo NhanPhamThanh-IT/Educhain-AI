@@ -22,7 +22,7 @@ def init_document():
             """)
         conn.commit()
 
-def save_documnet(course_id:int, type_doc:str,url:str) -> int:
+def save_documnet(course_id:int, type_doc:str,url:str) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -59,15 +59,24 @@ def get_doc_id(doc_id: int) -> Dict:
         return result if result else None
 
 def delete_doc(doc_id: int) -> bool:
-    """Delete user information"""
+    """Delete document and remove reference from course"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE course
+                SET document = array_remove(document, %s)
+                WHERE %s = ANY(document)
+                """,
+                (doc_id, doc_id)
+            )
+
+            # Xóa tài liệu khỏi bảng document
             cur.execute(
                 "DELETE FROM document WHERE id = %s",
                 (doc_id,)
             )
+            
             deleted = cur.rowcount > 0
         conn.commit()
         return deleted
-
-

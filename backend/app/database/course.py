@@ -14,22 +14,23 @@ def init_course():
         with conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS course (
-                    id SERIAL PRIMARY KEY,
+                    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                     user_id INTEGER NOT NULL,
                     threads TEXT[],
                     name VARCHAR(255) NOT NULL,
                     category VARCHAR(255) NOT NULL,
-                    introduction VARCHAR(50),
-                    description VARCHAR(100),
+                    introduction TEXT,
+                    description TEXT,
                     price DECIMAL(100, 2) DEFAULT 0,
                     lesson TEXT[],
                     quiz_question INTEGER[],
                     exam_question INTEGER[],
-                    study_guide INTERGER[],
-                    document INTERGER[],
+                    study_guide INTEGER[],
+                    document INTEGER[],
+                    wallet_address TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
+                    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user_info"(id) ON DELETE CASCADE
                 )
                 
             """)
@@ -50,8 +51,8 @@ def save_course(user_id: int, name:str, category:str, introduction:str, descript
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
-                (name, category, introduction, description,
-                 Decimal(str(price)), learning_materials_path,
+                (user_id, name, category, introduction, description,
+                 Decimal(str(price)),
                  datetime.now(), datetime.now())
             )
             result = cur.fetchone()
@@ -83,11 +84,17 @@ def get_course_id(course_id: int) -> Dict:
             result = cur.fetchone()
         return result if result else None
 
-def get_course_all() -> List[Dict]:
+def get_course_all(user_id: int) -> List[Dict]:
     """Get all courses"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM course")
+            cur.execute(
+                """
+                SELECT * FROM course
+                WHERE user_id = %s
+            """,
+            (user_id)
+            )
             rows = cur.fetchall()
         return rows
 

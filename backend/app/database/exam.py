@@ -24,7 +24,7 @@ def init_exam():
             """)
         conn.commit()
 
-def save_exam(course_id:int, question: str, options: List[str], correct_answer: str) -> int:
+def save_exam(course_id:int, question: str, options: List[str], correct_answer: str) -> Dict:
     """Insert exam question"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -66,6 +66,14 @@ def delete_exam(exam_id: int) -> bool:
     """Delete user information"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE course
+                SET exam_question = array_remove(exam_question, %s)
+                WHERE %s = ANY(exam_question)
+                """,
+                (exam_id, exam_id)
+            )
             cur.execute(
                 "DELETE FROM exam_question WHERE id = %s RETURNING *",
                 (exam_id,)

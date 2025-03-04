@@ -14,8 +14,10 @@ lightrag-hku==1.2.3
 pipmaster
 bcrypt
 pyjwt
-
-
+azure.ai.documentintelligence 
+azure.core.credentials
+pymupdf
+pdfplumber
 
 
 

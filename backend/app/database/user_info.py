@@ -16,11 +16,14 @@ def init_user_info():
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS user_info (
                     id SERIAL PRIMARY KEY,
-                    fullname VARCHAR(255) NOT NULL,
+                    email TEXT,
+                    password TEXT,
+                    username TEXT,
+                    fullname VARCHAR(255),
                     nickname VARCHAR(255),
                     gender VARCHAR(50),
                     country VARCHAR(100),
-                    courseList INTEGER[]
+                    courseList INTEGER[],
                     address TEXT,
                     phonenumber VARCHAR(20),
                     edutoken DECIMAL(10, 2) DEFAULT 0,
@@ -37,10 +40,10 @@ def save_user_info(fullname: str, nickname: str, gender: str, country:str, addre
         with conn.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO user_info (fullname, nickname, gender, country, address, phonenumber, edutoken, learntoken, created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+                INSERT INTO user_info (email, password, fullname, nickname, gender, country, address, phonenumber, edutoken, learntoken, created_at, updated_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
                 """,
-                (fullname, nickname, gender, country,
+                (email, password, fullname, nickname, gender, country,
                  address, phonenumber, Decimal(str(edutoken)), Decimal(str(learntoken)),
                  datetime.now(), datetime.now())
             )
@@ -59,7 +62,7 @@ def get_user_info(user_id: int) -> Dict:
             result = cur.fetchone()
         return result if result else None
 
-def updateUserInfo(user_id: int, fullname: str, nickname: str, gender: str, country: str, 
+def updateUserInfo(user_id: int, email: str, password:str, fullname: str, nickname: str, gender: str, country: str, 
                   address: str, phonenumber: str) -> Dict:
     """Update user information"""
     with get_db_connection() as conn:
@@ -67,12 +70,12 @@ def updateUserInfo(user_id: int, fullname: str, nickname: str, gender: str, coun
             cur.execute(
                 """
                 UPDATE user_info
-                SET fullname = %s, nickname = %s, gender = %s, country = %s, 
+                SET email = %s, password = %s, fullname = %s, nickname = %s, gender = %s, country = %s, 
                     address = %s, phonenumber = %s, updated_at = %s
                 WHERE id = %s
                 RETURNING *
                 """,
-                (fullname, nickname, gender, country, address, phonenumber, 
+                (email, password, fullname, nickname, gender, country, address, phonenumber, 
                  datetime.now(), user_id)
             )
             result = cur.fetchone()
