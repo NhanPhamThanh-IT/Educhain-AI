@@ -1,24 +1,48 @@
-import { Box, Button, Card, CardContent, LinearProgress, Typography } from "@mui/material";
+import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
 import { HiBadgeCheck } from "react-icons/hi";
+import { FaHourglassHalf } from "react-icons/fa";
 import ecoin from "/ecoin.png";
 
 // Mission Card Component
 const MissionCard = ({ mission, isCompleted, handleClaim }) => (
     <Card sx={{
         color: "#333",
-        p: 3,
-        borderRadius: 3,
+        borderRadius: 4,
         background: "#ffffff",
+        border: "2px solid #3F51B5",
         height: "100%",
         display: "flex",
         flexDirection: "column",
         boxShadow: 2,
     }}>
-        <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+        <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", pb: 2 }}>
             {/* Title and Status Icon */}
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Typography variant="h6" fontWeight={600} color="#333">{mission.title}</Typography>
-                {isCompleted && <HiBadgeCheck size={30} color="#4caf50" />}
+                <Typography variant="body1" fontWeight={600} color="#666">{mission.title}</Typography>
+                {isCompleted && (
+                    <HiBadgeCheck
+                        size={30}
+                        color={mission.claimed ? "#bbb" : "#4caf50"}
+                        style={{ cursor: mission.claimed ? "default" : "pointer" }}
+                        onClick={() => !mission.claimed && handleClaim(mission.id)}
+                    />
+                )}
+                {!isCompleted && (
+                    <Box
+                        sx={{
+                            width: 30,
+                            height: 30,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "50%",
+                            color: "#ff5733",
+                            backgroundColor: "rgba(255, 165, 0, 0.2)",
+                        }}
+                    >
+                        <FaHourglassHalf sx={{ fontSize: 30, color: "#ff5733" }} />
+                    </Box>
+                )}
             </Box>
 
             {/* Points Display */}
@@ -36,20 +60,6 @@ const MissionCard = ({ mission, isCompleted, handleClaim }) => (
             <Typography variant="body2" sx={{ mt: 1, textAlign: "right" }}>
                 {mission.progress}/{mission.total}
             </Typography>
-
-            {/* Claim Button */}
-            {isCompleted && (
-                <Box sx={{ mt: "auto" }}>
-                    <Button
-                        variant="contained"
-                        onClick={() => handleClaim(mission.id)}
-                        sx={{ bgcolor: mission.claimed ? "#bbb" : "#4caf50", color: "white", width: "100%", borderRadius: 2, textTransform: "none" }}
-                        disabled={mission.claimed}
-                    >
-                        {mission.claimed ? "Claimed" : "Claim"}
-                    </Button>
-                </Box>
-            )}
         </CardContent>
     </Card>
 );

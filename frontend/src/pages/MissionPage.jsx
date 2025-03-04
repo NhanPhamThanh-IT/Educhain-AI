@@ -52,11 +52,44 @@ const MissionSection = () => {
 
   return (
     <Page title="Mission Page">
-      <Box sx={{ pt: 15, pb: 5, mx: "auto", px: 2 }}>
-        <Typography variant="h4" fontWeight={700} textAlign="center" gutterBottom sx={{ color: "#3F51B5" }}>
+      <Box sx={{ pt: 15, pb: 5, mx: "auto", px: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          textAlign="center"
+          gutterBottom
+          sx={{
+            color: "white",
+            border: "solid 2px rgba(63, 81, 181, 1)",
+            borderRadius: 3,
+            py: 2,
+            px: 3,
+            display: "inline-block",
+            fontSize: "1.8rem",
+            textTransform: "uppercase",
+            letterSpacing: 1.5,
+            background: "linear-gradient(135deg, #3F51B5, #5C6BC0)",
+            boxShadow: "4px 4px 12px rgba(63, 81, 181, 0.4)",
+            position: "relative",
+            overflow: "hidden",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              width: "150%",
+              height: "100%",
+              top: 0,
+              left: "-150%",
+              background: "rgba(255,255,255,0.2)",
+              transform: "skewX(-30deg)",
+              transition: "left 0.8s ease-in-out",
+            },
+            "&:hover::before": { left: "150%" },
+          }}
+        >
           🎯 Today Missions 🎯
         </Typography>
-        <Divider sx={{ mb: 3 }} />
+
+        <Divider sx={{ width: "100%", bgcolor: "rgba(63, 81, 181, 1)", mb: 4 }} />
 
         <Grid container spacing={3}>
           {/* Tabs Section */}
