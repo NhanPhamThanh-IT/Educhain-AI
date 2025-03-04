@@ -1,74 +1,292 @@
-import { Box, Typography } from "@mui/material";
+import React, { useState, useRef  } from "react";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Button,
+  LinearProgress,
+  Paper,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Grid,
+  Divider
+} from "@mui/material";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { AutoStories } from "@mui/icons-material";
+import { useSearchParams } from "react-router-dom";
+const files = [
+  {
+    name: "2-PhatBieuBaiToan.pdf",
+    topics: [
+      "Comparing SIS Platforms",
+      "Importance of SIS in Education",
+      "Features of InfoStudia SIS",
+      "Importance of SIS in Education",
+      "Features of InfoStudia SIS",
+    ],
+    progress: 40,
+  },
+  {
+    name: "2-PhatBieuBaiToan.pdf",
+    topics: [
+      "Current Status and Development Needs",
+      "Practical Needs of SIS",
+      "Moodle vs SHub",
+    ],
+    progress: 70,
+  },
+  {
+    name: "22127442-10.pdf",
+    error: true,
+  },
+  {
+    name: "2-PhatBieuBaiToan.pdf",
+    topics: [
+      "Comparing SIS Platforms",
+      "Importance of SIS in Education",
+      "Features of InfoStudia SIS",
+      "Importance of SIS in Education",
+      "Features of InfoStudia SIS",
+    ],
+    progress: 40,
+  },
+  {
+    name: "2-PhatBieuBaiToan.pdf",
+    topics: [
+      "Current Status and Development Needs",
+      "Practical Needs of SIS",
+      "Moodle vs SHub",
+    ],
+    progress: 70,
+  },
+  {
+    name: "2-PhatBieuBaiToan.pdf",
+    topics: [
+      "Comparing SIS Platforms",
+      "Importance of SIS in Education",
+      "Features of InfoStudia SIS",
+      "Importance of SIS in Education",
+      "Features of InfoStudia SIS",
+    ],
+    progress: 40,
+  },
+  {
+    name: "2-PhatBieuBaiToan.pdf",
+    topics: [
+      "Current Status and Development Needs",
+      "Practical Needs of SIS",
+      "Moodle vs SHub",
+    ],
+    progress: 70,
+  },
+  {
+    name: "22127442-10.pdf",
+    error: true,
+  },
+];
+const studyData = {
+  title: "Comparing SIS Platforms",
+  progress: 0,
+  sections: [
+    {
+      title: "Overview of Moodle",
+      content: (
+        <>
+          <Typography variant="body1">
+            <strong>Moodle</strong> is a widely used learning management system that facilitates the creation and management of courses.  
+            Here are some key features:
+          </Typography>
+          <ul>
+            <li><Typography variant="body2"><strong>Website:</strong> <a href="#">Moodle</a></Typography></li>
+            <li><Typography variant="body2"><strong>Course Management:</strong> Allows educators to create and manage courses.</Typography></li>
+            <li><Typography variant="body2"><strong>User Management:</strong> Supports management of teachers, students, and groups.</Typography></li>
+            <li><Typography variant="body2"><strong>Notifications:</strong> Enables the creation of announcements.</Typography></li>
+            <li><Typography variant="body2"><strong>Scheduling:</strong> Helps students keep track of assignments and deadlines.</Typography></li>
+            <li><Typography variant="body2"><strong>Communication Tools:</strong> Messaging and feedback tools for interaction.</Typography></li>
+            <li><Typography variant="body2"><strong>Accessibility:</strong> Allows easy access to course materials and class announcements.</Typography></li>
+          </ul>
+        </>
+      ),
+    },
+    {
+      title: "Overview of SHub",
+      content: (
+        <Typography variant="body1">
+          <strong>SHub</strong> is another SIS platform that provides a more streamlined approach to course management.
+        </Typography>
+      ),
+    },
+    {
+      title: "Comparison of Features",
+      content: (
+        <Typography variant="body1">
+          Moodle offers more extensive features, while SHub is simpler and more user-friendly.
+        </Typography>
+      ),
+    },
+  ],
+};
+export default function StudyGuides() {
+  const sectionRefs = useRef(studyData.sections.map(() => null));
 
-export default function StudyGuidesSection() {
-  return (
+  const handleScrollToSection = (index) => {
+    sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const [searchParams] = useSearchParams();
+  const history = searchParams.get("historyItem");
+  return history === "overview" ? (
     <Box
       sx={{
-        p: 4,
-        borderRadius: 2,
-        overflowY: "auto", // Thêm thanh cuộn nếu nội dung quá dài
-        height: "80vh",
+        textAlign: "center",
+        p: 2,
+        overflow: "auto",
+        "&::-webkit-scrollbar": { display: "none" },
+        maxHeight: "80vh",
       }}
     >
-      <Typography variant="h6" gutterBottom>
+      <AutoStories color="primary" sx={{ fontSize: 80 }} />
+      <Typography variant="h4" fontWeight={700} gutterBottom>
         Study Guides
       </Typography>
-
-      <Typography variant="h6">1. React Overview</Typography>
-      <Typography paragraph>
-        React is a JavaScript library for building dynamic and interactive user
-        interfaces. It was developed by Facebook and is widely used for
-        single-page applications (SPA) and complex web applications.
-      </Typography>
-      <Typography paragraph>
-        React uses a declarative approach, making UI development more
-        predictable and easier to debug. With React, developers can build
-        reusable components that manage their own state.
+      <Typography variant="body1" color="text.secondary" mb={3}>
+        Comprehensive walkthroughs of each of your course files.
       </Typography>
 
-      <Typography variant="h6">2. Key Features of React</Typography>
-      <Typography paragraph>
-        - **Components**: React applications are built using components, which
-        are independent and reusable pieces of UI. - **Virtual DOM**: React uses
-        a virtual representation of the DOM to efficiently update the UI and
-        improve performance. - **JSX (JavaScript XML)**: A syntax extension that
-        allows writing HTML-like code inside JavaScript. - **State and Props**:
-        `State` manages internal component data, while `Props` allow data to be
-        passed between components.
-      </Typography>
+      <Box display="flex" justifyContent="center" gap={2} flexWrap="wrap">
+        {files.map((file, index) => (
+          <Card
+            key={index}
+            sx={{
+              width: 300,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              p: 2,
+              boxShadow: 3,
+              border: "2px solid transparent",
+              transition: "all 0.3s",
+              "&:hover": { borderColor: "#2196f3" },
+            }}
+          >
+            <CardContent
+              sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+            >
+              <Typography variant="subtitle1" fontWeight={600}>
+                {file.name}
+              </Typography>
+              {file.error ? (
+                <>
+                  <Typography
+                    color="error"
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    mt={1}
+                  >
+                    <ErrorOutlineIcon fontSize="small" /> Failed to generate
+                    topics
+                  </Typography>
+                  <Button variant="outlined" color="error" sx={{ mt: 1 }}>
+                    Retry
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {file.topics.slice(0, 3).map((topic, idx) => (
+                    <Typography
+                      key={idx}
+                      variant="body2"
+                      textAlign={"left"}
+                      sx={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      • {topic}
+                    </Typography>
+                  ))}
+                  {file.topics.length > 3 && (
+                    <Typography variant="body2" color="text.secondary">
+                      + {file.topics.length - 3} more...
+                    </Typography>
+                  )}
+                </>
+              )}
+            </CardContent>
 
-      <Typography variant="h6">3. JavaScript Basics</Typography>
-      <Typography paragraph>
-        JavaScript is a high-level programming language that enables interactive
-        and dynamic web pages. It is widely used for front-end and back-end
-        development.
-      </Typography>
-      <Typography paragraph>
-        Key concepts include variables (`let`, `const`, `var`), functions (arrow
-        functions, callbacks, async/await), and event handling (click events,
-        form submission).
-      </Typography>
-
-      <Typography variant="h6">
-        4. ES6 and Modern JavaScript Features
-      </Typography>
-
-      <Typography variant="h6">5. React Hooks</Typography>
-      <Typography paragraph>
-        React hooks allow functional components to use state and lifecycle
-        features. Common hooks include: - `useState`: Manages state within a
-        component. - `useEffect`: Handles side effects like API calls and
-        subscriptions. - `useContext`: Allows access to global state without
-        prop drilling.
-      </Typography>
-
-      <Typography variant="h6">6. Additional Topics</Typography>
-      <Typography paragraph>
-        - **React Router**: A library for handling navigation in React apps. -
-        **Redux**: A state management library for large-scale applications. -
-        **API Calls**: Fetching data using `fetch` or `axios`. - **Testing**:
-        Writing unit and integration tests using Jest and React Testing Library.
-      </Typography>
+            {/* Phần Thanh Tiến Trình Luôn Dưới Cùng */}
+            {!file.error && (
+              <Box
+                sx={{
+                  mt: "auto",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <LinearProgress
+                  variant="determinate"
+                  value={file.progress}
+                  sx={{ flexGrow: 1, height: 6, borderRadius: 5 }}
+                />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ minWidth: 30 }}
+                >
+                  {file.progress}%
+                </Typography>
+              </Box>
+            )}
+          </Card>
+        ))}
+      </Box>
     </Box>
-  );
+  ) : (   <Box sx={{ display: "flex", height: "80vh", p: 2, gap: 2, overflowY: "auto", flexDirection: "column", "&::-webkit-scrollbar": { display: "none" } }}>
+    {/* Sidebar */}
+    <Paper sx={{ p: 2, minWidth: 300, maxHeight: "100%" }}>
+      <Typography variant="h6" fontWeight={700} gutterBottom>
+        Section Overview
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Compare and contrast different Student Information Systems.
+      </Typography>
+      <Grid container spacing={1}>
+        {studyData.sections.map((section, index) => (
+          <Grid item xs={6} key={index}>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => handleScrollToSection(index)}>
+                <ListItemText primary={`${index + 1}. ${section.title}`} />
+              </ListItemButton>
+            </ListItem>
+          </Grid>
+        ))}
+      </Grid>
+    </Paper>
+
+    {/* Content Area */}
+    <Box sx={{ flex: 1, p: 2 }}>
+      <Typography variant="h5" fontWeight={700} color="primary" gutterBottom>
+        {studyData.title}
+      </Typography>
+      <LinearProgress variant="determinate" value={studyData.progress} sx={{ mb: 2 }} />
+      
+      {studyData.sections.map((section, index) => (
+        <Box
+          key={index}
+          ref={(el) => (sectionRefs.current[index] = el)}
+          sx={{ mb: 3, p: 2, border: "2px solid lightgray", borderRadius: 2, backgroundColor: "white" }}
+        >
+          <Typography variant="h6" fontWeight={700} gutterBottom>
+            {section.title}
+          <Divider />
+          </Typography>
+          {section.content}
+        </Box>
+      ))}
+    </Box>
+  </Box>);
 }
