@@ -9,7 +9,6 @@ import { Navigate, useRoutes } from "react-router-dom";
 // Importing components
 import AppBarComponent from "../components/Partials/Header";
 import FooterComponent from "../components/Partials/Footer";
-import AllCourses from "../pages/AllCourses";
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +23,7 @@ const Loadable = (Component) => (props) => (
 
 // Importing pages
 const pages = {
-  Login: "../pages/authentication/Login",
-  Register: "../pages/authentication/Register",
+  AuthPage: "../pages/authentication/AuthPage",
   ForgotPassword: "../pages/authentication/ForgotPassword",
   VerifyCode: "../pages/authentication/VerifyCode",
   Page500: "../pages/Error/Page500",
@@ -74,10 +72,9 @@ const routes = [
   {
     path: "authentication",
     children: [
-      { path: "login", element: <LazyPages.Login /> },
-      { path: "register", element: <LazyPages.Register /> },
       { path: "forgot-password", element: <LazyPages.ForgotPassword /> },
       { path: "verify", element: <LazyPages.VerifyCode /> },
+      { path: "", element: <LazyPages.AuthPage /> },
     ],
   },
   {

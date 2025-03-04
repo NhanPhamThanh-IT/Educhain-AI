@@ -43,7 +43,13 @@ const AppBarComponent = () => {
         >
             <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 0 }}>
                 {/* Logo */}
-                <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, height: 50 }} onClick={() => navigate("/homepage")} />
+                <Box
+                    component="img"
+                    src="Partials/Logo.png"
+                    alt="Logo"
+                    sx={{ width: 50, height: 50, cursor: "pointer" }}
+                    onClick={() => navigate("/homepage")}
+                />
 
                 {/* Navigation Tabs */}
                 <Tabs textColor="primary" indicatorColor="primary" sx={{ flexGrow: 1, ml: 3 }}>
