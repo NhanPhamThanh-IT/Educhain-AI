@@ -1,6 +1,11 @@
 import { Box, Avatar, IconButton, Menu, MenuItem, ListItemIcon, ListItemText, Typography, useMediaQuery } from "@mui/material";
 import { Menu as MenuIcon, AccountCircle, MonetizationOn, Logout } from "@mui/icons-material"; // Đã sửa lỗi import
 import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+
+import { TOKEN_ICO_Context } from '../../../context/index.jsx';
+import { shortendAddress } from "../../../../../smart_contract/Utils/index.js";
 
 const menuOptions = [
     { icon: <AccountCircle />, label: "Profile", link: "/profilesetup" },
@@ -12,18 +17,90 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
     const navigate = useNavigate();
     const isDesktop = useMediaQuery("(min-width:960px)"); // Thay thế Hidden
 
+    const {
+        CONNECT_WALLET,
+        account,
+        setAccount,
+        ERC20,
+        TOKEN_ADDRESS,
+        addTokenToMetaMask,
+    } = useContext(TOKEN_ICO_Context);
+
+    const [tokenBalance, setTokenBalance] = useState(0);
     const handleMenuClick = (link) => {
         toggleMenu(); // Đóng menu trước khi điều hướng
         navigate(link);
     };
 
+    // Function to connect wallet and handle token addition
+    const connectWallet = async () => {
+        try {
+            const connectedAccount = await CONNECT_WALLET();
+            if (connectedAccount) {
+                setAccount(connectedAccount);
+
+                // add token to metamask
+                await addTokenToMetaMask();
+
+                // Fetch and display token balance
+                const tokenDetails = await ERC20(TOKEN_ADDRESS);
+                if (tokenDetails) {
+                    setTokenBalance(tokenDetails.balance);
+                }
+            }
+        } catch (error) {
+            console.error('Failed to connect wallet:', error);
+        }
+    };
+
+    // Check if wallet is already connected on mount
+    useEffect(() => {
+        const checkWallet = async () => {
+            const connectedAccount = await CONNECT_WALLET();
+            if (connectedAccount) {
+                setAccount(connectedAccount);
+                // Fetch token balance
+                const tokenDetails = await ERC20(TOKEN_ADDRESS);
+                if (tokenDetails) {
+                    setTokenBalance(tokenDetails.balance);
+                }
+            }
+        };
+        checkWallet();
+    }, [CONNECT_WALLET, setAccount, ERC20, TOKEN_ADDRESS]);
+
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {isDesktop && (
+            {(isDesktop && !account) ? (
+                <button
+                    onClick={() => {
+                        connectWallet();
+                        toast.promise(connectWallet(), {
+                            loading: "Connecting wallet...",
+                            success: "Wallet connected successfully!",
+                            error: "Failed to connect wallet.",
+                        });
+                    }}
+                    style={{
+                        backgroundColor: "darkblue",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        transition: "background-color 0.3s",
+                    }}
+                    onMouseOver={(e) => (e.target.style.backgroundColor = "blue")}
+                    onMouseOut={(e) => (e.target.style.backgroundColor = "darkblue")}
+                >
+                    Connect Wallet
+                </button>
+            ) : (
                 <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
-                    <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> 12,312.44
+                    <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> {tokenBalance}
                 </Typography>
-            )}
+            )
+            }
             <Avatar
                 src="/user-avatar.png"
                 alt="Gia Bao"
