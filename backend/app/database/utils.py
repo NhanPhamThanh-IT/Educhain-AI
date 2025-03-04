@@ -1,49 +1,32 @@
-import os
-from decimal import Decimal
-from dotenv import load_dotenv
-import psycopg
-from psycopg.rows import dict_row
-from datetime import datetime
+from app.database.study_guide import save_section, save_study_guide, save_subsection
+from app.database.chat_history import save_chat_history
+from app.database.course import save_course
+from app.database.document import save_documnet
+from app.database.exam import save_exam
+from app.database.quiz import save_quiz
+from app.database.user_info import save_user_info
+
 from typing import List, Dict, Optional
-from app.models.postgre_model import UserInfo, Course, ChatHistory, QuizQuestion, ExamQuestion, StudyGuide
 
-# Load environment variables
-load_dotenv()
+def compute_course_id(course_name:str, user_id:int) -> str:
+    return hash(course_name, str(user_id))
 
-# Database configuration
-DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_USER = os.getenv("DB_USER", "admintu")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "educhain123@")
-DB_HOST = os.getenv("DB_HOST", "educhain.postgres.database.azure.com")
-DB_PORT = os.getenv("DB_PORT", 5432)
+def process_study_guide(study_guide_info: Dict, course_id: int) -> bool:
+    study_guide_id = save_study_guide(course_id)['study_guide']['id']
+    section_id = save_section(study_guide_id, study_guide_info['topic'])['section']['id']
+    sub_id = save_subsection(section_id,study_guide_info['section']['name'],study_guide_info['section']['content'])
+    return True if study_guide_id and section_id and sub_id else False
 
-def get_db_connection():
-    """
-    Create a connection to the PostgreSQL database
-    
-    Returns:
-        Connection: Database connection object
-    """
-    try:
-        return psycopg.connect(
-            dbname=DB_NAME,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=DB_PORT,
-            row_factory=dict_row
-        )
-    except psycopg.Error as e:
-        print(f"Error connecting to database: {e}")
-        raise
+def process_exam(exam_info: Dict, course_id: int) -> bool: 
+    exam_id = save_exam(course_id,exam_info['question'],exam_info['options'],exam_info['correct_answer'])
+    return True if exam_id else False
+def process_course(user_id: int, course_info:Dict) -> bool:
+    course_id = save_course(user_id,course_info['name'],course_info['category'],course_info['intro'],course_info['des'],course_info['price'])
+    return True if course_id else False
 
-if __name__ == "__main__":
-    # Initialize all tables when running directly
-    init_user_info()
-    init_course()
-    init_quiz()
-    init_exam()
-    init_study_guide()
-    init_document()
-    init_chat_history_table()
-    print("Database tables initialized successfully")
+def process_document():
+    pass
+
+def process_chat_history(thread_id:int, chat_info: Dict)->bool:
+    chat_id = save_chat_history(thread_id,chat_info['ques'],chat_info['ans'])
+    return True if chat_id else False

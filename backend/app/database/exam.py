@@ -67,6 +67,14 @@ def delete_exam(exam_id: int) -> bool:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
+                """
+                UPDATE course
+                SET exam_question = array_remove(exam_question, %s)
+                WHERE %s = ANY(exam_question)
+                """,
+                (exam_id, exam_id)
+            )
+            cur.execute(
                 "DELETE FROM exam_question WHERE id = %s RETURNING *",
                 (exam_id,)
             )
