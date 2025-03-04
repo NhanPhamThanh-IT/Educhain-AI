@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Card, Typography, Pagination, Grid, Skeleton, Tooltip } from "@mui/material";
 import { styled } from "@mui/system";
 import { motion, AnimatePresence } from "framer-motion";
-import cryptocurrencies from "../../../constants/HomePage/cryptocurrencies";
+import cryptocurrencies from "../../../constants/Intro/cryptocurrencies";
 
 // Defining pageVariants, skeletonVariants and transitionSettings
 const pageVariants = { initial: { opacity: 0, x: 30 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -30 } };

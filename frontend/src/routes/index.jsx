@@ -7,7 +7,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 // ----------------------------------------------------------------------
 
 // Importing components
-import AppBarComponent from "../components/Partials/Header";
+import AppBarComponent from "../components/Partials/Header/Index";
 import FooterComponent from "../components/Partials/Footer";
 
 // ----------------------------------------------------------------------
@@ -32,9 +32,10 @@ const pages = {
   ComingSoon: "../pages/ComingSoon",
   Maintenance: "../pages/Maintenance",
   HomePage: "../pages/HomePage",
+  Intro: "../pages/Intro",
   MyLearningPage: "../pages/MyLearningPage",
   CreateCourse: "../pages/CreateCourse",
-  CoursesDocs: "../pages/CoursesDocs",
+  Market: "../pages/Market",
   CourseDetails: "../pages/CourseDetails",
   LearningPage: "../pages/LearningPage",
   MissionPage: "../pages/MissionPage",
@@ -90,6 +91,7 @@ const routes = [
   },
   { path: "/", element: <Navigate to="/homepage" replace /> },
   { path: "homepage", element: <MainLayout><LazyPages.HomePage /></MainLayout> },
+  { path: "intro", element: <MainLayout><LazyPages.Intro /></MainLayout> },
   {
     path: "mylearning",
     children: [
@@ -98,7 +100,7 @@ const routes = [
     ],
   },
   { path: "allcourse", element: <MainLayout><LazyPages.AllCourses /></MainLayout> },
-  { path: "coursesdocs", element: <MainLayout><LazyPages.CoursesDocs /></MainLayout> },
+  { path: "market", element: <MainLayout><LazyPages.Market /></MainLayout> },
   { path: "coursedetails", element: <MainLayout><LazyPages.CourseDetails /></MainLayout> },
   {
     path: "learning",

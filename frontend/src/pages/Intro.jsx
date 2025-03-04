@@ -7,9 +7,9 @@ import RecommendedCourses from "../sections/Intro/RecommendedCourses";
 import ExchangeRate from "../sections/Intro/ExchangeRate";
 import FAQSection from "../sections/Intro/FAQ";
 
-const HomePage = () => {
+const Intro = () => {
     return (
-        <Page title="Homepage">
+        <Page title="Intro">
             <Box maxWidth="2xl" sx={{ mt: 13 }}>
                 <IntroSection />
                 <BenefitsSection />
@@ -21,4 +21,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default Intro;

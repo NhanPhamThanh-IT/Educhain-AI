@@ -1,11 +1,11 @@
 import React from "react";
 import { Container } from "@mui/material";
-import IntroSection from "../sections/CoursesDocs/Intro";
-import CategorySection from "../sections/CoursesDocs/Categories";
-import ListCourses from "../sections/CoursesDocs/ListCourses";
+import IntroSection from "../sections/Market/Intro";
+import CategorySection from "../sections/Market/Categories";
+import ListCourses from "../sections/Market/ListCourses";
 import Page from "../components/Page";
 
-const CoursesDocs = () => {
+const Market = () => {
     return (
         <Page title="Courses&Docs">
             <Container maxWidth="xl" sx={{ mt: 15 }}>
@@ -19,4 +19,4 @@ const CoursesDocs = () => {
     );
 };
 
-export default CoursesDocs;
+export default Market;

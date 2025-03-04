@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { motion, AnimatePresence } from 'framer-motion';
-import faqs from '../../../constants/HomePage/faqs';
+import faqs from '../../../constants/Intro/faqs';
 
 const NotFound = () => {
     return (

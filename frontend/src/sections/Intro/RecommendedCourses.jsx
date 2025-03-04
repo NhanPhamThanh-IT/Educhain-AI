@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Button, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import CourseCard from "../../components/HomePage/RecommendedCourses/CourseCard";
+import CourseCard from "../../components/Intro/RecommendedCourses/CourseCard";
 
 const RecommendedCourses = () => {
   const [courses, setCourses] = useState([]);
