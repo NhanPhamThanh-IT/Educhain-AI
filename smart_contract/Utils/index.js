@@ -1,10 +1,10 @@
-export const convertTime = () => {
-  const date = new Date(time);
-  const formattedDate = date.toLocaleString() + ' ' + date.toLocaleTimeString();
-    return formattedDate;
+// smart_contract/Utils/index.js
+export const shortendAddress = (address) => {
+  if (!address) return "";
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-export const shortendAddress = (address) => {
-  return address.substring(0, 4) + '...' + address.substring(address.length - 4, address.length);
-}
-
+export const formatTime = (timestamp) => {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleString();
+};

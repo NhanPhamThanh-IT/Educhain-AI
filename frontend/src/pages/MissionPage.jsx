@@ -1,106 +1,114 @@
+// Import dependencies
 import React, { useState } from "react";
-import { Container, Grid, Card, CardContent, Typography, Box, LinearProgress, Button } from "@mui/material";
-import { motion } from "framer-motion";
-import { HiBadgeCheck } from "react-icons/hi";
+import {
+  Grid, Typography, Box, Divider, useTheme, useMediaQuery
+} from "@mui/material";
 import Page from "../components/Page";
-import ecoin from "/ecoin.png"; // Import icon coin
 
+import TabsSection from "../sections/Missions/TabSection";
+import MissionListSection from "../sections/Missions/MissionListSection";
+
+// Initial mission data
 const initialMissions = [
-  { id: 1, title: "Watch video 30 minutes", points: 30, progress: 30, total: 30 },
-  { id: 2, title: "Score at least 80% in a quiz", points: 75, progress: 75, total: 80 },
-  { id: 3, title: "Prompt chat 5 times", points: 100, progress: 5, total: 5 },
-  { id: 4, title: "Upload a file or video", points: 25, progress: 1, total: 1 },
-  { id: 5, title: "Join a study group", points: 50, progress: 45, total: 45 },
+  { id: 1, title: "Watch video 30 minutes", points: 30, progress: 30, total: 30, claimed: false },
+  { id: 2, title: "Score at least 80% in a quiz", points: 75, progress: 75, total: 80, claimed: false },
+  { id: 3, title: "Prompt chat 5 times", points: 100, progress: 5, total: 5, claimed: false },
+  { id: 4, title: "Upload a file or video", points: 25, progress: 1, total: 1, claimed: false },
+  { id: 5, title: "Join a study group", points: 50, progress: 45, total: 45, claimed: false },
 ];
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } }
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 10 } },
-  hover: { scale: 1.05, rotate: 1, transition: { type: "spring", stiffness: 300 } },
-  tap: { scale: 0.98 }
-};
 
 const MissionSection = () => {
   const [missions, setMissions] = useState(initialMissions);
+  const [tabIndex, setTabIndex] = useState(0);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClaim = (id) => {
-    setMissions((prevMissions) => prevMissions.filter((mission) => mission.id !== id));
+    setMissions((prevMissions) =>
+      prevMissions.map(mission =>
+        mission.id === id ? { ...mission, claimed: true } : mission
+      )
+    );
   };
+
+  const handleClaimAll = () => {
+    setMissions((prevMissions) =>
+      prevMissions.map(mission =>
+        mission.progress >= mission.total && !mission.claimed ? { ...mission, claimed: true } : mission
+      )
+    );
+  };
+
+  const filterMissions = () => {
+    switch (tabIndex) {
+      case 1: return missions.filter(mission => mission.progress >= mission.total);
+      case 2: return missions.filter(mission => mission.progress < mission.total);
+      default: return missions;
+    }
+  };
+
+  const filteredMissions = filterMissions();
+  const claimableMissions = filteredMissions.filter(mission => mission.progress >= mission.total && !mission.claimed);
 
   return (
     <Page title="Mission Page">
-      <Container sx={{ py: 8 }}>
-        <Typography variant="h4" fontWeight={700} textAlign="center" gutterBottom>
+      <Box sx={{ pt: 15, pb: 5, mx: "auto", px: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          textAlign="center"
+          gutterBottom
+          sx={{
+            color: "white",
+            border: "solid 2px rgba(63, 81, 181, 1)",
+            borderRadius: 3,
+            py: 2,
+            px: 3,
+            display: "inline-block",
+            fontSize: "1.8rem",
+            textTransform: "uppercase",
+            letterSpacing: 1.5,
+            background: "linear-gradient(135deg, #3F51B5, #5C6BC0)",
+            boxShadow: "4px 4px 12px rgba(63, 81, 181, 0.4)",
+            position: "relative",
+            overflow: "hidden",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              width: "150%",
+              height: "100%",
+              top: 0,
+              left: "-150%",
+              background: "rgba(255,255,255,0.2)",
+              transform: "skewX(-30deg)",
+              transition: "left 0.8s ease-in-out",
+            },
+            "&:hover::before": { left: "150%" },
+          }}
+        >
           🎯 Today Missions 🎯
         </Typography>
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <Grid container spacing={3}>
-            {missions.map((mission) => {
-              const isCompleted = mission.progress >= mission.total;
-              return (
-                <Grid item xs={12} sm={6} md={4} key={mission.id} sx={{ display: "flex" }}>
-                  <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" style={{ width: "100%", display: "flex", flexDirection: "column" }}>
-                    <Card
-                      sx={{
-                        color: "white",
-                        p: 3,
-                        boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.15)",
-                        borderRadius: 3,
-                        flexGrow: 1,
-                        background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-                        transition: "background 0.4s",
-                        "&:hover": { background: "linear-gradient(135deg, #6366F1, #4F46E5)" },
-                      }}
-                    >
-                      <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <Typography variant="h6" fontWeight={600} color="white">{mission.title}</Typography>
-                          {mission.progress === mission.total && <HiBadgeCheck size={30} color="#FDE047" />}
 
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-                          <img src={ecoin} alt="ecoin" width={20} height={20} />
-                          <Typography sx={{ fontWeight: "bold", ml: 1 }}>{mission.points}</Typography>
-                        </Box>
-                        <LinearProgress
-                          variant="determinate"
-                          value={(mission.progress / mission.total) * 100}
-                          sx={{ height: 8, borderRadius: 5, bgcolor: "#e0e0e0", mt: 2 }}
-                        />
-                        <Typography variant="body2" sx={{ mt: 1, textAlign: "right" }}>
-                          {mission.progress}/{mission.total}
-                        </Typography>
-                        <Box sx={{ mt: 2 }}>
-                          <Button
-                            variant="contained"
-                            onClick={() => handleClaim(mission.id)}
-                            sx={{
-                              bgcolor: "#FDE047",
-                              color: "black",
-                              width: "100%",
-                              borderRadius: 2,
-                              textTransform: "none",
-                              "&:hover": { bgcolor: "#FACC15" },
-                              visibility: isCompleted ? "visible" : "hidden",
-                            }}
-                          >
-                            Claim
-                          </Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </Grid>
-              );
-            })}
+        <Divider sx={{ width: "100%", bgcolor: "rgba(63, 81, 181, 1)", mb: 4 }} />
+
+        <Grid container spacing={3}>
+          {/* Tabs Section */}
+          <Grid item xs={12} sm={4} md={3} lg={2} sx={{ position: "sticky", top: 100, alignSelf: "flex-start" }}>
+            <TabsSection tabIndex={tabIndex} setTabIndex={setTabIndex} isSmallScreen={isSmallScreen} />
           </Grid>
-        </motion.div>
-      </Container>
+
+          {/* Mission List Section */}
+          <Grid item xs={12} sm={8} md={9} lg={10}>
+            <MissionListSection
+              filteredMissions={filteredMissions}
+              handleClaim={handleClaim}
+              handleClaimAll={handleClaimAll}
+              claimableMissions={claimableMissions}
+              tabIndex={tabIndex}
+            />
+          </Grid>
+        </Grid>
+      </Box>
     </Page>
   );
 };

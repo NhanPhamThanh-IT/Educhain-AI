@@ -16,7 +16,7 @@ def init_quiz():
                 CREATE TABLE IF NOT EXISTS quiz_question (
                     id SERIAL PRIMARY KEY,
                     question TEXT NOT NULL,
-                    options TEXT[] NOT NULL,
+                    options TEXT[],
                     correct_answer TEXT NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -66,6 +66,15 @@ def delete_quiz(quiz_id: int) -> bool:
     """Delete user information"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE course
+                SET quiz_question = array_remove(quiz_question, %s)
+                WHERE %s = ANY(quiz_question)
+                """,
+                (quiz_id, quiz_id)
+            )
+
             cur.execute(
                 "DELETE FROM quiz_question WHERE id = %s RETURNING *",
                 (quiz_id,)

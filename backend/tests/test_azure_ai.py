@@ -15,7 +15,7 @@ def upload_and_extract(file_path):
     url = f"{AZURE_ENDPOINT}formrecognizer/documentModels/{MODEL_ID}:analyze?api-version=2023-07-31"
     headers = {
         "Ocp-Apim-Subscription-Key": API_KEY,
-        "Content-Type": "application/pdf"
+        "Content-Type": "application/pdf"   
     }
 
     with open(file_path, "rb") as f:

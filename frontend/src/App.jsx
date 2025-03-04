@@ -10,9 +10,12 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from "./utils/themes";
 import NotistackProvider from "./components/NotistackProvider";
 
+// smart_contract
+import { TOKEN_ICO_Provider } from "./context/index";
+
 export default function App() {
   return (
-    <>
+    <TOKEN_ICO_Provider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <HelmetProvider>
@@ -23,6 +26,6 @@ export default function App() {
           </BrowserRouter>
         </HelmetProvider>
       </ThemeProvider>
-    </>
+    </TOKEN_ICO_Provider>
   );
 }

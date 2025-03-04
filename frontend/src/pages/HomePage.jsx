@@ -1,13 +1,13 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Page from "../components/Page";
-import IntroSection from "../sections/HomePage/Introduction";
-import BenefitsSection from "../sections/HomePage/Benefits";
-import RecommendedCourses from "../sections/HomePage/RecommendedCourses";
-import ExchangeRate from "../sections/HomePage/ExchangeRate";
-import FAQSection from "../sections/HomePage/FAQ";
+import IntroSection from "../sections/Intro/Introduction";
+import BenefitsSection from "../sections/Intro/Benefits";
+import RecommendedCourses from "../sections/Intro/RecommendedCourses";
+import ExchangeRate from "../sections/Intro/ExchangeRate";
+import FAQSection from "../sections/Intro/FAQ";
 
-const Homepage = () => {
+const HomePage = () => {
     return (
         <Page title="Homepage">
             <Box maxWidth="2xl" sx={{ mt: 13 }}>
@@ -21,4 +21,4 @@ const Homepage = () => {
     );
 };
 
-export default Homepage;
+export default HomePage;

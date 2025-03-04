@@ -34,9 +34,9 @@ export const MY_LEARNING = {
   createCourse: path("/mylearning", "/createcourse"),
 }
 
-export const COURSES_DOCS = {
-  root: "/coursesdocs",
-  main: path("/coursesdocs", ""),
+export const MARKET = {
+  root: "/market",
+  main: path("/market", ""),
 }
 
 export const COURSE_DETAILS = {
