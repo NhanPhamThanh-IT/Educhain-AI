@@ -1,18 +1,18 @@
 import React from "react";
 import { Container, Grid, Card, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
-import AnimatedHeading from "../../components/HomePage/AnimateHeading";
+import AnimatedHeading from "../../components/Intro/AnimateHeading";
 
 const categories = [
-    { title: "Business Management", color: "#EAF6FF", icon: "/CoursesDocs/Category1.png" },
-    { title: "Arts & Design", color: "#FEF2F4", icon: "/CoursesDocs/Category2.png" },
-    { title: "Personal Development", color: "#EEFBF5", icon: "/CoursesDocs/Category3.png" },
-    { title: "UI/UX Design", color: "#FFFAEF", icon: "/CoursesDocs/Category4.png" },
-    { title: "Graphic Design", color: "#F7F3FF", icon: "/CoursesDocs/Category5.png" },
-    { title: "Digital Marketing", color: "#FFF0F8", icon: "/CoursesDocs/Category6.png" },
-    { title: "Exclusive Man", color: "#F3F4FE", icon: "/CoursesDocs/Category7.png" },
-    { title: "Product Design", color: "#FFF7EF", icon: "/CoursesDocs/Category8.png" },
-    { title: "Video & Photography", color: "#F1FBFF", icon: "/CoursesDocs/Category9.png" },
+    { title: "Business Management", color: "#EAF6FF", icon: "/Market/Category1.png" },
+    { title: "Arts & Design", color: "#FEF2F4", icon: "/Market/Category2.png" },
+    { title: "Personal Development", color: "#EEFBF5", icon: "/Market/Category3.png" },
+    { title: "UI/UX Design", color: "#FFFAEF", icon: "/Market/Category4.png" },
+    { title: "Graphic Design", color: "#F7F3FF", icon: "/Market/Category5.png" },
+    { title: "Digital Marketing", color: "#FFF0F8", icon: "/Market/Category6.png" },
+    { title: "Exclusive Man", color: "#F3F4FE", icon: "/Market/Category7.png" },
+    { title: "Product Design", color: "#FFF7EF", icon: "/Market/Category8.png" },
+    { title: "Video & Photography", color: "#F1FBFF", icon: "/Market/Category9.png" },
 ];
 
 const cardVariants = {

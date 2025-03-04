@@ -12,7 +12,7 @@ const IntroSection = () => {
         textAlign: "center",
         color: "white",
         py: 19.5,
-        backgroundImage: "url('HomePage/IntroBanner.jpg')",
+        backgroundImage: "url('Intro/IntroBanner.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         "&::before": {
@@ -50,7 +50,7 @@ const IntroSection = () => {
             <Container maxWidth="md" sx={{ position: "relative", zIndex: 2 }}>
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
                     <Typography variant="h3" fontWeight="bold" gutterBottom>
-                        <img src="/HomePage/IntroIcon.png" alt="Not found" height="60" /> Unlock Your Creative Potential
+                        <img src="/Intro/IntroIcon.png" alt="Not found" height="60" /> Unlock Your Creative Potential
                     </Typography>
                 </motion.div>
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Grid, Card, CardContent, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
-import AnimatedHeading from "../../components/HomePage/AnimateHeading";
-import benefits from "../../constants/HomePage/benefits";
+import AnimatedHeading from "../../components/Intro/AnimateHeading";
+import benefits from "../../constants/Intro/benefits";
 import { HiBadgeCheck } from "react-icons/hi";
 
 const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };

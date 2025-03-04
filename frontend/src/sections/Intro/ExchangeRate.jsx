@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Grid } from "@mui/material";
-import RightColumn from "../../components/HomePage/ExchangeRate/RightColumn";
-import LeftColumn from "../../components/HomePage/ExchangeRate/LeftColumn";
+import RightColumn from "../../components/Intro/ExchangeRate/RightColumn";
+import LeftColumn from "../../components/Intro/ExchangeRate/LeftColumn";
 
 const ExchangeRate = () => {
     const [page, setPage] = useState(1);
