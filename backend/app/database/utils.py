@@ -24,8 +24,9 @@ def process_course(user_id: int, course_info:Dict) -> bool:
     course_id = save_course(user_id,course_info['name'],course_info['category'],course_info['intro'],course_info['des'],course_info['price'])
     return True if course_id else False
 
-def process_document():
-    pass
+def process_document(course_id:int, doc_info: Dict) -> bool:
+    doc_id = save_documnet(course_id, doc_info['type'], doc_info['url'])['id']
+    return True if doc_id else False
 
 def process_chat_history(thread_id:int, chat_info: Dict)->bool:
     chat_id = save_chat_history(thread_id,chat_info['ques'],chat_info['ans'])
