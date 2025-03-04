@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Container, Paper, Box, Button, Typography } from "@mui/material";
 import Page from "../components/Page";
 import ProfileHeader from "../sections/ProfileSetup/ProfileHeader";
 import ProfileForm from "../sections/ProfileSetup/ProfileForm";
 import EmailSection from "../sections/ProfileSetup/EmailSection";
-import defaultvalue from "../constants/ProfileSetupPage/default"
+import defaultvalue from "../constants/ProfileSetupPage/default";
+
+const API_URL = `${import.meta.env.VITE_MOCK_API_1}userprofile`;
 
 const getTimeObject = () => {
   const date = new Date();
@@ -18,21 +21,16 @@ const getTimeObject = () => {
   };
 };
 
-const fetchUserData = async () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        fullname: "Gia Bao",
-        nickname: "HandsomeGB",
-        email: [{ address: "handsomeGB@gmail.com", updatedTime: getTimeObject() }],
-        avatar: "https://via.placeholder.com/100",
-        gender: "Male",
-        country: "Vietnam",
-        address: "123 Street, City",
-        phone: "123456789",
-      });
-    }, 100);
-  });
+const fetchUserData = async () => {
+  try {
+    const { data } = await axios.get(API_URL);
+    console.log(data);
+    return data[0];
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+};
 
 const ProfileSetup = () => {
   const [userData, setUserData] = useState({});
@@ -41,14 +39,29 @@ const ProfileSetup = () => {
   const [showAllEmails, setShowAllEmails] = useState(false);
 
   useEffect(() => {
-    fetchUserData().then((data) => setUserData(data));
+    fetchUserData().then((data) => {
+      if (data) {
+        setUserData(data);
+      }
+    });
     setGenders(defaultvalue.genders);
     setCountries(defaultvalue.countries);
   }, []);
 
-  const handleChange = (field) => (event) => setUserData({ ...userData, [field]: event.target.value });
+  const handleChange = (field) => (event) =>
+    setUserData({ ...userData, [field]: event.target.value });
 
-  const handleSubmit = () => alert("Profile data saved successfully!");
+  const handleSubmit = async () => {
+    try {
+      await axios.put(API_URL, userData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      alert("Profile data saved successfully!");
+    } catch (error) {
+      console.error("Error saving profile data:", error);
+      alert("Failed to save profile data");
+    }
+  };
 
   const handleAddEmail = () => {
     const emailInput = window.prompt("Enter new email address:");
@@ -68,7 +81,12 @@ const ProfileSetup = () => {
         <Paper elevation={6} sx={{ p: 5, borderRadius: 3, backgroundColor: "#f9f9f9" }}>
           <ProfileHeader userData={userData} />
           <ProfileForm userData={userData} handleChange={handleChange} genders={genders} countries={countries} />
-          <EmailSection emails={userData.email} showAllEmails={showAllEmails} toggleShowEmails={() => setShowAllEmails(!showAllEmails)} handleAddEmail={handleAddEmail} />
+          <EmailSection
+            emails={userData.email}
+            showAllEmails={showAllEmails}
+            toggleShowEmails={() => setShowAllEmails(!showAllEmails)}
+            handleAddEmail={handleAddEmail}
+          />
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
             <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ fontWeight: 700 }}>
               Submit

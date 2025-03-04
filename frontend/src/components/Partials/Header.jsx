@@ -3,10 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Tabs, Tab, Box, Typography, Avatar, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { Menu as MenuIcon, AccountCircle, MonetizationOn, Assignment, Logout } from "@mui/icons-material";
 
+const tabData = [
+    { label: "Home", link: "/homepage" },
+    { label: "My Learning", link: "/mylearning" },
+    { label: "Courses", link: "/coursesdocs" },
+    { label: "Missions", link: "/learning/mission" },
+    { label: "Leaderboard", link: "/learning/leaderboard" },
+];
+
 const menuOptions = [
     { icon: <AccountCircle />, label: "Profile", link: "/profilesetup" },
     { icon: <MonetizationOn />, label: "Coin Exchange", link: "/learning/exchange" },
-    { icon: <Assignment />, label: "Missions", link: "/learning/mission" },
     { icon: <Logout />, label: "Logout", link: "auth/logout" },
 ];
 
@@ -36,19 +43,22 @@ const AppBarComponent = () => {
         >
             <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 0 }}>
                 {/* Logo */}
-                <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, height: 50 }} onClick={() => navigate("/homepage")}/>
+                <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, height: 50 }} onClick={() => navigate("/homepage")} />
 
                 {/* Navigation Tabs */}
                 <Tabs textColor="primary" indicatorColor="primary" sx={{ flexGrow: 1, ml: 3 }}>
-                    {["Home", "My Learning", "Courses & Docs", "Leaderboard"].map((label, index) => (
+                    {tabData.map(({ label, link }, index) => (
                         <Tab
                             key={index}
                             label={label}
-                            onClick={() => navigate(label === "Home" ? "/homepage" : `/${label.toLowerCase().replace(/ & /g, "").replace(/ /g, "")}`)}
+                            onClick={() => navigate(link)}
                             sx={{
                                 color: elevated ? "#fff" : "#000",
                                 transition: "all 0.3s",
-                                "&:hover": { color: "#F5A623", textShadow: "0px 0px 10px rgba(245, 166, 35, 0.5)" },
+                                "&:hover": {
+                                    color: "#F5A623",
+                                    textShadow: "0px 0px 10px rgba(245, 166, 35, 0.5)",
+                                },
                             }}
                         />
                     ))}
@@ -59,7 +69,6 @@ const AppBarComponent = () => {
                     <Typography sx={{ display: "flex", alignItems: "center", color: elevated ? "#fff" : "#000" }}>
                         <img src="/Partials/Ecoin.png" alt="Coin" height="35" /> 12,312.44
                     </Typography>
-                    <Typography sx={{ color: elevated ? "#fff" : "#000" }}>Gia Bao</Typography>
 
                     {/* Avatar */}
                     <Avatar
