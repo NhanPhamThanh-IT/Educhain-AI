@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material';
-import FAQLeftColumn from '../../components/HomePage/Faqs/LeftColumn';
-import FAQRightColumn from '../../components/HomePage/Faqs/RightColumn';
+import FAQLeftColumn from '../../components/Intro/Faqs/LeftColumn';
+import FAQRightColumn from '../../components/Intro/Faqs/RightColumn';
 
 const FAQSection = () => {
     return (

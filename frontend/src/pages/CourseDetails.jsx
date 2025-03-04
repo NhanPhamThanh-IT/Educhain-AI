@@ -29,7 +29,7 @@ const CoursePage = () => {
         const fetchData = async () => {
             try {
                 // Make a GET request to the mock API to retrieve course details
-                const response = await axios.get("https://67bf46b9b2320ee050133bbe.mockapi.io/api/educhainAI/coursedetails");
+                const response = await axios.get(`${import.meta.env.VITE_MOCK_API_2}coursedetails`);
                 // Store the first course object from the response data into state
                 setCourseData((response.data)[0]);
             } catch (error) {

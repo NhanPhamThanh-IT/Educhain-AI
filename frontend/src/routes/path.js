@@ -8,8 +8,7 @@ const ROOTS_AUTH = "/authentication";
 
 export const PATH_AUTH = {
   root: ROOTS_AUTH,
-  login: path(ROOTS_AUTH, "/login"),
-  register: path(ROOTS_AUTH, "/register"),
+  auth: path(ROOTS_AUTH, ""),
   verify: path(ROOTS_AUTH, "/verify"),
   fotgotPassword: path(ROOTS_AUTH, "/forgot-password"),
 };
@@ -35,9 +34,9 @@ export const MY_LEARNING = {
   createCourse: path("/mylearning", "/createcourse"),
 }
 
-export const COURSES_DOCS = {
-  root: "/coursesdocs",
-  main: path("/coursesdocs", ""),
+export const MARKET = {
+  root: "/market",
+  main: path("/market", ""),
 }
 
 export const COURSE_DETAILS = {

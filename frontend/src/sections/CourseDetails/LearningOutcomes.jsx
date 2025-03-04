@@ -44,7 +44,7 @@ const LearningOutcomesSection = ({ content, list_images }) => {
         <Box sx={{ py: 4 }}>
             {/* Course title */}
             <Typography variant="h5" fontWeight="bold" sx={{ color: "#365ACA", mb: 2 }}>
-                Course Description
+                What You'll Learn?
             </Typography>
 
             {/* Course content description */}
@@ -53,7 +53,7 @@ const LearningOutcomesSection = ({ content, list_images }) => {
             </Typography>
 
             {/* Image slider section */}
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 3 }}>
                 <Slider {...settings}>
                     {/* Map through images and render each one inside the slider */}
                     {(list_images || ["https://source.unsplash.com/800x400/?students,learning"]).map((src, index) => (
