@@ -9,9 +9,11 @@ neo4j
 azure-storage-blob
 azure.ai.formrecognizer
 python-multipart
-lightrag-hku
-psycopg[binary,pool]
+lightrag-hku==1.2.3
+"psycopg[binary,pool]"
 pipmaster
+bcrypt
+pyjwt
 
 
 
