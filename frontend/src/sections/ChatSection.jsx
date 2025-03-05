@@ -1,14 +1,26 @@
 import { useState, useRef, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Box, Typography, IconButton, TextField, Button } from "@mui/material";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import {
+  Box,
+  Typography,
+  IconButton,
+  TextField,
+  Button,
+  Divider,
+} from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ImageIcon from "@mui/icons-material/Image";
 import SendIcon from "@mui/icons-material/Send";
 import DownloadIcon from "@mui/icons-material/Download";
 import PauseIcon from "@mui/icons-material/Pause";
+import QuizIcon from "@mui/icons-material/Quiz";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 
 export default function ChatSection() {
   const [params] = useSearchParams();
+  const navigate = useNavigate();
   const historyItem = params.get("historyItem");
 
   const [message, setMessage] = useState("");
@@ -39,7 +51,7 @@ export default function ChatSection() {
   }, [messages]);
   // Xử lý gửi tin nhắn
   const handleSend = () => {
-  if (message.trim()) {
+    if (message.trim()) {
       const newMessages = [
         ...messages,
         { type: "text", content: message, sender: "user" },
@@ -140,6 +152,79 @@ export default function ChatSection() {
                 Get answers with citations to your relevant files.
               </Typography>
             </Box>
+
+            <Typography
+              variant="subtitle1"
+              sx={{ textAlign: "center", fontWeight: "bold", my: 10 }}
+            >
+              Create a ...
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 1,
+                flexWrap: "wrap",
+                mb: 2,
+              }}
+            >
+              <Button
+                variant="outlined"
+                onClick={() => window.location.href = "/learning/course?section=quizzes&historyItem=overview"}
+                startIcon={<QuizIcon sx={{ color: "green" }} />}
+                sx={{
+                  color: "green",
+                  borderColor: "green",
+                  flexBasis: "20%",
+                  minWidth: "120px",
+                }}
+              >
+                Quiz
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => window.location.href = "/learning/course?section=studyGuides&historyItem=overview"}
+                startIcon={<MenuBookIcon sx={{ color: "blue" }} />}
+                sx={{
+                  color: "blue",
+                  borderColor: "blue",
+                  flexBasis: "20%",
+                  minWidth: "120px",
+                }}
+              >
+                Study Guide
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => window.location.href = "/learning/course?section=learningByVideo&historyItem=video2"}
+                startIcon={<VideocamIcon sx={{ color: "orange" }} />}
+                sx={{
+                  color: "orange",
+                  borderColor: "orange",
+                  flexBasis: "20%",
+                  minWidth: "120px",
+                }}
+              >
+                Video
+              </Button>
+              <Button
+                variant="outlined"
+                disabled
+                startIcon={<SportsEsportsIcon sx={{ color: "red" }} />}
+                sx={{
+                  color: "red",
+                  borderColor: "red",
+                  flexBasis: "20%",
+                  minWidth: "120px",
+                  minHeight: "60px",
+                }}
+              >
+                Games
+              </Button>
+            </Box>
+
+            <Divider sx={{ mx: 10 }} />
+
             <Box
               sx={{
                 display: "flex",

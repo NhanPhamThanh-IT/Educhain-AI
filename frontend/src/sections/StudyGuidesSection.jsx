@@ -1,4 +1,4 @@
-import React, { useState, useRef  } from "react";
+import { useRef } from "react";
 import {
   Box,
   Typography,
@@ -11,7 +11,7 @@ import {
   ListItemText,
   ListItemButton,
   Grid,
-  Divider
+  Divider,
 } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { AutoStories } from "@mui/icons-material";
@@ -27,6 +27,23 @@ const files = [
       "Features of InfoStudia SIS",
     ],
     progress: 40,
+    relatedQuizQuestions: [
+      {
+        id: 1,
+        question: "What is the capital of France?",
+        type: "General Knowledge"
+      }
+    ],
+    learningTechniques: [
+      "Comparative Analysis",
+      "Platform Evaluation",
+      "Educational Technology Assessment"
+    ],
+    aiEnhancementPotential: {
+      semanticSearch: true,
+      ocrCapability: true,
+      multimodalLearning: true
+    }
   },
   {
     name: "2-PhatBieuBaiToan.pdf",
@@ -36,103 +53,196 @@ const files = [
       "Moodle vs SHub",
     ],
     progress: 70,
+    relatedQuizQuestions: [
+      {
+        id: 7,
+        question: "Which technique improves query accuracy by understanding natural language intent?",
+        answer: "Semantic Search"
+      }
+    ],
+    platformComparison: {
+      models: ["Moodle", "SHub"],
+      comparisonCriteria: [
+        "Feature Complexity",
+        "User Management",
+        "Scalability"
+      ]
+    },
+    aiToolsForAnalysis: {
+      queryEnhancement: "Semantic Search",
+      textEmbedding: "CLIP Model",
+      naturalLanguageProcessing: "GPT-4o"
+    }
   },
   {
     name: "22127442-10.pdf",
     error: true,
-  },
-  {
-    name: "2-PhatBieuBaiToan.pdf",
-    topics: [
-      "Comparing SIS Platforms",
-      "Importance of SIS in Education",
-      "Features of InfoStudia SIS",
-      "Importance of SIS in Education",
-      "Features of InfoStudia SIS",
-    ],
-    progress: 40,
-  },
-  {
-    name: "2-PhatBieuBaiToan.pdf",
-    topics: [
-      "Current Status and Development Needs",
-      "Practical Needs of SIS",
-      "Moodle vs SHub",
-    ],
-    progress: 70,
-  },
-  {
-    name: "2-PhatBieuBaiToan.pdf",
-    topics: [
-      "Comparing SIS Platforms",
-      "Importance of SIS in Education",
-      "Features of InfoStudia SIS",
-      "Importance of SIS in Education",
-      "Features of InfoStudia SIS",
-    ],
-    progress: 40,
-  },
-  {
-    name: "2-PhatBieuBaiToan.pdf",
-    topics: [
-      "Current Status and Development Needs",
-      "Practical Needs of SIS",
-      "Moodle vs SHub",
-    ],
-    progress: 70,
-  },
-  {
-    name: "22127442-10.pdf",
-    error: true,
-  },
+    errorHandling: {
+      possibleReasons: [
+        "Corrupted File",
+        "Incompatible Format",
+        "Access Restrictions"
+      ],
+      recommendedActions: [
+        "Verify File Integrity",
+        "Check File Permissions",
+        "Attempt Alternative Conversion Methods"
+      ]
+    },
+    recoveryPotential: {
+      ocrRecovery: true,
+      aiTextExtraction: {
+        model: "PaddleOCR",
+        capability: "Text Extraction from Images"
+      }
+    }
+  }
 ];
 const studyData = {
-  title: "Comparing SIS Platforms",
-  progress: 0,
+  title: "Advanced Model Integration and Multimodal Data Retrieval",
+  course_id: "5ad4cd46-eeec-4a8a-bd4f-5873c8e1491c",
+  category: "AI & Data Science",
+  price: 99.99,
+  introduction: "An in-depth study on integrating AI models in data retrieval",
+  description: "This course covers multimodal intelligence, query enhancement techniques, and system optimization for large-scale data retrieval",
+  progress: 60,
   sections: [
     {
-      title: "Overview of Moodle",
+      title: "Introduction to AI Models",
       content: (
         <>
+          <Typography variant="h6">Multimodal AI Models Overview</Typography>
           <Typography variant="body1">
-            <strong>Moodle</strong> is a widely used learning management system that facilitates the creation and management of courses.  
-            Here are some key features:
+            Exploring cutting-edge AI models that can process and generate multiple types of data.
           </Typography>
           <ul>
-            <li><Typography variant="body2"><strong>Website:</strong> <a href="#">Moodle</a></Typography></li>
-            <li><Typography variant="body2"><strong>Course Management:</strong> Allows educators to create and manage courses.</Typography></li>
-            <li><Typography variant="body2"><strong>User Management:</strong> Supports management of teachers, students, and groups.</Typography></li>
-            <li><Typography variant="body2"><strong>Notifications:</strong> Enables the creation of announcements.</Typography></li>
-            <li><Typography variant="body2"><strong>Scheduling:</strong> Helps students keep track of assignments and deadlines.</Typography></li>
-            <li><Typography variant="body2"><strong>Communication Tools:</strong> Messaging and feedback tools for interaction.</Typography></li>
-            <li><Typography variant="body2"><strong>Accessibility:</strong> Allows easy access to course materials and class announcements.</Typography></li>
+            <li>
+              <Typography variant="body2">
+                <strong>CLIP:</strong> Cross-modal model for generating embeddings across text and images
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>GPT-4o:</strong> Enhanced natural language processing and query retrieval
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>Whisper:</strong> Advanced Automatic Speech Recognition (ASR) model
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>PaddleOCR:</strong> Specialized Optical Character Recognition model
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>DALL-E:</strong> Text-to-image generation using advanced generative techniques
+              </Typography>
+            </li>
           </ul>
         </>
-      ),
+      )
     },
     {
-      title: "Overview of SHub",
+      title: "Query Enhancement Techniques",
       content: (
-        <Typography variant="body1">
-          <strong>SHub</strong> is another SIS platform that provides a more streamlined approach to course management.
-        </Typography>
-      ),
+        <>
+          <Typography variant="h6">Advanced Search and Retrieval Methods</Typography>
+          <Typography variant="body1">
+            Techniques to improve accuracy and contextual understanding in AI-powered searches.
+          </Typography>
+          <ul>
+            <li>
+              <Typography variant="body2">
+                <strong>Semantic Search:</strong> Understanding user intent beyond keyword matching
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>Multimodal Embedding:</strong> Cross-referencing text and image data for precise retrieval
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>OCR-Based Querying:</strong> Extracting and searching text within images
+              </Typography>
+            </li>
+          </ul>
+        </>
+      )
     },
     {
-      title: "Comparison of Features",
+      title: "Model-Specific Applications",
       content: (
-        <Typography variant="body1">
-          Moodle offers more extensive features, while SHub is simpler and more user-friendly.
-        </Typography>
-      ),
-    },
+        <>
+          <Typography variant="h6">Specialized AI Model Capabilities</Typography>
+          <Typography variant="body1">
+            Detailed exploration of unique functionalities across different AI models.
+          </Typography>
+          <ul>
+            <li>
+              <Typography variant="body2">
+                <strong>CLIP:</strong> Generating embeddings for cross-modal data analysis
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>Whisper:</strong> Converting spoken language to text with high accuracy
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>PaddleOCR:</strong> Text extraction from various image sources
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
+                <strong>DALL-E:</strong> Creating unique images from textual descriptions
+              </Typography>
+            </li>
+          </ul>
+        </>
+      )
+    }
   ],
+  assessments: {
+    quizzes: {
+      total: 12,
+      topics: [
+        "AI Model Identification",
+        "Multimodal Intelligence",
+        "Search Techniques"
+      ]
+    },
+    exams: {
+      total: 5,
+      focus: [
+        "Theoretical Understanding",
+        "Practical Applications",
+        "Model Comparison"
+      ]
+    }
+  },
+  resources: {
+    studyGuides: 1,
+    documents: 1,
+    additionalMaterials: [
+      "PDF Lecture Notes",
+      "Practical Implementation Guides"
+    ]
+  }
 };
+
 export default function StudyGuides() {
   const sectionRefs = useRef(studyData.sections.map(() => null));
 
   const handleScrollToSection = (index) => {
-    sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    sectionRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
   const [searchParams] = useSearchParams();
   const history = searchParams.get("historyItem");
@@ -158,6 +268,12 @@ export default function StudyGuides() {
         {files.map((file, index) => (
           <Card
             key={index}
+            onClick={() => {
+              if (!file.error) {
+                window.location.href =
+                  "/learning/course?section=studyGuides&historyItem=study2";
+              }
+            }}
             sx={{
               width: 300,
               display: "flex",
@@ -167,7 +283,11 @@ export default function StudyGuides() {
               boxShadow: 3,
               border: "2px solid transparent",
               transition: "all 0.3s",
-              "&:hover": { borderColor: "#2196f3" },
+              cursor: file.error ? "default" : "pointer",
+              "&:hover": {
+                borderColor: file.error ? "red" : "#2196f3",
+                cursor: file.error ? "default" : "pointer",
+              },
             }}
           >
             <CardContent
@@ -245,48 +365,70 @@ export default function StudyGuides() {
         ))}
       </Box>
     </Box>
-  ) : (   <Box sx={{ display: "flex", height: "80vh", p: 2, gap: 2, overflowY: "auto", flexDirection: "column", "&::-webkit-scrollbar": { display: "none" } }}>
-    {/* Sidebar */}
-    <Paper sx={{ p: 2, minWidth: 300, maxHeight: "100%" }}>
-      <Typography variant="h6" fontWeight={700} gutterBottom>
-        Section Overview
-      </Typography>
-      <Typography variant="body2" color="text.secondary" gutterBottom>
-        Compare and contrast different Student Information Systems.
-      </Typography>
-      <Grid container spacing={1}>
-        {studyData.sections.map((section, index) => (
-          <Grid item xs={6} key={index}>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => handleScrollToSection(index)}>
-                <ListItemText primary={`${index + 1}. ${section.title}`} />
-              </ListItemButton>
-            </ListItem>
-          </Grid>
-        ))}
-      </Grid>
-    </Paper>
+  ) : (
+    <Box
+      sx={{
+        display: "flex",
+        height: "80vh",
+        p: 2,
+        gap: 2,
+        overflowY: "auto",
+        flexDirection: "column",
+        "&::-webkit-scrollbar": { display: "none" },
+      }}
+    >
+      {/* Sidebar */}
+      <Paper sx={{ p: 2, minWidth: 300, maxHeight: "100%" }}>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          Section Overview
+        </Typography>
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          Compare and contrast different Student Information Systems.
+        </Typography>
+        <Grid container spacing={1}>
+          {studyData.sections.map((section, index) => (
+            <Grid item xs={6} key={index}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handleScrollToSection(index)}>
+                  <ListItemText primary={`${index + 1}. ${section.title}`} />
+                </ListItemButton>
+              </ListItem>
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
 
-    {/* Content Area */}
-    <Box sx={{ flex: 1, p: 2 }}>
-      <Typography variant="h5" fontWeight={700} color="primary" gutterBottom>
-        {studyData.title}
-      </Typography>
-      <LinearProgress variant="determinate" value={studyData.progress} sx={{ mb: 2 }} />
-      
-      {studyData.sections.map((section, index) => (
-        <Box
-          key={index}
-          ref={(el) => (sectionRefs.current[index] = el)}
-          sx={{ mb: 3, p: 2, border: "2px solid lightgray", borderRadius: 2, backgroundColor: "white" }}
-        >
-          <Typography variant="h6" fontWeight={700} gutterBottom>
-            {section.title}
-          <Divider />
-          </Typography>
-          {section.content}
-        </Box>
-      ))}
+      {/* Content Area */}
+      <Box sx={{ flex: 1, p: 2 }}>
+        <Typography variant="h5" fontWeight={700} color="primary" gutterBottom>
+          {studyData.title}
+        </Typography>
+        <LinearProgress
+          variant="determinate"
+          value={studyData.progress}
+          sx={{ mb: 2 }}
+        />
+
+        {studyData.sections.map((section, index) => (
+          <Box
+            key={index}
+            ref={(el) => (sectionRefs.current[index] = el)}
+            sx={{
+              mb: 3,
+              p: 2,
+              border: "2px solid lightgray",
+              borderRadius: 2,
+              backgroundColor: "white",
+            }}
+          >
+            <Typography variant="h6" fontWeight={700} gutterBottom>
+              {section.title}
+              <Divider />
+            </Typography>
+            {section.content}
+          </Box>
+        ))}
+      </Box>
     </Box>
-  </Box>);
+  );
 }
