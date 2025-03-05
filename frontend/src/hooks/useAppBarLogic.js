@@ -1,3 +1,4 @@
+import { BorderBottom } from "@mui/icons-material";
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 export const useAppBarLogic = () => {
@@ -26,6 +27,7 @@ export const useAppBarLogic = () => {
         transition: "all 0.2s ease-in-out",
         backdropFilter: elevated ? "blur(10px)" : "none",
         py: 2.5,
+        borderBottom: elevated ? "none" : "1px solid rgba(0, 0, 0, 0.1)",
     }), [elevated]);
 
     return { elevated, menuAnchor, drawerOpen, toggleMenu, toggleDrawer, appBarStyle };

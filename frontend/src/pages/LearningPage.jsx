@@ -19,6 +19,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import { AnimatePresence } from "framer-motion";
 import { CloudUpload, Link } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -37,6 +38,8 @@ import MaterialsSection from "../sections/MaterialsSection";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+
+import AppBarComponent from "../components/Partials/Header/Index";
 
 const getColoredLabel = (text, color) => (
   <Typography sx={{ color, fontWeight: "medium" }}>{text}</Typography>
@@ -75,20 +78,7 @@ export default function EduchainApp() {
       "image/webp": [], // WEBP
     },
   });
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
 
-  const [openNavbar, setOpenNavbar] = useState(false);
-
-  const handleOpenNavbar = () => setOpenNavbar(true);
-  const handleCloseNavbar = () => setOpenNavbar(false);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const toggleSection = (sectionKey) => {
     setOpenSection((prev) => (prev === sectionKey ? null : sectionKey));
   };
@@ -104,6 +94,7 @@ export default function EduchainApp() {
   return (
     <Box
       sx={{
+        mt: 13,
         display: "flex",
         height: "100vh",
         width: "100vw",
@@ -125,7 +116,7 @@ export default function EduchainApp() {
             boxSizing: "border-box",
             backgroundColor: "#fff",
             padding: 2,
-            z: -100,
+            zIndex: 0,
           },
           overflow: "hidden",
           "&::-webkit-scrollbar": { display: "none" },
@@ -136,7 +127,7 @@ export default function EduchainApp() {
             maxWidth: 500,
             mx: "auto",
             textAlign: "center",
-            mt: 4,
+            mt: 13,
             "&::-webkit-scrollbar": { display: "none" },
           }}
         >
@@ -263,121 +254,26 @@ export default function EduchainApp() {
         </List>
       </Drawer>
 
+      {/* Nội Dung Chính */}
       <Box
+        component="main"
         sx={{
-          position: "relative",
+          flexGrow: 1,
+          p: 6,
+          backgroundColor: "#fff",
+          borderRadius: 3,
+          boxShadow: 3,
+          m: 4,
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: "100%",
-          p: 3,
         }}
       >
-        {/* Button Icon */}
-        {!openNavbar && (
-          <IconButton
-            onClick={handleOpenNavbar}
-            sx={{
-              position: "relative",
-              top: 0,
-              backgroundColor: "white",
-              boxShadow: 3,
-              borderRadius: "50%",
-              mb: "-15px",
-              zIndex: 10,
-              transition: "all 0.3s",
-              "&:hover": { transform: "scale(1.1)" },
-            }}
-          >
-            <HelpOutlineIcon sx={{ fontSize: 30, color: "#1976D2" }} />
-          </IconButton>
-        )}
-
-        {/* Navbar Hiển Thị Ngang */}
-        {openNavbar && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{
-              duration: 0.6,
-              ease: [0.25, 0.1, 0.25, 1]
-            }}
-            style={{ width: "100%" }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                background: "linear-gradient(135deg, #1976D2, #42A5F5)",
-                borderRadius: 3,
-                boxShadow: 3,
-                m: 4,
-                p: 2,
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 3,
-              }}
-            >
-              {/* Nút Đóng Navbar */}
-              <IconButton
-                onClick={handleCloseNavbar}
-                sx={{
-                  backgroundColor: "white",
-                  boxShadow: 3,
-                  "&:hover": { backgroundColor: "#f5f5f5" },
-                }}
-              >
-                <CloseIcon sx={{ color: "#1976D2" }} />
-              </IconButton>
-
-              {/* Menu Items */}
-              {["Intro", "My Learning", "Market", "Mission", "Leaderboard"].map(
-                (item) => (
-                  <MenuItem
-                    key={item}
-                    onClick={() => alert(item)}
-                    sx={{
-                      color: "white",
-                      fontWeight: "bold",
-                      transition: "all 0.3s",
-                      "&:hover": {
-                        backgroundColor: "rgba(255,255,255,0.2)",
-                        borderRadius: 2,
-                      },
-                    }}
-                  >
-                    <Typography variant="subtitle1">{item}</Typography>
-                  </MenuItem>
-                )
-              )}
-            </Box>
-          </motion.div>
-        )}
-
-        {/* Nội Dung Chính */}
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 6,
-            backgroundColor: "#fff",
-            borderRadius: 3,
-            boxShadow: 3,
-            m: 4,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {sections.find(
-            (s) => s.key === selectedSection && s.history?.includes(selectedHistory)
-          )?.content || ""}
-        </Box>
+        {sections.find(
+          (s) => s.key === selectedSection && s.history?.includes(selectedHistory)
+        )?.content || ""}
       </Box>
-
     </Box>
   );
 }
