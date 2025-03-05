@@ -64,9 +64,11 @@ export default function LeaderBoard() {
             >
               Top Learners
             </Typography>
-            <Divider />
+
             <LeaderboardTabs tab={tab} setTab={setTab} />
           </Box>
+
+          <Divider sx={{ my: 2, borderColor: "black", borderWidth: 1 }} />
 
           <LeaderboardTable />
         </Paper>

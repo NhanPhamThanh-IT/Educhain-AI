@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Avatar, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Shield, VpnKey, CheckCircleRounded, StarRounded } from "@mui/icons-material";
+import { StarRounded } from "@mui/icons-material";
+import { MdSecurity as Shield, MdVerifiedUser as VpnKey, MdLock as CheckCircleRounded } from "react-icons/md";
 import ecoin from "/ecoin.png";
 import { motion } from "framer-motion";
-
-
 
 const leaderboardData = [
     {
@@ -198,10 +197,9 @@ const LeaderboardTable = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center" fontWeight="bold">#</TableCell>
-                            <TableCell>Profile</TableCell>
-                            <TableCell align="center">Achievements</TableCell>
-                            <TableCell align="right">Points</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold", fontSize: 20 }}>#</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: 20 }}>Profile</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold", fontSize: 20 }}>Points</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -214,14 +212,23 @@ const LeaderboardTable = () => {
                                 transition={{ duration: 0.3, delay: index * 0.05 }}
                             >
                                 <TableCell align="center">
-                                    {index < 5 ? (
-                                        <Box sx={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", backgroundColor: "white" }}>
-                                            <StarRounded sx={{ color: index === 0 ? "#64B5F6" : index < 3 ? "#42A5F5" : "#1E88E5", fontSize: 24 }} />
-                                        </Box>
-                                    ) : (
-                                        <Typography variant="body2" fontWeight="bold">{index + 1}</Typography>
-                                    )}
+                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        {index < 5 ? (
+                                            <Box sx={{
+                                                width: 32, height: 32, display: "flex", alignItems: "center",
+                                                justifyContent: "center", borderRadius: "50%", backgroundColor: "white"
+                                            }}>
+                                                <StarRounded sx={{
+                                                    color: index === 0 ? "#64B5F6" : index < 3 ? "#42A5F5" : "#1E88E5",
+                                                    fontSize: 24
+                                                }} />
+                                            </Box>
+                                        ) : (
+                                            <Typography variant="body2" fontWeight="bold">{index + 1}</Typography>
+                                        )}
+                                    </Box>
                                 </TableCell>
+
                                 <TableCell>
                                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                                         <Avatar src={user.avatar} sx={{ width: 40, height: 40 }} />
@@ -232,12 +239,7 @@ const LeaderboardTable = () => {
                                     </Box>
                                 </TableCell>
                                 <TableCell align="center">
-                                    {user.achievements.map((Icon, i) => (
-                                        <Icon key={i} sx={{ mx: 0.5, fontSize: 24, color: ["#FFD700", "#81C784", "#FFB74D", "#FF8A65"][i] }} />
-                                    ))}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1 }}>
+                                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}>
                                         <Box component="img" src={ecoin} alt="Reward Icon" sx={{ width: 30, height: 30 }} />
                                         <Typography fontWeight="bold" sx={{ fontSize: "1rem", color: "#333" }}>{user.points}</Typography>
                                     </Box>
