@@ -58,25 +58,25 @@ const leaderboardData = [
     },
     {
         id: 7,
-        name: "Thien Nhan",
+        name: "Thanh Nguyen",
         location: "Ho Chi Minh City, Vietnam",
-        avatar: "https://i.pravatar.cc/40?img=7",
+        avatar: "https://scontent.fsgn7-1.fna.fbcdn.net/v/t39.30808-1/474112766_1914728222392807_5993720206228242424_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeG0zDozdNo9-T-boadgl0yDmmkVvSUKNDGaaRW9JQo0Mdzp3FWAha9PRXE-14updwfxZ7uz_EeGzvId559cNUZV&_nc_ohc=51ZXDhK8w10Q7kNvgGmHg98&_nc_oc=AdjC-Ifegp4GtZghPGqGSrAbOlmg-fxGEajsCnstSMRp6XG8y-XmwA6v4pNOz6eJsre86qhI92GuIUSa2ZQM8on_&_nc_zt=24&_nc_ht=scontent.fsgn7-1.fna&_nc_gid=AsaqAVxhFIfK0CgFlIthfeP&oh=00_AYAZtlWVVDiqfweABMV-dhoHUyge06XgGxz0Fh_-8SKx7g&oe=67CDB4D9",
         points: 7300,
         achievements: [Shield, VpnKey]
     },
     {
         id: 8,
-        name: "Bui Thi H",
+        name: "Luong Gia Thiec",
         location: "Ho Chi Minh City, Vietnam",
-        avatar: "https://i.pravatar.cc/40?img=8",
+        avatar: "https://scontent.fsgn7-2.fna.fbcdn.net/v/t39.30808-1/461939958_1430709581650640_683951064824837801_n.jpg?stp=dst-jpg_s120x120_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeGIy_QAdvEY6SlfU1LrE3NyHRtpcC_F4w0dG2lwL8XjDbexyYtzhCxuE6pFcHceWfoot0BEcHNmor6XZD0LWzlr&_nc_ohc=h8BuAhQA2g4Q7kNvgHisuW0&_nc_oc=Adjlcnz6U0396gpZxdF7nBGqmmaacJ_HW6Y0fuG38lpER7WdjHSFt9jDI_koSGAM8x6Zo0jUajRnXKB40emrY6xP&_nc_zt=24&_nc_ht=scontent.fsgn7-2.fna&_nc_gid=AdUkMgxYASyxl79x8oNmUdc&oh=00_AYAJt7Lrtf1rvJ-Wa2BaaslIKMe_yP-wn3E6bj9t-VFWDA&oe=67CDA44C",
         points: 9400,
         achievements: [CheckCircleRounded]
     },
     {
         id: 9,
-        name: "Ngo Van I",
+        name: "Thuy Uyen",
         location: "Ho Chi Minh City, Vietnam",
-        avatar: "https://i.pravatar.cc/40?img=9",
+        avatar: "https://scontent.fsgn7-2.fna.fbcdn.net/v/t39.30808-1/461939958_1430709581650640_683951064824837801_n.jpg?stp=dst-jpg_s120x120_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeGIy_QAdvEY6SlfU1LrE3NyHRtpcC_F4w0dG2lwL8XjDbexyYtzhCxuE6pFcHceWfoot0BEcHNmor6XZD0LWzlr&_nc_ohc=h8BuAhQA2g4Q7kNvgHisuW0&_nc_oc=Adjlcnz6U0396gpZxdF7nBGqmmaacJ_HW6Y0fuG38lpER7WdjHSFt9jDI_koSGAM8x6Zo0jUajRnXKB40emrY6xP&_nc_zt=24&_nc_ht=scontent.fsgn7-2.fna&_nc_gid=AdUkMgxYASyxl79x8oNmUdc&oh=00_AYAJt7Lrtf1rvJ-Wa2BaaslIKMe_yP-wn3E6bj9t-VFWDA&oe=67CDA44C",
         points: 8100,
         achievements: [Shield, VpnKey, CheckCircleRounded]
     },
