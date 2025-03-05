@@ -392,8 +392,8 @@ return history !== "overview" ? (
       boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
     }}
   >
-    <QuizIcon color="success" sx={{ fontSize: 50 }} />
-    <Typography variant="h6" fontWeight={600} color="success.main" mt={1}>
+    <QuizIcon color="primary" sx={{ fontSize: 50 }} />
+    <Typography variant="h6" fontWeight={600} color="primary.main" mt={1}>
       Study Set
     </Typography>
     <Typography variant="h4" fontWeight={700}>
@@ -438,10 +438,10 @@ return history !== "overview" ? (
   </Typography>
 </Stack>
 
-    <Typography variant="h6" color="success.main" mt={2}>
+    <Typography variant="h6" color="primary.main" mt={2}>
       Are you ready to continue?
     </Typography>
-    <Button variant="contained" color="success" sx={{ mt: 2, px: 4 }} onClick={() => window.location.href = "/learning/course?section=quizzes&historyItem=quiz1&question=4"}>
+    <Button variant="contained" color="primary" sx={{ mt: 2, px: 4 }} onClick={() => window.location.href = "/learning/course?section=quizzes&historyItem=quiz1&question=4"}>
       Continue Studying
     </Button>
   </Card>
