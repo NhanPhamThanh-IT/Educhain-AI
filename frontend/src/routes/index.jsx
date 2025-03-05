@@ -106,7 +106,7 @@ const routes = [
     path: "learning",
     children: [
       { path: "", element: <Navigate to="/learning/course" replace /> },
-      { path: "leaderboard", element: <LazyPages.LeaderBoard /> },
+      { path: "leaderboard", element: <MainLayout><LazyPages.LeaderBoard /></MainLayout> },
       { path: "mission", element: <MainLayout><LazyPages.MissionPage /></MainLayout> },
       { path: "course", element: <LazyPages.LearningPage /> },
       { path: "exchange", element: <MainLayout><LazyPages.ExchangeCoin /></MainLayout> },
