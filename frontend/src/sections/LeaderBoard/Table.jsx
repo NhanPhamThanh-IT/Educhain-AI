@@ -5,6 +5,171 @@ import { Shield, VpnKey, CheckCircleRounded, StarRounded } from "@mui/icons-mate
 import ecoin from "/ecoin.png";
 import { motion } from "framer-motion";
 
+
+
+const leaderboardData = [
+    {
+        id: 1,
+        name: "Pham Thanh Nhan",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://scontent.fsgn7-2.fna.fbcdn.net/v/t39.30808-1/480749832_1085842260013183_6620778893531098027_n.jpg?stp=cp6_dst-jpg_s480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeHH-UxosFzudmqA8wfmZHC8CqzeNgcCHFsKrN42BwIcWwr88cP4FFVTUJ_YMePsALYeukxJdMRPH-k77Edb7g8z&_nc_ohc=SYBphlcSOugQ7kNvgHb2MwB&_nc_oc=AdghDjfp51j5k1HSyW9ALIsIstMwN4d72kg9hAAvBt34_srNYOt8i2Wul30ALhEKDVGMegU0x9N6-SK5P7nRmC1O&_nc_zt=24&_nc_ht=scontent.fsgn7-2.fna&_nc_gid=AscRqMvZ49wGr6JRJslStV0&oh=00_AYBbpmP3k_ux0Nrzmr4kCXlOPXOIJW2bDp3E0L0ksBn7RA&oe=67CDA29F",
+        points: 8500,
+        achievements: [Shield, VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 2,
+        name: "Nguyen Van Tu",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://scontent.fsgn7-1.fna.fbcdn.net/v/t39.30808-1/457791378_1113577110128227_5285053054347682184_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeEUhy_Trl-EggApOKfMPx78BFoNO-PQn48EWg0749Cfj8HW47eFfCTVD6YOw8_AKiczMgLfolvIEehNGigzIRpK&_nc_ohc=Qza0P48zBkcQ7kNvgGeUXrG&_nc_oc=AdgmsF7hK7B5sH3C4YihIH-NCejpdyJm_yZqQfr0QCQ3BZvmBm-hbfGTErA2tuqkIY6dkOXuWK6qFgRmeLN9MCCH&_nc_zt=24&_nc_ht=scontent.fsgn7-1.fna&_nc_gid=AG740jqRAQt2T1w-OlP3LYu&oh=00_AYDWtLT2pNVWLFFhswfZd7Aic8OxG_zQqNYWGdZtTk3NBw&oe=67CD89F6",
+        points: 9200,
+        achievements: [Shield, CheckCircleRounded]
+    },
+    {
+        id: 3,
+        name: "Duong Trung Nghia",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://scontent.fsgn7-1.fna.fbcdn.net/v/t39.30808-1/473812945_3876034916047426_4360867862872893579_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeG5bjClSE3xSoQKZg1ECtN5DP5iyQzzhrMM_mLJDPOGs6RuMaOROH2nLU92LFNLrTTjQQEpuuODC6C_KEnxRAVt&_nc_ohc=31MYSoDpwKsQ7kNvgGpJJ2J&_nc_oc=AdjZwV1pYEUZIPNj4DNVBfXwdTGq4aCcfEmkdS1HuLJs8leo63QDY0lVaQEjxEit_yj0BGqz7N-1J82oNbAzbRBu&_nc_zt=24&_nc_ht=scontent.fsgn7-1.fna&_nc_gid=AAOoBqYQDHr_uo8pxeCxyS2&oh=00_AYAI8janV8FZJwN7QtfMkvs4RDwFzTT4B3gYiVfBMRXcVg&oe=67CDB89C",
+        points: 7800,
+        achievements: [VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 4,
+        name: "Nguyen Trong Nhan",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://scontent.fsgn7-1.fna.fbcdn.net/v/t39.30808-1/475296814_1816907812391127_1889273796000268362_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=111&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeHkQGhO77koktY3-lwAvweQ1FaBSKqdVubUVoFIqp1W5uarYkTg3ljZjj-jsKmLGeQH9kdj2RjFLHj0KfGyCPxi&_nc_ohc=LyOgGiEtwh0Q7kNvgF9Ty6O&_nc_oc=AdjTUsEuDXSFUCf4XypJppt7gR8i5K5PzkYEdwLOMXVZjSvSNANvom4nGyuUoAKKLnFRTaTPfzczv5PJa6B6U6OO&_nc_zt=24&_nc_ht=scontent.fsgn7-1.fna&_nc_gid=ArJPDrmeB-1eNY41ARP3DR0&oh=00_AYCN7PpMyM4LqdTL5pOAav8J28V35gIPkpPNtobI-Ao2pA&oe=67CD98A2",
+        points: 9700,
+        achievements: [Shield]
+    },
+    {
+        id: 5,
+        name: "Lai Ngoc Phuong Nam",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://scontent.fsgn7-2.fna.fbcdn.net/v/t39.30808-1/476493473_2427378957594657_7555421783706141205_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeFW3fKij1eKwk0Xzxu043LuUqCvTNa-MANSoK9M1r4wA0kHuI1gGXhjxcZPU6ibTWwkb60gEpoO_d2pHQ2PxBT6&_nc_ohc=MeMuPwuvBA0Q7kNvgEnnrsd&_nc_oc=Adis7KlJ2DNAKUHNoDLPV1n8j422Cl2vo7nP09SEZBwRCn6GiXvqcbPuTYI8BzZKw1r_0vRWnlMLStULISIXkxSf&_nc_zt=24&_nc_ht=scontent.fsgn7-2.fna&_nc_gid=AXVvqG-PXg2lwVTo9tGfOf9&oh=00_AYB44VWX5TkcL_qWS7PAKgpDp_Fcgc57kpl586TyWuzTrg&oe=67CD8FB8",
+        points: 6800,
+        achievements: [VpnKey, Shield, CheckCircleRounded]
+    },
+    {
+        id: 6,
+        name: "Truong Le",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://scontent.fsgn7-1.fna.fbcdn.net/v/t39.30808-1/475279330_3666038960362554_4420636038579363145_n.jpg?stp=cp6_dst-jpg_s480x480_tt6&_nc_cat=105&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeEjYbSmhllhWmg4p217iPmJQl6VGG_oFH1CXpUYb-gUfSbwuIKhuufo4lPyI1dJeXIwc1H_bhP2vuRy2Ex5kCeQ&_nc_ohc=DKhTo3pvjpQQ7kNvgGPSMjt&_nc_oc=AdjCahmVeVRYKzt0V2c0TOKoJtbCYX3GMhtdZ5zO2bJA2ncyoM6HbOgHV4Pv0L3vDDbHyUsXOg8E48Fhq2D8i-k7&_nc_zt=24&_nc_ht=scontent.fsgn7-1.fna&_nc_gid=ApBJ52kwbjCuA2bKKsDQHU5&oh=00_AYA2rn7br6QRxjuh3jj5L8am15EhHv2p4ht8gREXSAQAiQ&oe=67CDA268",
+        points: 8900,
+        achievements: [VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 7,
+        name: "Thien Nhan",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=7",
+        points: 7300,
+        achievements: [Shield, VpnKey]
+    },
+    {
+        id: 8,
+        name: "Bui Thi H",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=8",
+        points: 9400,
+        achievements: [CheckCircleRounded]
+    },
+    {
+        id: 9,
+        name: "Ngo Van I",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=9",
+        points: 8100,
+        achievements: [Shield, VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 10,
+        name: "Trinh Thi K",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=10",
+        points: 7600,
+        achievements: [VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 11,
+        name: "Ly Van L",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=11",
+        points: 8800,
+        achievements: [Shield]
+    },
+    {
+        id: 12,
+        name: "Phan Thi M",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=12",
+        points: 9200,
+        achievements: [VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 13,
+        name: "Luong Van N",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=13",
+        points: 7000,
+        achievements: [Shield, VpnKey]
+    },
+    {
+        id: 14,
+        name: "Truong Thi O",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=14",
+        points: 8300,
+        achievements: [CheckCircleRounded]
+    },
+    {
+        id: 15,
+        name: "Dinh Van P",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=15",
+        points: 7500,
+        achievements: [Shield, VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 16,
+        name: "Nguyen Thi Q",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=16",
+        points: 9100,
+        achievements: [VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 17,
+        name: "Do Van R",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=17",
+        points: 7800,
+        achievements: [Shield]
+    },
+    {
+        id: 18,
+        name: "Cao Thi S",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=18",
+        points: 8600,
+        achievements: [VpnKey, CheckCircleRounded]
+    },
+    {
+        id: 19,
+        name: "Nguyen Van T",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=19",
+        points: 7200,
+        achievements: [Shield, VpnKey]
+    },
+    {
+        id: 20,
+        name: "Le Thi U",
+        location: "Ho Chi Minh City, Vietnam",
+        avatar: "https://i.pravatar.cc/40?img=20",
+        points: 8900,
+        achievements: [CheckCircleRounded]
+    }
+];
+
 const getRowBackground = (index) => {
     if (index === 0) return "#E3F2FD";
     if (index < 3) return "#BBDEFB";
@@ -21,15 +186,6 @@ const StyledTableRow = styled(motion.tr)(({ index }) => ({
         background: "rgba(200, 230, 255, 0.4)",
         transform: "scale(1.01)",
     },
-}));
-
-const leaderboardData = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    name: `User ${index + 1}`,
-    location: "City, Country",
-    avatar: `https://i.pravatar.cc/40?img=${index + 1}`,
-    points: Math.floor(Math.random() * 5000) + 5000,
-    achievements: [Shield, VpnKey, CheckCircleRounded]
 }));
 
 const LeaderboardTable = () => {

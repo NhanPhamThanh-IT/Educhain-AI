@@ -1,114 +1,104 @@
-// Import dependencies
-import React, { useState } from "react";
-import {
-    Grid, Typography, Box, Tabs, Tab, Divider, Paper, Button, useTheme, useMediaQuery
-} from "@mui/material";
-import { ListAlt, CheckCircle, Cancel, Redeem } from "@mui/icons-material";
+// Importing necessary react hooks and components
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// Importing necessary MUI components
+import { Container, Button, Box, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
+// Importing custom components
 import Page from "../components/Page";
-import TabsSection from "../sections/Missions/TabSection";
+import CourseList from "../components/MyLearningPage/CoursesList";
 
-import MissionCard from "../components/Missions/MissionCard";
+const API_URL = `${import.meta.env.VITE_MOCK_API_2}mylearningcourses`;
 
-// Initial mission data
-const initialMissions = [
-    { id: 1, title: "Watch video 30 minutes", points: 30, progress: 30, total: 30, claimed: false },
-    { id: 2, title: "Score at least 80% in a quiz", points: 75, progress: 75, total: 80, claimed: false },
-    { id: 3, title: "Prompt chat 5 times", points: 100, progress: 5, total: 5, claimed: false },
-    { id: 4, title: "Upload a file or video", points: 25, progress: 1, total: 1, claimed: false },
-    { id: 5, title: "Join a study group", points: 50, progress: 45, total: 45, claimed: false },
-];
+const MyLearning = () => {
+    const navigate = useNavigate();
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-const MissionListSection = ({ filteredMissions, handleClaim, handleClaimAll, claimableMissions, tabIndex }) => (
-    <>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h6" sx={{ color: "#3F51B5" }}>Total Tasks: {filteredMissions.length}</Typography>
-            {(tabIndex === 0 || tabIndex === 1) && (
+    useEffect(() => {
+        const getCourses = async () => {
+            try {
+                const response = await axios.get(API_URL);
+                const data = response.data;
+                if (!Array.isArray(data)) {
+                    throw new Error("Invalid data format");
+                }
+                setCourses(data);
+            } catch (error) {
+                console.error("Error fetching courses:", error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getCourses();
+    }, []);
+
+    if (loading) return <Typography align="center">Loading...</Typography>;
+
+    if (error || courses.length === 0) {
+        return (
+            <Container maxWidth="xl" sx={{ mt: 15, textAlign: "center" }}>
+                <Typography variant="h5" fontWeight="bold" color="textSecondary" mb={2}>
+                    {error ? "Unable to fetch courses. Please try again later." : "You have no courses yet."}
+                </Typography>
+                {error && (
+                    <Typography variant="body2" color="error" mb={2}>
+                        Error: {error}
+                    </Typography>
+                )}
                 <Button
+                    onClick={() => navigate("/mylearning/createcourse")}
                     variant="contained"
-                    startIcon={<Redeem />}
-                    onClick={handleClaimAll}
-                    disabled={claimableMissions.length === 0}
-                    sx={{ bgcolor: "#3F51B5", color: "#FFFFFF" }}
+                    startIcon={<AddIcon />}
+                    sx={{
+                        backgroundColor: "#3F51B5",
+                        color: "white",
+                        borderRadius: "12px",
+                        textTransform: "none",
+                        fontSize: "16px",
+                        padding: "8px 16px",
+                        fontWeight: "bold",
+                        "&:hover": { backgroundColor: "#303F9F" }
+                    }}
                 >
-                    Claim All
+                    Create Your First Course
                 </Button>
-            )}
-        </Box>
-        <Grid container spacing={3}>
-            {filteredMissions.map(mission => (
-                <Grid item xs={12} sm={6} md={4} key={mission.id}>
-                    <MissionCard
-                        mission={mission}
-                        isCompleted={mission.progress >= mission.total}
-                        handleClaim={handleClaim}
-                    />
-                </Grid>
-            ))}
-        </Grid>
-    </>
-);
-
-const MissionSection = () => {
-    const [missions, setMissions] = useState(initialMissions);
-    const [tabIndex, setTabIndex] = useState(0);
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-    const handleClaim = (id) => {
-        setMissions((prevMissions) =>
-            prevMissions.map(mission =>
-                mission.id === id ? { ...mission, claimed: true } : mission
-            )
+            </Container>
         );
-    };
-
-    const handleClaimAll = () => {
-        setMissions((prevMissions) =>
-            prevMissions.map(mission =>
-                mission.progress >= mission.total && !mission.claimed ? { ...mission, claimed: true } : mission
-            )
-        );
-    };
-
-    const filterMissions = () => {
-        switch (tabIndex) {
-            case 1: return missions.filter(mission => mission.progress >= mission.total);
-            case 2: return missions.filter(mission => mission.progress < mission.total);
-            default: return missions;
-        }
-    };
-
-    const filteredMissions = filterMissions();
-    const claimableMissions = filteredMissions.filter(mission => mission.progress >= mission.total && !mission.claimed);
+    }
 
     return (
-        <Page title="Mission Page">
-            <Box sx={{ pt: 15, pb: 5, mx: "auto", px: 2 }}>
-                <Typography variant="h4" fontWeight={700} textAlign="center" gutterBottom sx={{ color: "#3F51B5" }}>
-                    🎯 Today Missions 🎯
-                </Typography>
-                <Divider sx={{ mb: 3 }} />
-
-                <Grid container spacing={3}>
-                    {/* Tabs Section */}
-                    <Grid item xs={12} sm={4} md={3} lg={2} sx={{ position: "sticky", top: 100, alignSelf: "flex-start" }}>
-                        <TabsSection tabIndex={tabIndex} setTabIndex={setTabIndex} isSmallScreen={isSmallScreen} />
-                    </Grid>
-
-                    {/* Mission List Section */}
-                    <Grid item xs={12} sm={8} md={9} lg={10}>
-                        <MissionListSection
-                            filteredMissions={filteredMissions}
-                            handleClaim={handleClaim}
-                            handleClaimAll={handleClaimAll}
-                            claimableMissions={claimableMissions}
-                            tabIndex={tabIndex}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
+        <Page title="My Learning">
+            <Container maxWidth="xl" sx={{ mt: 15 }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
+                    <Typography variant="h4" fontWeight="bold">My Learning</Typography>
+                    <Button
+                        onClick={() => navigate("/mylearning/createcourse")}
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        sx={{
+                            backgroundColor: "#3F51B5",
+                            color: "white",
+                            borderRadius: "12px",
+                            textTransform: "none",
+                            fontSize: "16px",
+                            padding: "8px 16px",
+                            fontWeight: "bold",
+                            "&:hover": { backgroundColor: "#303F9F" }
+                        }}
+                    >
+                        Create Course
+                    </Button>
+                </Box>
+                <CourseList courses={courses} />
+            </Container>
         </Page>
     );
 };
 
-export default MissionSection;
+export default MyLearning;
