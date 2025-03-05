@@ -135,12 +135,99 @@ const questions = [
     explanation:
       "TypeScript is a programming language developed by Microsoft that adds static typing to JavaScript, helping catch errors early in development.",
   },
+  {
+    question: "What is the virtual DOM in React?",
+    options: [
+      "A real copy of the DOM",
+      "An in-memory representation of the real DOM",
+      "A database for DOM elements",
+      "A backend service",
+    ],
+    answer: "An in-memory representation of the real DOM",
+    explanation:
+      "The virtual DOM is a lightweight copy of the real DOM that React uses to optimize updates and rendering.",
+  },
+  {
+    question: "Which company developed React?",
+    options: ["Google", "Microsoft", "Facebook", "Twitter"],
+    answer: "Facebook",
+    explanation: "React was developed by Facebook and released in 2013.",
+  },
+  {
+    question: "What is JSX?",
+    options: [
+      "JavaScript XML",
+      "Java Syntax Extension",
+      "JavaScript eXtension",
+      "JavaScript Execution",
+    ],
+    answer: "JavaScript XML",
+    explanation:
+      "JSX stands for JavaScript XML and allows writing HTML-like syntax within JavaScript for React.",
+  },
+  {
+    question: "What is the main purpose of props in React?",
+    options: [
+      "To manage state",
+      "To pass data between components",
+      "To handle API requests",
+      "To style components",
+    ],
+    answer: "To pass data between components",
+    explanation:
+      "Props (properties) are used to pass data from parent components to child components in React.",
+  },
+  {
+    question: "Which of the following is used to handle side effects in React?",
+    options: ["useState", "useEffect", "useContext", "useRef"],
+    answer: "useEffect",
+    explanation:
+      "The useEffect hook lets you perform side effects in functional components, such as fetching data or updating the DOM.",
+  },
+  {
+    question: "Which HTML tag is used to define an unordered list?",
+    options: ["<ul>", "<ol>", "<li>", "<list>"],
+    answer: "<ul>",
+    explanation:
+      "The <ul> tag defines an unordered list, and each item is wrapped in an <li> tag.",
+  },
+  {
+    question: "What does JSON stand for?",
+    options: [
+      "JavaScript Object Notation",
+      "Java Source Object Notation",
+      "JavaScript Online Notation",
+      "Java Serialized Object Network",
+    ],
+    answer: "JavaScript Object Notation",
+    explanation:
+      "JSON (JavaScript Object Notation) is a lightweight data-interchange format that's easy for humans and machines to read and write.",
+  },
+  {
+    question: "Which of these is NOT a valid HTTP method?",
+    options: ["GET", "POST", "SEND", "DELETE"],
+    answer: "SEND",
+    explanation:
+      "SEND is not a valid HTTP method. Common HTTP methods include GET, POST, PUT, PATCH, and DELETE.",
+  },
+  {
+    question: "What is the primary use of Git?",
+    options: [
+      "A programming language",
+      "A database system",
+      "Version control",
+      "Web hosting",
+    ],
+    answer: "Version control",
+    explanation:
+      "Git is a distributed version control system used to track changes in source code during software development.",
+  },
 ];
 
 export default function QuizSection() {
   const [searchParams] = useSearchParams();
   const history = searchParams.get("historyItem");
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(parseInt(searchParams.get("question"), 10) - 1 || 0);
 const [answers, setAnswers] = useState({});
 const [submitted, setSubmitted] = useState(false);
 
@@ -181,7 +268,6 @@ return history !== "overview" ? (
     }}
   >
     <Box sx={{ position: "relative", display: "inline-flex" }}>
-      {/* Progress Circle */}
       <CircularProgress
         variant="determinate"
         value={((currentQuestion + 1) / questions.length) * 100}
@@ -355,7 +441,7 @@ return history !== "overview" ? (
     <Typography variant="h6" color="success.main" mt={2}>
       Are you ready to continue?
     </Typography>
-    <Button variant="contained" color="success" sx={{ mt: 2, px: 4 }}>
+    <Button variant="contained" color="success" sx={{ mt: 2, px: 4 }} onClick={() => window.location.href = "/learning/course?section=quizzes&historyItem=quiz1&question=4"}>
       Continue Studying
     </Button>
   </Card>

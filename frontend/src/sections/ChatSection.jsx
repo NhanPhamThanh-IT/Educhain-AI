@@ -38,35 +38,8 @@ export default function ChatSection() {
     scrollToBottom();
   }, [messages]);
   // Xử lý gửi tin nhắn
-  const handleSend = (msg = "") => {
-    if (msg.trim()) {
-      const newMessages = [
-        ...messages,
-        { type: "text", content: msg, sender: "user" },
-      ];
-      setMessages(newMessages);
-      setMessage("");
-      setBotTyping(true);
-      updateIsPaused(false);
-      let botResponse =
-        "Trong thời đại công nghệ phát triển mạnh mẽ như hiện nay, trí tuệ nhân tạo (AI) đang dần thay đổi cách con người sống và làm việc.\n AI không chỉ được ứng dụng trong các lĩnh vực như y tế, tài chính, giáo dục, mà còn xuất hiện trong đời sống hằng ngày, từ trợ lý ảo cho đến hệ thống gợi ý nội dung trên các nền tảng mạng xã hội. Một trong những ứng dụng phổ biến nhất của AI là chatbot – các chương trình có khả năng giao tiếp với con người một cách tự nhiên. Nhờ vào các thuật toán xử lý ngôn ngữ tự nhiên (NLP), chatbot ngày càng thông minh hơn, có thể hiểu và phản hồi các câu hỏi phức tạp. Điều này giúp giảm tải công việc cho con người, đặc biệt trong lĩnh vực chăm sóc khách hàng.Tuy nhiên, bên cạnh những lợi ích rõ ràng, AI cũng đặt ra nhiều thách thức. Vấn đề đạo đức trong việc sử dụng dữ liệu cá nhân, nguy cơ mất việc làm do tự động hóa, hay sự phụ thuộc quá mức vào công nghệ là những điều cần được quan tâm. Vì vậy, việc phát triển AI một cách có trách nhiệm và cân bằng là vô cùng quan trọng để đảm bảo công nghệ này phục v";
-      let typedMessage = "";
-      let index = 0;
-
-      typingIntervalRef.current = setInterval(() => {
-        if (!isPausedRef.current && index < botResponse.length) {
-          typedMessage += botResponse[index];
-          setMessages([
-            ...newMessages,
-            { type: "text", content: typedMessage, sender: "bot" },
-          ]);
-          index++;
-        } else {
-          clearInterval(typingIntervalRef.current);
-          setBotTyping(false);
-        }
-      }, 15);
-    } else if (message.trim()) {
+  const handleSend = () => {
+  if (message.trim()) {
       const newMessages = [
         ...messages,
         { type: "text", content: message, sender: "user" },
@@ -190,7 +163,7 @@ export default function ChatSection() {
                     variant="outlined"
                     size="small"
                     color="black"
-                    onClick={() => handleSend(suggestion)}
+                    onClick={() => setMessage(suggestion)}
                   >
                     {suggestion}
                   </Button>
