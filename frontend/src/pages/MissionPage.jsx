@@ -51,10 +51,10 @@ const MissionSection = () => {
 
   return (
     <Page title="Mission Page">
-      <Container sx={{ py: 8 }}>
-        <Typography variant="h4" fontWeight={700} textAlign="center" gutterBottom>
-          🎯 Today Missions 🎯
-        </Typography>
+      <Container sx={{ py: 8, mt: 7 }}>
+        <Box sx={styles.titleWrapper}>
+          <Typography sx={styles.title}>🎯 Today Missions 🎯</Typography>
+        </Box>
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
           <Grid container spacing={3}>
             {missions.map((mission) => {
@@ -121,5 +121,38 @@ const MissionSection = () => {
     </Page>
   );
 };
+
+const styles = {
+  titleWrapper: { display: "flex", justifyContent: "center", mb: 3 },
+  title: {
+    border: "solid 2px rgba(54, 90, 202, 1)",
+    borderRadius: 3,
+    py: 2,
+    px: 3,
+    display: "inline-block",
+    fontSize: "1.8rem",
+    fontWeight: 700,
+    textAlign: "center",
+    color: "white",
+    background: "linear-gradient(135deg, #365ACA, #4A90E2)",
+    boxShadow: "4px 4px 12px rgba(54, 90, 202, 0.4)",
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
+    position: "relative",
+    overflow: "hidden",
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      width: "150%",
+      height: "100%",
+      top: 0,
+      left: "-150%",
+      background: "rgba(255,255,255,0.2)",
+      transform: "skewX(-30deg)",
+      transition: "left 0.8s ease-in-out",
+    },
+    "&:hover::before": { left: "150%" },
+  },
+}
 
 export default MissionSection;

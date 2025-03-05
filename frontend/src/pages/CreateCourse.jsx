@@ -67,8 +67,8 @@ const CreateCourse = () => {
       setTimeout(() => {
         setLoading(false);
         alert("Course created successfully!");
-        navigate("/learning/course");
-      }, 15000);
+        navigate("/learning/course?section=chat&historyItem=overview");
+      }, 10000);
 
       return () => clearInterval(interval);
     }

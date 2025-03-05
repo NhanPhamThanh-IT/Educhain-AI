@@ -2,19 +2,21 @@ import { useState } from "react";
 import { Button, Box, CircularProgress } from "@mui/material";
 import { Email, Lock } from "@mui/icons-material";
 import CustomTextField from "../../components/BasicComponents/TextField";
-
+import { useNavigate } from "react-router-dom";
 const PRIMARY_COLOR = "#365ACA";
 const HOVER_COLOR = "#2B4E96";
 const TEXT_COLOR = "#555";
 
 export default function LoginForm() {
+    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
+    
     const handleLogin = () => {
         setLoading(true);
         setTimeout(() => setLoading(false), 2000);
+        window.location.href = "/";
     };
 
     return (

@@ -30,10 +30,9 @@ export default function ChatSection() {
   const [isPaused, setIsPaused] = useState(true);
   const isPausedRef = useRef(isPaused);
   const chatSuggestions = [
-    "Compare Moodle and Shub?",
-    "LLM and LNP?",
-    "AI?",
-    "Những rủi ro của AI là gì?",
+    "What is the top themes of this article?",
+    "Enhance the model's performance!",
+    "What is the conclusion?",
   ];
 
   const updateIsPaused = (value) => {
