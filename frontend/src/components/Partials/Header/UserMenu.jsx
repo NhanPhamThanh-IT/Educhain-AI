@@ -40,14 +40,14 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
             if (connectedAccount) {
                 setAccount(connectedAccount);
 
-                // add token to metamask
-                await addTokenToMetaMask();
-
                 // Fetch and display token balance
                 const tokenDetails = await ERC20(TOKEN_ADDRESS);
                 if (tokenDetails) {
                     setTokenBalance(parseFloat(tokenDetails.balance));
                 }
+
+                // add token to metamask
+                await addTokenToMetaMask();
             }
         } catch (error) {
             console.error('Failed to connect wallet:', error);
@@ -60,9 +60,6 @@ const UserMenu = ({ elevated, menuAnchor, toggleMenu }) => {
             const connectedAccount = await CONNECT_WALLET();
             if (connectedAccount) {
                 setAccount(connectedAccount);
-
-                // Add token to MetaMask
-                // await addTokenToMetaMask();
 
                 // Fetch token balance
                 const tokenDetails = await ERC20(TOKEN_ADDRESS);
