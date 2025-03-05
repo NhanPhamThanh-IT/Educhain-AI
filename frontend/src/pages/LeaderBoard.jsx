@@ -8,15 +8,24 @@ import {
   Tab,
   Tabs,
   Button,
+  Divider,
 } from "@mui/material";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 
+// Importing custom components
 import LeaderboardHeader from "../sections/LeaderBoard/Header";
 import LeaderboardTable from "../sections/LeaderBoard/Table";
 
 const LeaderboardTabs = ({ tab, setTab }) => (
-  <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)} variant="scrollable" scrollButtons={false}>
-    <Tab label="Monthly" />
-    <Tab label="Quarterly" />
+  <Tabs
+    value={tab}
+    onChange={(e, newValue) => setTab(newValue)}
+    variant="scrollable"
+    scrollButtons={false}
+  >
+    <Tab icon={<EmojiEventsIcon />} label="Monthly" iconPosition="start" />
+    <Tab icon={<ShowChartIcon />} label="Quarterly" iconPosition="start" />
   </Tabs>
 );
 
@@ -25,12 +34,41 @@ export default function LeaderBoard() {
   return (
     <Page title="Leader Board" sx={{ mt: 15 }}>
       <LeaderboardHeader />
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", background: "linear-gradient(to bottom, #e0c3fc, #8ec5fc)", padding: 4 }}>
-        <Paper elevation={3} sx={{ width: "90%", maxWidth: "800px", padding: 3, borderRadius: 3, textAlign: "center" }}>
-          <Typography variant="h4" fontWeight="bold">Top Learner</Typography>
-          <LeaderboardTabs tab={tab} setTab={setTab} />
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 4 }}>
+        <Paper elevation={3} sx={{ width: "90%", maxWidth: "1000px", textAlign: "center", border: "2px solid #365ACA", borderRadius: 5 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              py: 2,
+              px: 4,
+              backgroundColor: "rgba(255, 255, 255, 0.6)",
+              backdropFilter: "blur(10px)",
+              borderRadius: 5
+            }}
+          >
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              textAlign="center"
+              sx={{
+                background: "linear-gradient(to right, #365ACA, #567EDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                transition: "transform 0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}
+            >
+              Top Learners
+            </Typography>
+            <Divider />
+            <LeaderboardTabs tab={tab} setTab={setTab} />
+          </Box>
+
           <LeaderboardTable />
-          <Button variant="contained" sx={{ mt: 2 }}>More</Button>
         </Paper>
       </Box>
     </Page>
