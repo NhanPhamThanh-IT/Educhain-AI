@@ -1,16 +1,14 @@
-// Description: Course Materials Management Component
-
 // Import React & MUI
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
     List, ListItem, ListItemIcon, ListItemText, Button, Typography, IconButton,
-    Dialog, DialogContent, DialogTitle, TextField, Box, Grid
+    Dialog, DialogContent, DialogTitle, TextField, Box
 } from "@mui/material";
 import { File, Video, Eye, Trash2, Upload, X, MoreVertical } from "lucide-react";
 
 const MAX_FILES_DISPLAY = 2;
 
-const CourseMaterials = ({ learningMaterials, setLearningMaterials }) => {
+const CourseMaterials = ({ learningMaterials, setCourseData }) => {
     const [previewFile, setPreviewFile] = useState(null);
     const [urlInput, setUrlInput] = useState("");
     const [openModal, setOpenModal] = useState(false);
@@ -19,26 +17,40 @@ const CourseMaterials = ({ learningMaterials, setLearningMaterials }) => {
     const handleFileUpload = useCallback((event) => {
         if (urlInput.trim()) return;
         const files = Array.from(event.target.files);
+
         const newMaterials = files.map((file) => ({
             name: file.name,
             type: file.type.includes("video") ? "Video" : "PDF",
             url: URL.createObjectURL(file),
         }));
-        setLearningMaterials((prev) => [...prev, ...newMaterials]);
-    }, [urlInput, setLearningMaterials]);
+
+        setCourseData("learningMaterials", [...learningMaterials, ...newMaterials]);
+    }, [urlInput, learningMaterials, setCourseData]);
+
+    // Cleanup created URLs
+    useEffect(() => {
+        return () => {
+            learningMaterials.forEach(material => {
+                if (material.url.startsWith("blob:")) {
+                    URL.revokeObjectURL(material.url);
+                }
+            });
+        };
+    }, [learningMaterials]);
 
     // Handle Add URL
     const handleAddUrl = useCallback(() => {
         if (!urlInput.trim()) return;
+
         const isVideo = urlInput.match(/\.(mp4|webm|ogg)$/i) || urlInput.includes("youtube.com") || urlInput.includes("vimeo.com");
-        setLearningMaterials((prev) => [...prev, { name: urlInput, type: isVideo ? "Video" : "PDF", url: urlInput }]);
+        setCourseData("learningMaterials", [...learningMaterials, { name: urlInput, type: isVideo ? "Video" : "PDF", url: urlInput }]);
         setUrlInput("");
-    }, [urlInput, setLearningMaterials]);
+    }, [urlInput, learningMaterials, setCourseData]);
 
     // Handle Delete Material
     const handleDeleteMaterial = useCallback((index) => {
-        setLearningMaterials((prev) => prev.filter((_, i) => i !== index));
-    }, [setLearningMaterials]);
+        setCourseData("learningMaterials", learningMaterials.filter((_, i) => i !== index));
+    }, [learningMaterials, setCourseData]);
 
     // Handle File Preview
     const handlePreviewFile = useCallback((file) => setPreviewFile(file), []);
@@ -148,12 +160,7 @@ const CourseMaterials = ({ learningMaterials, setLearningMaterials }) => {
 const styles = {
     title: { fontWeight: 600, color: "rgba(54, 90, 202, 1)" },
     viewAllButton: { mb: 1, color: "rgba(54, 90, 202, 1)", textTransform: "capitalize" },
-    textField: {
-        "& .MuiOutlinedInput-root": {
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(54, 90, 202, 1)" },
-            "&.Mui-focused": { boxShadow: "none" },
-        },
-    },
+    textField: {},
     addButton: { bgcolor: "rgba(54, 90, 202, 1)", fontWeight: "bold" },
     uploadButton: { bgcolor: "rgba(54, 90, 202, 1)", minWidth: 50 },
     closeButton: { position: "absolute", top: 10, right: 10 },

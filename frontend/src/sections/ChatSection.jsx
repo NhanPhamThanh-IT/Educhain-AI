@@ -50,6 +50,9 @@ export default function ChatSection() {
     scrollToBottom();
   }, [messages]);
   // Xử lý gửi tin nhắn
+
+  const time = [ 1, 5, 10, 15, 30, 60];
+
   const handleSend = () => {
     if (message.trim()) {
       const newMessages = [
@@ -57,13 +60,11 @@ export default function ChatSection() {
         { type: "text", content: message, sender: "user" },
       ];
       setMessages(newMessages);
-      setMessage("");
       setBotTyping(true);
       updateIsPaused(false);
-      let botResponse =
-        "Trong thời đại công nghệ phát triển mạnh mẽ như hiện nay, trí tuệ nhân tạo (AI) đang dần thay đổi cách con người sống và làm việc.\n AI không chỉ được ứng dụng trong các lĩnh vực như y tế, tài chính, giáo dục, mà còn xuất hiện trong đời sống hằng ngày, từ trợ lý ảo cho đến hệ thống gợi ý nội dung trên các nền tảng mạng xã hội. Một trong những ứng dụng phổ biến nhất của AI là chatbot – các chương trình có khả năng giao tiếp với con người một cách tự nhiên. Nhờ vào các thuật toán xử lý ngôn ngữ tự nhiên (NLP), chatbot ngày càng thông minh hơn, có thể hiểu và phản hồi các câu hỏi phức tạp. Điều này giúp giảm tải công việc cho con người, đặc biệt trong lĩnh vực chăm sóc khách hàng.Tuy nhiên, bên cạnh những lợi ích rõ ràng, AI cũng đặt ra nhiều thách thức. Vấn đề đạo đức trong việc sử dụng dữ liệu cá nhân, nguy cơ mất việc làm do tự động hóa, hay sự phụ thuộc quá mức vào công nghệ là những điều cần được quan tâm. Vì vậy, việc phát triển AI một cách có trách nhiệm và cân bằng là vô cùng quan trọng để đảm bảo công nghệ này phục vụ lợi ích của con người một cách tối ưu.";
-      let typedMessage = "";
+      const botResponse = message.length < 6 ? "Hello! How can EduChain assist you on your learning journey today?" : 'Here\'s a concise summary of the article "An Interactive System For Visual Data Retrieval From Multimodal Input"\nOverview:\nThe paper presents a multimodal retrieval system designed for the AI Challenge 2024, which focuses on event-based image retrieval from video datasets.The system integrates CLIP, GPT-4o, Whisper, and PaddleOCR for text, voice, and image-based searches.\nFeatures include semantic search, OCR-based and voice queries, AI-generated image search, and query enhancement.Achieved 81.54% accuracy in retrieving correct results and reduced irrelevant data by 21%.\nKey Components:\nData Preprocessing:Keyframe extraction using TransnetV2.\nFiltering blurry (17.33%) and redundant (6.67%) images.\nFeature extraction with CLIP ViT-L/14 & FAISS indexing.OCR-based text extraction (PaddleOCR) & Speech-to-text conversion (Whisper).\nRetrieval Processing:Multimodal inputs: text, voice, image.\nQuery enhancement using GPT-4o to refine user inputs.Semantic search using CLIP & FAISS for ranking relevant images.\nOCR-based search with Jaro-Winkler similarity.Visual similarity search allows image-based re-ranking.Generative AI image-based search using DALL-E 3 for abstract queries.Results & PerformanceEnhanced queries (GPT-4o refined) improved accuracy from 27.69% → 36.92% @R1.Final round results: Accuracy increased as more hints were provided (@R1: 22.13% → 51.45% with Hint 4).GUI developed with Flask (backend), ReactJS, and Tailwind CSS for an intuitive interface\nConclusion:\nThe system enhances multimodal image retrieval with AI-powered query refinement and multimodal search. Future improvements: faster response time, better handling of ambiguous queries, and cloud scalability. Let me know if you need an even shorter version! 🚀';      let typedMessage = "";
       let index = 0;
+      setMessage("");
 
       typingIntervalRef.current = setInterval(() => {
         if (!isPausedRef.current && index < botResponse.length) {
@@ -77,7 +78,7 @@ export default function ChatSection() {
           clearInterval(typingIntervalRef.current);
           setBotTyping(false);
         }
-      }, 15);
+      }, time[Math.floor(Math.random() * time.length)] / 10);
     }
   };
   const handlePause = () => {
@@ -121,6 +122,7 @@ export default function ChatSection() {
         height: "80vh",
         display: "flex",
         flexDirection: "column",
+        width: "100%",
       }}
     >
       <Box>

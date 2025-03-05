@@ -1,4 +1,7 @@
 // Description: Course Images Upload Component
+// This component allows users to upload up to 5 images for their course. 
+// Uploaded images are displayed in a grid layout with preview thumbnails. 
+// The images are stored using object URLs for temporary rendering.
 
 // Import React & MUI
 import React, { useCallback } from "react";
@@ -7,7 +10,7 @@ import { AddPhotoAlternate } from "@mui/icons-material";
 
 const MAX_IMAGES = 5;
 
-const CourseImages = ({ courseImages, setCourseImages }) => {
+const CourseImages = ({ courseImages, setCourseData }) => {
     // Handle Image Upload
     const handleImageUpload = useCallback((event) => {
         const files = Array.from(event.target.files);
@@ -15,8 +18,9 @@ const CourseImages = ({ courseImages, setCourseImages }) => {
             alert(`You can only upload up to ${MAX_IMAGES} images.`);
             return;
         }
-        setCourseImages((prev) => [...prev, ...files.map((file) => URL.createObjectURL(file))]);
-    }, [courseImages, setCourseImages]);
+        const newImages = files.map((file) => URL.createObjectURL(file));
+        setCourseData("courseImages", [...courseImages, ...newImages]);
+    }, [courseImages, setCourseData]);
 
     return (
         <>
