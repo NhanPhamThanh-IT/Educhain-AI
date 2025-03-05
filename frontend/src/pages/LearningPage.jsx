@@ -16,6 +16,8 @@ import {
   Stack,
   IconButton,
   Tooltip,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { CloudUpload, Link } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
@@ -33,14 +35,14 @@ import VideoSection from "../sections/VideoSection";
 import MaterialsSection from "../sections/MaterialsSection";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 const sections = [
   {
     key: "chat",
     label: "Chat",
     icon: <ChatIcon />,
     content: <ChatSection />,
-    history: ["chat1", "chat2", "chat3"],
+    history: ["overview", "chat2", "chat3"],
   },
   {
     key: "quizzes",
@@ -97,7 +99,15 @@ export default function EduchainApp() {
       "image/webp": [], // WEBP
     },
   });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const toggleSection = (sectionKey) => {
     setOpenSection((prev) => (prev === sectionKey ? null : sectionKey));
   };
@@ -132,6 +142,7 @@ export default function EduchainApp() {
             boxSizing: "border-box",
             backgroundColor: "#fff",
             padding: 2,
+            z: -100,
           },
           overflow: "hidden",
           "&::-webkit-scrollbar": { display: "none" },
@@ -214,6 +225,10 @@ export default function EduchainApp() {
                     >
                       <OpenInNewIcon
                         sx={{ color: "gray", width: 20, height: 20 }}
+                        onClick={() =>
+                          (window.location.href =
+                            "/learning/course?section=chat&historyItem=overview")
+                        }
                       />
                     </IconButton>
                   </Tooltip>
@@ -230,7 +245,7 @@ export default function EduchainApp() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 0.1, ease: "easeOut" }}
                 >
                   <List
                     component="div"
@@ -276,6 +291,60 @@ export default function EduchainApp() {
           m: 4,
         }}
       >
+        <IconButton
+          onClick={handleClick}
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+          }}
+        >
+          <HelpOutlineIcon sx={{ fontSize: 30 }} />
+        </IconButton>
+
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate("/intro");
+            }}
+          >
+            Intro
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate("/mylearning");
+            }}
+          >
+            My learning
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate("/market");
+            }}
+          >
+            Market
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate("/learning/mission");
+            }}
+          >
+            Mission
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate("/");
+            }}
+          >
+            Leaderboard
+          </MenuItem>
+        </Menu>
+
         {sections.find(
           (s) =>
             s.key === selectedSection && s.history?.includes(selectedHistory)
