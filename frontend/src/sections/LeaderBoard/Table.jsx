@@ -190,7 +190,7 @@ const StyledTableRow = styled(motion.tr)(({ index }) => ({
 const LeaderboardTable = () => {
     const [visibleCount, setVisibleCount] = useState(10);
     const showMore = () => setVisibleCount(leaderboardData.length);
-
+    const sortData = leaderboardData.sort((a, b) => b.points - a.points);
     return (
         <Box sx={{ borderRadius: "12px", pt: 2, px: 2, maxWidth: "900px", mx: "auto", bgcolor: "white" }}>
             <TableContainer>
@@ -203,7 +203,7 @@ const LeaderboardTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {leaderboardData.slice(0, visibleCount).map((user, index) => (
+                        {sortData.slice(0, visibleCount).map((user, index) => (
                             <StyledTableRow
                                 key={user.id}
                                 index={index}

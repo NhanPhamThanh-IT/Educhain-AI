@@ -14,7 +14,7 @@ const AppBarComponent = () => {
         <>
             <AppBar sx={appBarStyle}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, cursor: "pointer" }} onClick={() => navigate("/homepage")} />
+                    <Box component="img" src="Partials/Logo.png" alt="Logo" sx={{ width: 50, cursor: "pointer" }} onClick={() => navigate("/learning/course?section=chat&historyItem=overview")} />
                     <DesktopNavigation elevated={elevated} />
                     <UserMenu elevated={elevated} menuAnchor={menuAnchor} toggleMenu={toggleMenu} />
                     <Hidden mdUp>

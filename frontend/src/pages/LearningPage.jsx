@@ -338,7 +338,7 @@ export default function EduchainApp() {
           <MenuItem
             onClick={() => {
               handleClose();
-              navigate("/");
+              navigate("/learning/leaderboard");
             }}
           >
             Leaderboard

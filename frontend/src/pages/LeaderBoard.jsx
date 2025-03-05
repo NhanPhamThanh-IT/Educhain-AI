@@ -1,13 +1,12 @@
 // components
 import Page from "../components/Page";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Paper,
   Typography,
   Tab,
   Tabs,
-  Button,
   Divider,
 } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -35,7 +34,7 @@ export default function LeaderBoard() {
     <Page title="Leader Board" sx={{ mt: 15 }}>
       <LeaderboardHeader />
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 4 }}>
-        <Paper elevation={3} sx={{ width: "90%", maxWidth: "1000px", textAlign: "center", border: "2px solid #365ACA", borderRadius: 5 }}>
+        <Paper elevation={3} sx={{ width: "90%", maxWidth: "900px", textAlign: "center", border: "2px solid #365ACA", borderRadius: 5 }}>
           <Box
             sx={{
               display: "flex",
@@ -68,7 +67,7 @@ export default function LeaderBoard() {
             <LeaderboardTabs tab={tab} setTab={setTab} />
           </Box>
 
-          <Divider sx={{ my: 2, borderColor: "black", borderWidth: 1 }} />
+          <Divider sx={{ mx: 2, borderWidth: 1 }} />
 
           <LeaderboardTable />
         </Paper>
