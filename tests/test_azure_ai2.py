@@ -20,7 +20,7 @@ pdf_url = "https://phamgiabao.blob.core.windows.net/pdfs/f10086dc-dbb3-4ac7-9a63
 response = requests.get(pdf_url)
 pdf_bytes = io.BytesIO(response.content)
 
-# 🔹 Mở PDF bằng PyMuPDF từ bộ nhớ
+# 🔹 Mở PDF bằng PyMuPDF từ bộ nhớ  
 doc = fitz.open("pdf", pdf_bytes)
 
 # 🔹 Khởi tạo Azure Document Intelligence Client

@@ -3,6 +3,8 @@ import logging
 import os
 import time
 from dotenv import load_dotenv
+import logging
+
 
 from lightrag import LightRAG, QueryParam
 from lightrag.llm.zhipu import zhipu_complete
@@ -30,8 +32,8 @@ os.environ["POSTGRES_PORT"] = "5432"
 os.environ["POSTGRES_USER"] = "admintu"
 os.environ["POSTGRES_PASSWORD"] = "educhain123@"
 os.environ["POSTGRES_DATABASE"] = "postgres"   
-os.environ["COSINE_THRESHOLD"] = '0.1'
-# os.environ["POSTGRES_WORKSPACE"] = course_id
+os.environ["COSINE_THRESHOLD"] = '0.25'
+# os.environ["POSTGRES_WORKSPACE"] = "default"
 # 
 
 
@@ -58,7 +60,7 @@ async def main():
         graph_storage="PGGraphStorage",
         vector_storage="PGVectorStorage",
         auto_manage_storages_states=False,
-        namespace_prefix="graphtest"
+        # namespace_prefix="iukm2025"
     )
     
     # add embedding_func for graph database, it's deleted in commit 5661d76860436f7bf5aef2e50d9ee4a59660146c
@@ -67,8 +69,8 @@ async def main():
 
     # print(f"Init time: {time.time() - start_time} seconds")   
 
-    # with open(f"{WORKING_DIR}/book.txt", "r", encoding="utf-8") as f:
-    #     await rag.ainsert(f.read())
+    with open(f"{WORKING_DIR}/extracted_text.txt", "r", encoding="utf-8") as f:
+        await rag.ainsert(f.read())
 
     # print("==== Trying to test the rag queries ====")
     # print("**** Start Naive Query ****")
@@ -76,7 +78,7 @@ async def main():
     # Perform naive search
     # print(
     #     await rag.aquery(
-    #         "What are the top themes in the story", param=QueryParam(mode="naive", only_need_context=True)
+    #         "What FAISS do in this system?", param=QueryParam(mode="naive")
     #     )
     # )
     # print(f"Naive Query Time: {time.time() - start_time} seconds")
@@ -86,7 +88,7 @@ async def main():
     # start_time = time.time()
     print(
         await rag.aquery(
-            "What are the top themes in this story?", param=QueryParam(mode="local", top_k=15, only_need_context=True) 
+            "List me in detail highlights of this article ?", param=QueryParam(mode="local") 
         )
     )
     # print(f"Local Query Time: {time.time() - start_time} seconds")
@@ -96,7 +98,7 @@ async def main():
     # start_time = time.time()
     # print(
     #     await rag.aquery(
-    #         "What are the top themes in this story?", param=QueryParam(mode="global", top_k = 20)
+    #         "What the relationship between CLIP and FAISS?", param=QueryParam(mode="global")
     #     )
     # )
     # print(f"Global Query Time: {time.time() - start_time}")
@@ -104,7 +106,7 @@ async def main():
     # print("**** Start mix Query ****")
     # print(
     #     await rag.aquery(
-    #         "What are the top themes in this story?", param=QueryParam(mode="mix")
+    #         "So where the system has been tested?", param=QueryParam(mode="mix")
     #     )
     # )
     # print(f"mix Query Time: {time.time() - start_time} seconds")
