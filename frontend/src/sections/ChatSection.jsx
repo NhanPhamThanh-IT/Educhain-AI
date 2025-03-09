@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   Divider,
+  Stack,
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ImageIcon from "@mui/icons-material/Image";
@@ -17,7 +18,11 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-
+import MicIcon from "@mui/icons-material/Mic";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github.css"; // Import theme highlight
 export default function ChatSection() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -50,7 +55,7 @@ export default function ChatSection() {
   }, [messages]);
   // Xử lý gửi tin nhắn
 
-  const time = [ 1, 5, 10, 15, 30, 60];
+  const time = [1, 5, 10, 15, 30, 60];
 
   const handleSend = () => {
     if (message.trim()) {
@@ -61,7 +66,83 @@ export default function ChatSection() {
       setMessages(newMessages);
       setBotTyping(true);
       updateIsPaused(false);
-      const botResponse = message.length < 6 ? "Hello! How can EduChain assist you on your learning journey today?" : 'Here\'s a concise summary of the article "An Interactive System For Visual Data Retrieval From Multimodal Input"\nOverview:\nThe paper presents a multimodal retrieval system designed for the AI Challenge 2024, which focuses on event-based image retrieval from video datasets.The system integrates CLIP, GPT-4o, Whisper, and PaddleOCR for text, voice, and image-based searches.\nFeatures include semantic search, OCR-based and voice queries, AI-generated image search, and query enhancement.Achieved 81.54% accuracy in retrieving correct results and reduced irrelevant data by 21%.\nKey Components:\nData Preprocessing:Keyframe extraction using TransnetV2.\nFiltering blurry (17.33%) and redundant (6.67%) images.\nFeature extraction with CLIP ViT-L/14 & FAISS indexing.OCR-based text extraction (PaddleOCR) & Speech-to-text conversion (Whisper).\nRetrieval Processing:Multimodal inputs: text, voice, image.\nQuery enhancement using GPT-4o to refine user inputs.Semantic search using CLIP & FAISS for ranking relevant images.\nOCR-based search with Jaro-Winkler similarity.Visual similarity search allows image-based re-ranking.Generative AI image-based search using DALL-E 3 for abstract queries.Results & PerformanceEnhanced queries (GPT-4o refined) improved accuracy from 27.69% → 36.92% @R1.Final round results: Accuracy increased as more hints were provided (@R1: 22.13% → 51.45% with Hint 4).GUI developed with Flask (backend), ReactJS, and Tailwind CSS for an intuitive interface\nConclusion:\nThe system enhances multimodal image retrieval with AI-powered query refinement and multimodal search. Future improvements: faster response time, better handling of ambiguous queries, and cloud scalability. Let me know if you need an even shorter version! 🚀';      let typedMessage = "";
+      const botResponse = `
+# 📝 Markdown Sample
+
+## 1️⃣ Heading
+# H1 Heading  
+## H2 Heading  
+### H3 Heading  
+#### H4 Heading  
+
+---
+
+## 2️⃣ Text Formatting
+- **Bold Text** → **Bold**
+- *Italic Text* → *Italic*
+- ***Bold & Italic*** → ***Bold & Italic***
+- ~~Strikethrough~~ → ~~Strikethrough~~
+- \`Inline code\` → Inline code
+
+---
+
+## 3️⃣ Lists
+
+### 🔹 Unordered List
+- Item 1
+- Item 2
+  - Sub-item 2.1
+  - Sub-item 2.2
+
+### 🔸 Ordered List
+1. First item
+2. Second item
+   1. Sub-item 2.1
+   2. Sub-item 2.2
+
+### ✅ Task List
+- [x] Task 1 (Completed)
+- [ ] Task 2 (Pending)
+- [ ] Task 3 (Pending)
+
+---
+
+## 4️⃣ Links & Images
+
+- [🔗 Click Here](https://example.com)  
+- ![🌄 Image](https://via.placeholder.com/150)
+
+---
+
+## 5️⃣ Blockquote & Divider
+
+> **This is a blockquote!**
+>
+> Use it for highlighting important text.  
+> > Blockquote
+
+---
+
+## 6️⃣ Table
+
+| Name     | Age | Role        |
+|----------|----:|------------|
+| John     |  25 | Developer  |
+| Alice    |  30 | Designer   |
+| Bob      |  22 | Intern     |
+
+---
+
+## 7️⃣ Code Blocks
+
+\`\`\`js
+// JavaScript Example
+const greet = (name) => Hello, ${name}!;
+console.log(greet("ChatGPT"));
+
+`;
+
+      let typedMessage = "";
       let index = 0;
       setMessage("");
 
@@ -171,7 +252,10 @@ export default function ChatSection() {
             >
               <Button
                 variant="outlined"
-                onClick={() => window.location.href = "/learning/course?section=quizzes&historyItem=overview"}
+                onClick={() =>
+                  (window.location.href =
+                    "/learning/course?section=quizzes&historyItem=overview")
+                }
                 startIcon={<QuizIcon sx={{ color: "green" }} />}
                 sx={{
                   color: "green",
@@ -184,7 +268,10 @@ export default function ChatSection() {
               </Button>
               <Button
                 variant="outlined"
-                onClick={() => window.location.href = "/learning/course?section=studyGuides&historyItem=overview"}
+                onClick={() =>
+                  (window.location.href =
+                    "/learning/course?section=studyGuides&historyItem=overview")
+                }
                 startIcon={<MenuBookIcon sx={{ color: "blue" }} />}
                 sx={{
                   color: "blue",
@@ -197,7 +284,10 @@ export default function ChatSection() {
               </Button>
               <Button
                 variant="outlined"
-                onClick={() => window.location.href = "/learning/course?section=learningByVideo&historyItem=video2"}
+                onClick={() =>
+                  (window.location.href =
+                    "/learning/course?section=learningByVideo&historyItem=video2")
+                }
                 startIcon={<VideocamIcon sx={{ color: "orange" }} />}
                 sx={{
                   color: "orange",
@@ -265,7 +355,7 @@ export default function ChatSection() {
             sx={{
               maxWidth: "75%",
               alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
-              backgroundColor: msg.sender === "user" && "#C0C0C0",
+              backgroundColor: msg.sender === "user" ? "#C0C0C0" : "#F5F5F5",
               color: "#000",
               p: 1.5,
               m: 1,
@@ -275,7 +365,20 @@ export default function ChatSection() {
             }}
           >
             {msg.type === "text" ? (
-              <Typography>{msg.content}</Typography>
+              msg.sender === "bot" ? (
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}  components={{
+                  p: ({ node, ...props }) => <span {...props} />,
+                }}
+                sx={{
+                  "& p": { margin: 0, padding: 0, lineHeight: 1 },
+                  "& pre": { margin: 0, padding: 0, lineHeight: 1 },
+                  "& li": { marginBottom: 0 },
+                }}>
+                {msg.content}
+              </ReactMarkdown>
+              ) : (
+                <Typography>{msg.content}</Typography>
+              )
             ) : (
               <Box>
                 <Typography>{msg.content.name}</Typography>
@@ -305,47 +408,70 @@ export default function ChatSection() {
           backgroundColor: "#fff",
           borderRadius: 3,
           mt: 2,
+          border: "1px solid #ccc",
         }}
       >
-        <input
-          type="file"
-          id="file-upload"
-          style={{ display: "none" }}
-          onChange={handleFileUpload}
-          disabled={botTyping}
-        />
-        <IconButton component="label" htmlFor="file-upload">
-          <AttachFileIcon />
-        </IconButton>
-        <input
-          type="file"
-          id="image-upload"
-          style={{ display: "none" }}
-          accept="image/*"
-          onChange={handleFileUpload}
-          disabled={botTyping}
-        />
-        <IconButton component="label" htmlFor="image-upload">
-          <ImageIcon />
-        </IconButton>
+        <Stack direction="column" spacing={1} sx={{ width: "100%" }}>
+          <TextField
+            fullWidth
+            placeholder="Upload file, add image or type a question..."
+            variant="standard"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            sx={{
+              ml: 5,
+              "& .MuiInput-underline:before": {
+                borderBottom: "none !important",
+              }, // Xóa border khi chưa focus
+              "& .MuiInput-underline:after": {
+                borderBottom: "none !important",
+              }, // Xóa border khi focus
+              "& .MuiInput-underline:hover:before": {
+                borderBottom: "none !important",
+              }, // Xóa border khi hover
+              "& .MuiInputBase-root": { boxShadow: "none" }, // Xóa hiệu ứng shadow
+            }}
+            disabled={botTyping}
+          />
 
-        <TextField
-          fullWidth
-          placeholder="Ask something..."
-          variant="standard"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          sx={{ ml: 2 }}
-          disabled={botTyping}
-        />
-
-        <IconButton
-          onClick={botTyping ? handlePause : handleSend}
-          disabled={!message.trim() && !botTyping}
-        >
-          {botTyping ? <PauseIcon /> : <SendIcon />}
-        </IconButton>
+          <Stack direction="row" sx={{ width: "100%" }}>
+            <input
+              type="file"
+              id="file-upload"
+              style={{ display: "none" }}
+              onChange={handleFileUpload}
+              disabled={botTyping}
+            />
+            <IconButton component="label" htmlFor="file-upload">
+              <AttachFileIcon />
+            </IconButton>
+            <input
+              type="file"
+              id="image-upload"
+              style={{ display: "none" }}
+              accept="image/*"
+              onChange={handleFileUpload}
+              disabled={botTyping}
+            />
+            <IconButton
+              component="label"
+              htmlFor="image-upload"
+              
+            >
+              <ImageIcon/>
+            </IconButton>
+            <IconButton sx={{ mr: "auto" }}>
+              <MicIcon />
+            </IconButton>
+            <IconButton
+              onClick={botTyping ? handlePause : handleSend}
+              disabled={!message.trim() && !botTyping}
+            >
+              {botTyping ? <PauseIcon /> : <SendIcon />}
+            </IconButton>
+          </Stack>
+        </Stack>
       </Box>
     </Box>
   );
