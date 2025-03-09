@@ -4,4 +4,5 @@ export const tabData = [
     { label: "Market", link: "/market" },
     { label: "Missions", link: "/learning/mission" },
     { label: "Leaderboard", link: "/learning/leaderboard" },
+    { label: "About", link: "/about-us" },
 ];
