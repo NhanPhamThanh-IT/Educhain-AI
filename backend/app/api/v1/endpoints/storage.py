@@ -11,6 +11,7 @@ from uuid import UUID
 
 router = APIRouter()
 
+
 @router.post("/{course_id}/create_sg")
 def process_study_guide(study_guide_info: Dict, course_id: UUID) -> bool:
     study_guide_id = save_study_guide(course_id)['study_guide']['id']
