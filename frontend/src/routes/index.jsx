@@ -32,7 +32,6 @@ const pages = {
   ComingSoon: "../pages/ComingSoon",
   Maintenance: "../pages/Maintenance",
   HomePage: "../pages/HomePage",
-  Intro: "../pages/Intro",
   MyLearningPage: "../pages/MyLearningPage",
   CreateCourse: "../pages/CreateCourse",
   Market: "../pages/Market",

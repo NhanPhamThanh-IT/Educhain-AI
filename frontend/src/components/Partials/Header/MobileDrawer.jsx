@@ -2,11 +2,10 @@ import { SwipeableDrawer, Box, List, ListItemButton, ListItemText, ListItemIcon,
 import { Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { tabData } from "../../../constants/Header/constants";
-import { AccountCircle, MonetizationOn, Logout } from "@mui/icons-material";
+import { AccountCircle, Logout } from "@mui/icons-material";
 
 const menuOptions = [
     { icon: <AccountCircle />, label: "Profile", link: "/profilesetup" },
-    { icon: <MonetizationOn />, label: "Coin Exchange", link: "/learning/exchange" },
     { icon: <Logout />, label: "Logout", link: "auth/logout" },
 ];
 

@@ -2,7 +2,7 @@ import { Tabs, Tab, Hidden } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { tabData } from "../../../constants/Header/constants";
 
-const DesktopNavigation = ({ elevated }) => {
+const DesktopNavigation = () => {
     const navigate = useNavigate();
 
     return (
@@ -11,7 +11,8 @@ const DesktopNavigation = ({ elevated }) => {
                 {tabData.map(({ label, link }) => (
                     <Tab key={link} label={label} onClick={() => navigate(link)}
                         sx={{
-                            color: elevated ? "#fff" : "#000",
+                            textTransform: "none",
+                            color: "#000",
                             transition: "all 0.3s",
                             "&:hover": { color: "#F5A623", textShadow: "0px 0px 10px rgba(245, 166, 35, 0.5)" },
                         }}

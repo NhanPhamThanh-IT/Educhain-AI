@@ -19,15 +19,14 @@ export function Hero() {
             >
                 <Button
                     variant="outlined"
-                    color="inherit"
                     size="large"
-                    sx={{ textTransform: 'none' }}
+                    sx={{ textTransform: 'none', borderRadius: 50, borderColor: 'rgb(231, 231, 231)', color: 'rgb(18, 18, 18)' }}
                 >
                     See features
                 </Button>
                 <Button
                     variant="contained"
-                    sx={{ textTransform: 'none', bgcolor: 'black', '&:hover': { bgcolor: 'grey.800' } }}
+                    sx={{ textTransform: 'none', borderRadius: 50, bgcolor: 'black', '&:hover': { bgcolor: 'grey.800' } }}
                     size="large"
                 >
                     Get Started
