@@ -31,8 +31,10 @@ export default function ChatSection() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const messageRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const [botTyping, setBotTyping] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
+  const [autoScroll, setAutoScroll] = useState(true);
   const isPausedRef = useRef(isPaused);
   const chatSuggestions = [
     "What is the top themes of this article?",
@@ -47,13 +49,33 @@ export default function ChatSection() {
 
   const typingIntervalRef = useRef(null);
   const scrollToBottom = () => {
-    messageRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (autoScroll) {
+      messageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
+  // Khi `messages` thay đổi, gọi `scrollToBottom()`
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-  // Xử lý gửi tin nhắn
+
+  // Lắng nghe sự kiện cuộn để phát hiện khi user lướt lên
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+
+    const handleScroll = () => {
+      if (!chatContainer) return;
+
+      // Kiểm tra xem user có đang ở gần cuối hay không
+      const isNearBottom =
+        chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
+
+      setAutoScroll(isNearBottom); // Nếu user kéo lên, dừng auto-scroll
+    };
+
+    chatContainer?.addEventListener("scroll", handleScroll);
+    return () => chatContainer?.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const time = [1, 5, 10, 15, 30, 60];
 
@@ -211,6 +233,7 @@ console.log(greet("ChatGPT"));
         </Typography>
       </Box>
       <Box
+      ref={chatContainerRef}
         sx={{
           flexGrow: 1,
           maxHeight: "100%",
