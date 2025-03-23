@@ -7,7 +7,7 @@ import OtherFeatures from "./other-features";
 
 const main = () => {
     return (
-        <Box maxWidth="md" mx="auto" p={3}>
+        <Box maxWidth="md" mx="auto" p={3} pt={15}>
             <TitleSection />
             <MainFeature />
             <OtherFeatures />

@@ -1,3 +1,5 @@
+import { id } from "ethers/lib/utils"
+
 export const data = {
     logo: {
         src: "/logo.png",
@@ -5,3 +7,9 @@ export const data = {
         title: "Educhain",
     }
 }
+
+export const tabData = [
+    { label: "Features", link: null, section_id: "features" },
+    { label: "Pricing", link: "/pricing" },
+    { label: "Our Team", link: "/about-us" },
+];

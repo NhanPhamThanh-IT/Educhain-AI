@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography, Container } from "@mui/material";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const HeroSection = () => {
+    const navigate = useNavigate();
     const { ref, inView } = useInView({ triggerOnce: false, threshold: 0.2 });
     const [animationKey, setAnimationKey] = useState(0);
 
@@ -13,6 +15,10 @@ const HeroSection = () => {
             setAnimationKey((prev) => prev + 1);
         }
     }, [inView]);
+
+    const handleNavigate = () => {
+        navigate("/learning/course");
+    }
 
     return (
         <Container maxWidth="lg">
@@ -57,8 +63,9 @@ const HeroSection = () => {
                                 fontSize: "16px",
                                 ":hover": { backgroundColor: "#333" },
                             }}
+                            onClick={() => handleNavigate()}
                         >
-                            Get Started
+                            Start Learning
                         </Button>
                     </Box>
                 </motion.div>

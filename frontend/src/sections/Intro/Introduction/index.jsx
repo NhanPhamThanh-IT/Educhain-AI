@@ -7,7 +7,7 @@ import {
 import { Hero } from './HeroSection';
 import { SocialProof } from './SocialProof';
 
-const Introduction = () => {
+const Introduction = ({ featuresRef }) => {
     return (
         <Box
             sx={{
@@ -19,7 +19,7 @@ const Introduction = () => {
         >
             <Container>
                 <Stack spacing={4} alignItems="center">
-                    <Hero />
+                    <Hero featuresRef={featuresRef} />
                     <SocialProof />
                 </Stack>
             </Container>

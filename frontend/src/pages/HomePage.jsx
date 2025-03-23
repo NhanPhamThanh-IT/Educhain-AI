@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box } from "@mui/material";
 import Page from "../components/Page";
 
@@ -8,11 +8,15 @@ import Usecases from "../sections/Intro/Usecases/index";
 import LastSection from "../sections/Intro/LastSection/index";
 
 const HomePage = () => {
+    const featuresRef = useRef(null);
+
     return (
         <Page title="Homepage">
             <Box maxWidth="2xl">
-                <Introduction />
-                <Features />
+                <Introduction featuresRef={featuresRef} />
+                <Box ref={featuresRef} id="features">
+                    <Features />
+                </Box>
                 <Usecases />
                 <LastSection />
             </Box>
