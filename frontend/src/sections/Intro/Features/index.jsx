@@ -1,12 +1,14 @@
 import React from "react";
 import { Box } from "@mui/material";
 
+import TitleSection from "./title-section";
 import MainFeature from "./main-feature";
 import OtherFeatures from "./other-features";
 
 const main = () => {
     return (
-        <Box maxWidth="lg" mx="auto" p={3}>
+        <Box maxWidth="md" mx="auto" p={3}>
+            <TitleSection />
             <MainFeature />
             <OtherFeatures />
         </Box>
