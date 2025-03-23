@@ -22,8 +22,8 @@ if not OPENAI_API_KEY:
 # Create tools
 get_knowledge_tool = GetKnowledgeTool()
 create_quiz_tool = CreateQuizTool()
-create_study_guide_tool = CreateStudyGuideTool()
-create_exam_tool = CreateExamTool()
+# create_study_guide_tool = CreateStudyGuideTool()
+# create_exam_tool = CreateExamTool()
 
 class CustomHandler(BaseCallbackHandler):
     """
@@ -95,9 +95,9 @@ Ambatublow: You're welcome! If you have any other questions, feel free to ask. H
     
     tools = [
         get_knowledge_tool,
-        create_quiz_tool,
-        create_study_guide_tool,
-        create_exam_tool
+        create_quiz_tool
+        # create_study_guide_tool,
+        # create_exam_tool
     ]
 
     prompt = ChatPromptTemplate.from_messages([

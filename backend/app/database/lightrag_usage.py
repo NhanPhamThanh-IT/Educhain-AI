@@ -1,121 +1,134 @@
-# Lightrag using 4 database for storing data:
-    # - Neo4J - For storing the knowledge graph
-    # - Milvus - For storing the embeddings
-    # - Redis - For storing the key-value pairs and doc status
-    # Note that for each user on website the system must store an ID for there lightrag data
-
+import asyncio
+import logging
 import os
-from lightrag import LightRAG, QueryParam
-from lightrag.llm.openai import gpt_4o_mini_complete, openai_complete_if_cache
-from lightrag.utils import EmbeddingFunc
-from lightrag.llm.openai import openai_embed  # or your custom embedding
+import time
 from dotenv import load_dotenv
-from utils.prompt.chat_prompt import get_chat_prompt
+import logging
 
-# traverse_knowledge_graph, get_quiz_questions, get_study_guide, get_exam_questions 
+
+from lightrag import LightRAG, QueryParam
+from lightrag.llm.zhipu import zhipu_complete
+from lightrag.llm.ollama import ollama_embedding
+from lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
+from lightrag.utils import EmbeddingFunc
+from prompt.commands.multiple_choice import multiple_choice_command
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+WORKING_DIR  = "./lightrag_storage"
 
-
-NEO4J_URI = os.getenv("NEO4J_URI")
-NEO4J_USERNAME = os.getenv("NEO4J_USER")
-NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-
-
-WORKING_DIR = "./local_neo4jWorkDir"
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 if not os.path.exists(WORKING_DIR):
     os.mkdir(WORKING_DIR)
 
-embedding_func = EmbeddingFunc(
+# AGE
+
+
+os.environ["OPENAI_API_KEY"] = "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"
+# os.environ["AGE_GRAPH_NAME"] = "dickens"
+
+os.environ["POSTGRES_HOST"] = "educhain3.postgres.database.azure.com"
+os.environ["POSTGRES_PORT"] = "5432"
+os.environ["POSTGRES_USER"] = "admintu"
+os.environ["POSTGRES_PASSWORD"] = "educhain123@"
+os.environ["POSTGRES_DATABASE"] = "postgres"   
+os.environ["COSINE_THRESHOLD"] = '0.25'
+# os.environ["POSTGRES_WORKSPACE"] = "default"
+# 
+
+
+    # add embedding_func for graph database, it's deleted in commit 5661d76860436f7bf5aef2e50d9ee4a59660146c
+async def lightRAG_init():
+    embedding_func = EmbeddingFunc(
         embedding_dim=1536,
         max_token_size=8192,
         func=lambda texts: openai_embed(texts, model="text-embedding-3-small")
-)
-
-# Use this for an agent chat with history messages and prompt 
-# Change deepseek-chat to gpt-4o-mini if you want to use it
-# Change the api_key to your own key
-# Change the base_url to your own base_url
-async def llm_model_func1(
-    prompt, system_prompt=None, history_messages=[], keyword_extraction=False, **kwargs
-) -> str:
-    return await openai_complete_if_cache(
-        "deepseek/deepseek-chat:free",
-        prompt,
-        system_prompt=system_prompt,
-        history_messages=history_messages,
-        api_key= OPENROUTER_API_KEY, 
-        base_url="https://openrouter.ai/api/v1",
-        **kwargs,
     )
 
-llm_model_func2 = gpt_4o_mini_complete 
-
-def lightrag_config():
     rag = LightRAG(
         working_dir=WORKING_DIR,
-        llm_model_func= llm_model_func1,  # Use gpt_4o_mini_complete LLM model
-        embedding_func= embedding_func,
+        llm_model_func= gpt_4o_mini_complete,
+        llm_model_max_async=4,
+        llm_model_max_token_size=32768,
+        enable_llm_cache_for_entity_extract=True,
+        embedding_func=embedding_func,
         chunk_token_size=512,
         chunk_overlap_token_size=256,
-        graph_storage="Neo4JStorage",
-        log_level="DEBUG",
-        # llm_model_func=gpt_4o_complete  # Optionally, use a stronger model
+        
+        kv_storage="PGKVStorage",
+        doc_status_storage="PGDocStatusStorage",
+        graph_storage="PGGraphStorage",
+        vector_storage="PGVectorStorage",
+        auto_manage_storages_states=False,
+        # namespace_prefix="iukm2025"
     )
+
+    rag.chunk_entity_relation_graph.embedding_func = rag.embedding_func
+    await rag.initialize_storages()
+
     return rag
 
 
-rag = lightrag_config()
-prompt = "What are the top themes in this story?"
+rag = lightRAG_init() # in production scenerio, this will be fix into parse workplace
 
-# When user asks a question, the system should perform a correct search using the LightRAG model.
-# The search can be performed using different modes: naive, local, global, hybrid, and mix depends on user's question
+async def lr_insert_knowledge(content: str):
+    # with open(f"{WORKING_DIR}/extracted_text.txt", "r", encoding="utf-8") as f:
+        await rag.ainsert(content)
 
-def lightrag_naive_search(prompt):
-    return rag.query(prompt, param=QueryParam(mode="naive"))
+async def lr_naive_query(query: str):
+    return await rag.aquery(query, param=QueryParam(mode="naive", only_need_context=True))
 
-def lightrag_search_local(prompt):
-    return rag.query(prompt, param=QueryParam(mode="local"))
+async def lr_local_query(query: str):  
+    return await rag.aquery(query, param=QueryParam(mode="local", only_need_context=True))
 
-def lightrag_search_global(prompt):
-    return rag.query(prompt, param=QueryParam(mode="global"))
+async def lr_create_quiz(topic: str):
+    prompt = multiple_choice_command(topic)
+    return await rag.aquery(prompt, param=QueryParam(mode="local"))
 
-def lightrag_search_hybrid(prompt):
-    return rag.query(prompt, param=QueryParam(mode="hybrid"))
-
-def lightrag_search_mix(prompt):
-    return rag.query(prompt, param=QueryParam(mode="mix"))
-
-def lightrag_find(prompt):
-    return rag.query(prompt)
-
-def lightrag_insert(data):
-    rag.insert(data)
-
-def lightrag_update(data):
-    rag.update(data) 
+# async def main():
+    # print(f"Init time: {time.time() - start_time} seconds")   
 
 
-# Perform naive search, local search, global search, hybrid search, mix search
-print(
-    rag.query(prompt, param=QueryParam(mode="naive"))
-)
+    # print("==== Trying to test the rag queries ====")
+    # print("**** Start Naive Query ****")
+    # start_time = time.time()
+    # Perform naive search
+    # print(
+    #     await rag.aquery(
+    #         "What FAISS do in this system?", param=QueryParam(mode="naive")
+    #     )
+    # )
+    # print(f"Naive Query Time: {time.time() - start_time} seconds")
 
-# # Perform local search
-# print(
-#     rag.query("What are the top themes in this story?", param=QueryParam(mode="local"))
-# )
+    # Perform local search
+    # print("**** Start Local Query ****")
+    # start_time = time.time()
+    # print(
+    #     await rag.aquery(
+    #         "List me in detail highlights of this article ?", param=QueryParam(mode="local") 
+    #     )
+    # )
+    # # print(f"Local Query Time: {time.time() - start_time} seconds")
 
-# # Perform global search
-# print(
-#     rag.query("What are the top themes in this story?", param=QueryParam(mode="global"))
-# )
+    # Perform global search
+    # print("**** Start Global Query ****")
+    # start_time = time.time()
+    # print(
+    #     await rag.aquery(
+    #         "What the relationship between CLIP and FAISS?", param=QueryParam(mode="global")
+    #     )
+    # )
+    # print(f"Global Query Time: {time.time() - start_time}")
+    # Perform hybrid search
+    # print("**** Start mix Query ****")
+    # print(
+    #     await rag.aquery(
+    #         "So where the system has been tested?", param=QueryParam(mode="mix")
+    #     )
+    # )
+    # print(f"mix Query Time: {time.time() - start_time} seconds")
 
-# # Perform hybrid search
-# print(
-#     rag.query("What are the top themes in this story?", param=QueryParam(mode="hybrid"))
-# )   
+
+# if __name__ == "__main__":
+#     asyncio.run(main())
