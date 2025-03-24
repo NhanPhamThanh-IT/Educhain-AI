@@ -25,7 +25,7 @@ interface ERC20 {
 contract TokenICO {
     address public owner;
     address public tokenAddress;
-    uint256 public tokeSalePrice;
+    uint256 public tokenSalePrice;
     uint256 public soldTokens;
 
     modifier onlyOwner() {
@@ -42,7 +42,7 @@ contract TokenICO {
     }
 
     function updateTokenSalePrice(uint256 _tokenSalePrice) public onlyOwner {
-        tokeSalePrice = _tokenSalePrice;
+        tokenSalePrice = _tokenSalePrice;
     }
 
     function multiply(uint256 x, uint256 y) internal pure returns (uint256 z) {
@@ -51,7 +51,7 @@ contract TokenICO {
 
     function buyTokens(uint256 _tokenAmount) public payable {
         require(
-            msg.value == multiply(_tokenAmount, tokeSalePrice),
+            msg.value == multiply(_tokenAmount, tokenSalePrice),
             "Insufficient Ether provided for the token purchase"
         );
 
@@ -88,7 +88,7 @@ contract TokenICO {
             token.symbol(),
             token.balanceOf(address(this)),
             token.totalSupply(),
-            tokeSalePrice,
+            tokenSalePrice,
             tokenAddress
         );
     }
@@ -115,7 +115,5 @@ contract TokenICO {
             token.transfer(owner, balance),
             "Failed to transfer tokens to the owner"
         );
-
-        require(token.transfer(owner, balance), "Failed to transfer tokens to the owner");
     }
 }

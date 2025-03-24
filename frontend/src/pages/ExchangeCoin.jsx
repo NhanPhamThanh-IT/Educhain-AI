@@ -1,6 +1,7 @@
 // components
 import Page from "../components/Page";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { TOKEN_ICO_Context } from "../context/index";
 import {
   Box,
   Stack,
@@ -53,9 +54,8 @@ const fetchCryptoPrices = async () => {
         name: coin.name,
         code: matchedCoin?.code || "",
         value: coin.current_price.toLocaleString(),
-        change: `${
-          coin.price_change_percentage_24h > 0 ? "+" : ""
-        }${coin.price_change_percentage_24h.toFixed(2)}%`,
+        change: `${coin.price_change_percentage_24h > 0 ? "+" : ""
+          }${coin.price_change_percentage_24h.toFixed(2)}%`,
         icon: matchedCoin?.icon || "",
       };
     });
@@ -65,20 +65,62 @@ const fetchCryptoPrices = async () => {
   }
 };
 export default function ExchangeCoin() {
-    const [exchangeRates, setExchangeRates] = useState([]); // Lưu trữ dữ liệu API
+  const {
+    TOKEN_ICO,
+    BUY_TOKEN,
+    account,
+    loader,
+    CONNECT_WALLET,
+    currency,
+    notifyError,
+    notifySuccess,
+  } = useContext(TOKEN_ICO_Context);
+
+  const [exchangeRates, setExchangeRates] = useState([]); // Lưu trữ dữ liệu API
   const [loading, setLoading] = useState(true); // Trạng thái loading
 
   // Gọi API khi component mount
   useEffect(() => {
+    const fetchTokenData = async () => {
+      const data = await TOKEN_ICO();
+
+      if (data) {
+        setTokenDetails(data);
+        setLoading(false);
+      }
+    };
+    fetchTokenData();
     const getData = async () => {
       const data = await fetchCryptoPrices();
       setExchangeRates(data);
       setLoading(false);
     };
     getData();
-  }, []);
-  
-  return (<Page title="Exchange coin" sx={{mt: 7}}>
+  }, [TOKEN_ICO]);
+
+  const handleEthChange = (e) => {
+    const eth = e.target.value;
+    setEthAmount(eth);
+    if (tokenDetails && eth) {
+      const pricePerToken = Number(tokenDetails.tokenPrice);
+      const tokens = eth / pricePerToken;
+      setTokenAmount(tokens.toFixed(6));
+    } else {
+      setTokenAmount("");
+    }
+  };
+
+  const handleExchange = async () => {
+    if (!account) {
+      await CONNECT_WALLET();
+      return;
+    }
+    if (tokenAmount && Number(tokenAmount) > 0) {
+      await BUY_TOKEN(Number(tokenAmount));
+    }
+  };
+
+  return (<Page title="Exchange coin" sx={{ mt: 7 }}>
     <Box
       sx={{
         display: "flex",

@@ -11,7 +11,8 @@ import theme from "./utils/themes";
 import NotistackProvider from "./components/NotistackProvider";
 
 // smart_contract
-import { TOKEN_ICO_Provider } from "./context/index";
+import { TOKEN_ICO_Provider } from "./context/index.jsx";
+import Index from "./index.jsx";
 
 export default function App() {
   return (

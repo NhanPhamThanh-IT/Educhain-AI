@@ -1,5 +1,7 @@
 // This file is used to define the routes of the application.
 
+import Index from "../index.jsx";
+
 // Importing necessary modules
 import { Suspense, lazy } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
@@ -9,6 +11,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 // Importing components
 import AppBarComponent from "../components/Partials/Header/Index";
 import FooterComponent from "../components/Partials/Footer";
+import Test from "../pages/test";
 
 // ----------------------------------------------------------------------
 
@@ -59,11 +62,11 @@ const LazyPages = Object.fromEntries(
 
 // Component to wrap the AppBar
 const MainLayout = ({ children, displayHeader = true, displayFooter = true }) => (
-  <>
+  <Index>
     {displayHeader && <AppBarComponent />}
     {children}
     {displayFooter && <FooterComponent />}
-  </>
+  </Index>
 );
 
 // ----------------------------------------------------------------------
@@ -110,10 +113,10 @@ const routes = [
       { path: "mission", element: <MainLayout><LazyPages.MissionPage /></MainLayout> },
       { path: "course", element: <MainLayout children={<LazyPages.LearningPage />} displayFooter={0}></MainLayout> },
       { path: "exchange", element: <MainLayout><LazyPages.ExchangeCoin /></MainLayout> },
-
     ],
   },
   { path: "profilesetup", element: <MainLayout><LazyPages.ProfileSetup /></MainLayout> },
+  { path: "/test", element: <Test /> },
 ];
 
 // ----------------------------------------------------------------------
