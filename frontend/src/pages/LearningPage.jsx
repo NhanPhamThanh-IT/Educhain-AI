@@ -98,7 +98,6 @@ export default function EduchainApp() {
   return (
     <Box
       sx={{
-        mt: 13,
         display: "flex",
         height: "100vh",
         width: "100vw",
