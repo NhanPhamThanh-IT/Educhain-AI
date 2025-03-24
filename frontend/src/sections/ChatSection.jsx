@@ -220,18 +220,18 @@ console.log(greet("ChatGPT"));
   return (
     <Box
       sx={{
-        borderRadius: 3,
-        height: "80vh",
+        height: '80vh', 
+        mt: 5,
         display: "flex",
         flexDirection: "column",
         width: "100%",
       }}
     >
-      <Box>
+      {/* <Box>
         <Typography variant="h6" fontWeight="bold">
           {historyItem || "New chat"}
         </Typography>
-      </Box>
+      </Box> */}
       <Box
       ref={chatContainerRef}
         sx={{
