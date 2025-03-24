@@ -31,11 +31,10 @@ const pages = {
   VerifyCode: "../pages/authentication/VerifyCode",
   Page500: "../pages/Error/Page500",
   Page404: "../pages/Error/Page404",
-  AboutUs: "../pages/AboutUs",
+  AboutUs: "../pages/IntroPages/AboutUs",
   ComingSoon: "../pages/ComingSoon",
   Maintenance: "../pages/Maintenance",
-  HomePage: "../pages/HomePage",
-  Intro: "../pages/Intro",
+  HomePage: "../pages/IntroPages/HomePage",
   MyLearningPage: "../pages/MyLearningPage",
   CreateCourse: "../pages/CreateCourse",
   Market: "../pages/Market",
@@ -45,7 +44,8 @@ const pages = {
   LeaderBoard: "../pages/LeaderBoard",
   ExchangeCoin: "../pages/ExchangeCoin",
   ProfileSetup: "../pages/ProfileSetup",
-  AllCourses: "../pages/AllCourses"
+  AllCourses: "../pages/AllCourses",
+  DepositAndEarn: "../pages/IntroPages/DepositAndEarn/index",
 };
 
 // ----------------------------------------------------------------------
@@ -95,6 +95,7 @@ const routes = [
   { path: "/", element: <Navigate to="/homepage" replace /> },
   { path: "homepage", element: <MainLayout><LazyPages.HomePage /></MainLayout> },
   { path: "intro", element: <MainLayout><LazyPages.Intro /></MainLayout> },
+  { path: "deposit-and-earn", element: <MainLayout><LazyPages.DepositAndEarn /></MainLayout> },
   {
     path: "mylearning",
     children: [
@@ -109,10 +110,11 @@ const routes = [
     path: "learning",
     children: [
       { path: "", element: <Navigate to="/learning/course" replace /> },
-      { path: "leaderboard", element: <MainLayout><LazyPages.LeaderBoard /></MainLayout> },
-      { path: "mission", element: <MainLayout><LazyPages.MissionPage /></MainLayout> },
-      { path: "course", element: <MainLayout children={<LazyPages.LearningPage />} displayFooter={0}></MainLayout> },
-      { path: "exchange", element: <MainLayout><LazyPages.ExchangeCoin /></MainLayout> },
+      { path: "leaderboard", element: <LazyPages.LeaderBoard /> },
+      { path: "mission", element: <LazyPages.MissionPage /> },
+      { path: "course", element: <LazyPages.LearningPage /> },
+      { path: "exchange", element: <LazyPages.ExchangeCoin /> },
+
     ],
   },
   { path: "profilesetup", element: <MainLayout><LazyPages.ProfileSetup /></MainLayout> },
