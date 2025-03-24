@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { TOKEN_ICO_Context } from "../../../context/index.jsx";
-import { shortendAddress } from "../../../../../smart_contract/Utils/index.js";
 
 const UserMenu = ({ elevated }) => {
     const navigate = useNavigate();
