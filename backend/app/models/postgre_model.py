@@ -1,10 +1,9 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, List, Dict
 from decimal import Decimal
 
 class UserInfo(BaseModel):
-    id: int
     fullname: str # Tên của người dùng
     nickname: str # Biệt danh của người dùng
     gender: str # Giới tính của người dùng
@@ -17,34 +16,34 @@ class UserInfo(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.now)
 
 class Course(BaseModel):
-    id: int
-    user_id: int
     name: str # Tên của khóa học
     category: str # Danh mục của khóa học
     introduction: str # Giới thiệu về khóa học
     description: str # Mô tả của khóa học
-    price: Decimal # Giá của khóa học
-
-    learning_materials_path: str # Đường dẫn tới tài liệu học
-    lesson: List[str] # Danh sách các bài học
-    QuizQuestion: List[int] # Danh sách các câu hỏi trắc nghiệm
-    ExamQuestion: List[int] # Danh sách các câu hỏi thi cuối khóa
-    Video: List[str] # Danh sách các video hướng dẫn
-    ChatThreads: List[str]
+    learning_materials_path: Optional[str] = None 
+    lesson: Optional[List[str]] = None 
+    QuizQuestion: Optional[List[int]] = None 
+    ExamQuestion: Optional[List[int]] = None 
+    Video: Optional[List[str]] = None  
+    ChatThreads: Optional[List[str]] = None 
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
 
 
 class ChatHistory(BaseModel):
-    id: int # ID của tin nhắn
     thread_id: str # ID của cuộc trò chuyện
     question: str # Câu hỏi của người dùng
     answer: str # Câu trả lời của chatbot
     created_at: datetime = Field(default_factory=datetime.now)
 
+class Document(BaseModel):
+    type: str
+    url: str
+    created_at: datetime
+    updated_at: datetime
+
 
 class QuizQuestion(BaseModel):
-    id: int
     question: str # Nội dung của câu hỏi
     options: List[str] # Danh sách các phương án
     correct_answer: str # Đáp án đúng
@@ -52,7 +51,6 @@ class QuizQuestion(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.now)
 
 class ExamQuestion(BaseModel):
-    id: int
     question: str # Nội dung của câu hỏi
     options: List[str] # Danh sách các phương án
     correct_answer: str # Đáp án đúng
@@ -60,7 +58,6 @@ class ExamQuestion(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.now)
 
 class StudyGuide(BaseModel):
-    id: int
     content: List[Dict]
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)

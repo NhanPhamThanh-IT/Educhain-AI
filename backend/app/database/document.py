@@ -22,12 +22,12 @@ def init_document():
             """)
         conn.commit()
 
-def save_documnet(course_id:int, type_doc:str,url:str) -> Dict:
+def save_document(course_id:int, type_doc:str,url:str) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO documnet (type, url, created_at, updated_at)
+                INSERT INTO document (type, url, created_at, updated_at)
                 VALUES (%s, %s, %s, %s)
                 RETURNING id
                 """,
@@ -41,7 +41,8 @@ def save_documnet(course_id:int, type_doc:str,url:str) -> Dict:
                 SET document = array_append(document, %s)
                 WHERE id = %s
                 RETURNING *
-                """
+                """,
+                (doc_id,course_id)
             )
             course_res = cur.fetchone()
         conn.commit()

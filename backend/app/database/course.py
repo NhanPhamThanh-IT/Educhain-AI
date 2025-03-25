@@ -21,8 +21,7 @@ def init_course():
                     category VARCHAR(255) NOT NULL,
                     introduction TEXT,
                     description TEXT,
-                    price DECIMAL(100, 2) DEFAULT 0,
-                    lesson TEXT[],
+                    lesson UUID[],
                     quiz_question INTEGER[],
                     exam_question INTEGER[],
                     study_guide INTEGER[],
@@ -40,24 +39,36 @@ def init_course():
             """)
         conn.commit()
 
-def save_course(user_id: int, name:str, category:str, introduction:str, description:str, price:float) -> Dict:
+def save_course(user_id: int, name:str, category:str, introduction:str, description:str, lessons: List[str]) -> Dict:
     """Insert course into database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO course (user_id, name, category, introduction, description, price, 
+                INSERT INTO course (user_id, name, category, introduction, description, lessons,
                                   created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s,%s, %s, %s)
                 RETURNING id
                 """,
-                (user_id, name, category, introduction, description,
-                 Decimal(str(price)),
+                (user_id, name, category, introduction, description, lessons,
                  datetime.now(), datetime.now())
             )
             result = cur.fetchone()
+            course_id = result['id'] if result else None
+
+            if course_id:
+                cur.execute(
+                    """
+                    UPDATE user_info
+                    SET courselist = array_append(courselist, %s)
+                    WHERE id = %s
+                    RETURNING *
+                    """,
+                    (course_id, user_id)
+                )
+                result = cur.fetchone()
         conn.commit()
-        return result['id']
+        return result
 
 def append_thread(course_id: int ,thread_id: str) -> Dict:
     with get_db_connection() as conn:
@@ -98,19 +109,19 @@ def get_course_all(user_id: int) -> List[Dict]:
             rows = cur.fetchall()
         return rows
 
-def update_course(course_id: int,user_id: int, name: str, category: str, intro: str, desc: str, price: float) -> Dict:
+def update_course(course_id: int,user_id: int, name: str, category: str, intro: str, desc: str, lessons: List[str]) -> Dict:
     """Update course information"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
                 UPDATE course
-                SET user_id = %s, name = %s, category = %s, introduction = %s, description = %s,
-                    price = %s, updated_at = %s
+                SET user_id = %s, name = %s, category = %s, introduction = %s, description = %s, lessons = %s,
+                    updated_at = %s
                 WHERE id = %s
                 RETURNING *
                 """,
-                (user_id, name, category, intro, desc, Decimal(str(price)), datetime.now(), course_id)
+                (user_id, name, category, intro, desc, lessons, datetime.now(), course_id)
             )
             result = cur.fetchone()
         conn.commit()
