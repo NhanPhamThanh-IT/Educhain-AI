@@ -16,16 +16,17 @@ import {
   Stack,
   IconButton,
   Tooltip,
-  Menu,
-  MenuItem,
+  Card,
+  CardMedia,
+  CardContent,
 } from "@mui/material";
-import { AnimatePresence } from "framer-motion";
 import { CloudUpload, Link, YouTube } from "@mui/icons-material";
+import MicIcon from "@mui/icons-material/Mic";
 import { useDropzone } from "react-dropzone";
 import ExpandLess from "@mui/icons-material/ExpandLess";
-import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddIcon from "@mui/icons-material/Add";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -39,10 +40,12 @@ import StudyGuidesSection from "../sections/StudyGuidesSection";
 import VideoSection from "../sections/VideoSection";
 import MaterialsSection from "../sections/MaterialsSection";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import MenuIcon from "@mui/icons-material/Menu";
-import AppBarComponent from "../components/Partials/Header/Index";
 // import { data } from "../components/constants";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 const getColoredLabel = (text, color) => (
@@ -54,6 +57,30 @@ const data = {
     link: "/homepage",
     title: "Educhain",
   },
+};
+const datas = [
+  { title: "The Map of Chemistry", image: "/chemistry.jpg" },
+  { title: "Teaching CS50 with AI", image: "/cs50.jpg" },
+  { title: "Let's build GPT", image: "/gpt.jpg" },
+  { title: "Comparative Politics Today", image: "/politics.jpg" },
+  { title: "Attention Is All You Need", image: "/attention.jpg" },
+];
+const topics = [
+  { title: "The Genetic Code and Translation", img: "/images/genetic.png" },
+  { title: "How To Find The Range of a Function", img: "/images/range.png" },
+  { title: "But what is a neural network?", img: "/images/neural.png" },
+  { title: "Introduction to Cell Biology", img: "/images/cell.png" },
+  { title: "Social Class", img: "/images/social.png" },
+];
+
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 3000,
 };
 const sections = [
   {
@@ -68,14 +95,14 @@ const sections = [
     label: getColoredLabel("Quizzes", "#FC8181"),
     icon: <QuizIcon sx={{ color: "#FC8181" }} />,
     content: <QuizSection />,
-    history: ["overview", "quiz1", "quiz2", "quiz3"],
+    history: ["overview", "create-quiz", "quiz1", "quiz2"],
   },
   {
     key: "studyGuides",
     label: getColoredLabel("Study Guides", "#48BB78"),
     icon: <BookIcon sx={{ color: "#48BB78" }} />,
     content: <StudyGuidesSection />,
-    history: ["overview", "study2", "study3"],
+    history: ["overview", "create-guide", "study2", "study3"],
   },
   {
     key: "learningByVideo",
@@ -154,6 +181,8 @@ export default function EduchainApp() {
         sx={{
           width: isSidebarOpen ? 300 : 60,
           flexShrink: 0,
+          backgroundColor: "#e0e0e0",
+          background: "linear-gradient(to bottom, #f0f0f0, #d9d9d9)",
           transition: "width 0.3s ease",
           [`& .MuiDrawer-paper`]: {
             width: isSidebarOpen ? 300 : 60,
@@ -383,6 +412,42 @@ export default function EduchainApp() {
                         </IconButton>
                       </Tooltip>
                     )}
+                    {item.key === "quizzes" && (
+                      <Tooltip title="New quizzes">
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          sx={{ marginLeft: "auto" }}
+                        >
+                          <AssignmentIcon
+                            sx={{ color: "gray", width: 20, height: 20 }}
+                            onClick={() =>
+                              (window.location.href =
+                                "/learning/course?section=quizzes&historyItem=create-quiz")
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {item.key === "studyGuides" && (
+                      <Tooltip title="New study guides">
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          sx={{ marginLeft: "auto" }}
+                        >
+                          <AddIcon
+                            sx={{ color: "gray", width: 20, height: 20 }}
+                            onClick={() =>
+                              (window.location.href =
+                                "/learning/course?section=studyGuides&historyItem=create-guide")
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                     {openSection === item.key ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
 
@@ -524,11 +589,11 @@ export default function EduchainApp() {
             borderBottom: "1px solid #e0e0e0",
             px: 3,
             py: 2,
-            backgroundColor: "#fafafa",
+            backgroundColor: "#f0f0f0",
             position: "fixed",
+            zIndex: 1100,
             width: isSidebarOpen ? "calc(100% - 300px)" : "calc(100% - 60px)",
-            height: "10vh",
-            top: 0
+            top: 0,
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -574,10 +639,104 @@ export default function EduchainApp() {
             (s) =>
               s.key === selectedSection && s.history?.includes(selectedHistory)
           )?.content || (
-            <Box sx={{ textAlign: "center", color: "text.secondary", mt: 4 }}>
-              <Typography variant="body1">
-                Select a section from the sidebar
+            <Box sx={{ p: 4, minHeight: "80vh" }}>
+              <Typography variant="h4" align="center" gutterBottom>
+                Hôm nay bạn muốn học gì?
               </Typography>
+
+              <Box display="flex" justifyContent="center" gap={2} mb={4}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    maxWidth: 200,
+                    p: 2,
+                    border: "1px solid",
+                    borderColor: "grey.300",
+                    borderRadius: 2,
+                    boxShadow: 1,
+                    textAlign: "left",
+                  }}
+                >
+                  
+                  <CloudUpload />
+                  <Typography variant="body1" gutterBottom>
+                    Tải lên tài liệu
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    PDF, PPT, DOC, TXT
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    maxWidth: 200,
+                    p: 2,
+                    border: "1px solid",
+                    borderColor: "grey.300",
+                    borderRadius: 2,
+                    boxShadow: 1,
+                    textAlign: "left",
+                  }}
+                >
+                  
+                  <Link />
+                  <Typography variant="body1" gutterBottom>
+                    Dán
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    Youtube, trang web
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    maxWidth: 200,
+                    p: 2,
+                    border: "1px solid",
+                    borderColor: "grey.300",
+                    borderRadius: 2,
+                    boxShadow: 1,
+                    textAlign: "left",
+                  }}
+                >
+                  
+                  <MicIcon />
+                  <Typography variant="body1" gutterBottom>
+                    Ghi
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    Ghi lại bài giảng của bạn
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box border={1} borderColor="gray" p={2} borderRadius={2} mb={4}>
+                + Thêm khoảng trống
+              </Box>
+
+              <Typography variant="h6" mb={2}>
+                Khám phá chủ đề
+              </Typography>
+                <Box sx={{ width: "70%", mx: "auto", overflow: "hidden" }}>
+                    <Slider {...settings}>
+                      {topics.map((topic, index) => (
+                        <Box key={index} sx={{ px: 1,  }}> {/* Giảm width Card */}
+                          <Card sx={{ bgcolor: "gray.900" }}> 
+                            <CardMedia
+                              component="img"
+                              height="140"
+                              image={topic.img}
+                              alt={topic.title}
+                            />
+                            <CardContent>
+                              <Typography align="center">{topic.title}</Typography>
+                            </CardContent>
+                          </Card>
+                        </Box>
+                      ))}
+                    </Slider>
+</Box>
+
             </Box>
           )}
         </Box>

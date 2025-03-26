@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -12,10 +12,42 @@ import {
   ListItemButton,
   Grid,
   Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Stack
 } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { AutoStories } from "@mui/icons-material";
 import { useSearchParams } from "react-router-dom";
+import { WarningAmber } from "@mui/icons-material";
+const ConfirmDialog = ({ open, onClose, onConfirm, title, content }) => (
+  <Dialog
+  open={open}
+  onClose={onClose}
+  sx={{
+    "& .MuiDialog-paper": { borderRadius: 4, padding: 2, minWidth: 350 }
+  }}
+>
+  <Box display="flex" alignItems="center" gap={1} px={2} pt={2}>
+    <WarningAmber sx={{ fontSize: 30, color: "warning.main" }} />
+    <DialogTitle sx={{ padding: 0, fontWeight: 600 }}>{title}</DialogTitle>
+  </Box>
+  <DialogContent>
+    <Typography variant="body1" color="text.secondary">{content}</Typography>
+  </DialogContent>
+  <DialogActions sx={{ px: 3, pb: 2 }}>
+    <Button onClick={onClose} variant="outlined" color="primary">
+      Cancel
+    </Button>
+    <Button onClick={onConfirm} variant="contained" color="error">
+      Confirm
+    </Button>
+  </DialogActions>
+</Dialog>
+);
 const files = [
   {
     name: "2-PhatBieuBaiToan.pdf",
@@ -237,7 +269,7 @@ const studyData = {
 
 export default function StudyGuides() {
   const sectionRefs = useRef(studyData.sections.map(() => null));
-
+  const [openDialog, setOpenDialog] = useState(false);
   const handleScrollToSection = (index) => {
     sectionRefs.current[index]?.scrollIntoView({
       behavior: "smooth",
@@ -246,6 +278,98 @@ export default function StudyGuides() {
   };
   const [searchParams] = useSearchParams();
   const history = searchParams.get("historyItem");
+  if (history === "create-guide") {
+    return (
+      <Box
+        sx={{
+          margin: "auto",
+          textAlign: "center",
+          p: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Card
+          sx={{
+            textAlign: "left",
+            p: 4,
+            maxWidth: "900px",
+            borderRadius: 3,
+            border: "1px solid lightgray",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "#f8f8f8",
+          }}
+        >
+          <Typography variant="h5" fontWeight={700} mb={3}>
+            Study guide Payment
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                label="Related Knowledge"
+                placeholder="Achieve knowledge from any aspect"
+                variant="outlined"
+                InputProps={{
+                  sx: { borderRadius: 3 },
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                label="Quiz Type"
+                placeholder="Multiple answers or Yes/No question"
+                variant="outlined"
+                InputProps={{
+                  sx: { borderRadius: 3 },
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Divider sx={{ my: 3 }} />
+          <Typography variant="h6" fontWeight={600}>
+            Total
+          </Typography>
+          <Stack sx={{ width: "40%" }}>
+            <Stack direction="row" justifyContent="space-between" mt={1}>
+              <Typography>1 study guide</Typography>
+              <Typography fontWeight={600}>
+              400 <img src="/Partials/Ecoin.png" height={30} width={30} style={{ verticalAlign: "middle" }}/>
+            </Typography>
+
+            </Stack>
+            <Divider sx={{ my: 1 }} />
+            <Stack direction="row" justifyContent="space-between">
+              <Typography fontWeight={600}>Total</Typography>
+              <Typography fontWeight={600}>
+              400 <img src="/Partials/Ecoin.png" height={30} width={30} style={{ verticalAlign: "middle" }}/>
+            </Typography>
+            </Stack>
+          </Stack>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3, borderRadius: 2, py: 1.5 }}
+            onClick={() => setOpenDialog(true)}
+          >
+            Create
+          </Button>
+          <ConfirmDialog
+              open={openDialog}
+              onClose={() => setOpenDialog(false)}
+              onConfirm={() => {
+                console.log("Confirmed!");
+                setOpenDialog(false);
+              }}
+              title="Confirm Payment"
+              content="Are you sure you want to proceed with the payment? This action cannot be undone."
+            />
+        </Card>
+      </Box>
+    );
+  }
   return history === "overview" ? (
     <Box
       sx={{
