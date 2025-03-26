@@ -40,10 +40,10 @@ const main = () => {
                         >
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Box mb={2}>{feature.icon}</Box>
-                                <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                                <Typography variant="subtitle1" fontWeight="bold" gutterBottom sx={{ userSelect: "none" }}>
                                     {feature.title}
                                 </Typography>
-                                <Typography variant="body2" color="rgb(109, 109, 109)">
+                                <Typography variant="body2" color="rgb(109, 109, 109)" sx={{ userSelect: "none"}}>
                                     {feature.description}
                                 </Typography>
                             </CardContent>

@@ -8,10 +8,10 @@ const Main = () => {
                 {/* Cột nội dung */}
                 <Box>
                     <Box mb={2}><MessageSquare size={24} /></Box>
-                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom sx={{ userSelect: "none"}}>
                         Earn and Learn with Educhain Token
                     </Typography>
-                    <Typography variant="body2" color="rgb(109, 109, 109)">
+                    <Typography variant="body2" color="rgb(109, 109, 109)" sx={{ userSelect: "none" }}>
                         Exchange cryptocurrency for Educhain Token to access and sell courses, creating a rewarding ecosystem.
                     </Typography>
                 </Box>

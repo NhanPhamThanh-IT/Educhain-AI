@@ -7,14 +7,13 @@ const floating = keyframes`
   100% { transform: translateY(0); }
 `;
 
-// Hiệu ứng vệt sáng khi hover
 const glowing = keyframes`
   0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
   50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
   100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
 `;
 
-const borderColors = ["#FFADAD", "#D8B4F8", "#A0E7E5", "#FFD97D", "#C1E1C1", "#FFB480"];
+const borderColors = ["#FFADAD", "#A4B4F6", "#76C4EE", "#FFD97D", "#C1E1C1", "#FFB480"];
 
 const features = [
     { img: "/Homepage/PDF.png", hover_img: "/Homepage/PDF_hover.png", top: "0%", left: "5%" },

@@ -16,7 +16,7 @@ export function SocialProof() {
                 <Avatar src="https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-1/461153389_4365545160338705_7839086776531577708_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeFId0rES8Du3skff5rT0RDz7-bf7sNhX0jv5t_uw2FfSJ6QmVUw2_ru5p_Re_bDBSzZ9L9Oam0K_7PifBopmhvB&_nc_ohc=TkyGJuwzqB8Q7kNvgFw2qPV&_nc_oc=AdnVoODAeNdly45A4DRN5NdapLhWoiKKOgd5Ti2S-u7kResh-EafmqZgtpn5SA3CUDVxcDlWGMmyNYSwzubSCML5&_nc_zt=24&_nc_ht=scontent.fsgn2-3.fna&_nc_gid=84tnVioVVfsgl0Lapla5GA&oh=00_AYG5LZhaWs3vbV_rmY9AobT_QLR5eKDztEy6j7XZsRhAFg&oe=67E95FF6" />
             </AvatarGroup>
             <Typography
-                sx={{ ml: 1 }}
+                sx={{ ml: 1, userSelect: 'none' }}
                 variant="body1"
                 color="text.secondary"
             >

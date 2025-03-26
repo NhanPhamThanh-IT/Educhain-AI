@@ -9,14 +9,14 @@ export const Hero = () => {
     return (
         <Box position="relative" textAlign="center" p={5} minHeight="60vh" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
             <FeatureBackground />
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 2, userSelect: "none" }}>
                 <Typography variant="h5" color="#1976d2" fontWeight={"bold"}>Edu</Typography>
                 <Typography variant="h5" color="black" fontWeight={"bold"}>Chain</Typography>
             </Box>
-            <Typography variant="h4" fontWeight={700}>
+            <Typography variant="h4" fontWeight={700} sx={{ userSelect: "none" }}>
                 {constants.abstract}
             </Typography>
-            <Typography variant="subtitle1" color="textSecondary" mt={2}>
+            <Typography variant="subtitle1" color="textSecondary" mt={2} sx={{ userSelect: "none" }}>
                 {constants.description}
             </Typography>
             <SocialProof />
