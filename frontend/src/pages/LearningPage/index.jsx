@@ -13,7 +13,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { data, topics, settings, sections } from "./constants";
+import { data, sections } from "./constants";
 
 import TopBar from "./components/top-bar";
 import ContentArea from "./components/content-area";
@@ -110,6 +110,13 @@ export default function EduchainApp() {
                 border: "none",
                 padding: 0,
               }}
+              onClick={() => {
+                setSelectedSection("Dashboard")
+                setSelectedHistory("")
+                setOpenSection(null)
+                navigate("/learning/course")
+              }
+              }
             >
               <Box
                 component="img"
