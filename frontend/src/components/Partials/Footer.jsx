@@ -8,7 +8,6 @@ const Footer = () => {
             backgroundColor: "#1e1e1e",
             color: "#fff",
             py: 4,
-            mt: 4
         }}>
             <Container maxWidth="lg">
                 <Grid container spacing={4}>

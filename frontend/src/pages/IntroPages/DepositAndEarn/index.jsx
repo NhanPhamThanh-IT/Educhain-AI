@@ -19,75 +19,75 @@ const Main = () => {
     };
 
     return (
-        <Container maxWidth="md" sx={{ mt: 15 }}>
-            <Box sx={{ textAlign: 'center', mb: 6 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, alignItems: 'center' }}>
-                    <TbCoinFilled size={48} />
+        <Box sx={{ bgcolor: 'rgb(245, 245, 245)', py: 15 }}>
+            <Container maxWidth="md">
+                <Box sx={{ textAlign: 'center', pb: 6 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, alignItems: 'center' }}>
+                        <TbCoinFilled size={48} />
+                        <Typography
+                            variant="h3"
+                            component="h1"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'text.primary'
+                            }}
+                        >
+                            Pricing & Fees
+                        </Typography>
+                    </Box>
                     <Typography
-                        variant="h3"
-                        component="h1"
+                        variant="subtitle1"
                         sx={{
-                            fontWeight: 600,
-                            color: 'text.primary'
+                            color: 'text.secondary',
+                            maxWidth: '600px',
+                            mx: 'auto',
+                            mb: 4
                         }}
                     >
-                        Pricing & Fees
+                        Transparent pricing structure for all transactions and services on our platform
                     </Typography>
-                </Box>
-                <Typography
-                    variant="subtitle1"
-                    sx={{
-                        color: 'text.secondary',
-                        maxWidth: '600px',
-                        mx: 'auto',
-                        mb: 4
-                    }}
-                >
-                    Transparent pricing structure for all transactions and services on our platform
-                </Typography>
 
-                <Box sx={{ mb: 4, p: 1 }}>
-                    <Tabs
-                        value={currentTab}
-                        onChange={handleTabChange}
-                        centered
-                        indicatorColor="transparent"
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: 2,
-                            "& .MuiTab-root": {
-                                fontSize: "1.1rem",
-                                fontWeight: 500,
-                                textTransform: "none",
-                                minWidth: 120,
-                                border: "2px solid #666",
-                                borderRadius: 50,
-                                transition: "background-color 0.3s",
-                                color: "#666",
-                                marginRight: 2,
-                                "&:last-child": {
-                                    marginRight: 0,
+                    <Box sx={{ mb: 4, p: 1 }}>
+                        <Tabs
+                            value={currentTab}
+                            onChange={handleTabChange}
+                            centered
+                            indicatorColor="transparent"
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                gap: 2,
+                                "& .MuiTab-root": {
+                                    fontSize: "1.1rem",
+                                    fontWeight: 500,
+                                    textTransform: "none",
+                                    minWidth: 120,
+                                    border: "2px solid #666",
+                                    borderRadius: 50,
+                                    transition: "background-color 0.3s",
+                                    color: "#666",
+                                    marginRight: 2,
+                                    "&:last-child": {
+                                        marginRight: 0,
+                                    },
                                 },
-                            },
-                            "& .MuiTabs-indicator": {
-                                display: "none",
-                            },
-                            "& .Mui-selected": {
-                                bgcolor: "#222",
-                                color: "white",
-                                borderColor: "#222",
-                            },
-                        }}
-                    >
-                        <Tab label="Deposits" />
-                        <Tab label="Earnings" />
-                    </Tabs>
+                                "& .MuiTabs-indicator": {
+                                    display: "none",
+                                },
+                                "& .Mui-selected": {
+                                    bgcolor: "#222",
+                                    color: "white",
+                                    borderColor: "#222",
+                                },
+                            }}
+                        >
+                            <Tab label="Deposits" />
+                            <Tab label="Earnings" />
+                        </Tabs>
+                    </Box>
                 </Box>
-            </Box>
 
-            {/* Thêm hiệu ứng animation khi chuyển tab */}
-            <Box sx={{ mb: 10 }}>
+                {/* Thêm hiệu ứng animation khi chuyển tab */}
                 <AnimatePresence mode="wait">
                     {currentTab === 0 && (
                         <motion.div key="tab-0" initial="hidden" animate="visible" exit="exit" variants={tabVariants}>
@@ -100,8 +100,8 @@ const Main = () => {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </Box>
-        </Container>
+            </Container>
+        </Box>
     );
 };
 
