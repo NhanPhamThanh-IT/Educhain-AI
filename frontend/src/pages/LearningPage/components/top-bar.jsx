@@ -42,7 +42,7 @@ const WidgetContent = () => {
 };
 
 const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) => {
-    const [isWidgetOpen, setWidgetOpen] = useState(false);
+    const [isWidgetOpen, setWidgetOpen] = useState(true);
 
     return (
         <Box
@@ -98,7 +98,7 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
 
                 {/* Các nút khác */}
                 <Tooltip title="Refresh">
-                    <IconButton size="small">
+                    <IconButton size="small" onClick={() => window.location.reload()}>
                         <RefreshIcon fontSize="small" />
                     </IconButton>
                 </Tooltip>
