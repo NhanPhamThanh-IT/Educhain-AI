@@ -41,7 +41,7 @@ const pages = {
   CreateCourse: "../pages/CreateCourse",
   Market: "../pages/Market",
   CourseDetails: "../pages/CourseDetails",
-  LearningPage: "../pages/LearningPage",
+  LearningPage: "../pages/LearningPage/index",
   MissionPage: "../pages/MissionPage",
   LeaderBoard: "../pages/LeaderBoard",
   ExchangeCoin: "../pages/ExchangeCoin",

@@ -82,7 +82,7 @@ To provide a dynamic and decentralized platform that makes education accessible,
 
 3. Start the development server:
     ```sh
-    npm start
+    npm run dev
     ```
 
 # Deployment

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, File, UploadFile
-from backend.app.services.blob_storage_service import upload_to_blob
+from app.services.blob_storage_service import upload_to_blob
 from fastapi.responses import JSONResponse
 import os
 import logging
@@ -15,3 +15,12 @@ async def upload_file(file: UploadFile = File(...)):
     except Exception as e:
         logging.error(f"File upload failed: {e}")
         return JSONResponse(content={"error": str(e)}, status_code=500)
+    
+# @router.get("/download/")
+# async def download_file(course_id: str, section: str, folder: str, file_name: str):
+#     try:
+#         response, status_code = await download_from_blob(course_id, section, folder, file_name)
+#         return JSONResponse(content=response, status_code=status_code)
+#     except Exception as e:
+#         logging.error(f"File download failed: {e}")
+#         return JSONResponse(content={"error": str(e)}, status_code=500)

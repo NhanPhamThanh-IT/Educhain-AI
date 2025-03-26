@@ -36,20 +36,19 @@ const HeroSection = () => {
                             alignItems: "center",
                             justifyContent: "center",
                             textAlign: "center",
-                            backgroundColor: "#f8f8f8",
+                            bgcolor: "white",
                             borderRadius: "20px",
                             margin: "auto",
                             mt: 25,
-                            mb: 15,
                             py: 10,
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                             border: "1px solid rgb(231, 231, 231)",
                         }}
                     >
-                        <Typography variant="h4" fontWeight="bold" gutterBottom mb={3.5}>
+                        <Typography variant="h4" fontWeight="bold" gutterBottom mb={3.5} sx={{ userSelect: "none" }}>
                             Learn smarter, faster, easier.
                         </Typography>
-                        <Typography variant="body1" color="gray" gutterBottom mb={2.5}>
+                        <Typography variant="body1" color="gray" gutterBottom mb={2.5} sx={{ userSelect: "none"}}>
                             Upload your content, and start your learning journey.
                         </Typography>
                         <Button
@@ -62,6 +61,7 @@ const HeroSection = () => {
                                 textTransform: "none",
                                 fontSize: "16px",
                                 ":hover": { backgroundColor: "#333" },
+                                userSelect: "none"
                             }}
                             onClick={() => handleNavigate()}
                         >

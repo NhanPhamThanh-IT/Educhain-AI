@@ -10,11 +10,11 @@ from typing import List, Dict, Optional
 load_dotenv()
 
 # Database configuration
-DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_USER = os.getenv("DB_USER", "admintu")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "educhain123@")
-DB_HOST = os.getenv("DB_HOST", "educhain3.postgres.database.azure.com")
-DB_PORT = os.getenv("DB_PORT", 5432)
+DB_NAME = os.getenv("POSTGRES_DATABASE", "postgres")
+DB_USER = os.getenv("POSTGRES_USER", "admintu")
+DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "educhain123@")
+DB_HOST = os.getenv("POSTGRES_HOST", "educhain3.postgres.database.azure.com")
+DB_PORT = os.getenv("POSTGRES_PORT", 5432)
 
 def get_db_connection():
     """

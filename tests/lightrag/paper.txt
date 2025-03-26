@@ -1,0 +1,698 @@
+An Interactive System For Visual Data Retrieval
+From Multimodal Input
+Tu Van Nguyen1,2, *** , Nghia Trung Duong1,2, ** , Nhan Thanh Pham1,2, **
+,
+Thanh Xuan Luong1,2, and Dang Duy Bui1,2
+1 Faculty of Information Technology, University of Science, Ho Chi Minh City,
+Vietnam
+2
+Vietnam National University, Ho Chi Minh City, Vietnam
+{22127434,22127293,22127307,22127387}@student.hcmus.edu.vn
+bddang@fit.hcmus.edu.vn
+** Equal contribution
+Abstract. The widespread sharing of visual data online has created
+challenges in querying and extracting relevant information efficiently.
+This led to the establishment of the AI Challenge 2024, which aims to
+develop systems capable of processing queries and accurately returning
+event images from a large dataset of multi-genre videos. Our team ad-
+dressed this by creating an interactive system leveraging models such as
+CLIP, GPT-4o, PaddleOCR, and Whisper to generate precise embed-
+dings and enable efficient data retrieval from diverse visual formats. The
+system is supported by an GUI with features such as semantic search,
+OCR-based and voice-based queries, AI-generated image queries, query
+enhancement, and advanced video preprocessing. Through this approach,
+our system reduced the unimportant data by 21% and achieved an ac-
+curacy of 81.54% for the correct answers among the top 10 responses
+3. This result showcases the system's potential for improving query re-
+sponse accuracy and efficiency in large-scale visual data preprocessing.
+Keywords: Multimodal retrieval . Query enhancement . Generative
+image-based query · Voice-based query
+1
+Introduction
+Images and videos are used to record activities in daily life, from personal mo-
+ments to significant events. These images and videos can be stored on social
+media platforms, video sharing services, and news applications, resulting in a
+massive and diverse dataset in terms of size, genre, and subject matter. Due to
+this richness, retrieving and searching for precise images presents a significant
+challenge. For example, people desire to find specific images based on memorized
+descriptions or keywords, not only from their photos but also from their videos.
+* corresponding author
+3 https://github.com/NghiaZun/AIthena_Statistic
+2
+Tu et al.,
+This issue is the central focus of the 2024 Vietnam AI Challenge4 whose format
+is similar to the Lifelog Search Challenge (LSC)5 and Video Browser Showdown
+(VBS)6. The challenge provides a data set that contains Vietnamese videos in
+various genres and topics, with several tasks that require the output of a specific
+frame (image) indexed from the videos in the data set based on given inputs
+(e.g., text query). The goal of such tasks focuses on two factors: accuracy and
+speed, which are the objectives that our tool paper aims to address.
+This paper provides a tool that assists humans in solving tasks in the com-
+petition, as well as using several approaches to retrieve information. To do that,
+our work contains a two-stage system: Data Preprocessing and Retrieval
+Processing. In the first stage, videos from the input dataset are extracted into
+frames (images) and meta data (e.g., name entities), which become a database
+used for the Retrieval Processing stage. The latter stage is divided into two
+main activities: listing image candidates and confirming such images. For the
+first activity, the tool allows users to input queries in natural language format
+such as texts, voices, or images, and the system returns relevant frame candi-
+dates (from the database) ranked by semantic similarity and context. The latter
+activity aims to confirm such candidates based on further re-ranking algorithms
+and human efforts. Note, for the competition, our team constructed the query
+and configured our tool instead of putting the full query from the challenge.
+Finally, to demonstrate the usefulness of our tool, some case studies in the com-
+petition are analyzed, which help us to get the first rank in the 3rd preliminary
+round, and some statistical results are shown.
+The following sections provide the related work, tasks' information in the
+competition, our tool architecture, along with experimental results. Our paper
+will conclude with key findings and future research directions.
+2
+Related Work
+In the recent LSC'23 competition, LifeXplore [6] won first place by leveraging
+Open-CLIP (ViT-H/14) for powerful free-text search capabilities. Additionally,
+two other strong systems, Momento 3.0 [9] and Voxento 4.0 [2], also used CLIP as
+their primary method to tackle the challenge. Their approaches typically utilized
+CLIP to establish semantic compatibility between text and images by mapping
+both into a shared feature space for prediction. While this model achieved rela-
+tively high performance, it still fell short of fully realizing its potential for precise
+information retrieval. To maximize CLIP's capabilities and enhance its perfor-
+mance, these teams often integrated it with search functions based on FAISS [5],
+a technique that narrows the search space for feature vectors, especially for small
+or hard-to-access images.
+In recent research, querying images based on their content has emerged as a
+popular approach. This method allows users to leverage key details in the image
+4 https://aichallenge.hochiminhcity.gov.vn/
+5 https://klausschoeffmann.com/lifelog-search-challenge/
+6 https://videobrowsershowdown.org/
+3
+Interactive system for visual data retrieval
+context, such as street names, license plates, and so on. For this method to work
+effectively, the images in the dataset need to be high resolution, and the fea-
+ture matrices must be clearly defined. In the study [1], the authors propose an
+OCR-based query method using Tesseract OCR and the Levenshtein algorithm.
+Tesseract OCR is a robust tool with multilingual text recognition capabilities.
+Meanwhile, the Levenshtein algorithm measures differences between character
+strings, enabling accurate identification of key phrases even when the text con-
+tains typos or variations, thereby improving query effectiveness and precision.
+Another approach for image querying is based on video content, with an
+Automatic Speech Recognition (ASR) model playing a key role. ASR converts
+video data into speech, extracting relevant phrases to create a text search tool
+from voice data, optimizing language data, and supporting image querying. In
+the LSC'23 competition, some systems used speech-to-text technology, such as
+[8] with DeepSpeech. However, there has been limited discussion on systems that
+retrieve images in videos based on voice, making our system a unique example.
+Previous studies, like [7], have used the Speech API in their systems, but the
+Whisper from OpenAI has yet to be widely adopted. Our team has chosen to
+leverage the Whisper in our system to establish a new standard of accuracy and
+efficiency in voice-based information retrieval.
+3
+Vietnam AI Challenge 2024
+The Vietnam AI Challenge 2024, with the theme "Event Retrieval from Visual
+Data", is organized to discover optimal, accurate, and fast solutions for querying
+images based on queries provided by the competition organizers. For each round,
+each team is given a large dataset consisting of videos covering diverse topics
+and genres and video frames extracted by the organizers, setting the stage for
+testing of retrieval systems. This competition serves as an ideal platform to refine
+our expertise and contribute meaningful solutions to advancing the capabilities
+of AI in multimodal understanding and visual retrieval, which holds immense
+potential for applications in security, media, education, and beyond.
+The competition itself involves three tasks that require retrieving video iden-
+tifiers and frame indices as answers to query questions. For each task, the com-
+petition ranks teams based on the accuracy first with the speed second. Task
+descriptions and rules include:
+- Text KIS7: The input is a natural language scene description, and the
+expected output is a number representing the frame index that exists within
+some specific video. This number must be within the required range (e.g.,
+50000-60000).
+- Video KIS: The organizer shows a specific segment of a video (as input)
+and asks competitors to describe this segment as texts. The expected output
+is the same as the output of Text KIS.
+7 KIS: Known-item search
+4
+Tu et al.,
+- Q&A KIS: This task is an upgrade of two previous tasks, with two inputs:
+text-based scene descriptions and event-related questions. The expected out-
+put is similar to Text KIS but extends by providing an answer to the given
+question.
+4
+Proposed Method
+DB1
+List of scenes
+(a scene includes 3-
+tuple - begin,
+middle, and end
+frames)
+Remove
+blurry and
+noisy images
+(OpenCV)
+DB1.2
+Take all words
+appearing in each
+frame (Paddle OCR)
+Optical characters
+database
+Whisper
+Take all the content of
+video in text format and
+split time by the scenes.
+Ranking
+images
+Visual
+> Similarity
+Search
+Decision
+making
+List
+images
+Data prerocessing
+Speech database
+--- - - - --
+Retrieval processing
+ASR search
+Whisper
+Method 1
+Voices / text
+queries
+Queries
+analysis
+Text search
+Text/Image
+embedding
+(CLIP model)
+UI
+OCR search
+User
+Method 2
+Image queries
+Generative AI
+image-based
+search (DALL-E-3)
+Fig. 1: Workflow for video content-based image retrieval: The system processes
+video with shot detection, keyframe extraction, and embedding generation. It
+combines text, audio, and image queries, using indexing to improve ranking, and
+supports ASR, OCR, and image generation for better multimodal capabilities.
+The diagram in Fig. 1 illustrates our tool architecture, which retrieves im-
+ages from the dataset using various AI models, including CLIP, Whisper, and
+PaddleOCR. The process is divided into two main parts: Data Preprocessing
+and Retrieval Processing.
+In the Data Preprocessing stage, the system extracts key images (keyframes)
+from the video, ensuring that blurry or unclear frames are filtered out. Next, the
+system employs the CLIP model to generate a digital representation (embed-
+ding) of each image, capturing its semantic and visual information. For text ex-
+traction, PaddleOCR is utilized to detect and store any textual content present
+in the images. Simultaneously, the system processes the audio using Whisper,
+which converts spoken language into text, enabling comprehensive multimodal
+data analysis.
+In the Retrieval Processing stage, users can search for images in different
+ways: by typing in a query, speaking the query (speech is converted to text), or
+even uploading an image. These query methods are classified into two groups:
+Language (including texts and voices) and Image. For language queries, the
+user should analyze the queries, and the system compares them with previously
+processed data. The system uses several methods, such as audio, text, or text-
+from-image (OCR) search. For image queries, the system can match the user's
+Feature vector
+embeddings (CLIP
+model)
+DB1.1
+FAISS CLIP
+Video database
+Keyframes
+database
+5
+Interactive system for visual data retrieval
+image with similar images in the database using the CLIP model. There is also
+an object outline feature, which uses DALL-E 3 to help retrieve relevant images.
+To rank and sort the results, the system uses FAISS [10] to find the best
+matches, then decides which images to show to the user. This makes it easier for
+users to find the matching image based on their query.
+4.1 Data preprocessing
+Keyframe extraction: We utilize the Transnet V2 [15] model to analyze video
+content and detect scene transitions effectively. This model computes the transi-
+tion ratio at each frame in the video. If the calculated transition ratio exceeds a
+predefined threshold, it is classified as a scene change. For every identified scene,
+we strategically extract three keyframes: the first frame, the middle frame, and
+the last frame of the scene.
+The set of keyframes KF is given by:
+KF = {KFfirst, KFmiddle, K Fast } = {S1, S|2 |, Sn-1}
+(1)
+- S be the set of frames in the identified scene.
+- n be the total number of frames in the scene, where n = |S|.
+- Si be the i-th frame in the scene.
+By selecting only three frames to represent each scene, rather than capturing
+every frame, we achieve a more efficient yet effective summarization. Focusing
+on these specific frames enhances both the accuracy of content retrieval and the
+quality of the video summary.
+Remove blurry images: To effectively eliminate blurry images from a dataset,
+we employ a technique that involves calculating the Laplacian variance [11] of
+each image. When we compute the Laplacian of an image, we measure how
+much the intensity of pixels changes across the image. A blurry image tends to
+have a more uniform intensity distribution, resulting in a low variance value. This
+technique removed a large amount of blurry images. Approximately 78,000 blurry
+images, constituting 17.33% of the dataset, were detected using this method.
+Remove redundant images: For further optimizing the dataset, we propose a
+method using color histograms and edge detection with OpenCV. This approach
+identifies and removes redundant frames based on predefined thresholds, com-
+paring each frame against a set of classified redundant frames. Frames deemed
+similar are excluded, eliminating about 30,000 redundant images (6.67% of the
+dataset) and improving retrieval accuracy.
+Indexing and name entity extraction: We extract the 768-dimensional em-
+bedding of each frame using the CLIP ViT-L/14 model. This model has a larger
+architecture and significantly more parameters compared to the CLIP ViT-B/32,
+6
+Tu et al.,
+which was recommended by the competition organizers. The increased number
+of parameters allows the CLIP ViT-L/14 model to capture more semantic fea-
+tures. Afterward, all the vector embeddings are indexed using FAISS, which
+builds an efficient vector database for the system. This database enables fast
+and accurate retrieval of similar frames during the search process. In addition,
+the PaddleOCR [13] and the Whisper model are integrated. PaddleOCR is used
+to extract text directly from image frames, enabling rapid identification of char-
+acters and words within the visual content. While that, the Whisper model
+processes audio streams to transcribe spoken language from videos.
+4.2 Voice-based and text-based retrieval:
+In our tool, users can input queries in a natural language format, supporting both
+Vietnamese and English. Additionally, the tool offers voice-based input, utilizing
+the Whisper [4] to accurately convert spoken queries into text. After that, based
+on the input query, GPT-4o will be used to extract information and generate an
+enhanced query that better captures the user's intent and provides more relevant
+results. This approach enables a convenient experience and improve accuracy
+Sematic search: To implement the semantic search function, we leverage the
+power of the CLIP [3] model, specifically the CLIP ViT-L/14 model, along with
+FAISS [5]. This process is carried out step by step, as outlined below.
+1. When a natural language query is provided, the CLIP model is used to
+encode the query into a vector embedding.
+2. Then FAISS compares the query embedding with the dataset's indexed em-
+beddings by computing the similarity between the query vector and the
+image vector using L2 distance.
+3. Received an array of indexes sorted based on their similarity to the query.
+4. Mapping the index back to the corresponding image
+5. The result is a list of ranked images that have similar semantic features with
+the query
+Characters and named entity search: To match extracted text and audio
+data with user queries, the Jaro-Winkler algorithm [12] is employed to calcu-
+late the similarity between text strings. This algorithm is particularly effec-
+tive for handling minor variations in spelling or pronunciation. By ranking text
+based on similarity scores, the approach ensures that the most relevant result ap-
+pears at the top of the list. The Jaro-Winkler algorithm assigns higher similarity
+scores to strings that share a common prefix, making it well-suited for comparing
+named entities or keywords. For example, it can effectively match variations like
+"Jonathon" and "Jonathan" or "color" and "colour." To improve search precision,
+a similarity threshold (e.g., 0.85) is applied. Only text with a similarity score
+above this threshold is retained. This filtering process enhances the accuracy of
+query results for both OCR and transcribed audio content, ensuring that only
+closely matching entities are considered relevant.
+7
+Interactive system for visual data retrieval
+4.3 Visual similarity search
+As mentioned, some "noisy" images share similar characteristics with the target
+image, making accurate identification challenging. To address this issue, we de-
+signed a function called Image Retrieval (IR). This function re-ranks the set of
+images previously ranked by other methods based on the image selected by the
+user for verification. For example, the user selects an image i that they believe
+is the correct match. The system then compares the embedding vector of the
+selected image i with the dataset embeddings using FAISS, as described in the
+Semantic Search section. After re-ranking, a new set of images with high sim-
+ilarity to the selected one is generated, making it easier to review and confirm
+the accuracy of the results.
+4.4 Generative AI image-based query
+During our recent competition, we encountered a critical obstacle: the video-
+KIS queries involved a highly abstract concept that couldn't be processed using
+standard tools. This query required a level of semantic understanding and visual
+creativity that went beyond conventional information retrieval methods. Faced
+with this limitation, we leveraged the DALL-E 3 model, known for its robust ca-
+pability to generate images based on textual prompts. By converting our initial
+prompt ideas into corresponding images, we created a visual representation that
+facilitated further processing and comparison in our Image Retrieval (IR) func-
+tion. These AI-generated images were transformed into vectors, enabling precise
+matching with similar images in the system's database. Upon evaluation, this
+approach demonstrates superior accuracy compared to the traditional method.
+However, during further testing, it showed a longer response time. The above
+strategy is shown in Alg. 1.
+Algorithm 1 Generative AI image-based query
+Require: Textual prompt p representing the abstract concept
+Ensure: List of relevant images B that match the concept in query p
+0: Initialize an empty list V to store vectors of AI-generated images
+0: Generate an image I using the DALL-E 3 model based on prompt p
+0: Convert the generated image I into a vector representation vI using feature extrac-
+tion CLIP model
+0: Add vI to list V
+0: for each vector embeddings vi in the system's database do
+0:
+Compute similarity score s between vI and vi using FAISS
+0:
+if similarity score s meets the threshold t then
+0:
+Add image i to list B
+0:
+end if
+0: end for
+0: return list B containing relevant images that match the query =0
+8
+Tu et al.,
+5
+Experiment
+To visualize all the above-mentioned sections, our system employed FLASK
+framework for optimizing the backend retrieval API traffic, while ReactJS and
+Tailwind CSS created an intuitive graphical user interface (GUI) consisting of
+multiple sections with distinct roles, as can be seen in Fig. 2.
+Althena
+O. a girl with "ao dai"
+A
+CO
+CLIP L\14
+Keywords
+Answer
+Submit KIS
+Main
+Al-sketch/image URL
+Submit
+Images: 100
+Main
+Al-sketch/image URL
+Submit
+C
+Prompt ..
+L04_V025/103.jpg
+L12_V024/322.jpg
+LOB_V001/397.jpg
+106_V015/344.jpg And
+L02_V030/700.jpg
+URL
+0
+B
+Apph
+GPT4
+L12_V001/245.jpg
+109_V004/409.jpg
+LOZ_V018/235.jpg
+LOS_V001/371.jpg |#
+LOS_V015/343.jpg " !!
+Chatbox ..
+Prompt:
+L17_V025/293.jpg
+LOS_V001/355.jpg
+L10 V012/256.jpg
+L10 V012/257.jpg
+L12 V024/323.jpg
+Query
+Response:
+The ** Ao Dai ** is a traditional
+Vietnamese garment, typically worn
+by women, though there are versions
+for men as well. It is a long, fitted
+tunic with side slits that is wom over
+121_V008/973.jpg
+L11_V014/802.jpc
+L02_V030/701.jpg
+L16 V004/166.jpg
+105_V014/688.jpg
+long, flowing pants. The tunic usually
+has a high collar and is tailored to fit
+.
+202_V018/239.jpg
+D
+Fig. 2: The GUI of the system with a simple CLIP-based query ranked result
+The interface of our tool (shown in Fig. 2) includes five sections:
+- Section A (Toolbar Section): this section contains the text input field for
+entering the query, along with options for selecting query modes.
+- Section B allows users to adjust the number of images retrieved and includes
+tools like a GPT-powered chatbox for query refinement and a QA module
+for image-related answers.
+- After the query process, section C displays the images ranked according to
+relevance after a query is processed.
+- Section D displays images that come before and after the selected image.
+- Section E, this section of the system allows users to create new images based
+on a prompt; such images are then used for querying similar images
+5.1
+Case studies
+As discussed, the tool mainly helps users to address tasks mentioned in Sect. 3.
+In addition to traditional semantic search methods that typically yield a ranked
+list, there are certain cases where alternative methods achieve higher rankings.
+In this section, we will provide three examples.
+In the video-KIS format, queries often include specific named entities, such
+as "SG93711TS" shown in Fig. 3, We use the OCR-based querying function to
+retrieve images that contain this phrase. PaddleOCR detects and extracts the
+code even if it is partially damaged or obscured, such as by chipped paint.
+Generate
+IR YT
+What is ao dal ?
+E
+9
+Interactive system for visual data retrieval
++
+L04_V029/352.jpg
+Chính phủ Phối lon thông báo đồng cửa khẩu biển giải cuối túng vài Ngọ
+Fig. 3: The text "SG93711TS" was successfully recognized from the body of the
+boat in the image, which matches the search keyword "sg93" entered in the search
+bar.
+Additionally, in the Text-KIS task, to make it possible to return the best
+candidates, our tool allows users to search for images based on text prompts.
+For example, the input query "Three Olympic medals of Paris 2024" (shown in
+Fig. 4) ranks and returns results based on relevance. Note that the correct result
+is shown in the fifth example.
+Main
+Al-sketch/image URL
+Submit
+RANK 5
+L13_V011/970.jpg
+L09_V009/1219.jpg
+L22_V003/859.jpg
+L13_V011/968.jpg
+L09_V009/1177.jpg
+Prompt ...
+URL
+Generate
+L13_V011/967.jpg
+LO9_V009/1178.jpg
++
+L22_V021/1097.jpg
+L18_V028/1006.jpg
+L09_V009/1189.jpg
++
+L09_V009/1216.jpg
++
+L22_V021/1096.jpg
+L12_V025/988.jpg
+L18_V028/1003.jpg
+L18_V028/1009.jpg
++
+L09_V009/1208.jpg
+L13_V001/884.jpg
+L09_V009/1193.jpg
+L17_V028/867.jpg
+L22_V013/1207.jpg
+Query
+L20_V024/916.jpg
+L09_V009/1192.jpg
+L04_V029/607.jpg
+L02_V028/808.jpg
+L22_V003/855.jpg
+Prompt: Three Olympic
+medals of Paris 2024
+L19_V027/952.jpg
+L22_V001/736.jpg
+L06_V009/1189.jpg
+L04_V029/622.jpg
+L12_V025/986.jpg
+BOUTIONEOFHIS
+FERIS TOFT
+Fig. 4: Prompt-based search generates ranked image results. In this example, the
+query prompt specifies "Three Olympic medals of Paris 2024."
+NTV&
+10
+Tu et al.,
+In the Q&A KIS task, thanks to the power of visual question answering
+in the GPT-4o model, our tool automatically shows the answer of the question
+related to the output image instead of using human eyes as usual. As can be seen
+in Fig. 5, with the question "How many green rectangles have only the number
+one?", the chat box shows that the result is "one" in a short response time.
+GPT4
+QA
+1.841
+1.908
+C
+O
+WWW'06-37:13
+O
+-
+ACO
+DACO
+-
+A GD
+42.86 9
+0.00 %
+OGD
+L09_V003/397.jpg
+-
+O MERCHANT
+-
+How many green rectangle have only n
+-
+Ask
+SUCCESS
+-
+NOT_NOW NOT_NOW
+NO_READY
+29.9M 26M 725K 152K 29.9M 346 26M 945K 174K
+Response:
+From examining the picture, there
+appear to be ** one green
+hất Italia, bị bắt tại Pháp
+60
+El Salvador tiến hành tổng tuyển cử
+FAO: Chỉ số giá lực
+rectangle ** that contain only the
+number ** 1 **.
+0
+Fig. 5: Answering the question: "How many green rectangles have only the num-
+ber one?" from given image using GPT-4o.
+The baseline model, CLIP ViT-B/32, introduced by the competition orga-
+nizer and combined with traditional semantic search techniques, does not effec-
+tively address the case studies outlined due to the absence of data and query
+preprocessing.
+5.2 Performance statistics
+This section shows some statistical results refer to two contexts, where one (i)
+is to use direct inputs from the competition and one (ii) is to use GPT-4o to
+refine such inputs. We focus on the dataset with 65 questions from the prelim-
+inary round and 15 questions from the final round, each having 4 hints. Tab. 1
+shows the results of the 65 preliminary questions. based on the ranking range8
+where "Unenhanced query" and "Enhanced queries" refer to the contexts (i) and
+(ii), respectively. In context (i), most of the rankings fall within rank 1 to 5 or
+above 50. However, in context (ii), the prevalence within ranks 1 to 10 increases
+significantly and there is a notable reduction in rankings from 20 onward. It indi-
+cates that using LLMs (such as GPT-4o) can reduce the noise from the original
+queries.
+Tab. 2 shows results for the 15 final-round questions based on their rankings
+for each hint level. In the final round, with each ranking level (@1, @5, @10, @20,
+8 R Ranking: @R1: Rank € {1}; @R5: Rank € [2,5]; @R10: Rank € [6, 10]; @R20:
+Rank € [11, 20]; @R50: Rank € [21, 50]; @R100: Rank € [51, 100], where Rank is an
+integer.
+O BIN
+HTV9
+DEERVICE
+---
+11
+Interactive system for visual data retrieval
+@50, @100)9, we observed a gradual increase in the correct return rate as more
+information is provided, particularly with Hint 4. As a result, the more enriching
+the information provided through each hint, the better the results. The complete
+result is shown in https://github. com/NghiaZun/AIthena_Statistic.
+Table 1: Comparative evaluation of correct answer rates between unenhanced
+and enhanced query tested on 65 know-item search and question and answer
+know-item search queries
+@R1
+@R5
+@R10
+@R20
+@R50
+@R100
+Unenhanced queries
+27.69
+27.69
+9.24
+10.77
+9.24
+15.38
+Enhanced queries
+36.92
+33.85
+10.77
+9.23
+3.08
+6.15
+Table 2: Comparative evaluation of system performance for 15 known-item
+searches in the final of the competition, when the number of hints increases.
+Hint
+@1
+@5
+@10
+@20
+@50
+@100
+H1
+22.13
+52.45
+54.76
+69.34
+73.12
+85.47
+H2
+31.84
+64.29
+75.62
+82.36
+87.48
+90.20
+H3
+46.75
+62.88
+72.65
+80.01
+88.15
+92.45
+H4
+51.45
+69.78
+78.12
+86.21
+91.60
+94.32
+6
+Conclusion
+In this paper, we presented an interactive video content retrieval system de-
+signed to efficiently handle multimodal queries. By leveraging large models such
+as CLIP [3], GPT-4o [14], Whisper [4], and PaddleOCR [13], our system pro-
+vides robust search capabilities through features like semantic image search,
+OCR-based queries, voice-based search, AI-powered query sketching, and query
+standardization. The compact web interface ensures a seamless user experience,
+making complex queries more accessible.
+Despite these achievements, several areas for improvement remain. In future
+work, we will focus on further optimizing query response times, ensuring mini-
+mal latency during high-load scenarios. Fine-tuning models to handle ambiguous
+and noisy inputs more effectively, especially with complex audio and reversed
+text, will also be a priority. Moreover, we aim to enhance query standardization
+techniques to improve consistency across diverse input formats. Lastly, expand-
+ing the system's scalability through distributed cloud deployment is another
+direction to accommodate even larger datasets and simultaneous queries.
+9 @k: Rank € [1, k], where k € 1, 5, 10, 20, 50, 100 and Rank is an integer.
+12
+Tu et al.,
+Acknowledgement
+This research is supported by research funding from Faculty of Information Tech-
+nology, University of Science, Vietnam National University - Ho Chi Minh City.
+References
+1. Charles Adjetey and Kofi Sarpong Adu-Manu. Content-based image retrieval using
+tesseract ocr engine and levenshtein algorithm. International Journal of Advanced
+Computer Science and Applications(IJACSA), 2021.
+2. Ahmed Alateeq et al. Voxento 4.0: A more flexible visualisation and control for
+lifelogs. Proceedings of the 6th Annual ACM Lifelog Search Challenge (LSC '23),
+2023.
+3. Alec Radford et al. Learning transferable visual models from natural language
+supervision. International conference on machine learning, 2021.
+4. Alec Radford et al. Robust speech recognition via large-scale weak supervision.
+2022.
+5. Jeff Johnson et al. Billion-scale similarity search with gpus. IEEE Transactions
+on Big Data, 2019.
+6. Klaus Schoeffmann et al. lifexplore at the lifelog search challenge 2023. Proceedings
+of the 6th Annual ACM Lifelog Search Challenge (LSC '23), 2023.
+7. Ly-Duyen Tran et al. E-myscéal: Embedding-based interactive lifelog retrieval
+system for lsc'22. Proceedings of the 5th Annual ACM Lifelog Search Challenge
+(LSC'22), 2022.
+8. MinhTriet Tran et al. Lifeinsight: An interactive lifelog retrieval system with com-
+prehensive spatial insights and query assistance. Proceedings of the 6th Annual
+ACM Lifelog Search Challenge (LSC '23), 2023.
+9. Naushad Alam et al. Memento 3.0: An enhanced lifelog search engine for lsc'23.
+Proceedings of the 6th Annual ACM Lifelog Search Challenge (LSC '23), 2023.
+10. Premanand P. Ghadekar et al. Sentence meaning similarity detector using faiss.
+7th International Conference On Computing, Communication, Control And Au-
+tomation (ICCUBEA), 2023.
+11. Raghav Bansal et al. Blur image detection using laplacian operator and open-
+cv. International Conference System Modeling & Advancement in Research Trends
+(SMART), 2016.
+12. Yaoshu Wang et al. Efficient approximate entity matching using jaro-winkler dis-
+tance. Web Information Systems Engineering, 2017.
+13. Yuning Du et al. Pp-ocr: A practical ultra lightweight ocr system. arxiv, 2020.
+14. OpenAI. Gpt-4 technical report. 2023.
+15. JTomáš Souček and Jakub Lokoč. Transnet v2: An effective deep network archi-
+tecture for fast shot transition detection. 2020.

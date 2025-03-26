@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
-import { Upload, TestTube2, Library } from "lucide-react";
+import { BrainCircuit, PencilRuler, DollarSign } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -30,7 +30,6 @@ const main = () => {
                             sx={{
                                 p: 3,
                                 borderRadius: 4,
-                                bgcolor: "rgb(246, 246, 246)",
                                 boxShadow: 2,
                                 borderColor: "rgb(231, 231, 231)",
                                 display: "flex",
@@ -41,10 +40,10 @@ const main = () => {
                         >
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Box mb={2}>{feature.icon}</Box>
-                                <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                                <Typography variant="subtitle1" fontWeight="bold" gutterBottom sx={{ userSelect: "none" }}>
                                     {feature.title}
                                 </Typography>
-                                <Typography variant="body2" color="rgb(109, 109, 109)">
+                                <Typography variant="body2" color="rgb(109, 109, 109)" sx={{ userSelect: "none"}}>
                                     {feature.description}
                                 </Typography>
                             </CardContent>
@@ -58,19 +57,19 @@ const main = () => {
 
 const features = [
     {
-        icon: <Upload size={24} />, 
-        title: "Upload any content",
-        description: "From PDFs and YouTube videos to slides and even recorded lectures, learn everything your way."
+        icon: <BrainCircuit size={24} />, 
+        title: "AI-Powered Course Creation",
+        description: "Effortlessly transform your PDFs, videos into interactive courses using advanced AI tools."
     },
     {
-        icon: <TestTube2 size={24} />, 
-        title: "Test your knowledge",
-        description: "Create and customize flashcards: edit, delete, star, view sources, and more."
+        icon: <PencilRuler size={24} />, 
+        title: "Comprehensive Learning Tools",
+        description: "Engage with exams, quizzes, and other resources to enhance understanding."
     },
     {
-        icon: <Library size={24} />, 
-        title: "Sources Included",
-        description: "Retrieve accurate and contextual information from your content."
+        icon: <DollarSign size={24} />, 
+        title: "Monetize Your Knowledge",
+        description: "Sell your courses to a global audience with secure blockchain-backed transactions."
     }
 ];
 

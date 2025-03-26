@@ -3,16 +3,16 @@ import { MessageSquare } from 'lucide-react';
 
 const Main = () => {
     return (
-        <Card sx={{ p: 4, borderRadius: 4, borderColor: "rgb(231, 231, 231)", bgcolor: "rgb(246, 246, 246)", mb: 4, boxShadow: 2, }}>
+        <Card sx={{ p: 4, borderRadius: 4, borderColor: "rgb(231, 231, 231)", boxShadow: 2, }}>
             <Box display="grid" gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr" }} gap={4}>
                 {/* Cột nội dung */}
                 <Box>
                     <Box mb={2}><MessageSquare size={24} /></Box>
-                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-                        Summary, chat, voice mode, and more.
+                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom sx={{ userSelect: "none"}}>
+                        Earn and Learn with Educhain Token
                     </Typography>
-                    <Typography variant="body2" color="rgb(109, 109, 109)">
-                        Understand the key points, ask questions with content references, and talk with an AI tutor.
+                    <Typography variant="body2" color="rgb(109, 109, 109)" sx={{ userSelect: "none" }}>
+                        Exchange cryptocurrency for Educhain Token to access and sell courses, creating a rewarding ecosystem.
                     </Typography>
                 </Box>
                 {/* Cột hình ảnh */}

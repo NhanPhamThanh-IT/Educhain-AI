@@ -5,6 +5,7 @@ from psycopg.rows import dict_row
 from datetime import datetime
 from typing import List, Dict
 from app.database import get_db_connection
+from uuid import UUID
 
 def init_chat_history_table():
     """
@@ -39,7 +40,7 @@ def init_chat_history_table():
             """)
         conn.commit()
 
-def save_chat_history(thread_id: str, question: str, answer: str) -> Dict:
+def save_chat_history(course_id: UUID, thread_id: str, question: str, answer: str) -> Dict:
     """
     Lưu lịch sử chat vào database
     
@@ -53,13 +54,31 @@ def save_chat_history(thread_id: str, question: str, answer: str) -> Dict:
     """
     with get_db_connection() as conn:
         with conn.cursor() as cur:
+            # Step 1: Insert the chat history into the 'message' table
             cur.execute(
                 "INSERT INTO message (thread_id, question, answer) VALUES (%s, %s, %s) RETURNING id::text",
                 (thread_id, question, answer)
             )
+
             result = cur.fetchone()
-        conn.commit()
-        return result['id']
+
+            # Step 2: Append the message_id into the course's threads list
+            cur.execute(
+                """
+                UPDATE course
+                SET threads = CASE
+                    WHEN %s = ANY(threads) THEN threads
+                    ELSE array_append(threads, %s)
+                END 
+                WHERE id = %s
+                """,
+                (thread_id, thread_id, course_id)
+            )
+            
+            # Commit the changes after both the insert and update
+            conn.commit()
+
+    return result['id']
 
 def get_recent_chat_history(thread_id: str, limit: int = 10) -> List[Dict]:
     """

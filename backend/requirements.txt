@@ -18,6 +18,7 @@ azure.ai.documentintelligence
 azure.core.credentials
 pymupdf
 pdfplumber
+bcrypt
 
 
 

@@ -44,7 +44,7 @@ def init_study_guide():
             )
         conn.commit()
 
-def save_section(sg_id:int, topic:str)->Dict:
+def save_section(sg_id: int, topic: str) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -56,21 +56,23 @@ def save_section(sg_id:int, topic:str)->Dict:
                 (topic, datetime.now(), datetime.now())
             )
             sec_res = cur.fetchone()
-            sec_id = sec_res['id']
-            cur.execute(
-                """
-                UPDATE study_guide
-                SET section = array_append(section, %s)
-                WHERE id = %s
-                RETURNING *
-                """,
-                (sec_id,sg_id)
-            )
-            sg_res = cur.fetchone()
-        conn.commit()
-        return {"section": sec_res, "updated_course": sg_res}
+            if sec_res:
+                sec_id = sec_res['id']
+                cur.execute(
+                    """
+                    UPDATE study_guide
+                    SET section = array_append(section, %s)
+                    WHERE id = %s
+                    RETURNING *
+                    """,
+                    (sec_id, sg_id)
+                )
+                sg_res = cur.fetchone()
+                conn.commit()
+                return {"section": sec_res, "updated_course": sg_res}
+            return {"error": "Failed to save section"}
 
-def save_subsection(sec_id:int, name: str, content: str) ->Dict:
+def save_subsection(sec_id: int, name: str, content: str) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -82,21 +84,23 @@ def save_subsection(sec_id:int, name: str, content: str) ->Dict:
                 (name, content, datetime.now(), datetime.now())
             )
             sub_res = cur.fetchone()
-            sub_id = sub_res['id']
-            cur.execute(
-                """
-                UPDATE section
-                SET subsection = array_append(subsection, %s)
-                WHERE id = %s
-                RETURNING *
-                """,
-                (sub_id,sec_id)
-            )
-            sec_res = cur.fetchone()
-        conn.commit()
-        return {"subsection": sub_res, "updated_section": sec_res}
+            if sub_res:
+                sub_id = sub_res['id']
+                cur.execute(
+                    """
+                    UPDATE section
+                    SET subsection = array_append(subsection, %s)
+                    WHERE id = %s
+                    RETURNING *
+                    """,
+                    (sub_id, sec_id)
+                )
+                sec_res = cur.fetchone()
+                conn.commit()
+                return {"subsection": sub_res, "updated_section": sec_res}
+            return {"error": "Failed to save subsection"}
 
-def save_study_guide(course_id:int) -> Dict:
+def save_study_guide(course_id: int) -> Dict:
     """Insert study guide"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -109,23 +113,24 @@ def save_study_guide(course_id:int) -> Dict:
                 (datetime.now(), datetime.now())
             )
             sg_res = cur.fetchone()
-            sg_id = sg_res['id']
-            cur.execute(
-                """
-                UPDATE course
-                SET study_guide = array_append(study_guide, %s)
-                WHERE id = %s
-                RETURNING *
-                """,
-                (sg_id,course_id)
-            )
-            course_res = cur.fetchone()
-        conn.commit()
-        return {"study_guide": sg_res, "updated_course": course_res}
-
+            if sg_res:
+                sg_id = sg_res['id']
+                cur.execute(
+                    """
+                    UPDATE course
+                    SET study_guide = array_append(study_guide, %s)
+                    WHERE id = %s
+                    RETURNING *
+                    """,
+                    (sg_id, course_id)
+                )
+                course_res = cur.fetchone()
+                conn.commit()
+                return {"study_guide": sg_res, "updated_course": course_res}
+            return {"error": "Failed to save study guide"}
 
 def get_study_guide_id(sg_id: int) -> Dict:
-    """Get user information from database"""
+    """Get study guide information from database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -133,10 +138,10 @@ def get_study_guide_id(sg_id: int) -> Dict:
                 (sg_id,)
             )
             result = cur.fetchone()
-        return result if result else None
+        return result if result else {"error": "Study guide not found"}
 
 def get_section_id(section_id: int) -> Dict:
-    """Get user information from database"""
+    """Get section information from database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -144,21 +149,21 @@ def get_section_id(section_id: int) -> Dict:
                 (section_id,)
             )
             result = cur.fetchone()
-        return result if result else None
+        return result if result else {"error": "Section not found"}
 
 def get_subsection_id(sub_id: int) -> Dict:
-    """Get user information from database"""
+    """Get subsection information from database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 "SELECT * FROM subsection WHERE id = %s",
-                (sg_id,)
+                (sub_id,)
             )
             result = cur.fetchone()
-        return result if result else None
+        return result if result else {"error": "Subsection not found"}
 
 def delete_study_guide(sg_id: int) -> bool:
-    """Delete user information"""
+    """Delete study guide and remove reference from course"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -178,7 +183,7 @@ def delete_study_guide(sg_id: int) -> bool:
         return deleted
 
 def delete_section(section_id: int) -> bool:
-    """Delete user information"""
+    """Delete section and remove reference from study guide"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -198,7 +203,7 @@ def delete_section(section_id: int) -> bool:
         return deleted
 
 def delete_subsection(sub_id: int) -> bool:
-    """Delete user information"""
+    """Delete subsection and remove reference from section"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -216,5 +221,3 @@ def delete_subsection(sub_id: int) -> bool:
             deleted = cur.rowcount > 0
         conn.commit()
         return deleted
-
-

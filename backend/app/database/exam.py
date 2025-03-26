@@ -63,9 +63,20 @@ def get_exam_id(exam_id: int) -> Dict:
         return result if result else None
 
 def delete_exam(exam_id: int) -> bool:
-    """Delete user information"""
+    """Delete exam question from course and from database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT * FROM course WHERE exam_question @> ARRAY[%s]
+                """,
+                (exam_id,)
+            )
+            course_res = cur.fetchone()
+
+            if not course_res:
+                return False  
+
             cur.execute(
                 """
                 UPDATE course
@@ -74,11 +85,12 @@ def delete_exam(exam_id: int) -> bool:
                 """,
                 (exam_id, exam_id)
             )
+
             cur.execute(
                 "DELETE FROM exam_question WHERE id = %s RETURNING *",
                 (exam_id,)
             )
-            deleted = cur.rowcount > 0
+            deleted = cur.rowcount > 0 
         conn.commit()
         return deleted
 

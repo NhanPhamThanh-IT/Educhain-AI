@@ -1,148 +1,69 @@
-from app.database import get_db_connection
-from datetime import datetime
-import bcrypt
-from pydantic import BaseModel
-from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import Response, HTTPException, status, Depends, APIRouter, Form
-import secrets
+from fastapi import HTTPException, Depends
+from app.database.user_info import get_user_by_email, save_user_info
 from datetime import datetime, timedelta
+from typing import Dict
 import jwt
-# from google.oauth2 import id_token
-# from google.auth.transport import requests
+import bcrypt
+from app.models import RegisterRequest, LoginRequest, Token
+from fastapi.security import OAuth2PasswordBearer
 
-router = APIRouter()
 
-SECRET_KEY = secrets.token_hex(32)
+SECRET_KEY = "your_secret_key"
 ALGORITHM = "HS256"
 
-class SignupRequest(BaseModel):
-    email: str
-    password: str
-
-# Thời gian hết hạn của token
-ACCESS_TOKEN_EXPIRE_HOURS = 1  # Access Token có hiệu lực trong 1 giờ
-
-def generate_access_token(user_id: int):
-    """
-    Tạo Access Token.
-    """
-    access_token_exp = datetime.utcnow() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
-
-    access_token = jwt.encode(
-        {"user_id": user_id, "exp": access_token_exp}, 
-        SECRET_KEY, 
-        algorithm=ALGORITHM
-    )
-
-    return access_token
-
-def authenticate_token(token: str):
-    """
-    Xác thực Access Token.
-    """
-    try:
-        decoded_token = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return decoded_token  # Trả về dữ liệu nếu hợp lệ
-    except jwt.ExpiredSignatureError:
-        return {"message": "Token đã hết hạn", "error": "expired"}
-    except jwt.InvalidTokenError:
-        return None  # Token không hợp lệ
-
-
-@router.post("/login")
-def login_user(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
-    """Xác thực user và tạo token"""
-    try:
-        with get_db_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT id, password FROM user_info WHERE email = %s", (form_data.username,))
-                user = cur.fetchone()
-        
-        if not user:
-            return {"message": "User không tồn tại"}, 404
-
-        user_id = user['id']
-        hashed_password = user['password']
-
-        if not bcrypt.checkpw(form_data.password.encode("utf-8"), hashed_password.encode("utf-8")):
-            return {"message": "Sai mật khẩu"}, 401
-
-        access_token = generate_access_token(user_id)
-
-         # Lưu token vào HttpOnly cookies
-        response.set_cookie(key="access_token", value=access_token, httponly=True, samesite="Strict", secure=True)
-
-
-        return {"message": "Login successful", "access":access_token}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Lỗi server: {str(e)}")
-
+# Hàm mã hóa mật khẩu
 def hash_password(password: str) -> str:
-    """Mã hóa mật khẩu trước khi lưu vào database"""
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
+# Hàm xác thực mật khẩu
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
-@router.post("/signup")
-async def signup(response: Response, signup_data: SignupRequest):
-    """Đăng ký user và tạo Access Token"""
-    try:
-        with get_db_connection() as conn:
-            with conn.cursor() as cur:
-                # Kiểm tra email đã tồn tại chưa
-                cur.execute("SELECT id FROM user_info WHERE email = %s", (signup_data.email,))
-                existing_user = cur.fetchone()
-                if existing_user:
-                    raise HTTPException(status_code=400, detail="Email đã tồn tại")
+# Tạo JWT Token
+def create_access_token(data: Dict, expires_delta: timedelta = timedelta(hours=1)) -> str:
+    to_encode = data.copy()
+    expire = datetime.utcnow() + expires_delta
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
 
-                # Mã hóa mật khẩu
-                hashed_password = hash_password(signup_data.password)
+# Hàm đăng ký người dùng mới
+def register_user(user: RegisterRequest) -> Token:
+    # Kiểm tra xem email đã tồn tại chưa
+    existing_user = get_user_by_email(user.email)
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    # Mã hóa mật khẩu
+    hashed_password = hash_password(user.password)
 
-                # Tạo user mới
-                cur.execute("""
-                    INSERT INTO user_info (email, password, created_at, updated_at)
-                    VALUES (%s, %s, %s,%s) RETURNING id
-                """, (signup_data.email, hashed_password, datetime.utcnow(), datetime.utcnow()))
-                
-                user_id = cur.fetchone()["id"]
-                conn.commit()
+    # Lưu người dùng vào cơ sở dữ liệu
+    saved_user = save_user_info(user.email, hashed_password, user.fullname, user.nickname, user.gender, user.country, user.address, user.phone, 0.0, 0.0)
+    # Tạo và trả về token
+    access_token = create_access_token(data={"sub": saved_user["email"]})
+    return Token(access_token=access_token)
 
-        # Tạo Access Token
-        access_token = generate_access_token(user_id)
+# Hàm đăng nhập người dùng
+def login_user(user: LoginRequest) -> Token:
+    # Lấy thông tin người dùng từ cơ sở dữ liệu
+    db_user_password = get_user_by_email(user.email)
+    if not db_user_password or not verify_password(user.password, db_user_password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    # Tạo và trả về token
+    access_token = create_access_token(data={"sub": user.email})
+    return Token(access_token=access_token)
 
-        # Lưu token vào HttpOnly cookies
-        response.set_cookie(key="access_token", value=access_token, httponly=True, samesite="Strict", secure=True)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-        form_data = OAuth2PasswordRequestForm(username=signup_data.email, password=signup_data.password, scope="")
-        return {"message": "Signup successful", "access":access_token}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Lỗi server: {str(e)}")
-
-# # Lấy GOOGLE_CLIENT_ID từ biến môi trường
-# GOOGLE_CLIENT_ID = "GOOGLE_CLIENT_ID"
-
-# # Định nghĩa request body
-# class GoogleToken(BaseModel):
-#     credential: str  # Nhận ID Token từ frontend
-
-# @router.post("/google")
-# def verify_google_token(token_data: GoogleToken):
-#     try:
-#         # Xác thực và giải mã ID Token từ Google
-#         id_info = id_token.verify_oauth2_token(
-#             token_data.credential, requests.Request(), GOOGLE_CLIENT_ID
-#         )
-
-#         # Trích xuất thông tin user
-#         user_info = {
-#             "email": id_info.get("email"),
-#             "name": id_info.get("name"),
-#             "picture": id_info.get("picture"),
-#             "sub": id_info.get("sub"),  # Google User ID
-#         }
-
-#         return {"user": user_info}
-
-#     except ValueError:
-#         raise HTTPException(status_code=400, detail="Invalid Google Token")
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    payload = verify_token(token)
+    email: str = payload.get("sub")
+    if email is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    user = get_user_by_email(email)
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return user

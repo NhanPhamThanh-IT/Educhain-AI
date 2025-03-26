@@ -19,7 +19,7 @@ const ListCourses = ({ title, subcontent }) => {
 
     return (
         <Box sx={{ p: 4 }}>
-            <Box display="flex" justifyContent="space-between" flexDirection={{ xs: "column", sm: "row" }}>
+            <Box display="flex" justifyContent="space-between" flexDirection={{ xs: "column", sm: "row" }} alignItems={{ xs: "center", sm: "flex-start" }}>
                 <Box>
                     <Box sx={{ bgcolor: "rgba(233, 226, 255, 1)" }}>
                         <Typography variant="h4" fontWeight={600}>{title}</Typography>
@@ -28,7 +28,7 @@ const ListCourses = ({ title, subcontent }) => {
                         {subcontent}
                     </Typography>
                 </Box>
-                <Box textAlign="center" mt={{ xs: 2, sm: 4 }}>
+                <Box textAlign="center">
                     <Button
                         variant="contained"
                         sx={{ p: "10px 20px", fontSize: 16, borderRadius: 50, bgcolor: "rgba(54, 90, 202, 1)", textTransform: "none" }}

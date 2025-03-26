@@ -5,11 +5,11 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import os
 from typing import List, Dict, AsyncGenerator, Any
 from dotenv import load_dotenv
-from backend.app.database.chat_history import save_chat_history, get_recent_chat_history, format_chat_history
+from app.database.chat_history import save_chat_history, get_recent_chat_history, format_chat_history
 from pydantic import BaseModel, Field
 from langchain_core.messages import AIMessageChunk
 from langchain.callbacks.base import BaseCallbackHandler
-from ..utils.agent_tools import GetKnowledgeTool, CreateQuizTool , CreateStudyGuideTool, CreateExamTool
+from ..utils.agent_tools import GetKnowledgeTool, CreateQuizTool 
 
 
 load_dotenv()
@@ -21,19 +21,38 @@ if not OPENAI_API_KEY:
 
 # Create tools
 get_knowledge_tool = GetKnowledgeTool()
-create_quiz_tool = CreateQuizTool()
+# create_quiz_tool = CreateQuizTool()
 # create_study_guide_tool = CreateStudyGuideTool()
 # create_exam_tool = CreateExamTool()
 
 class CustomHandler(BaseCallbackHandler):
     """
     Lớp xử lý callback tùy chỉnh để theo dõi và xử lý các sự kiện trong quá trình chat
-    """
+    """ 
     def __init__(self):
         super().__init__()
+        self.tool_starts = []
+        self.tool_ends = []
+        self.tool_errors = []
+
+    # def on_tool_start(self, serialized, input_str, **kwargs):
+    #     """Called when a tool starts running."""
+    #     print(f"Tool started: {serialized['name']} with input: {input_str}")
+    #     self.tool_starts.append((serialized['name'], input_str))
+    
+    # def on_tool_end(self, output, **kwargs):
+    #     """Called when a tool ends running."""
+    #     print(f"Tool ended with output: {output}")
+    #     self.tool_ends.append(output)
+    
+    # def on_tool_error(self, error, **kwargs):
+    #     """Called when a tool errors."""
+    #     print(f"Tool error: {error}")
+    #     self.tool_errors.append(error)
+        
 
 def get_llm_and_agent() -> AgentExecutor:  # Phần prompt này nên làm riêng rồi import vào
-    system_message = """Your name is Ambatublow. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
+    system_message = """Your name is SoftAI-Bot. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
 
 For general questions or greetings:
 - Respond naturally without using any tools
@@ -43,59 +62,32 @@ For general questions or greetings:
 For educate-related questions:
 1. When user asks about knowledge:
    - Use get_knowledge_tool tool to retrieval best match information
+   - PARAMETERS (will be provided in the prompt by system) for get_knowledge_tool:
+     * query: Required - The exact question or topic to search for
+     * course_name: fetch from database and provided by the system
    - Present knowledge in a clear format
-   - If they show curiosity, ask for more details or offer to create a quiz, study guide, or exam
+   - Example: get_knowledge_tool(query="What is photosynthesis?", course_name="Biology", mode = "naive", only_need_context=True)
 
-2. When user confirms create a quiz:
-   - Use create_quiz_tool to get generate a high-quality quiz
-   - Present the quiz to the user
-   - Tell them quiz is ready in study set and ask if they need anything else
-   - If they show curiosity, ask for more details or offer to create a study guide or exam
-
-3. When customer confirms create a study guide:
-    - Use create_study_guide_tool to generate a high-quality study guide
-    - Present the study guide to the user
-    - Tell them study guide is ready in study set and ask if they need anything else
-    - If they show curiosity, ask for more details or offer to create a quiz or exam
-
-4. When customer confirms create an exam:
-    - Use create_exam_tool to generate a high-quality exam
-    - Present the exam to the user
-    - Tell them exam is ready in study set and ask if they need anything else
-    - If they show curiosity, ask for more details or offer to create a quiz or study guide     
-
+   
 IMPORTANT RULES:
 - Only use get_knowledge_tool when user asks for knowledge or information about a topic or subject matter (e.g., "What is the capital of France?") 
-- Only use create_quiz_tool when user confirms they want to create a quiz
-- Only use create_study_guide_tool when user confirms they want to create a study guide
-- Only use create_exam_tool when user confirms they want to create an exam
-- Always ask for more details or offer to create a quiz, study guide, or exam if user shows curiosity
 
 Example flow:
 User: What is the capital of France?
 Ambatublow: The capital of France is Paris.
-Ambatublow: Would you like me to create a quiz, study guide, or exam for you?
-User: Create a quiz.
-Ambatublow: Sure! I will create a quiz for you. Give me a moment.
-Ambatublow: Here is your quiz: [quiz content]
-Ambatublow: Your quiz is ready in the study set. Do you need anything else?
-User: No, thank you.
-Ambatublow: You're welcome! If you have any other questions, feel free to ask. Have a great day!
-
 """
 
-    
     chat = ChatOpenAI(
         temperature=0, 
         streaming=True, 
-        model="gpt-4", 
+        model="gpt-4o", 
         api_key=OPENAI_API_KEY, 
         callbacks=[CustomHandler()]
     )   
     
     tools = [
         get_knowledge_tool,
-        create_quiz_tool
+        # create_quiz_tool
         # create_study_guide_tool,
         # create_exam_tool
     ]
@@ -125,6 +117,7 @@ Ambatublow: You're welcome! If you have any other questions, feel free to ask. H
 
 
 def get_answer(question: str, thread_id: str) -> Dict:
+
     """
     Hàm lấy câu trả lời cho một câu hỏi
     
@@ -152,8 +145,7 @@ def get_answer(question: str, thread_id: str) -> Dict:
     
     return result
 
-
-async def get_answer_stream(question: str, thread_id: str) -> AsyncGenerator[Dict, None]:
+async def get_answer_stream(course_name: str, question: str, thread_id: str, course_id = str) -> AsyncGenerator[Dict, None]:
     """
     Hàm lấy câu trả lời dạng stream cho một câu hỏi
     
@@ -173,18 +165,22 @@ async def get_answer_stream(question: str, thread_id: str) -> AsyncGenerator[Dic
     """
     # Khởi tạo agent với các tools cần thiết
     agent = get_llm_and_agent()
-    
+
     # Lấy lịch sử chat gần đây
     history = get_recent_chat_history(thread_id)
+
     chat_history = format_chat_history(history)
+
+    # print(chat_history)
     
     # Biến lưu câu trả lời hoàn chỉnh
     final_answer = ""
+    print(course_name + '\n' + question)
     
     # Stream từng phần của câu trả lời
     async for event in agent.astream_events(
         {
-            "input": question,
+            "input": course_name + '\n' + question,
             "chat_history": chat_history,
         },
         version="v2"
@@ -203,4 +199,29 @@ async def get_answer_stream(question: str, thread_id: str) -> AsyncGenerator[Dic
     
     # Lưu câu trả lời hoàn chỉnh vào database
     if final_answer:
-        save_chat_history(thread_id, question, final_answer)
+        save_chat_history(course_id = course_id, thread_id = thread_id, question = question,answer = final_answer)
+
+
+if __name__ == "__main__":
+    import asyncio
+    
+    async def test():
+        # answer = get_answer_stream("hi", "test-session")
+        # print(answer)
+        course_name = "papers"
+        question = "which OCR model used in paper? and why?"
+        async for event in get_answer_stream(course_name, question, "Theme knowledge of paper", "354788cd-3eb4-484a-8c4f-691a78f61383"):
+            print('event:', event)
+        print('done')
+
+    
+    asyncio.run(test())
+
+# API cho chatbot thì frontend gửi một cái là 
+    # Params = {
+    #     "course_name": "papers",
+    #     "query": "which OCR model used in paper? and why?"
+    # }
+    
+    # thread_id = "Theme knowledge of paper"
+    # course_id = "354788cd-3eb4-484a-8c4f-691a78f61383"

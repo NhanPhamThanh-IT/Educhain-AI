@@ -1,14 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  IconButton,
-  TextField,
-  Button,
-  Divider,
-  Stack,
-} from "@mui/material";
+import { Box, Typography, IconButton, TextField, Button, Divider, Stack } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ImageIcon from "@mui/icons-material/Image";
 import SendIcon from "@mui/icons-material/Send";
@@ -22,11 +13,9 @@ import MicIcon from "@mui/icons-material/Mic";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github.css"; // Import theme highlight
+import "highlight.js/styles/github.css";
+
 export default function ChatSection() {
-  const [params] = useSearchParams();
-  const navigate = useNavigate();
-  const historyItem = params.get("historyItem");
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -54,30 +43,26 @@ export default function ChatSection() {
     }
   };
 
-  // Khi `messages` thay đổi, gọi `scrollToBottom()`
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Lắng nghe sự kiện cuộn để phát hiện khi user lướt lên
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
 
     const handleScroll = () => {
       if (!chatContainer) return;
 
-      // Kiểm tra xem user có đang ở gần cuối hay không
       const isNearBottom =
         chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
 
-      setAutoScroll(isNearBottom); // Nếu user kéo lên, dừng auto-scroll
+      setAutoScroll(isNearBottom);
     };
 
     chatContainer?.addEventListener("scroll", handleScroll);
     return () => chatContainer?.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const time = [1, 5, 10, 15, 30, 60];
 
   const handleSend = () => {
     if (message.trim()) {
@@ -96,72 +81,6 @@ export default function ChatSection() {
 ## H2 Heading  
 ### H3 Heading  
 #### H4 Heading  
-
----
-
-## 2️⃣ Text Formatting
-- **Bold Text** → **Bold**
-- *Italic Text* → *Italic*
-- ***Bold & Italic*** → ***Bold & Italic***
-- ~~Strikethrough~~ → ~~Strikethrough~~
-- \`Inline code\` → Inline code
-
----
-
-## 3️⃣ Lists
-
-### 🔹 Unordered List
-- Item 1
-- Item 2
-  - Sub-item 2.1
-  - Sub-item 2.2
-
-### 🔸 Ordered List
-1. First item
-2. Second item
-   1. Sub-item 2.1
-   2. Sub-item 2.2
-
-### ✅ Task List
-- [x] Task 1 (Completed)
-- [ ] Task 2 (Pending)
-- [ ] Task 3 (Pending)
-
----
-
-## 4️⃣ Links & Images
-
-- [🔗 Click Here](https://example.com)  
-- ![🌄 Image](https://via.placeholder.com/150)
-
----
-
-## 5️⃣ Blockquote & Divider
-
-> **This is a blockquote!**
->
-> Use it for highlighting important text.  
-> > Blockquote
-
----
-
-## 6️⃣ Table
-
-| Name     | Age | Role        |
-|----------|----:|------------|
-| John     |  25 | Developer  |
-| Alice    |  30 | Designer   |
-| Bob      |  22 | Intern     |
-
----
-
-## 7️⃣ Code Blocks
-
-\`\`\`js
-// JavaScript Example
-const greet = (name) => Hello, ${name}!;
-console.log(greet("ChatGPT"));
-
 `;
 
       let typedMessage = "";
@@ -180,7 +99,7 @@ console.log(greet("ChatGPT"));
           clearInterval(typingIntervalRef.current);
           setBotTyping(false);
         }
-      }, time[Math.floor(Math.random() * time.length)] / 10);
+      }, 5);
     }
   };
   const handlePause = () => {
@@ -220,18 +139,18 @@ console.log(greet("ChatGPT"));
   return (
     <Box
       sx={{
-        borderRadius: 3,
-        height: "80vh",
+        height: '80vh', 
+        mt: 5,
         display: "flex",
         flexDirection: "column",
         width: "100%",
       }}
     >
-      <Box>
+      {/* <Box>
         <Typography variant="h6" fontWeight="bold">
           {historyItem || "New chat"}
         </Typography>
-      </Box>
+      </Box> */}
       <Box
       ref={chatContainerRef}
         sx={{
@@ -390,7 +309,7 @@ console.log(greet("ChatGPT"));
             {msg.type === "text" ? (
               msg.sender === "bot" ? (
                 <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}  components={{
-                  p: ({ node, ...props }) => <span {...props} />,
+                  p: ({ ...props }) => <span {...props} />,
                 }}
                 sx={{
                   "& p": { margin: 0, padding: 0, lineHeight: 1 },
@@ -446,14 +365,14 @@ console.log(greet("ChatGPT"));
               ml: 5,
               "& .MuiInput-underline:before": {
                 borderBottom: "none !important",
-              }, // Xóa border khi chưa focus
+              },
               "& .MuiInput-underline:after": {
                 borderBottom: "none !important",
-              }, // Xóa border khi focus
+              },
               "& .MuiInput-underline:hover:before": {
                 borderBottom: "none !important",
-              }, // Xóa border khi hover
-              "& .MuiInputBase-root": { boxShadow: "none" }, // Xóa hiệu ứng shadow
+              },
+              "& .MuiInputBase-root": { boxShadow: "none" },
             }}
             disabled={botTyping}
           />

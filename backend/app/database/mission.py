@@ -24,7 +24,7 @@ def init_mission():
             """)
         conn.commit()
 
-def save_mission(name: str, reward: int) -> Dict:
+def save_mission(name: str, reward: int, percent: int) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -87,8 +87,8 @@ def complete_mission() -> bool:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                DELETE FROM missions
-                WHERE percent_complete = 100
+                DELETE FROM mission
+                WHERE percent = 100
                 """
             )
             deleted = cur.rowcount > 0 

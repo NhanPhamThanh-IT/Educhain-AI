@@ -73,12 +73,12 @@ const CourseCard = ({ course }) => {
                             variants={textVariants}
                             style={{ display: "inline-block", marginRight: "4px" }}
                         >
-                            <Typography variant="h6" fontWeight="bold" component="span">
+                            <Typography variant="h6" fontWeight="bold" component="span" sx={{ userSelect: "none" }}>
                                 {word}
                             </Typography>
                         </motion.span>
                     ))}
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ userSelect: "none" }}>
                         {course.description}
                     </Typography>
                 </CardContent>

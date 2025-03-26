@@ -8,7 +8,7 @@ import TeamIntroduction from '../../sections/AboutUs/TeamIntroduction';
 
 // Main content of the About Us page
 const MainContent = () => (
-    <Container maxWidth="xl" sx={{ py: 8 }}>
+    <Container maxWidth="xl">
 
         {/* Team introduction */}
         <TeamIntroduction />
@@ -20,7 +20,7 @@ const MainContent = () => (
 export default function AboutUs() {
     return (
         <Page title="About Us">
-            <Box sx={{ background: 'transparent', minHeight: '100vh', py: 8 }}>
+            <Box sx={{ background: 'transparent', minHeight: '100vh', pt: 6, pb: 8 }}>
                 <MainContent />
             </Box>
         </Page>

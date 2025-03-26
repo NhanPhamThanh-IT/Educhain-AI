@@ -12,8 +12,8 @@ const HomePage = () => {
 
     return (
         <Page title="Homepage">
-            <Box maxWidth="2xl">
-                <Introduction featuresRef={featuresRef} />
+            <Box maxWidth="2xl" bgcolor={"rgb(245,245,245)"} pb={15}>
+                <Introduction />
                 <Box ref={featuresRef} id="features">
                     <Features />
                 </Box>
