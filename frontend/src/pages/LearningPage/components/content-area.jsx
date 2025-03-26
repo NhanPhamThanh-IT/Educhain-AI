@@ -38,6 +38,7 @@ const TitleSection = ({ title }) => (
 );
 
 const YourCourses = ({ courses }) => {
+  courses = courses.slice(0, 20);
   const [displayedCourses, setDisplayedCourses] = useState(
     courses.slice(0, 10)
   );
@@ -67,18 +68,7 @@ const YourCourses = ({ courses }) => {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{
-          mb: 3,
-          fontWeight: "bold",
-          color: "#2c3e50",
-          textAlign: "center",
-        }}
-      >
-        Your Courses
-      </Typography>
+      <TitleSection title={"Your courses"} />
 
       <Box sx={{ width: "100%", mx: "auto", overflow: "hidden" }}>
         <Stack
@@ -132,6 +122,7 @@ const YourCourses = ({ courses }) => {
     </>
   );
 };
+
 const ExploreTopics = () => (
   <>
     <TitleSection title={"Explore more topics"} />
