@@ -16,7 +16,7 @@ export default function LoginForm() {
     const handleLogin = () => {
         setLoading(true);
         setTimeout(() => setLoading(false), 2000);
-        window.location.href = "/";
+        window.location.href = "/learning/course";
     };
 
     return (

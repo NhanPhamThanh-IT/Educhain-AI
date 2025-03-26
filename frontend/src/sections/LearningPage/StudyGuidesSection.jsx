@@ -50,7 +50,7 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, content }) => (
 );
 const files = [
   {
-    name: "2-PhatBieuBaiToan.pdf",
+    name: "visual retrieval.pdf",
     topics: [
       "Comparing SIS Platforms",
       "Importance of SIS in Education",
@@ -107,7 +107,7 @@ const files = [
     }
   },
   {
-    name: "22127442-10.pdf",
+    name: "paper IUKM2025.pdf",
     error: true,
     errorHandling: {
       possibleReasons: [
@@ -395,7 +395,7 @@ export default function StudyGuides() {
             onClick={() => {
               if (!file.error) {
                 window.location.href =
-                  "/learning/course?section=studyGuides&historyItem=study2";
+                  "/learning/course?section=studyGuides&historyItem=visual retrieval";
               }
             }}
             sx={{

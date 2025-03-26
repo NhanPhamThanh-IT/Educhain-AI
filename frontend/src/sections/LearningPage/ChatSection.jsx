@@ -15,9 +15,38 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github.css";
 
+const botMessages = [
+  "Hello Im Soft-AI bot, how can I help you with visual retrieval course ?",
+  `## What is CLIP Model and How to Use it with FAISS
+  CLIP (Contrastive Language-Image Pretraining) is an AI model by OpenAI that understands images and text together. It converts both into a shared embedding space, allowing similarity searches between text and images.
+### Using CLIP with FAISS for Image Search
+1. **Load CLIP model** (from \`openai/CLIP\` or \`sentence-transformers\`):
+   \`\`\`python
+   from sentence_transformers import SentenceTransformer
+   model = SentenceTransformer("clip-ViT-B-32")
+   \`\`\`
+2. **Extract embeddings**:
+   \`\`\`python
+   image_embedding = model.encode(["image_path"])
+   text_embedding = model.encode(["search query"])
+   \`\`\`
+3. **Index embeddings with FAISS**:
+   \`\`\`python
+   import faiss
+   index = faiss.IndexFlatL2(512)  # 512D for CLIP ViT-B/32
+   index.add(image_embedding)
+   \`\`\`
+4. **Search**:
+   \`\`\`python
+   _, indices = index.search(text_embedding, k=5)  # Get top 5 matches
+   \`\`\`
+This enables fast image retrieval using CLIP and FAISS. 🚀`,
+];
+
 export default function ChatSection() {
 
   const [message, setMessage] = useState("");
+  const [index3, setIndex] = useState(0);
   const [messages, setMessages] = useState([]);
   const messageRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -73,15 +102,8 @@ export default function ChatSection() {
       setMessages(newMessages);
       setBotTyping(true);
       updateIsPaused(false);
-      const botResponse = `
-# 📝 Markdown Sample
-
-## 1️⃣ Heading
-# H1 Heading  
-## H2 Heading  
-### H3 Heading  
-#### H4 Heading  
-`;
+      const botResponse = botMessages[index3];
+      setIndex((index3 + 1) );
 
       let typedMessage = "";
       let index = 0;

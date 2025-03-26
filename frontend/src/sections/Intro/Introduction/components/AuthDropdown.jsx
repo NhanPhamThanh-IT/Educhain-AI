@@ -6,7 +6,7 @@ const menuItems = [
     {
         imgSrc: "/Homepage/USER.png",
         text: "Sign in with EduChain account",
-        onClick: () => console.log("EduChain Sign-in"),
+        onClick: () => window.location.href = "/authentication",
     },
     {
         imgSrc: "/Homepage/GOOGLE.png",

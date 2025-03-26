@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, CardContent, Typography, Box, Grid, CircularProgress } from "@mui/material";
+import { Button, Card, CardContent, Typography, Box, Grid, CircularProgress, Snackbar, Dialog, DialogTitle, DialogContent, DialogActions, } from "@mui/material";
 import Page from "../components/Page";
 import CourseForm from "../components/CreateCourse/CourseForm";
 import CourseMaterials from "../components/CreateCourse/CourseMaterials";
@@ -8,7 +8,7 @@ import CourseImages from "../components/CreateCourse/CourseImages";
 
 const CreateCourse = () => {
   const navigate = useNavigate(); // Hook điều hướng
-
+  const [open, setOpen] = useState(false); // Hiển thị thông báo
   // State
   const [courseData, setCourseData] = useState({
     courseName: "",
@@ -66,9 +66,8 @@ const CreateCourse = () => {
 
       setTimeout(() => {
         setLoading(false);
-        alert("Course created successfully!");
-        navigate("/learning/course?section=chat&historyItem=overview");
-      }, 10000);
+        setOpen(true);
+      }, 8000);
 
       return () => clearInterval(interval);
     }
@@ -149,6 +148,15 @@ const CreateCourse = () => {
           </CardContent>
         </Card>
       </Box>
+      <Dialog open={open} onClose={() => window.location.href = "/learning/course?section=chat&historyItem=overview"}>
+      <DialogTitle>Success</DialogTitle>
+      <DialogContent>Course created successfully!</DialogContent>
+      <DialogActions>
+        <Button onClick={() => window.location.href = "/learning/course?section=chat&historyItem=overview"} color="primary">
+          OK
+        </Button>
+      </DialogActions>
+    </Dialog>
     </Page>
   );
 };

@@ -64,14 +64,14 @@ export const sections = [
         label: getColoredLabel("Quizzes", "#FC8181"),
         icon: <QuizIcon sx={{ color: "#FC8181" }} />,
         content: <QuizSection />,
-        history: ["overview", "create-quiz", "quiz1", "quiz2"],
+        history: [ "create-quiz", "overview", "visual retrieval", "quiz2"],
     },
     {
         key: "studyGuides",
         label: getColoredLabel("Study Guides", "#48BB78"),
         icon: <BookIcon sx={{ color: "#48BB78" }} />,
         content: <StudyGuidesSection />,
-        history: ["overview", "create-guide", "study2", "study3"],
+        history: ["overview", "create-guide", "visual retrieval", "study3"],
     },
     {
         key: "learningByVideo",
