@@ -10,13 +10,17 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Grid,
+  CardActions,
+  Button,
 } from "@mui/material";
 import { CardActionArea, Stack } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { CloudUpload, Link } from "@mui/icons-material";
-import { settings, topics, courses } from "../constants";
+import { settings, topics } from "../constants";
+import { courses, categoryColors } from "../constants-fake-data";
 import { motion } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -44,24 +48,16 @@ const TitleSection = ({ title }) => (
 const YourCourses = ({ courses }) => {
   const [open, setOpen] = useState(false);
   const slide_courses = courses.slice(0, 15);
-  const [displayedCourses, setDisplayedCourses] = useState(
-    slide_courses.slice(0, 10)
-  );
+  const [displayedCourses, setDisplayedCourses] = useState(slide_courses.slice(0, 3));
+
   const observer = useRef();
   const lastCourseElementRef = useCallback(
     (node) => {
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (
-          entries[0].isIntersecting &&
-          displayedCourses.length < slide_courses.length
-        ) {
-          // Load more courses
-          const nextCourses = slide_courses.slice(
-            displayedCourses.length,
-            displayedCourses.length + 10
-          );
+        if (entries[0].isIntersecting && displayedCourses.length < slide_courses.length) {
+          const nextCourses = slide_courses.slice(displayedCourses.length, displayedCourses.length + 3);
           setDisplayedCourses((prev) => [...prev, ...nextCourses]);
         }
       });
@@ -78,34 +74,34 @@ const YourCourses = ({ courses }) => {
       <Box sx={{ width: "100%", mx: "auto", overflow: "hidden" }}>
         <Stack
           direction="row"
-          spacing={1}
           flexWrap="wrap"
-          gap={1.5}
           justifyContent="center"
           padding={2}
+          sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}
         >
           {displayedCourses.map((item, index) => {
-            // Check if this is the last element for infinite scroll
             const isLastElement = index === displayedCourses.length - 1;
+            const categoryStyle = categoryColors[item.category] || { border: "#BDBDBD", text: "#424242" };
 
             return (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
+                key={item.id}
               >
                 <Chip
                   ref={isLastElement ? lastCourseElementRef : null}
-                  key={item.id}
                   label={item.title}
                   variant="outlined"
-                  color="primary"
                   sx={{
-                    transition: "all 0.3s ease",
+                    borderColor: categoryStyle.border,
+                    color: categoryStyle.text,
                     fontWeight: "bold",
+                    width: "100%",
+                    transition: "transform 0.3s ease",
                     "&:hover": {
                       transform: "scale(1.08)",
-                      boxShadow: "0 6px 12px rgba(0,0,0,0.2)",
                     },
                   }}
                 />
@@ -114,30 +110,20 @@ const YourCourses = ({ courses }) => {
           })}
         </Stack>
       </Box>
+
       {courses.length > 15 && (
         <Typography
           variant="body1"
           color="textSecondary"
           align="center"
-          sx={{
-            mt: 3,
-            cursor: "pointer",
-            ":hover": {
-              color: "primary.main",
-              textDecoration: "underline",
-            },
-          }}
+          sx={{ cursor: "pointer", ":hover": { color: "primary.main", textDecoration: "underline" } }}
           onClick={() => setOpen(true)}
         >
           View more
         </Typography>
       )}
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        fullWidth
-        maxWidth="lg"
-      >
+
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
         <DialogTitle>
           All Courses
           <IconButton
@@ -149,33 +135,79 @@ const YourCourses = ({ courses }) => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <Stack
-            direction="row"
-            spacing={1}
-            flexWrap="wrap"
-            gap={1.5}
-            justifyContent="center"
-            padding={2}
-          >
-            {courses.map((item) => (
-              <Chip
-                key={item.id}
-                label={item.title}
-                variant="outlined"
-                color="primary"
-                sx={{ fontWeight: "bold" }}
-              />
-            ))}
-          </Stack>
+          <Grid container spacing={3}>
+            {courses.map((item) => {
+              const categoryStyle = categoryColors[item.category] || { border: "#BDBDBD", text: "#424242" };
+
+              return (
+                <Grid item xs={12} sm={6} md={4} key={item.id}>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      border: "2px solid #E0E0E0",
+                      boxShadow: "none",
+                      backgroundColor: "#FFF",
+                      transition: "transform 0.3s ease",
+                      "&:hover": { transform: "scale(1.03)" },
+                    }}
+                  >
+                    {/* Tăng chiều cao của CardMedia */}
+                    <CardMedia component="img" height="180" image={item.img} alt={item.title} />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      {/* Title và Category trên cùng một hàng */}
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Typography
+                          variant="h6"
+                          color="text.primary"
+                          fontWeight="bold"
+                          sx={{
+                            flexGrow: 1,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            maxWidth: "200px",
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
+                        <Chip
+                          label={item.category}
+                          sx={{
+                            backgroundColor: categoryStyle.border,
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            fontSize: "0.7rem",
+                          }}
+                        />
+                      </Stack>
+
+                      {/* Mô tả khóa học */}
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                        {item.description}
+                      </Typography>
+
+                      {/* Duration, Level, và View More trên cùng hàng */}
+                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
+                        <Chip label={item.duration} color="default" />
+                        <Chip label={item.level} color="secondary" />
+                        <Box sx={{ flexGrow: 1 }} /> {/* Đẩy nút View More về bên phải */}
+                        <Button size="small" color="primary">
+                          View More
+                        </Button>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
         </DialogContent>
       </Dialog>
+
+
       {displayedCourses.length === 0 && (
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ mt: 3 }}
-        >
+        <Typography variant="body1" color="textSecondary" align="center" sx={{ mt: 3 }}>
           No courses available
         </Typography>
       )}
