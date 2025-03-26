@@ -4,7 +4,7 @@ import { Brain, Youtube, FileText, CircleUserRound } from 'lucide-react';
 
 export function SocialProof() {
     return (
-        <Box sx={{ mt: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{ mt: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <AvatarGroup
                 sx={{
                     '& .MuiAvatar-root': { width: 30, height: 30, fontSize: '1rem' },
