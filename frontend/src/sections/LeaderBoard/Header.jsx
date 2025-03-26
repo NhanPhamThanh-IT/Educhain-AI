@@ -3,7 +3,7 @@ import { Stars } from "@mui/icons-material";
 import { Rocket, Target } from "lucide-react";
 import { motion } from "framer-motion";
 import creditcard from "/creditcard.png";
-
+import { useNavigate } from "react-router-dom";
 const headerStyles = {
     container: {
         background: "linear-gradient(135deg, #E3EAFD, #F8F9FF)",
@@ -41,7 +41,9 @@ const headerStyles = {
     },
 };
 
-const LeaderboardHeader = () => (
+const LeaderboardHeader = () => {
+    const navigate = useNavigate();
+    return(
     <Box sx={headerStyles.container}>
         <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6}>
@@ -56,11 +58,11 @@ const LeaderboardHeader = () => (
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}>
                     <Button variant="outlined" startIcon={<Rocket size={20} />} sx={headerStyles.button}>
-                        <Typography textTransform="capitalize">Learn More</Typography>
+                        <Typography textTransform="capitalize" onClick={() => navigate('/learning/course')}>Learn More</Typography>
                     </Button>
                     <Typography variant="body2" sx={{ color: "#333", fontSize: "1rem", lineHeight: "1.6" }}>or</Typography>
                     <Button variant="outlined" startIcon={<Target size={20} />} sx={headerStyles.button}>
-                        <Typography textTransform="capitalize">Complete Missions</Typography>
+                        <Typography textTransform="capitalize" onClick={() => navigate('/learning/mission')}>Complete Missions</Typography>
                     </Button>
                 </Box>
             </Grid>
@@ -69,6 +71,7 @@ const LeaderboardHeader = () => (
             </Grid>
         </Grid>
     </Box>
-);
+    )
+};
 
 export default LeaderboardHeader;

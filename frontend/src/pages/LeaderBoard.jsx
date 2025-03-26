@@ -31,7 +31,7 @@ const LeaderboardTabs = ({ tab, setTab }) => (
 export default function LeaderBoard() {
   const [tab, setTab] = useState(0);
   return (
-    <Page title="Leader Board" sx={{ mt: 15 }}>
+    <Page title="Leader Board" sx={{ mt: 9 }}>
       <LeaderboardHeader />
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 4 }}>
         <Paper elevation={3} sx={{ width: "90%", maxWidth: "900px", textAlign: "center", border: "2px solid #365ACA", borderRadius: 5 }}>
