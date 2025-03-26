@@ -7,8 +7,6 @@ import {
   Typography,
   IconButton,
   Chip,
-  Paper,
-  Container,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -75,7 +73,7 @@ const YourCourses = ({ courses }) => {
 
   return (
     <>
-      <TitleSection title={"Your learning journey"} />
+      <TitleSection title={"My learning journey"} />
 
       <Box sx={{ width: "100%", mx: "auto", overflow: "hidden" }}>
         <Stack
@@ -216,9 +214,8 @@ const ExploreTopics = () => (
 const Content = () => (
   <>
     <Typography variant="h5" fontWeight={700} color="text.primary">
-    What do you want to <Box component="span" color="primary.main">learn</Box> now?
+      What do you want to <Box component="span" color="primary.main">learn</Box> now?
     </Typography>
-
 
     <Stack
       direction="row"
@@ -227,46 +224,62 @@ const Content = () => (
       mb={4}
       flexWrap="wrap"
     >
-      {options.map(({ icon, title, subtitle, color }) => (
+      {options.map(({ icon, title, subtitle, color }, index) => (
         <Card
-        key={title}
-        sx={{
-          transition: "0.3s ease-in-out",
-          borderRadius: 3,
-          minWidth: 200,
-          boxShadow: 3,
-          border: `1.75px dashed ${color}`, // Viền đứt đoạn màu xanh nhạt
-          "&:hover": {
-            transform: "scale(1.07)",
-            boxShadow: 6,
-            borderColor: color, // Viền đậm hơn khi hover
-          },
-        }}
-      >
-        <CardActionArea sx={{ p: 2 }}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <IconButton
-              size="large"
-              aria-label={title}
-              color="primary"
+          key={title}
+          sx={{
+            position: "relative",
+            transition: "0.3s ease-in-out",
+            borderRadius: 3,
+            minWidth: 200,
+            boxShadow: 3,
+            border: `1.75px dashed ${color}`,
+            "&:hover": {
+              transform: "scale(1.07)",
+              boxShadow: 6,
+              borderColor: color,
+            },
+          }}
+        >
+          {index === 0 && (
+            <Chip
+              label="Popular"
               sx={{
+                position: "absolute",
+                backgroundImage: "linear-gradient(45deg, #56ab2f, #a8e063)",
                 color: "white",
-                p: 2,
-                mb: 1,
+                width: 500,
+                top: 10,
+                right: -74,
+                transform: "rotate(45deg)",
+                fontWeight: "bold",
               }}
-            >
-              {icon}
-            </IconButton>
-            <Typography variant="h6" fontWeight={700} textAlign="center">
-              {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" textAlign="center">
-              {subtitle}
-            </Typography>
-          </Box>
-        </CardActionArea>
-      </Card>
-      
+            />
+          )}
+
+          <CardActionArea sx={{ p: 2 }}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <IconButton
+                size="large"
+                aria-label={title}
+                color="primary"
+                sx={{
+                  color: "white",
+                  p: 2,
+                  mb: 1,
+                }}
+              >
+                {icon}
+              </IconButton>
+              <Typography variant="h6" fontWeight={700} textAlign="center">
+                {title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" textAlign="center">
+                {subtitle}
+              </Typography>
+            </Box>
+          </CardActionArea>
+        </Card>
       ))}
     </Stack>
   </>
