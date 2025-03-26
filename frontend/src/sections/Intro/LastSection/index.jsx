@@ -40,7 +40,6 @@ const HeroSection = () => {
                             borderRadius: "20px",
                             margin: "auto",
                             mt: 25,
-                            mb: 15,
                             py: 10,
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                             border: "1px solid rgb(231, 231, 231)",

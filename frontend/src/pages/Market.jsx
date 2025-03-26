@@ -8,7 +8,7 @@ import Page from "../components/Page";
 const Market = () => {
     return (
         <Page title="Courses&Docs">
-            <Container maxWidth="xl" sx={{ mt: 15 }}>
+            <Container maxWidth="xl" sx={{ mt: 5 }}>
                 <IntroSection />
                 <CategorySection />
                 <ListCourses title="Highly Recommended Courses" subcontent="Edunity Course Student Can Join With Us!" />

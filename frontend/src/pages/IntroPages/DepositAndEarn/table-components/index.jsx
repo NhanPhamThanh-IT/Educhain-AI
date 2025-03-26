@@ -4,7 +4,7 @@ import { Card, CardContent, List, ListItem, ListItemText, Container } from "@mui
 const PricingList = ({ values }) => {
     return (
         <Container maxWidth="md">
-            <Card mb={0} sx={{ boxShadow: 4, borderRadius: 3, overflow: "hidden", bgcolor: "rgb(246, 246, 246)" }}>
+            <Card mb={0} sx={{ boxShadow: 4, borderRadius: 3, overflow: "hidden", bgcolor: "white" }}>
                 <CardContent>
                     <List sx={{ backgroundColor: "white", borderRadius: 3, px: 2 }}>
                         {values.map((row, index) => (
