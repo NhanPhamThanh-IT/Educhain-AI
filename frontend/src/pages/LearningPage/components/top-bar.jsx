@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, IconButton, Tooltip, Button, Typography, Paper } from "@mui/material";
 import { Refresh as RefreshIcon, MoreVert as MoreVertIcon, Widgets as WidgetsIcon } from "@mui/icons-material";
-
+import { motion } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
 const WidgetContent = () => {
@@ -16,28 +16,39 @@ const WidgetContent = () => {
 
     return (
         <Box
+            component={motion.div}
+            initial={{ opacity: 0, x: 100 }} 
+            animate={{ opacity: 1, x: 0 }}  
+            transition={{ duration: 0.5, ease: "easeOut" }} 
             sx={{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "nowrap",
                 whiteSpace: "nowrap",
                 gap: 1,
-                borderRadius: 50,
-                bgcolor: "transparent",
             }}
         >
             {NAV_ITEMS.map((item, index) => (
-                <Button
+                <motion.div
                     key={index}
-                    color="inherit"
-                    sx={{ textTransform: "none", fontWeight: 600, fontSize: 16 }}
-                    onClick={() => navigate(item.path)}
+                    initial={{ opacity: 0, x: -20 }} // Hiệu ứng trượt từng button
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.4 }} // Trễ dần từng button
                 >
-                    {item.label}
-                </Button>
+                    <Button
+                        color="inherit"
+                        sx={{
+                            textTransform: "none",
+                            fontWeight: 600,
+                            fontSize: 16,
+                        }}
+                        onClick={() => navigate(item.path)}
+                    >
+                        {item.label}
+                    </Button>
+                </motion.div>
             ))}
         </Box>
-
     );
 };
 
@@ -79,21 +90,18 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
 
                 {/* Hộp Widget (hiển thị ngang hàng với icon) */}
                 {isWidgetOpen && (
-                    <Paper
-                        elevation={3}
+                    <Box
                         sx={{
                             position: "absolute",
                             right: "110%",
                             top: "50%",
                             transform: "translateY(-50%)",
                             px: 2,
-                            borderRadius: 50,
-                            boxShadow: 3,
                             minWidth: 200,
                         }}
                     >
                         <WidgetContent />
-                    </Paper>
+                    </Box>
                 )}
 
                 {/* Các nút khác */}
