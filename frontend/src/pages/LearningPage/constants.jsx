@@ -22,12 +22,77 @@ export const data = {
     },
 };
 
+export const courses = [
+    { id: 1, title: "Web Development" },
+    { id: 2, title: "React.js Fundamentals" },
+    { id: 3, title: "Vue.js for Beginners" },
+    { id: 4, title: "Angular Complete Guide" },
+    { id: 5, title: "Node.js and Express" },
+    { id: 6, title: "Python for Data Science" },
+    { id: 7, title: "Machine Learning Basics" },
+    { id: 8, title: "Deep Learning with TensorFlow" },
+    { id: 9, title: "Natural Language Processing" },
+    { id: 10, title: "Cybersecurity Essentials" },
+    { id: 11, title: "Blockchain and Cryptocurrency" },
+    { id: 12, title: "Artificial Intelligence Applications" },
+    { id: 13, title: "Game Development with Unity" },
+    { id: 14, title: "Mobile App Development" },
+    { id: 15, title: "Full-Stack JavaScript" },
+    { id: 16, title: "Cloud Computing with AWS" },
+    { id: 17, title: "Data Structures and Algorithms" },
+    { id: 18, title: "Database Management Systems" },
+    { id: 19, title: "DevOps and CI/CD" },
+    { id: 20, title: "UI/UX Design Principles" },
+    { id: 21, title: "Graphic Design with Photoshop" },
+    { id: 22, title: "Illustration and Digital Art" },
+    { id: 23, title: "3D Modeling with Blender" },
+    { id: 24, title: "Motion Graphics with After Effects" },
+    { id: 25, title: "Typography and Branding" },
+    { id: 26, title: "Photography and Image Editing" },
+    { id: 27, title: "Character Design and Animation" },
+    { id: 28, title: "Concept Art for Games and Movies" },
+    { id: 29, title: "Architecture Visualization" },
+    { id: 30, title: "Medical Terminology" },
+    { id: 31, title: "Human Anatomy and Physiology" },
+    { id: 32, title: "First Aid and Emergency Care" },
+    { id: 33, title: "Pharmacology Basics" },
+    { id: 34, title: "Surgical Techniques" },
+    { id: 35, title: "Clinical Pathology" },
+    { id: 36, title: "Radiology and Medical Imaging" },
+    { id: 37, title: "Mental Health and Psychology" },
+    { id: 38, title: "Nutrition and Dietetics" },
+    { id: 39, title: "Epidemiology and Public Health" },
+    { id: 40, title: "Medical Coding and Billing" },
+    { id: 41, title: "Neuroscience and Brain Function" },
+    { id: 42, title: "Dermatology and Skin Care" },
+    { id: 43, title: "Pediatrics and Childcare" },
+    { id: 44, title: "Orthopedic Surgery Basics" },
+    { id: 45, title: "Dental Hygiene and Care" },
+    { id: 46, title: "Sports Medicine and Physiotherapy" },
+    { id: 47, title: "Artificial Intelligence in Healthcare" },
+    { id: 48, title: "Biomedical Engineering" },
+    { id: 49, title: "Genetics and Molecular Biology" },
+    { id: 50, title: "Ethical Hacking and Penetration Testing" }
+];
+
+
 export const topics = [
-    { title: "The Genetic Code and Translation", img: "/images/genetic.png" },
-    { title: "How To Find The Range of a Function", img: "/images/range.png" },
-    { title: "But what is a neural network?", img: "/images/neural.png" },
-    { title: "Introduction to Cell Biology", img: "/images/cell.png" },
-    { title: "Social Class", img: "/images/social.png" },
+    {
+        img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800",
+        title: "Machine Learning"
+    },
+    {
+        img: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=800",
+        title: "Web Development"
+    },
+    {
+        img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800",
+        title: "Cybersecurity"
+    },
+    {
+        img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800",
+        title: "Data Science"
+    }
 ];
 
 export const settings = {
