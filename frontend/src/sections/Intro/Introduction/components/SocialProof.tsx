@@ -6,7 +6,7 @@ export function SocialProof() {
         <Box sx={{ mt: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <AvatarGroup
                 sx={{
-                    '& .MuiAvatar-root': { width: 30, height: 30, fontSize: '1rem' },
+                    '& .MuiAvatar-root': { width: 35, height: 35, fontSize: '1rem' },
                 }}
             >
                 <Avatar src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-1/480749832_1085842260013183_6620778893531098027_n.jpg?stp=cp6_dst-jpg_s480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeHH-UxosFzudmqA8wfmZHC8CqzeNgcCHFsKrN42BwIcWwr88cP4FFVTUJ_YMePsALYeukxJdMRPH-k77Edb7g8z&_nc_ohc=6LnYK_c4_bcQ7kNvgEpuhws&_nc_oc=AdmixoFFP_A-SebuW9zIiGoqSmeL024dNd5IUGd_SAuN-k4rv8Sv4-jDVLDtboS62NrzyoRODOzetfGIxU6Evnpb&_nc_zt=24&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=HraZ9u6N9su_szLZmCseAg&oh=00_AYEVTnlAaswVsx5WssDc51xRbuwamIIP7haEvrZLzxiAyA&oe=67E9521F" />
@@ -17,7 +17,7 @@ export function SocialProof() {
             </AvatarGroup>
             <Typography
                 sx={{ ml: 1, userSelect: 'none' }}
-                variant="body1"
+                variant="subtitle1"
                 color="text.secondary"
             >
                 Loved by over 1 million learners
