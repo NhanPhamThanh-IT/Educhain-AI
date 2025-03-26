@@ -20,7 +20,7 @@ export function SocialProof() {
                 variant="subtitle1"
                 color="text.secondary"
             >
-                Loved by over 1 million learners
+                Trusted by a global community of learners
             </Typography>
         </Box>
     );
