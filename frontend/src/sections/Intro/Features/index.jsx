@@ -8,7 +8,7 @@ import BonusFeatures from "./bonus-features";
 
 const main = () => {
     return (
-        <Box maxWidth="md" mx="auto" p={3} pt={15} sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+        <Box maxWidth="md" mx="auto" p={3} pt={8} sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
             <TitleSection />
             <MainFeature />
             <OtherFeatures />

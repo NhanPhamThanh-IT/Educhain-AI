@@ -37,6 +37,7 @@ export const AuthDropdown = () => {
                     mt: 4,
                     textTransform: "none",
                     fontWeight: 600,
+                    fontSize: 16,
                     bgcolor: "#1976d2",
                     color: "white",
                     "&:hover": { bgcolor: "#1565c0" },
