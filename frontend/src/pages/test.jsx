@@ -1,3 +1,5 @@
+// components
+import Page from "../components/Page";
 import React, { useState, useEffect, useContext } from "react";
 import {
     Box,
@@ -12,361 +14,211 @@ import {
     CircularProgress,
 } from "@mui/material";
 import { SwapHoriz } from "@mui/icons-material";
-import Page from "../components/Page"; // Assuming this is your layout wrapper
-import { TOKEN_ICO_Context } from "../context/index";
+import axios from "axios";
+import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
+import { RouterContext } from '../routes/index.jsx';
+// ----------------------------------------------------------------------
 
-// ExchangeCoin component for ETH to EduToken
+const COINS = [
+    { id: "bitcoin", code: "BTC", icon: "/bitcoin.png" },
+    { id: "bitcoin-cash", code: "BCH", icon: "/bch.png" },
+    { id: "ethereum", code: "ETH", icon: "/ethereum.png" },
+    { id: "litecoin", code: "LTC", icon: "/litecoin.png" },
+    { id: "0x", code: "ZRX", icon: "/0x.png" },
+    { id: "basic-attention-token", code: "BAT", icon: "/bat.png" },
+    { id: "decentraland", code: "MANA", icon: "/decentraland.png" },
+    { id: "kyber-network", code: "KNC", icon: "/kyber-network.png" },
+    { id: "chainlink", code: "LINK", icon: "/chainlink.png" },
+];
+
+const fetchCryptoPrices = async () => {
+    try {
+        const response = await axios.get(
+            "https://api.coingecko.com/api/v3/coins/markets",
+            {
+                params: {
+                    vs_currency: "usd",
+                    ids: COINS.map((coin) => coin.id).join(","),
+                    order: "market_cap_desc",
+                    per_page: COINS.length,
+                    page: 1,
+                    sparkline: false,
+                    price_change_percentage: "24h",
+                },
+            }
+        );
+
+        return response.data.map((coin) => {
+            const matchedCoin = COINS.find((c) => c.id === coin.id);
+            return {
+                name: coin.name,
+                code: matchedCoin?.code || "",
+                value: coin.current_price.toLocaleString(),
+                change: `${coin.price_change_percentage_24h > 0 ? "+" : ""
+                    }${coin.price_change_percentage_24h.toFixed(2)}%`,
+                icon: matchedCoin?.icon || "",
+            };
+        });
+    } catch (error) {
+        console.error("Error fetching crypto prices:", error);
+        return [];
+    }
+};
+
 export default function Test() {
     const {
         TOKEN_ICO,
         BUY_TOKEN,
         account,
         loader,
-        CONNECT_WALLET,
-        currency,
+        ERC20,
+        TOKEN_ADDRESS,
         notifyError,
         notifySuccess,
-    } = useContext(TOKEN_ICO_Context);
+    } = useContext(RouterContext);
 
-    const [ethAmount, setEthAmount] = useState("");
-    const [tokenAmount, setTokenAmount] = useState("");
     const [tokenDetails, setTokenDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [testLoading, setTestLoading] = useState(false);
+    const [transferToken, setTransferToken] = useState(null);
+    const [edtAmount, setEdtAmount] = useState("");
+    const [maticNeeded, setMaticNeeded] = useState("");
 
-    // Fetch token details on mount
+    // Fetch token details
     useEffect(() => {
-        const fetchTokenData = async () => {
+        const fetchData = async () => {
             try {
-                setLoading(true);
-                const data = await TOKEN_ICO();
-                if (data) {
-                    setTokenDetails(data);
-                } else {
-                    notifyError("Failed to load token details. Please make sure you're connected to the correct network.");
-                }
+                console.log('tokenData')
+                const [icoData, tokenData] = await Promise.all([
+                    TOKEN_ICO(),
+                    ERC20(TOKEN_ADDRESS)
+                ]);
+
+                setTokenDetails(icoData);
+                setTransferToken(tokenData);
+
             } catch (error) {
                 console.error("Failed to fetch token data:", error);
-                notifyError("Error loading token details. Please check your wallet connection.");
-            } finally {
-                setLoading(false);
+                notifyError("Failed to load token details");
             }
         };
-        fetchTokenData();
-    }, [TOKEN_ICO]);
+        fetchData();
+    }, []);
 
-    // Calculate token amount based on ETH input
-    const handleEthChange = (e) => {
-        const eth = e.target.value;
-        setEthAmount(eth);
-        if (tokenDetails && eth) {
-            const pricePerToken = Number(tokenDetails.tokenPrice);
-            const tokens = eth / pricePerToken;
-            setTokenAmount(tokens.toFixed(6));
+    // Calculate MATIC needed when EDT amount changes
+    const handleEdtChange = (e) => {
+        const edt = e.target.value;
+        setEdtAmount(edt);
+        if (edt && tokenDetails) {
+            const pricePerToken = 0.00001;
+            const matic = Number(edt) * pricePerToken;
+            setMaticNeeded(matic.toFixed(6));
         } else {
-            setTokenAmount("");
+            setMaticNeeded("");
         }
     };
 
-    // Handle exchange (buy tokens)
-    const handleExchange = async () => {
-        if (!account) {
-            await CONNECT_WALLET();
-            return;
-        }
-        if (tokenAmount && Number(tokenAmount) > 0) {
-            await BUY_TOKEN(Number(tokenAmount)); // Pass token amount to BUY_TOKEN
-        }
-    };
-
-    // Add test purchase function
-    const handleTestPurchase = async () => {
+    const handleBuyTokens = async () => {
         try {
-            setTestLoading(true);
-            if (!account) {
-                await CONNECT_WALLET();
+            if (!edtAmount || Number(edtAmount) <= 0) {
+                notifyError("Please enter a valid amount");
                 return;
             }
 
-            // Test with 0.1 MATIC
-            const testMaticAmount = 0.1;
-            if (tokenDetails) {
-                const pricePerToken = Number(tokenDetails.tokenPrice);
-                const edtAmount = (testMaticAmount / pricePerToken).toFixed(6);
+            await BUY_TOKEN(Number(edtAmount));
+            notifySuccess(`Successfully purchased ${edtAmount} EDT!`);
 
-                const success = await BUY_TOKEN(Number(edtAmount));
+            // Refresh data after purchase
+            const [newIcoData, newTokenData] = await Promise.all([
+                TOKEN_ICO(),
+                ERC20(TOKEN_ADDRESS)
+            ]);
+            setTokenDetails(newIcoData);
+            setTransferToken(newTokenData);
 
-                if (success) {
-                    notifySuccess(`Successfully purchased ${edtAmount} EDT with ${testMaticAmount} MATIC!`);
-                    // Refresh token details
-                    const updatedData = await TOKEN_ICO();
-                    if (updatedData) {
-                        setTokenDetails(updatedData);
-                    }
-                }
-            }
+            // Clear inputs
+            setEdtAmount("");
+            setMaticNeeded("");
+
         } catch (error) {
-            console.error("Test purchase failed:", error);
-            notifyError("Test purchase failed. Please try again.");
-        } finally {
-            setTestLoading(false);
+            console.error("Purchase failed:", error);
+            notifyError("Failed to purchase tokens");
         }
     };
 
     return (
-        <Page title="Test Exchange" sx={{ mt: 7 }}>
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-                    <CircularProgress />
-                </Box>
-            ) : !tokenDetails ? (
-                <Box sx={{ p: 4, textAlign: 'center' }}>
-                    <Typography color="error">
-                        Failed to load token details. Please:
-                    </Typography>
-                    <Typography component="ul" sx={{ mt: 2, textAlign: 'left' }}>
-                        <li>Make sure MetaMask is installed and connected</li>
-                        <li>Switch to Polygon Amoy testnet</li>
-                        <li>Have some MATIC in your wallet for gas</li>
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        onClick={() => window.location.reload()}
-                        sx={{ mt: 2 }}
-                    >
-                        Retry
-                    </Button>
-                </Box>
-            ) : (
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100%",
-                        background: "linear-gradient(to bottom, #e0c3fc, #8ec5fc)",
-                        padding: 4,
-                    }}
-                >
-                    {/* Exchange Box */}
-                    <Box display="flex" flexDirection="column" alignItems="center" gap={2} p={3}>
-                        <Typography variant="h4" fontWeight={700}>
-                            Exchange ETH for EduToken
+        <Page title="Test Token Purchase" sx={{ mt: 7 }}>
+            <Box sx={{ maxWidth: 500, mx: 'auto', p: 3 }}>
+                <Card sx={{ p: 3 }}>
+                    <Stack spacing={3}>
+                        <Typography variant="h5" textAlign="center" color="primary">
+                            Test EDT Token Purchase
                         </Typography>
-                        <Box display="flex" alignItems="center" gap={2}>
-                            {/* ETH Card */}
-                            <Card
-                                sx={{
-                                    p: 2,
-                                    minWidth: 250,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                <Box display="flex" alignItems="center" gap={1}>
-                                    <Avatar
-                                        src="/ethereum.png" // Ensure you have an ETH icon in your public folder
-                                        alt="Ethereum"
-                                        sx={{ width: 32, height: 32 }}
-                                    />
-                                    <Typography fontWeight={600}>Ethereum</Typography>
-                                </Box>
-                                <Typography variant="caption" color="gray">
-                                    ETH
-                                </Typography>
-                                <TextField
-                                    label="ETH Amount"
-                                    value={ethAmount}
-                                    onChange={handleEthChange}
-                                    sx={{ m: 1, width: "25ch" }}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">ETH</InputAdornment>
-                                        ),
-                                    }}
-                                    type="number"
-                                    disabled={loader || loading}
-                                />
-                            </Card>
 
-                            <SwapHoriz fontSize="large" color="primary" />
-
-                            {/* EduToken Card */}
-                            <Card
-                                sx={{
-                                    p: 2,
-                                    minWidth: 250,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                <Box display="flex" alignItems="center" gap={1}>
-                                    <Avatar
-                                        src="/ecoin.png" // Ensure you have an EduToken icon
-                                        alt="EduToken"
-                                        sx={{ width: 32, height: 32 }}
-                                    />
-                                    <Typography fontWeight={600}>EduToken</Typography>
-                                </Box>
-                                <Typography variant="caption" color="gray">
-                                    EDT
+                        {/* Current Balances */}
+                        <Box sx={{ bgcolor: '#f5f5f5', p: 2, borderRadius: 2 }}>
+                            <Stack spacing={1}>
+                                <Typography variant="subtitle1" fontWeight="bold">
+                                    Your Current Balances: {transferToken?.address}
                                 </Typography>
-                                <TextField
-                                    label="EduToken Amount"
-                                    value={tokenAmount}
-                                    sx={{ m: 1, width: "25ch" }}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">EDT</InputAdornment>
-                                        ),
-                                    }}
-                                    disabled
-                                />
-                            </Card>
+                                <Typography>
+                                    MATIC: {tokenDetails?.maticBal ? Number(tokenDetails.maticBal).toFixed(4) : '0'} MATIC
+                                </Typography>
+                                <Typography>
+                                    EDT: {transferToken?.balance ? Number(transferToken.balance).toFixed(4) : '0'} EDT
+                                </Typography>
+                                {tokenDetails?.tokenPrice && (
+                                    <Typography color="primary">
+                                        Price: 1 EDT = {Number(tokenDetails.tokenPrice).toFixed(6)} MATIC
+                                    </Typography>
+                                )}
+                            </Stack>
                         </Box>
 
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            onClick={handleExchange}
-                            disabled={loader || loading || !ethAmount}
-                        >
-                            {loader ? "Processing..." : account ? "Exchange" : "Connect Wallet"}
-                        </Button>
-                    </Box>
-
-                    {/* Exchange Rate Box */}
-                    <Box
-                        p={4}
-                        sx={{
-                            background: "linear-gradient(to bottom, #fff, #b0c4de)",
-                            borderRadius: 3,
-                            width: "80%",
-                        }}
-                    >
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} md={4}>
-                                <Typography variant="h4" fontWeight={700}>
-                                    Exchange Rate
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary" mt={1}>
-                                    Get the latest rate for EduToken. Convert your ETH to EDT with
-                                    transparency and ease on the Holesky testnet.
-                                </Typography>
-                                <Button variant="outlined" sx={{ mt: 2 }} disabled>
-                                    Testnet Mode
-                                </Button>
-                            </Grid>
-
-                            <Grid item xs={12} md={8}>
-                                <Box>
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="space-between"
-                                        py={1}
-                                        borderBottom={1}
-                                        borderColor="divider"
-                                    >
-                                        <Box display="flex" alignItems="center" gap={2}>
-                                            <Avatar
-                                                src="/ecoin.png"
-                                                alt="EduToken"
-                                                sx={{ width: 32, height: 32 }}
-                                            />
-                                            <Box>
-                                                <Typography fontWeight={600} color="black">
-                                                    EduToken
-                                                </Typography>
-                                                <Typography variant="caption" color="gray">
-                                                    EDT
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box textAlign="right">
-                                            <Typography fontWeight={600} color="black">
-                                                1 EDT = {tokenDetails.tokenPrice} ETH
-                                            </Typography>
-                                            <Typography color="green">
-                                                Available: {tokenDetails.tokenBal} EDT
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    </Box>
-
-                    {/* Test Purchase Section */}
-                    <Box
-                        sx={{
-                            mt: 4,
-                            mx: 4,
-                            p: 3,
-                            bgcolor: '#f5f5f5',
-                            borderRadius: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: 2
-                        }}
-                    >
-                        <Typography variant="h6" fontWeight="bold" color="primary">
-                            🧪 Quick Test Purchase
-                        </Typography>
-
-                        <Card sx={{ p: 3, width: '100%', maxWidth: 500 }}>
+                        {/* Purchase Form */}
+                        <Box sx={{ bgcolor: '#fff', p: 2, borderRadius: 2 }}>
                             <Stack spacing={2}>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography>
-                                        Test Amount: 0.1 MATIC
-                                    </Typography>
-                                    {tokenDetails && (
-                                        <Typography>
-                                            ≈ {(0.1 / Number(tokenDetails.tokenPrice)).toFixed(6)} EDT
-                                        </Typography>
-                                    )}
-                                </Box>
+                                <TextField
+                                    label="EDT Amount to Buy"
+                                    type="number"
+                                    value={edtAmount}
+                                    onChange={handleEdtChange}
+                                    fullWidth
+                                    sx={{ mb: 1 }}
+                                />
 
-                                {tokenDetails && (
-                                    <Box sx={{ bgcolor: '#e3f2fd', p: 2, borderRadius: 1 }}>
-                                        <Typography variant="body2">
-                                            Your MATIC Balance: {Number(tokenDetails.maticBal).toFixed(4)} MATIC
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            Your EDT Balance: {Number(tokenDetails.tokenBal).toFixed(4)} EDT
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            Price: 1 EDT = {Number(tokenDetails.tokenPrice).toFixed(4)} MATIC
-                                        </Typography>
-                                    </Box>
+                                {maticNeeded && (
+                                    <Typography
+                                        sx={{
+                                            p: 1,
+                                            bgcolor: '#e3f2fd',
+                                            borderRadius: 1,
+                                            textAlign: 'center'
+                                        }}
+                                    >
+                                        MATIC needed: {maticNeeded} MATIC
+                                    </Typography>
                                 )}
 
                                 <Button
                                     variant="contained"
-                                    onClick={handleTestPurchase}
-                                    disabled={testLoading || loader}
+                                    onClick={handleBuyTokens}
+                                    disabled={loader || !edtAmount || Number(edtAmount) <= 0}
                                     sx={{
                                         height: 48,
                                         bgcolor: '#6b46c1',
-                                        '&:hover': { bgcolor: '#553c9a' },
+                                        '&:hover': { bgcolor: '#553c9a' }
                                     }}
                                 >
-                                    {testLoading || loader ? (
+                                    {loader ? (
                                         <CircularProgress size={24} color="inherit" />
-                                    ) : account ? (
-                                        "Test Buy with 0.1 MATIC"
                                     ) : (
-                                        "Connect Wallet"
+                                        `Buy ${edtAmount || '0'} EDT`
                                     )}
                                 </Button>
                             </Stack>
-                        </Card>
-                    </Box>
-                </Box>
-            )}
+                        </Box>
+                    </Stack>
+                </Card>
+            </Box>
         </Page>
     );
 }

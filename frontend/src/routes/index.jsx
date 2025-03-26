@@ -1,12 +1,14 @@
 // This file is used to define the routes of the application.
 
-import Index from "../index.jsx";
-
 // Importing necessary modules
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, createContext, useContext, useState, useEffect } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
+import { TOKEN_ICO_Context } from "../context/index.jsx";
 
 // ----------------------------------------------------------------------
+
+// Create Router Context
+export const RouterContext = createContext();
 
 // Importing components
 import AppBarComponent from "../components/Partials/Header/Index";
@@ -60,14 +62,73 @@ const LazyPages = Object.fromEntries(
 
 // ----------------------------------------------------------------------
 
-// Component to wrap the AppBar
-const MainLayout = ({ children, displayHeader = true, displayFooter = true }) => (
-  <Index>
-    {displayHeader && <AppBarComponent />}
-    {children}
-    {displayFooter && <FooterComponent />}
-  </Index>
-);
+// Create Router Provider Component
+export const RouterProvider = ({ children }) => {
+  const {
+    TOKEN_ICO, BUY_TOKEN, TRANSFER_ETHER, DONATE,
+    UPDATE_TOKEN, UPDATE_TOKEN_PRICE, TOKEN_WITHDRAW,
+    TRANSFER_TOKEN, CONNECT_WALLET, ERC20,
+    CHECK_ACCOUNT_BALANCE, setAccount, setLoader,
+    addTokenToMetaMask, TOKEN_ADDRESS, loader,
+    account, currency, notifySuccess, notifyError
+  } = useContext(TOKEN_ICO_Context);
+
+  // State declarations from your Index component
+  const [ownerModel, setOwnerModel] = useState(false);
+  const [buyModel, setBuyModel] = useState(false);
+  const [transferModel, setTransferModel] = useState(false);
+  const [transferCurrency, setTransferCurrency] = useState(false);
+  const [openDonate, setOpenDonate] = useState(false);
+  const [openUpdatePrice, setOpenUpdatePrice] = useState(false);
+  const [openUpdateAddress, setOpenUpdateAddress] = useState(false);
+  const [detail, setDetail] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const ico = await TOKEN_ICO();
+      console.log('items', ico);
+      const erc20 = await ERC20(TOKEN_ADDRESS);
+      console.log('erc20', erc20);
+      setDetail(ico);
+    };
+    fetchData();
+  }, [account]);
+
+  // Create context value object
+  const contextValue = {
+    ownerModel, setOwnerModel,
+    buyModel, setBuyModel,
+    transferModel, setTransferModel,
+    transferCurrency, setTransferCurrency,
+    openDonate, setOpenDonate,
+    openUpdatePrice, setOpenUpdatePrice,
+    openUpdateAddress, setOpenUpdateAddress,
+    detail, setDetail,
+    account, setAccount,
+    CONNECT_WALLET,
+    BUY_TOKEN, ERC20, TOKEN_ADDRESS,
+    setLoader, currency,
+  };
+
+  return (
+    <RouterContext.Provider value={contextValue}>
+      {children}
+    </RouterContext.Provider>
+  );
+};
+
+// Update MainLayout to use context
+const MainLayout = ({ children, displayHeader = true, displayFooter = true }) => {
+  const context = useContext(RouterContext);
+
+  return (
+    <>
+      {displayHeader && <AppBarComponent />}
+      {children}
+      {displayFooter && <FooterComponent />}
+    </>
+  );
+};
 
 // ----------------------------------------------------------------------
 
@@ -113,8 +174,7 @@ const routes = [
       { path: "leaderboard", element: <LazyPages.LeaderBoard /> },
       { path: "mission", element: <LazyPages.MissionPage /> },
       { path: "course", element: <LazyPages.LearningPage /> },
-      { path: "exchange", element: <LazyPages.ExchangeCoin /> },
-
+      { path: "exchange", element: <LazyPages.ExchangeCoin /> }
     ],
   },
   { path: "profilesetup", element: <MainLayout><LazyPages.ProfileSetup /></MainLayout> },
@@ -123,6 +183,13 @@ const routes = [
 
 // ----------------------------------------------------------------------
 
+// Update Router component to include Provider
 export default function Router() {
-  return useRoutes(routes);
+  const routing = useRoutes(routes);
+
+  return (
+    <RouterProvider>
+      {routing}
+    </RouterProvider>
+  );
 }

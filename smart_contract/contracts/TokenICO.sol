@@ -100,7 +100,10 @@ contract TokenICO {
         require(success, "Transaction failed");
     }
 
-    function transferEther(address payable _receiver, uint256 _amount) external payable {
+    function transferEther(
+        address payable _receiver,
+        uint256 _amount
+    ) external payable {
         require(msg.value >= _amount, "Insufficient Ether provided");
 
         (bool success, ) = _receiver.call{value: _amount}("");
@@ -110,7 +113,7 @@ contract TokenICO {
     function withdrawAllTokens() public onlyOwner {
         ERC20 token = ERC20(tokenAddress);
         uint256 balance = token.balanceOf(address(this));
-        
+
         require(
             token.transfer(owner, balance),
             "Failed to transfer tokens to the owner"

@@ -11,13 +11,14 @@ import {
     ERC20_CONTRACT,
     TOKEN_ADDRESS,
     addTokenToMetaMask,
+    handleNetworkSwitch,
 } from './constants.jsx';
 
 export const TOKEN_ICO_Context = React.createContext();
 export const TOKEN_ICO_Provider = ({ children }) => {
     const DAPP_NAME = 'Educhain-AI';
-    const currency = "POL";
-    const network = "Amoy";
+    const currency = "ETH";
+    const network = "Holesky";
 
     const [loader, setLoader] = useState(false);
     const [account, setAccount] = useState('');
@@ -33,34 +34,39 @@ export const TOKEN_ICO_Provider = ({ children }) => {
                 return null;
             }
             setLoader(true);
-            setAccount(address);
-            const contract = await TOKEN_ICO_CONTRACT();
-            const tokenDetails = await contract.getTokenDetails();
-            const contractOwner = await contract.owner();
-            const soldTokens = await contract.soldTokens();
 
-            const ethBal = await GET_BALANCE();
+            try {
+                // Check network first
+                await handleNetworkSwitch();
+                const contract = await TOKEN_ICO_CONTRACT();
+                if (!contract) {
+                    throw new Error("Failed to initialize contract");
+                }
 
-            const token = {
-                tokenBal: ethers.utils.formatEther(tokenDetails.balance.toString()), // balanceOf(address(this))
-                name: tokenDetails.name, // name
-                symbol: tokenDetails.symbol, // symbol
-                supply: ethers.utils.formatEther(tokenDetails.supply.toString()), // totalSupply
-                tokenPrice: ethers.utils.formatEther(tokenDetails.tokenPrice.toString()), // tokeSalePrice
-                tokenAddr: tokenDetails.tokenAddr, // tokenAddress
-                maticBal: ethBal,
-                address: address.toLowerCase(),
-                owner: contractOwner.toLowerCase(),
-                soldTokens: soldTokens.toNumber(),
-            };
-            setLoader(false);
-            console.log(token, 'TOKEN_ICO');
-            return token;
+                const contractOwner = await contract.owner();
+                const soldTokens = await contract.soldTokens();
+                const ethBal = await GET_BALANCE();
+
+                const token = {
+                    maticBal: ethBal,
+                    address: address.toLowerCase(),
+                    owner: contractOwner.toLowerCase(),
+                    soldTokens: soldTokens.toNumber(),
+                };
+
+                setLoader(false);
+                return token;
+            } catch (contractError) {
+                console.error("Contract interaction error:", contractError);
+                notifyError(`Contract error: ${contractError.message}`);
+                return null;
+            }
         } catch (error) {
-            console.log(error, 'TOKEN_ICO Failed');
+            console.error("Token ICO error:", error);
             notifyError(`Failed to load token data: ${error.message}`);
-            setLoader(false);
             return null;
+        } finally {
+            setLoader(false);
         }
     };
 
@@ -83,18 +89,13 @@ export const TOKEN_ICO_Provider = ({ children }) => {
             }
 
             const contract = await TOKEN_ICO_CONTRACT();
-            const tokenDetails = await contract.getTokenDetails();
-            const availableTokens = ethers.utils.formatEther(tokenDetails.balance.toString());
-            const pricePerToken = ethers.utils.formatEther(tokenDetails.tokenPrice.toString());
-            const payAmount = ethers.utils.parseEther(pricePerToken.toString(), "ether"); // Nếu sử dụng POL thì có khác gì không?
+            const erc20 = await ERC20(TOKEN_ADDRESS);
 
-            // Check available tokens
-            if (tokenAmount > Number(availableTokens)) {
-                notifyError(`Only ${availableTokens} tokens available.`);
-                setLoader(false);
-                return;
-            }
-            // Check user's ETH balance
+            const pricePerToken = 0.00001;
+            const totalCostEth = pricePerToken * amount;
+            const payAmount = ethers.utils.parseEther(totalCostEth.toString(), "ether");
+
+
             const ethBalance = await GET_BALANCE();
             if (Number(ethBalance) < totalCostEth) {
                 notifyError("Insufficient ETH balance.");
@@ -103,7 +104,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
             }
 
             const transaction = await contract.buyTokens(
-                tokenAmount,
+                Number(tokenAmount),
                 { value: payAmount.toString(), gasLimit: ethers.utils.hexlify(8000000) }
             );
             await transaction.wait();

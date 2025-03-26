@@ -1,7 +1,8 @@
 // components
 import Page from "../components/Page";
 import React, { useState, useEffect, useContext } from "react";
-import { TOKEN_ICO_Context } from "../context/index";
+import { RouterContext } from '../routes/index.jsx'
+
 import {
   Box,
   Stack,
@@ -17,6 +18,7 @@ import {
 import { SwapHoriz } from "@mui/icons-material";
 import axios from "axios";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
+
 // ----------------------------------------------------------------------
 
 const COINS = [
@@ -70,53 +72,80 @@ export default function ExchangeCoin() {
     BUY_TOKEN,
     account,
     loader,
-    CONNECT_WALLET,
-    currency,
+    ERC20,
+    TOKEN_ADDRESS,
     notifyError,
     notifySuccess,
-  } = useContext(TOKEN_ICO_Context);
+    detail,
+    setLoader
+  } = useContext(RouterContext);
 
-  const [exchangeRates, setExchangeRates] = useState([]); // Lưu trữ dữ liệu API
-  const [loading, setLoading] = useState(true); // Trạng thái loading
+  const [tokenDetails, setTokenDetails] = useState(null);
+  const [transferToken, setTransferToken] = useState(null);
+  const [edtAmount, setEdtAmount] = useState("");
+  const [maticAmount, setMaticAmount] = useState("");
+  const [exchangeRates, setExchangeRates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Gọi API khi component mount
+  // Fetch token details
   useEffect(() => {
-    const fetchTokenData = async () => {
-      const data = await TOKEN_ICO();
-
-      if (data) {
-        setTokenDetails(data);
+    const fetchData = async () => {
+      try {
+        const [icoData, tokenData] = await Promise.all([
+          TOKEN_ICO(),
+          ERC20(TOKEN_ADDRESS)
+        ]);
+        setTokenDetails(icoData);
+        setTransferToken(tokenData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch token data:", error);
+        notifyError("Failed to load token details");
         setLoading(false);
       }
     };
-    fetchTokenData();
-    const getData = async () => {
-      const data = await fetchCryptoPrices();
-      setExchangeRates(data);
-      setLoading(false);
-    };
-    getData();
-  }, [TOKEN_ICO]);
+    fetchData();
+  }, []);
 
-  const handleEthChange = (e) => {
-    const eth = e.target.value;
-    setEthAmount(eth);
-    if (tokenDetails && eth) {
-      const pricePerToken = Number(tokenDetails.tokenPrice);
-      const tokens = eth / pricePerToken;
-      setTokenAmount(tokens.toFixed(6));
+  // Handle EDT amount change and calculate MATIC needed
+  const handleEdtChange = (e) => {
+    const edt = e.target.value;
+    setEdtAmount(edt);
+    if (edt && tokenDetails) {
+      const pricePerToken = 0.00001;
+      const matic = Number(edt) * pricePerToken;
+      setMaticAmount(matic.toFixed(6));
     } else {
-      setTokenAmount("");
+      setMaticAmount("");
     }
   };
 
+  // Handle token purchase
   const handleExchange = async () => {
-    if (!account) {
-      await CONNECT_WALLET();
-      return;
-    }
-    if (tokenAmount && Number(tokenAmount) > 0) {
-      await BUY_TOKEN(Number(tokenAmount));
+    try {
+      if (!edtAmount || Number(edtAmount) <= 0) {
+        notifyError("Please enter a valid amount");
+        return;
+      }
+
+      await BUY_TOKEN(Number(edtAmount));
+      notifySuccess(`Successfully purchased ${edtAmount} EDT!`);
+
+      // Refresh data after purchase
+      const [newIcoData, newTokenData] = await Promise.all([
+        TOKEN_ICO(),
+        ERC20(TOKEN_ADDRESS)
+      ]);
+      setTokenDetails(newIcoData);
+      setTransferToken(newTokenData);
+
+      // Clear inputs
+      setEdtAmount("");
+      setMaticAmount("");
+
+    } catch (error) {
+      console.error("Purchase failed:", error);
+      notifyError("Failed to purchase tokens");
     }
   };
 
@@ -144,7 +173,7 @@ export default function ExchangeCoin() {
           Exchange
         </Typography>
         <Box display="flex" alignItems="center" gap={2}>
-          {/* Bitcoin Card */}
+          {/* MATIC Card */}
           <Card
             sx={{
               p: 2,
@@ -155,21 +184,23 @@ export default function ExchangeCoin() {
           >
             <Box display="flex" alignItems="center" gap={1}>
               <Avatar
-                src="/bitcoin.png"
-                alt="Bitcoin"
+                src="/etherium.png"
+                alt="Ethereum"
                 sx={{ width: 32, height: 32 }}
               />
-              <Typography fontWeight={600}>Bitcoin</Typography>
+              <Typography fontWeight={600}>ETH</Typography>
             </Box>
             <Typography variant="caption" color="gray">
-              BTC
+              ETH
             </Typography>
             <TextField
-              label="Bitcoin"
+              label="ETH Amount"
+              value={maticAmount}
+              disabled
               sx={{ m: 1, width: "25ch" }}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">BTC</InputAdornment>
+                  <InputAdornment position="start">ETH</InputAdornment>
                 ),
               }}
             />
@@ -195,20 +226,50 @@ export default function ExchangeCoin() {
               <Typography fontWeight={600}>Educhain Token</Typography>
             </Box>
             <Typography variant="caption" color="gray">
-              Value
+              EDT
             </Typography>
             <TextField
-              variant="outlined"
-              fullWidth
-              defaultValue="123 Educhain Token"
-              sx={{ mt: 1 }}
+              label="EDT Amount"
+              type="number"
+              value={edtAmount}
+              onChange={handleEdtChange}
+              sx={{ m: 1, width: "25ch" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">EDT</InputAdornment>
+                ),
+              }}
             />
           </Card>
         </Box>
 
-        <Button variant="contained" color="primary" size="large">
-          Exchange
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handleExchange}
+          disabled={loader || !edtAmount || Number(edtAmount) <= 0}
+        >
+          {loader ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Exchange"
+          )}
         </Button>
+
+        {/* Current Balance Display */}
+        {tokenDetails && (
+          <Box sx={{ mt: 2, textAlign: 'center' }}>
+            <Typography color="text.secondary">
+              Your ETH Balance: {Number(tokenDetails.maticBal).toFixed(4)} ETH
+            </Typography>
+            {transferToken && (
+              <Typography color="text.secondary">
+                Your EDT Balance: {Number(transferToken.balance).toFixed(4)} EDT
+              </Typography>
+            )}
+          </Box>
+        )}
       </Box>
 
       {/* Exchange Rate Box */}
