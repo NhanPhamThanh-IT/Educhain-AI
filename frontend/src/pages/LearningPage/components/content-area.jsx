@@ -13,6 +13,7 @@ import {
   Grid,
   CardActions,
   Button,
+  Divider,
 } from "@mui/material";
 import { CardActionArea, Stack } from "@mui/material";
 import Slider from "react-slick";
@@ -253,7 +254,7 @@ const Content = () => (
       direction="row"
       justifyContent="center"
       gap={3}
-      mb={4}
+      mb={1}
       flexWrap="wrap"
     >
       {options.map(({ icon, title, subtitle, color }, index) => (
@@ -314,6 +315,10 @@ const Content = () => (
         </Card>
       ))}
     </Stack>
+    <Divider sx={{color: "black", width: "30%"}}>Or</Divider>
+    <Button variant="contained" sx={{ mb: 4 }} onClick={() => window.location.href = "/mylearning/createcourse"}>
+      Create course
+    </Button>
   </>
 );
 
