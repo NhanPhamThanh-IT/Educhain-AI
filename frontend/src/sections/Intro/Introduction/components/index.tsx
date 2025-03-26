@@ -1,11 +1,9 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
-import SchoolIcon from '@mui/icons-material/School';
-
+import { Box, Typography } from "@mui/material";
 import { FeatureBackground } from "./FeatureBackground";
 import { SocialProof } from "./SocialProof";
-
-import { constants } from "./constants"
+import { constants } from "./constants";
+import { AuthDropdown } from "./AuthDropdown";
 
 export const Hero = () => {
     return (
@@ -22,18 +20,7 @@ export const Hero = () => {
                 {constants.description}
             </Typography>
             <SocialProof />
-            <Button
-                variant="contained"
-                endIcon={<SchoolIcon />}
-                sx={{
-                    mt: 4, textTransform: "none", fontWeight: 600, bgcolor: "#1976d2", color: "white",
-                    "&:hover": {
-                        bgcolor: "transparent",
-                    }
-                }}
-            >
-                {constants.button.text}
-            </Button>
+            <AuthDropdown />
         </Box>
     );
 };
