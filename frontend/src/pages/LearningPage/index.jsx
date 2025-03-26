@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Drawer, List, ListItem, ListItemText, Box, CssBaseline, Collapse, Divider, Paper, Button, Input, Typography, Stack, IconButton, Tooltip, Card, CardMedia, CardContent, } from "@mui/material";
+import { Drawer, List, ListItem, ListItemText, Box, CssBaseline, Collapse, Divider, Paper, Button, Input, Typography, Stack, IconButton, Tooltip } from "@mui/material";
 import { CloudUpload, Link } from "@mui/icons-material";
-import MicIcon from "@mui/icons-material/Mic";
 import { useDropzone } from "react-dropzone";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,14 +10,13 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import { data, topics, settings, sections } from "./constants";
-import TopBar from "./top-bar/index";
+
+import TopBar from "./components/top-bar";
+import ContentArea from "./components/content-area";
 
 export default function EduchainApp() {
   const navigate = useNavigate();
@@ -28,7 +26,7 @@ export default function EduchainApp() {
     searchParams.get("historyItem") || ""
   );
   const [selectedSection, setSelectedSection] = useState(
-    searchParams.get("section") || "chat"
+    searchParams.get("section") || "Dashboard"
   );
   const [openSection, setOpenSection] = useState(null);
   const onDrop = useCallback((acceptedFiles) => {
@@ -484,115 +482,7 @@ export default function EduchainApp() {
         <TopBar isSidebarOpen={isSidebarOpen} sections={sections} selectedSection={selectedSection} selectedHistory={selectedHistory} />
 
         {/* Content Area with fixed height */}
-        <Box
-          sx={{
-            p: 6,
-            flexGrow: 1,
-            overflow: "auto", // Makes only this inner content scrollable if needed
-            position: "relative",
-          }}
-        >
-          {sections.find(
-            (s) =>
-              s.key === selectedSection && s.history?.includes(selectedHistory)
-          )?.content || (
-              <Box sx={{ p: 4, minHeight: "80vh" }}>
-                <Typography variant="h4" align="center" gutterBottom>
-                  What do you want to learn today?
-                </Typography>
-
-                <Box display="flex" justifyContent="center" gap={2} mb={4}>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      maxWidth: 200,
-                      p: 2,
-                      border: "1px solid",
-                      borderColor: "grey.300",
-                      borderRadius: 2,
-                      boxShadow: 1,
-                      textAlign: "left",
-                    }}
-                  >
-                    <CloudUpload />
-                    <Typography variant="body1" gutterBottom>
-                      Upload Document
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" mt={1}>
-                      PDF, PPT, DOC, TXT
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      maxWidth: 200,
-                      p: 2,
-                      border: "1px solid",
-                      borderColor: "grey.300",
-                      borderRadius: 2,
-                      boxShadow: 1,
-                      textAlign: "left",
-                    }}
-                  >
-                    <Link />
-                    <Typography variant="body1" gutterBottom>
-                      Paste
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" mt={1}>
-                      YouTube, website
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      maxWidth: 200,
-                      p: 2,
-                      border: "1px solid",
-                      borderColor: "grey.300",
-                      borderRadius: 2,
-                      boxShadow: 1,
-                      textAlign: "left",
-                    }}
-                  >
-                    <MicIcon />
-                    <Typography variant="body1" gutterBottom>
-                      Record
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" mt={1}>
-                      Record your lecture
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Box border={1} borderColor="gray" p={2} borderRadius={2} mb={4}>
-                  + Add Space
-                </Box>
-
-                <Typography variant="h6" mb={2}>
-                  Explore Topics
-                </Typography>
-                <Box sx={{ width: "70%", mx: "auto", overflow: "hidden" }}>
-                  <Slider {...settings}>
-                    {topics.map((topic, index) => (
-                      <Box key={index} sx={{ px: 1 }}>
-                        <Card sx={{ bgcolor: "gray.900" }}>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image={topic.img}
-                            alt={topic.title}
-                          />
-                          <CardContent>
-                            <Typography align="center">{topic.title}</Typography>
-                          </CardContent>
-                        </Card>
-                      </Box>
-                    ))}
-                  </Slider>
-                </Box>
-              </Box>
-            )}
-        </Box>
+        <ContentArea sections={sections} selectedSection={selectedSection} selectedHistory={selectedHistory} />
       </Box>
     </Box>
   );
