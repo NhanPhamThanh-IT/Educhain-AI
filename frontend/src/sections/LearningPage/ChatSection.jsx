@@ -1,13 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  IconButton,
-  TextField,
-  Button,
-  Divider,
-  Stack,
-} from "@mui/material";
+import { Box, Typography, IconButton, TextField, Button, Divider, Stack } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ImageIcon from "@mui/icons-material/Image";
 import SendIcon from "@mui/icons-material/Send";
@@ -22,6 +14,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github.css";
+
 export default function ChatSection() {
 
   const [message, setMessage] = useState("");
@@ -372,14 +365,14 @@ export default function ChatSection() {
               ml: 5,
               "& .MuiInput-underline:before": {
                 borderBottom: "none !important",
-              }, // Xóa border khi chưa focus
+              },
               "& .MuiInput-underline:after": {
                 borderBottom: "none !important",
-              }, // Xóa border khi focus
+              },
               "& .MuiInput-underline:hover:before": {
                 borderBottom: "none !important",
-              }, // Xóa border khi hover
-              "& .MuiInputBase-root": { boxShadow: "none" }, // Xóa hiệu ứng shadow
+              },
+              "& .MuiInputBase-root": { boxShadow: "none" },
             }}
             disabled={botTyping}
           />

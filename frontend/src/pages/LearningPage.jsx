@@ -1,26 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Box,
-  CssBaseline,
-  Collapse,
-  Divider,
-  Paper,
-  Button,
-  Input,
-  Typography,
-  Stack,
-  IconButton,
-  Tooltip,
-  Card,
-  CardMedia,
-  CardContent,
-} from "@mui/material";
-import { CloudUpload, Link, YouTube } from "@mui/icons-material";
+import { Drawer, List, ListItem, ListItemText, Box, CssBaseline, Collapse, Divider, Paper, Button, Input, Typography, Stack, IconButton, Tooltip, Card, CardMedia, CardContent, } from "@mui/material";
+import { CloudUpload, Link } from "@mui/icons-material";
 import MicIcon from "@mui/icons-material/Mic";
 import { useDropzone } from "react-dropzone";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -29,16 +10,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import ChatIcon from "@mui/icons-material/Chat";
-import QuizIcon from "@mui/icons-material/Assignment";
-import VideoIcon from "@mui/icons-material/VideoLibrary";
-import BookIcon from "@mui/icons-material/MenuBook";
-import StorageIcon from "@mui/icons-material/Storage";
-import ChatSection from "../sections/ChatSection";
-import QuizSection from "../sections/QuizSection";
-import StudyGuidesSection from "../sections/StudyGuidesSection";
-import VideoSection from "../sections/VideoSection";
-import MaterialsSection from "../sections/MaterialsSection";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -46,79 +17,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MenuIcon from "@mui/icons-material/Menu";
-// import { data } from "../components/constants";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-const getColoredLabel = (text, color) => (
-  <Typography sx={{ color, fontWeight: "medium" }}>{text}</Typography>
-);
-const data = {
-  logo: {
-    src: "/logo.png",
-    link: "/homepage",
-    title: "Educhain",
-  },
-};
-const datas = [
-  { title: "The Map of Chemistry", image: "/chemistry.jpg" },
-  { title: "Teaching CS50 with AI", image: "/cs50.jpg" },
-  { title: "Let's build GPT", image: "/gpt.jpg" },
-  { title: "Comparative Politics Today", image: "/politics.jpg" },
-  { title: "Attention Is All You Need", image: "/attention.jpg" },
-];
-const topics = [
-  { title: "The Genetic Code and Translation", img: "/images/genetic.png" },
-  { title: "How To Find The Range of a Function", img: "/images/range.png" },
-  { title: "But what is a neural network?", img: "/images/neural.png" },
-  { title: "Introduction to Cell Biology", img: "/images/cell.png" },
-  { title: "Social Class", img: "/images/social.png" },
-];
 
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 3000,
-};
-const sections = [
-  {
-    key: "chat",
-    label: getColoredLabel("Chat", "#63B3ED"),
-    icon: <ChatIcon sx={{ color: "#63B3ED" }} />,
-    content: <ChatSection />,
-    history: ["overview", "chat2", "chat3"],
-  },
-  {
-    key: "quizzes",
-    label: getColoredLabel("Quizzes", "#FC8181"),
-    icon: <QuizIcon sx={{ color: "#FC8181" }} />,
-    content: <QuizSection />,
-    history: ["overview", "create-quiz", "quiz1", "quiz2"],
-  },
-  {
-    key: "studyGuides",
-    label: getColoredLabel("Study Guides", "#48BB78"),
-    icon: <BookIcon sx={{ color: "#48BB78" }} />,
-    content: <StudyGuidesSection />,
-    history: ["overview", "create-guide", "study2", "study3"],
-  },
-  {
-    key: "learningByVideo",
-    label: getColoredLabel("Learning by Video", "#FB923C"),
-    icon: <VideoIcon sx={{ color: "#FB923C" }} />,
-    content: <VideoSection />,
-    history: ["video1", "video2", "video3"],
-  }, // Chuyển sang màu cam
-  {
-    key: "learningMaterials",
-    label: getColoredLabel("Learning Materials", "#9F7AEA"),
-    icon: <StorageIcon sx={{ color: "#9F7AEA" }} />,
-    content: <MaterialsSection />,
-    history: ["mat1", "mat2", "mat3"],
-  },
-];
+import { data, topics, settings, sections } from "../constants/learning-page";
 
 export default function EduchainApp() {
   const navigate = useNavigate();
@@ -405,8 +306,8 @@ export default function EduchainApp() {
                           <OpenInNewIcon
                             sx={{ color: "gray", width: 20, height: 20 }}
                             onClick={() =>
-                              (window.location.href =
-                                "/learning/course?section=chat&historyItem=overview")
+                            (window.location.href =
+                              "/learning/course?section=chat&historyItem=overview")
                             }
                           />
                         </IconButton>
@@ -423,8 +324,8 @@ export default function EduchainApp() {
                           <AssignmentIcon
                             sx={{ color: "gray", width: 20, height: 20 }}
                             onClick={() =>
-                              (window.location.href =
-                                "/learning/course?section=quizzes&historyItem=create-quiz")
+                            (window.location.href =
+                              "/learning/course?section=quizzes&historyItem=create-quiz")
                             }
                           />
                         </IconButton>
@@ -441,8 +342,8 @@ export default function EduchainApp() {
                           <AddIcon
                             sx={{ color: "gray", width: 20, height: 20 }}
                             onClick={() =>
-                              (window.location.href =
-                                "/learning/course?section=studyGuides&historyItem=create-guide")
+                            (window.location.href =
+                              "/learning/course?section=studyGuides&historyItem=create-guide")
                             }
                           />
                         </IconButton>
@@ -639,106 +540,106 @@ export default function EduchainApp() {
             (s) =>
               s.key === selectedSection && s.history?.includes(selectedHistory)
           )?.content || (
-            <Box sx={{ p: 4, minHeight: "80vh" }}>
-              <Typography variant="h4" align="center" gutterBottom>
-                Hôm nay bạn muốn học gì?
-              </Typography>
+              <Box sx={{ p: 4, minHeight: "80vh" }}>
+                <Typography variant="h4" align="center" gutterBottom>
+                  Hôm nay bạn muốn học gì?
+                </Typography>
 
-              <Box display="flex" justifyContent="center" gap={2} mb={4}>
-                <Box
-                  sx={{
-                    width: "100%",
-                    maxWidth: 200,
-                    p: 2,
-                    border: "1px solid",
-                    borderColor: "grey.300",
-                    borderRadius: 2,
-                    boxShadow: 1,
-                    textAlign: "left",
-                  }}
-                >
-                  
-                  <CloudUpload />
-                  <Typography variant="body1" gutterBottom>
-                    Tải lên tài liệu
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" mt={1}>
-                    PDF, PPT, DOC, TXT
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    maxWidth: 200,
-                    p: 2,
-                    border: "1px solid",
-                    borderColor: "grey.300",
-                    borderRadius: 2,
-                    boxShadow: 1,
-                    textAlign: "left",
-                  }}
-                >
-                  
-                  <Link />
-                  <Typography variant="body1" gutterBottom>
-                    Dán
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" mt={1}>
-                    Youtube, trang web
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    maxWidth: 200,
-                    p: 2,
-                    border: "1px solid",
-                    borderColor: "grey.300",
-                    borderRadius: 2,
-                    boxShadow: 1,
-                    textAlign: "left",
-                  }}
-                >
-                  
-                  <MicIcon />
-                  <Typography variant="body1" gutterBottom>
-                    Ghi
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" mt={1}>
-                    Ghi lại bài giảng của bạn
-                  </Typography>
-                </Box>
-              </Box>
+                <Box display="flex" justifyContent="center" gap={2} mb={4}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: 200,
+                      p: 2,
+                      border: "1px solid",
+                      borderColor: "grey.300",
+                      borderRadius: 2,
+                      boxShadow: 1,
+                      textAlign: "left",
+                    }}
+                  >
 
-              <Box border={1} borderColor="gray" p={2} borderRadius={2} mb={4}>
-                + Thêm khoảng trống
-              </Box>
+                    <CloudUpload />
+                    <Typography variant="body1" gutterBottom>
+                      Tải lên tài liệu
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" mt={1}>
+                      PDF, PPT, DOC, TXT
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: 200,
+                      p: 2,
+                      border: "1px solid",
+                      borderColor: "grey.300",
+                      borderRadius: 2,
+                      boxShadow: 1,
+                      textAlign: "left",
+                    }}
+                  >
 
-              <Typography variant="h6" mb={2}>
-                Khám phá chủ đề
-              </Typography>
+                    <Link />
+                    <Typography variant="body1" gutterBottom>
+                      Dán
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" mt={1}>
+                      Youtube, trang web
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: 200,
+                      p: 2,
+                      border: "1px solid",
+                      borderColor: "grey.300",
+                      borderRadius: 2,
+                      boxShadow: 1,
+                      textAlign: "left",
+                    }}
+                  >
+
+                    <MicIcon />
+                    <Typography variant="body1" gutterBottom>
+                      Ghi
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" mt={1}>
+                      Ghi lại bài giảng của bạn
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box border={1} borderColor="gray" p={2} borderRadius={2} mb={4}>
+                  + Thêm khoảng trống
+                </Box>
+
+                <Typography variant="h6" mb={2}>
+                  Khám phá chủ đề
+                </Typography>
                 <Box sx={{ width: "70%", mx: "auto", overflow: "hidden" }}>
-                    <Slider {...settings}>
-                      {topics.map((topic, index) => (
-                        <Box key={index} sx={{ px: 1,  }}> {/* Giảm width Card */}
-                          <Card sx={{ bgcolor: "gray.900" }}> 
-                            <CardMedia
-                              component="img"
-                              height="140"
-                              image={topic.img}
-                              alt={topic.title}
-                            />
-                            <CardContent>
-                              <Typography align="center">{topic.title}</Typography>
-                            </CardContent>
-                          </Card>
-                        </Box>
-                      ))}
-                    </Slider>
-</Box>
+                  <Slider {...settings}>
+                    {topics.map((topic, index) => (
+                      <Box key={index} sx={{ px: 1, }}> {/* Giảm width Card */}
+                        <Card sx={{ bgcolor: "gray.900" }}>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image={topic.img}
+                            alt={topic.title}
+                          />
+                          <CardContent>
+                            <Typography align="center">{topic.title}</Typography>
+                          </CardContent>
+                        </Card>
+                      </Box>
+                    ))}
+                  </Slider>
+                </Box>
 
-            </Box>
-          )}
+              </Box>
+            )}
         </Box>
       </Box>
     </Box>
