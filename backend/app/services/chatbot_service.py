@@ -52,7 +52,7 @@ class CustomHandler(BaseCallbackHandler):
         
 
 def get_llm_and_agent() -> AgentExecutor:  # Phần prompt này nên làm riêng rồi import vào
-    system_message = """Your name is Ambatublow. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
+    system_message = """Your name is SoftAI-Bot. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
 
 For general questions or greetings:
 - Respond naturally without using any tools
@@ -65,8 +65,6 @@ For educate-related questions:
    - PARAMETERS (will be provided in the prompt by system) for get_knowledge_tool:
      * query: Required - The exact question or topic to search for
      * course_name: fetch from database and provided by the system
-     * mode: Optional - Use "naive" by default
-     * only_need_context: Set to True 
    - Present knowledge in a clear format
    - Example: get_knowledge_tool(query="What is photosynthesis?", course_name="Biology", mode = "naive", only_need_context=True)
 
@@ -147,8 +145,7 @@ def get_answer(question: str, thread_id: str) -> Dict:
     
     return result
 
-
-async def get_answer_stream(question: str, thread_id: str) -> AsyncGenerator[Dict, None]:
+async def get_answer_stream(course_name: str, question: str, thread_id: str, course_id = str) -> AsyncGenerator[Dict, None]:
     """
     Hàm lấy câu trả lời dạng stream cho một câu hỏi
     
@@ -171,15 +168,19 @@ async def get_answer_stream(question: str, thread_id: str) -> AsyncGenerator[Dic
 
     # Lấy lịch sử chat gần đây
     history = get_recent_chat_history(thread_id)
+
     chat_history = format_chat_history(history)
+
+    # print(chat_history)
     
     # Biến lưu câu trả lời hoàn chỉnh
     final_answer = ""
+    print(course_name + '\n' + question)
     
     # Stream từng phần của câu trả lời
     async for event in agent.astream_events(
         {
-            "input": question,
+            "input": course_name + '\n' + question,
             "chat_history": chat_history,
         },
         version="v2"
@@ -198,7 +199,7 @@ async def get_answer_stream(question: str, thread_id: str) -> AsyncGenerator[Dic
     
     # Lưu câu trả lời hoàn chỉnh vào database
     if final_answer:
-        save_chat_history(thread_id = thread_id, question = question,answer = final_answer)
+        save_chat_history(course_id = course_id, thread_id = thread_id, question = question,answer = final_answer)
 
 
 if __name__ == "__main__":
@@ -207,9 +208,20 @@ if __name__ == "__main__":
     async def test():
         # answer = get_answer_stream("hi", "test-session")
         # print(answer)
-        async for event in get_answer_stream("Params = {query = What are theme knowledge in this paper, course_name = papers, mode = naive, only_need_context = True}", "1"):
+        course_name = "papers"
+        question = "which OCR model used in paper? and why?"
+        async for event in get_answer_stream(course_name, question, "Theme knowledge of paper", "354788cd-3eb4-484a-8c4f-691a78f61383"):
             print('event:', event)
         print('done')
 
     
     asyncio.run(test())
+
+# API cho chatbot thì frontend gửi một cái là 
+    # Params = {
+    #     "course_name": "papers",
+    #     "query": "which OCR model used in paper? and why?"
+    # }
+    
+    # thread_id = "Theme knowledge of paper"
+    # course_id = "354788cd-3eb4-484a-8c4f-691a78f61383"

@@ -59,23 +59,26 @@ def save_chat_history(course_id: UUID, thread_id: str, question: str, answer: st
                 "INSERT INTO message (thread_id, question, answer) VALUES (%s, %s, %s) RETURNING id::text",
                 (thread_id, question, answer)
             )
+
             result = cur.fetchone()
-            message_id = result['id'] if result else None
 
-            if message_id:
-                # Step 2: Append the message_id into the course's threads list
-                cur.execute(
-                    """
-                    UPDATE course
-                    SET threads = array_append(threads, %s)
-                    WHERE id = %s
-                    """,
-                    (message_id, course_id)
-                )
-                # Commit the changes after both the insert and update
-                conn.commit()
+            # Step 2: Append the message_id into the course's threads list
+            cur.execute(
+                """
+                UPDATE course
+                SET threads = CASE
+                    WHEN %s = ANY(threads) THEN threads
+                    ELSE array_append(threads, %s)
+                END 
+                WHERE id = %s
+                """,
+                (thread_id, thread_id, course_id)
+            )
+            
+            # Commit the changes after both the insert and update
+            conn.commit()
 
-    return {"message_id": message_id, "course_id": course_id} if message_id else {}
+    return result['id']
 
 def get_recent_chat_history(thread_id: str, limit: int = 10) -> List[Dict]:
     """

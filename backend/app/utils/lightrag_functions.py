@@ -81,6 +81,8 @@ async def query_rag(query, course_name="papers", mode="naive", only_need_context
     
     param = QueryParam(mode=mode, only_need_context=only_need_context)
     result = await rag.aquery(query, param=param)
+
+    print(result)
     
     return result
     

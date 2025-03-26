@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, Dict, Annotated
 
 # Này t ghi đại, tức là mình sẽ traverse knowledge graph để lấy thông tin
-from app.utils.lightrag_services import query_rag
+from app.utils.lightrag_functions import query_rag
 from decimal import Decimal
 
 class GetKnowledgeInput(BaseModel):
