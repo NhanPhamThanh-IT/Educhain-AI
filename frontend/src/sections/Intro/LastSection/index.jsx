@@ -36,7 +36,7 @@ const HeroSection = () => {
                             alignItems: "center",
                             justifyContent: "center",
                             textAlign: "center",
-                            backgroundColor: "#f8f8f8",
+                            bgcolor: "white",
                             borderRadius: "20px",
                             margin: "auto",
                             mt: 25,

@@ -1,28 +1,24 @@
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
-import { BrainCircuit, PencilRuler, DollarSign } from "lucide-react";
+import { ShieldCheck, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-const main = () => {
+const Main = () => {
     const { ref, inView } = useInView({ triggerOnce: false });
     const [triggerAnimation, setTriggerAnimation] = useState(false);
 
     useEffect(() => {
-        if (inView) {
-            setTriggerAnimation(true);
-        } else {
-            setTriggerAnimation(false);
-        }
+        setTriggerAnimation(inView);
     }, [inView]);
 
     return (
         <Grid container spacing={3} ref={ref} alignItems="stretch">
             {features.map((feature, index) => (
-                <Grid item xs={12} md={4} key={index} display="flex">
+                <Grid item xs={12} md={index === 0 ? 4 : 8} key={`feature-${index}`} display="flex">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={triggerAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={triggerAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                         transition={{ duration: 0.5, delay: index * 0.2 }}
                         style={{ flex: 1, display: "flex" }}
                     >
@@ -30,15 +26,24 @@ const main = () => {
                             sx={{
                                 p: 3,
                                 borderRadius: 4,
+                                bgcolor: "wh",
                                 boxShadow: 2,
                                 borderColor: "rgb(231, 231, 231)",
                                 display: "flex",
-                                flexDirection: "column",
+                                flexDirection: "row",
                                 height: "100%",
                                 flex: 1
                             }}
                         >
-                            <CardContent sx={{ flexGrow: 1 }}>
+                            {feature.left_column_img && (
+                                <Box
+                                    component="img"
+                                    src={feature.left_column_img}
+                                    alt={feature.title}
+                                    sx={{ width: "50%", height: "auto", borderRadius: 2, border: "1px solid rgb(231, 231, 231)" }}
+                                />
+                            )}
+                            <CardContent sx={{ flexGrow: 1, width: "50%" }}>
                                 <Box mb={2}>{feature.icon}</Box>
                                 <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
                                     {feature.title}
@@ -57,20 +62,16 @@ const main = () => {
 
 const features = [
     {
-        icon: <BrainCircuit size={24} />, 
-        title: "AI-Powered Course Creation",
-        description: "Effortlessly transform your PDFs, videos into interactive courses using advanced AI tools."
+        icon: <ShieldCheck size={24} />,
+        title: "Secure and Transparent Transactions",
+        description: "Blockchain technology ensures every transaction is fast, safe, and reliable."
     },
     {
-        icon: <PencilRuler size={24} />, 
-        title: "Comprehensive Learning Tools",
-        description: "Engage with exams, quizzes, and other resources to enhance understanding."
-    },
-    {
-        icon: <DollarSign size={24} />, 
-        title: "Monetize Your Knowledge",
-        description: "Sell your courses to a global audience with secure blockchain-backed transactions."
+        icon: <Bot size={24} />,
+        title: "AI Chatbot Assistance",
+        description: "Get real-time learning support and answers tailored to your educational needs.",
+        left_column_img: "/Homepage/CHAT_BOT.png"
     }
 ];
 
-export default main;
+export default Main;
