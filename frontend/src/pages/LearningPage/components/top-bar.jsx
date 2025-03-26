@@ -1,10 +1,43 @@
 import { useState } from "react";
-import { Box, IconButton, Tooltip, Typography, Paper } from "@mui/material";
+import { Box, IconButton, Tooltip, Button, Typography, Paper } from "@mui/material";
 import { Refresh as RefreshIcon, MoreVert as MoreVertIcon, Widgets as WidgetsIcon } from "@mui/icons-material";
 
+import { useNavigate } from "react-router-dom";
+
 const WidgetContent = () => {
+    const navigate = useNavigate();
+
+    const NAV_ITEMS = [
+        { label: "Your Courses", path: "/mylearning" },
+        { label: "Market", path: "/market" },
+        { label: "Missions", path: "/learning/mission" },
+        { label: "Leaderboard", path: "/learning/leaderboard" },
+    ];
+
     return (
-        <Typography variant="body2">Widget Content</Typography>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                whiteSpace: "nowrap",
+                gap: 1,
+                borderRadius: 50,
+                bgcolor: "transparent",
+            }}
+        >
+            {NAV_ITEMS.map((item, index) => (
+                <Button
+                    key={index}
+                    color="inherit"
+                    sx={{ textTransform: "none", fontWeight: 600, fontSize: 16 }}
+                    onClick={() => navigate(item.path)}
+                >
+                    {item.label}
+                </Button>
+            ))}
+        </Box>
+
     );
 };
 
@@ -50,12 +83,11 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                         elevation={3}
                         sx={{
                             position: "absolute",
-                            right: "110%", // Dịch sang trái so với icon
-                            top: "50%", // Giữ nó ở giữa icon
-                            transform: "translateY(-50%)", // Căn giữa theo chiều dọc
-                            p: 2,
-                            bgcolor: "white",
-                            borderRadius: 1,
+                            right: "110%",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            px: 2,
+                            borderRadius: 50,
                             boxShadow: 3,
                             minWidth: 200,
                         }}
