@@ -27,28 +27,30 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { WarningAmber } from "@mui/icons-material";
 const ConfirmDialog = ({ open, onClose, onConfirm, title, content }) => (
   <Dialog
-  open={open}
-  onClose={onClose}
-  sx={{
-    "& .MuiDialog-paper": { borderRadius: 4, padding: 2, minWidth: 350 }
-  }}
->
-  <Box display="flex" alignItems="center" gap={1} px={2} pt={2}>
-    <WarningAmber sx={{ fontSize: 30, color: "warning.main" }} />
-    <DialogTitle sx={{ padding: 0, fontWeight: 600 }}>{title}</DialogTitle>
-  </Box>
-  <DialogContent>
-    <Typography variant="body1" color="text.secondary">{content}</Typography>
-  </DialogContent>
-  <DialogActions sx={{ px: 3, pb: 2 }}>
-    <Button onClick={onClose} variant="outlined" color="primary">
-      Cancel
-    </Button>
-    <Button onClick={onConfirm} variant="contained" color="error">
-      Confirm
-    </Button>
-  </DialogActions>
-</Dialog>
+    open={open}
+    onClose={onClose}
+    sx={{
+      "& .MuiDialog-paper": { borderRadius: 4, padding: 2, minWidth: 350 },
+    }}
+  >
+    <Box display="flex" alignItems="center" gap={1} px={2} pt={2}>
+      <WarningAmber sx={{ fontSize: 30, color: "warning.main" }} />
+      <DialogTitle sx={{ padding: 0, fontWeight: 600 }}>{title}</DialogTitle>
+    </Box>
+    <DialogContent>
+      <Typography variant="body1" color="text.secondary">
+        {content}
+      </Typography>
+    </DialogContent>
+    <DialogActions sx={{ px: 3, pb: 2 }}>
+      <Button onClick={onClose} variant="outlined" color="primary">
+        Cancel
+      </Button>
+      <Button onClick={onConfirm} variant="contained" color="error">
+        Confirm
+      </Button>
+    </DialogActions>
+  </Dialog>
 );
 const file = {
   name: "2-PhatBieuBaiToan.pdf",
@@ -289,16 +291,27 @@ export default function QuizSection() {
             <Stack direction="row" justifyContent="space-between" mt={1}>
               <Typography>{numberQuiz}x quiz</Typography>
               <Typography fontWeight={600}>
-              400 <img src="/Partials/Ecoin.png" height={30} width={30} style={{ verticalAlign: "middle" }}/>
-            </Typography>
-
+                400{" "}
+                <img
+                  src="/Partials/Ecoin.png"
+                  height={30}
+                  width={30}
+                  style={{ verticalAlign: "middle" }}
+                />
+              </Typography>
             </Stack>
             <Divider sx={{ my: 1 }} />
             <Stack direction="row" justifyContent="space-between">
               <Typography fontWeight={600}>Total</Typography>
               <Typography fontWeight={600}>
-              400 <img src="/Partials/Ecoin.png" height={30} width={30} style={{ verticalAlign: "middle" }}/>
-            </Typography>
+                400{" "}
+                <img
+                  src="/Partials/Ecoin.png"
+                  height={30}
+                  width={30}
+                  style={{ verticalAlign: "middle" }}
+                />
+              </Typography>
             </Stack>
           </Stack>
           <Button
@@ -311,15 +324,15 @@ export default function QuizSection() {
             Create
           </Button>
           <ConfirmDialog
-              open={openDialog}
-              onClose={() => setOpenDialog(false)}
-              onConfirm={() => {
-                console.log("Confirmed!");
-                setOpenDialog(false);
-              }}
-              title="Confirm Payment"
-              content="Are you sure you want to proceed with the payment? This action cannot be undone."
-            />
+            open={openDialog}
+            onClose={() => setOpenDialog(false)}
+            onConfirm={() => {
+              console.log("Confirmed!");
+              setOpenDialog(false);
+            }}
+            title="Confirm Payment"
+            content="Are you sure you want to proceed with the payment? This action cannot be undone."
+          />
         </Card>
       </Box>
     );
@@ -334,24 +347,71 @@ export default function QuizSection() {
       }}
     >
       <Box sx={{ position: "relative", display: "inline-flex" }}>
+        {/* Background Track */}
+        <CircularProgress
+          variant="determinate"
+          value={100}
+          size={80}
+          thickness={4}
+          sx={{ color: "#e0e0e0", position: "absolute" }}
+        />
+
+        {/* Main Progress */}
         <CircularProgress
           variant="determinate"
           value={((currentQuestion + 1) / questions.length) * 100}
           size={80}
+          thickness={4.5}
+          sx={{
+            color: "transparent",
+            position: "relative",
+            "& svg circle": {
+              stroke: "url(#progress-gradient)",
+            },
+          }}
         />
+
+        {/* Gradient Definition */}
+        <svg width="0" height="0">
+          <defs>
+            <linearGradient id="progress-gradient" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FFC371" stopOpacity="1" />
+              <stop offset="50%" stopColor="#FF5F6D" stopOpacity="1" />
+              <stop offset="100%" stopColor="#D32F2F" stopOpacity="1" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Glow Effect */}
         <Box
           sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "90px",
+            height: "90px",
+            borderRadius: "50%",
+            boxShadow: "0 0 15px rgba(255, 95, 109, 0.8)", // Hiệu ứng glow
+            filter: "blur(5px)",
+            opacity: 0.6,
+          }}
+        />
+
+        {/* Percentage Display */}
+        <Box
+          sx={{
+            position: "absolute",
             top: 0,
             left: 0,
             bottom: 0,
             right: 0,
-            position: "absolute",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <Typography variant="h6" fontWeight={700}>
+          <Typography variant="h6" fontWeight={700} sx={{ color: "#333" }}>
             {Math.round(((currentQuestion + 1) / questions.length) * 100)}%
           </Typography>
         </Box>
@@ -376,7 +436,7 @@ export default function QuizSection() {
           variant="h6"
           sx={{ flexGrow: 1, textAlign: "center", fontWeight: "bold" }}
         >
-          Question {currentQuestion + 1} / {questions.length}
+          Question {currentQuestion + 1}
         </Typography>
 
         {/* Next Button */}
@@ -410,15 +470,24 @@ export default function QuizSection() {
                   cursor: submitted ? "default" : "pointer",
                   backgroundColor: submitted
                     ? option === currentQuestionData.answer
-                      ? "green"
+                      ? "#33aa33"
                       : selectedAnswer === option
-                      ? "red"
+                      ? "#E34234"
                       : "gray.100"
                     : selectedAnswer === option
                     ? "lightgray"
                     : "gray.100",
                   color: "black",
                   fontWeight: "bold",
+                  borderWidth: "2px",
+                  borderStyle: "solid",
+                  borderColor: submitted
+                    ? option === currentQuestionData.answer
+                      ? "#218838" // Xanh đậm hơn
+                      : selectedAnswer === option
+                      ? "#C82333" // Đỏ đậm hơn
+                      : "gray.300"
+                    : "gray.300",
                   transition: "0.3s",
                   "&:hover": {
                     backgroundColor: submitted
@@ -453,7 +522,9 @@ export default function QuizSection() {
           ) : (
             <CancelIcon color="error" />
           )}
-          <Typography sx={{ color: isCorrect ? "green" : "red", mt: 1 }}>
+          <Typography
+            sx={{ color: isCorrect ? "green" : "salmon", mt: 1 }}
+          >
             {currentQuestionData.explanation}
           </Typography>
         </Box>
