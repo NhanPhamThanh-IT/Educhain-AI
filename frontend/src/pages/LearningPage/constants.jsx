@@ -4,11 +4,11 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import BookIcon from "@mui/icons-material/Book";
 import VideoIcon from "@mui/icons-material/VideoLibrary";
 import StorageIcon from "@mui/icons-material/Storage";
-import ChatSection from "../sections/LearningPage/ChatSection";
-import QuizSection from "../sections/LearningPage/QuizSection";
-import StudyGuidesSection from "../sections/LearningPage/StudyGuidesSection";
-import VideoSection from "../sections/LearningPage/VideoSection";
-import MaterialsSection from "../sections/LearningPage/MaterialsSection";
+import ChatSection from "../../sections/LearningPage/ChatSection";
+import QuizSection from "../../sections/LearningPage/QuizSection";
+import StudyGuidesSection from "../../sections/LearningPage/StudyGuidesSection";
+import VideoSection from "../../sections/LearningPage/VideoSection";
+import MaterialsSection from "../../sections/LearningPage/MaterialsSection";
 
 const getColoredLabel = (text, color) => (
     <Typography sx={{ color, fontWeight: "medium" }}>{text}</Typography>

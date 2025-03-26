@@ -5,8 +5,6 @@ import { CloudUpload, Link } from "@mui/icons-material";
 import MicIcon from "@mui/icons-material/Mic";
 import { useDropzone } from "react-dropzone";
 import ExpandLess from "@mui/icons-material/ExpandLess";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -19,7 +17,8 @@ import "slick-carousel/slick/slick-theme.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { data, topics, settings, sections } from "../constants/learning-page";
+import { data, topics, settings, sections } from "./constants";
+import TopBar from "./top-bar/index";
 
 export default function EduchainApp() {
   const navigate = useNavigate();
@@ -482,50 +481,7 @@ export default function EduchainApp() {
         }}
       >
         {/* Top Bar */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderBottom: "1px solid #e0e0e0",
-            px: 3,
-            py: 2,
-            backgroundColor: "#f0f0f0",
-            position: "fixed",
-            zIndex: 1100,
-            width: isSidebarOpen ? "calc(100% - 300px)" : "calc(100% - 60px)",
-            top: 0,
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* Section icon */}
-            {
-              sections.find(
-                (s) =>
-                  s.key === selectedSection &&
-                  s.history?.includes(selectedHistory)
-              )?.icon
-            }
-
-            <Typography variant="h6" sx={{ ml: 1, fontWeight: 500 }}>
-              {selectedHistory || selectedSection || "Dashboard"}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Tooltip title="Refresh">
-              <IconButton size="small">
-                <RefreshIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="More options">
-              <IconButton size="small">
-                <MoreVertIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Box>
+        <TopBar isSidebarOpen={isSidebarOpen} sections={sections} selectedSection={selectedSection} selectedHistory={selectedHistory} />
 
         {/* Content Area with fixed height */}
         <Box
@@ -542,7 +498,7 @@ export default function EduchainApp() {
           )?.content || (
               <Box sx={{ p: 4, minHeight: "80vh" }}>
                 <Typography variant="h4" align="center" gutterBottom>
-                  Hôm nay bạn muốn học gì?
+                  What do you want to learn today?
                 </Typography>
 
                 <Box display="flex" justifyContent="center" gap={2} mb={4}>
@@ -558,10 +514,9 @@ export default function EduchainApp() {
                       textAlign: "left",
                     }}
                   >
-
                     <CloudUpload />
                     <Typography variant="body1" gutterBottom>
-                      Tải lên tài liệu
+                      Upload Document
                     </Typography>
                     <Typography variant="body2" color="textSecondary" mt={1}>
                       PDF, PPT, DOC, TXT
@@ -579,13 +534,12 @@ export default function EduchainApp() {
                       textAlign: "left",
                     }}
                   >
-
                     <Link />
                     <Typography variant="body1" gutterBottom>
-                      Dán
+                      Paste
                     </Typography>
                     <Typography variant="body2" color="textSecondary" mt={1}>
-                      Youtube, trang web
+                      YouTube, website
                     </Typography>
                   </Box>
                   <Box
@@ -600,28 +554,27 @@ export default function EduchainApp() {
                       textAlign: "left",
                     }}
                   >
-
                     <MicIcon />
                     <Typography variant="body1" gutterBottom>
-                      Ghi
+                      Record
                     </Typography>
                     <Typography variant="body2" color="textSecondary" mt={1}>
-                      Ghi lại bài giảng của bạn
+                      Record your lecture
                     </Typography>
                   </Box>
                 </Box>
 
                 <Box border={1} borderColor="gray" p={2} borderRadius={2} mb={4}>
-                  + Thêm khoảng trống
+                  + Add Space
                 </Box>
 
                 <Typography variant="h6" mb={2}>
-                  Khám phá chủ đề
+                  Explore Topics
                 </Typography>
                 <Box sx={{ width: "70%", mx: "auto", overflow: "hidden" }}>
                   <Slider {...settings}>
                     {topics.map((topic, index) => (
-                      <Box key={index} sx={{ px: 1, }}> {/* Giảm width Card */}
+                      <Box key={index} sx={{ px: 1 }}>
                         <Card sx={{ bgcolor: "gray.900" }}>
                           <CardMedia
                             component="img"
@@ -637,7 +590,6 @@ export default function EduchainApp() {
                     ))}
                   </Slider>
                 </Box>
-
               </Box>
             )}
         </Box>
