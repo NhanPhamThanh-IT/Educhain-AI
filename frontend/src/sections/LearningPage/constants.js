@@ -25,7 +25,6 @@ index.add(image_embedding)
 \`\`\`python
 _, indices = index.search(text_embedding, k=5)  # Get top 5 matches
 \`\`\`
-
 ✅ This enables **fast image retrieval** using CLIP and FAISS! 🔥`
 ];
 
@@ -33,4 +32,4 @@ export const chatSuggestions = [
     "What is the top themes of this article?",
     "Enhance the model's performance!",
     "What is the conclusion?",
-  ];
+];

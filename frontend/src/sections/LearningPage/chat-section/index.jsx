@@ -173,7 +173,16 @@ export default function ChatSection() {
             >
               {msg.type === "text" ? (
                 msg.sender === "bot" ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                    components={{
+                      p: ({ node, ...props }) => <p {...props} style={{ margin: 0, padding: 0 }} />,
+                      pre: ({ node, ...props }) => <pre {...props} style={{ margin: 0, padding: 0 }} />,
+                      h2: ({ node, ...props }) => <h2 {...props} style={{ margin: 1, padding: 0 }} />,
+                      strong: ({ node, ...props }) => <strong {...props} style={{ margin: 0, padding: 0 }} />,
+                    }}
+                  >
                     {msg.content}
                   </ReactMarkdown>
                 ) : (
