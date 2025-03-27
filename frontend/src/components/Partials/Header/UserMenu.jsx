@@ -25,6 +25,7 @@ const UserMenu = ({ elevated }) => {
         notifySuccess,
         notifyError,
         addTokenToMetaMask,
+        totalClaimed,
     } = useContext(RouterContext);
 
     const navigate = useNavigate();
@@ -32,21 +33,25 @@ const UserMenu = ({ elevated }) => {
 
     const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
     const [tokenBalance, setTokenBalance] = useState(0);
+    const [totalBalance, setTotalBalance] = useState(0);
 
-    // Add this useEffect to fetch token balance
+    // Update useEffect to calculate total balance
     useEffect(() => {
         const fetchTokenBalance = async () => {
             if (account) {
                 try {
                     const tokenData = await ERC20(TOKEN_ADDRESS);
-                    setTokenBalance(Number(tokenData.balance));
+                    const balance = Number(tokenData.balance);
+                    setTokenBalance(balance);
+                    // Combine wallet balance with claimed tokens
+                    setTotalBalance(balance + totalClaimed);
                 } catch (error) {
                     console.error("Failed to fetch token balance:", error);
                 }
             }
         };
         fetchTokenBalance();
-    }, [account, ERC20, TOKEN_ADDRESS])
+    }, [account, ERC20, TOKEN_ADDRESS, totalClaimed]);
 
     useEffect(() => {
         if (typeof window.ethereum !== 'undefined') {
@@ -126,7 +131,6 @@ const UserMenu = ({ elevated }) => {
                 </button>
             ) : (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    {/* Token Balance Display */}
                     <Typography sx={{
                         display: "flex",
                         alignItems: "center",
@@ -134,7 +138,15 @@ const UserMenu = ({ elevated }) => {
                         gap: 1
                     }}>
                         <img src="/ecoin.png" alt="EDT" height="35" />
-                        {tokenBalance.toFixed(2)} EDT
+                        {totalBalance.toFixed(2)} EDT
+                        {totalClaimed > 0 && (
+                            <Typography
+                                variant="caption"
+                                sx={{ color: 'success.main', ml: 1 }}
+                            >
+                                (+{totalClaimed.toFixed(2)})
+                            </Typography>
+                        )}
                     </Typography>
 
                     {/* Account Address Display */}

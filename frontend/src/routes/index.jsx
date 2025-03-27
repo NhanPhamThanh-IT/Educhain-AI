@@ -82,6 +82,8 @@ export const RouterProvider = ({ children }) => {
   const [openUpdatePrice, setOpenUpdatePrice] = useState(false);
   const [openUpdateAddress, setOpenUpdateAddress] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [totalClaimed, setTotalClaimed] = useState(0);
+  const [missionClaims, setMissionClaims] = useState({});  // Track individual mission claims
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,6 +113,10 @@ export const RouterProvider = ({ children }) => {
     addTokenToMetaMask,
     notifySuccess,
     notifyError,
+    totalClaimed,
+    setTotalClaimed,
+    missionClaims,
+    setMissionClaims,
   };
 
   return (
