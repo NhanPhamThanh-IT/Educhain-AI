@@ -48,7 +48,7 @@ const TitleSection = ({ title }) => (
 
 const YourCourses = ({ courses }) => {
   const [open, setOpen] = useState(false);
-  const slide_courses = courses.slice(0, 15);
+  const slide_courses = courses.slice(0, 5);
   const [displayedCourses, setDisplayedCourses] = useState(slide_courses.slice(0, 3));
 
   const observer = useRef();
@@ -112,17 +112,15 @@ const YourCourses = ({ courses }) => {
         </Stack>
       </Box>
 
-      {courses.length > 15 && (
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ cursor: "pointer", ":hover": { color: "primary.main", textDecoration: "underline" } }}
-          onClick={() => setOpen(true)}
-        >
-          View more
-        </Typography>
-      )}
+      <Typography
+        variant="body1"
+        color="textSecondary"
+        align="center"
+        sx={{ cursor: "pointer", ":hover": { color: "primary.main", textDecoration: "underline" } }}
+        onClick={() => setOpen(true)}
+      >
+        View more
+      </Typography>
 
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
         <DialogTitle>
@@ -193,7 +191,7 @@ const YourCourses = ({ courses }) => {
                         <Chip label={item.duration} color="default" />
                         <Chip label={item.level} color="secondary" />
                         <Box sx={{ flexGrow: 1 }} /> {/* Đẩy nút View More về bên phải */}
-                        <Button size="small" color="primary">
+                        <Button size="small" color="primary" sx={{ textTransform: "none" }}>
                           View More
                         </Button>
                       </Stack>
@@ -315,7 +313,7 @@ const Content = () => (
         </Card>
       ))}
     </Stack>
-    <Divider sx={{color: "black", width: "30%"}}>Or</Divider>
+    <Divider sx={{ color: "black", width: "30%" }}>Or</Divider>
     <Button variant="contained" sx={{ mb: 4 }} onClick={() => window.location.href = "/mylearning/createcourse"}>
       Create course
     </Button>
