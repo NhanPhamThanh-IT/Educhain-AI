@@ -1,10 +1,10 @@
 from fastapi import HTTPException, Depends
-from app.database.user_info import get_user_by_email, save_user_info, get_user_id_by_email
+from app.database.user_info import get_user_by_email, save_user_info
 from datetime import datetime, timedelta
 from typing import Dict
 import jwt
 import bcrypt
-from app.models import RegisterRequest, LoginRequest, Token
+from app.models.auth_model import RegisterRequest, LoginRequest, Token
 from fastapi.security import OAuth2PasswordBearer
 
 

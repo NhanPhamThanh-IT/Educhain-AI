@@ -8,7 +8,7 @@ from app.database.user_info import save_user_info
 from fastapi import Response, HTTPException, status, Depends, APIRouter, Form
 from typing import List, Dict, Optional
 from uuid import UUID
-from app.models import StudyGuide, ExamQuestion, Course, QuizQuestion, ChatHistory, Document  # Importing Pydantic models
+from app.models.postgre_model import StudyGuide, ExamQuestion, Course, QuizQuestion, ChatHistory, Document  # Importing Pydantic models
 
 router = APIRouter()
 
