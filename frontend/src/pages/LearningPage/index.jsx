@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Drawer, List, ListItem, ListItemText, Box, CssBaseline, Collapse, Divider, Paper, Button, Input, Typography, Stack, IconButton, Tooltip } from "@mui/material";
-import { CloudUpload, Link } from "@mui/icons-material";
+import { CloudUpload } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,6 +9,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import AddLinkIcon from '@mui/icons-material/AddLink';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -169,7 +170,7 @@ export default function EduchainApp() {
                   }}
                   {...getRootProps()}
                 >
-                  <CloudUpload color="primary" />
+                  <CloudUpload sx={{ color: "#5AB89F" }} />
                   <input {...getInputProps()} />
                 </Box>
               </Tooltip>
@@ -274,21 +275,21 @@ export default function EduchainApp() {
               variant="outlined"
               sx={{
                 p: 1,
+                pl: 1.5,
                 display: "flex",
                 alignItems: "center",
                 gap: 1,
                 borderRadius: 2,
               }}
             >
-              <Link color="disabled" />
-              <Input
-                fullWidth
-                placeholder="Paste youtube link"
-                disableUnderline
-              />
-              <Button variant="contained" sx={{ textTransform: "none" }}>Analyze</Button>
+              <Input fullWidth placeholder="Paste link here" disableUnderline />
+              <Button sx={{ minWidth: 30, p: 1, borderRadius: 50 }}>
+                <AddLinkIcon sx={{ color: "#B0B0B0" }} />
+              </Button>
             </Paper>
-            <Divider sx={{ my: 2 }} />
+
+            <Divider sx={{ mt: 4, mb: 2 }} />
+
             <List>
               {sections.map((item) => (
                 <div key={item.key}>
