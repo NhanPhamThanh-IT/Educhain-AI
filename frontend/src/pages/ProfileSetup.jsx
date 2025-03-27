@@ -4,28 +4,33 @@ import { Container, Paper, Box, Button, Typography } from "@mui/material";
 import Page from "../components/Page";
 import ProfileHeader from "../sections/ProfileSetup/ProfileHeader";
 import ProfileForm from "../sections/ProfileSetup/ProfileForm";
-import EmailSection from "../sections/ProfileSetup/EmailSection";
 import defaultvalue from "../constants/ProfileSetupPage/default";
+import { getUserProfileApi } from "../utils/api";
 
-const API_URL = `${import.meta.env.VITE_MOCK_API_1}userprofile`;
-
-const getTimeObject = () => {
-  const date = new Date();
+const normalizeUserData = (data) => {
   return {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    day: date.getDate(),
-    hour: date.getHours(),
-    minute: date.getMinutes(),
-    second: date.getSeconds(),
+    address: data.address || "",
+    country: data.country || "",
+    courselist: data.courselist || [],
+    created_at: data.created_at || "",
+    edutoken: data.edutoken || 0,
+    email: data.email ? [{ address: data.email, updatedTime: data.updated_at }] : [],
+    fullname: data.fullname || "",
+    gender: data.gender || "",
+    id: data.id || "",
+    learntoken: data.learntoken || 0,
+    nickname: data.nickname || "",
+    phonenumber: data.phonenumber || "",
+    updated_at: data.updated_at || "",
+    username: data.username || "",
   };
 };
 
 const fetchUserData = async () => {
   try {
-    const { data } = await axios.get(API_URL);
-    console.log(data);
-    return data[0];
+    const response = await getUserProfileApi();
+    console.log("User data fetched successfully:", response.data);
+    return normalizeUserData(response.data);
   } catch (error) {
     console.error("Error fetching user data:", error);
     return null;
@@ -33,10 +38,9 @@ const fetchUserData = async () => {
 };
 
 const ProfileSetup = () => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [genders, setGenders] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [showAllEmails, setShowAllEmails] = useState(false);
 
   useEffect(() => {
     fetchUserData().then((data) => {
@@ -49,7 +53,7 @@ const ProfileSetup = () => {
   }, []);
 
   const handleChange = (field) => (event) =>
-    setUserData({ ...userData, [field]: event.target.value });
+    setUserData((prev) => ({ ...prev, [field]: event.target.value }));
 
   const handleSubmit = async () => {
     try {
@@ -63,17 +67,7 @@ const ProfileSetup = () => {
     }
   };
 
-  const handleAddEmail = () => {
-    const emailInput = window.prompt("Enter new email address:");
-    if (emailInput) {
-      setUserData({
-        ...userData,
-        email: [...userData.email, { address: emailInput, updatedTime: getTimeObject() }],
-      });
-    }
-  };
-
-  if (!userData.fullname) return <Typography>Loading...</Typography>;
+  if (!userData) return <Typography>Loading...</Typography>;
 
   return (
     <Page title="Profile Setup">
@@ -81,12 +75,6 @@ const ProfileSetup = () => {
         <Paper elevation={6} sx={{ p: 5, borderRadius: 3, backgroundColor: "#f9f9f9" }}>
           <ProfileHeader userData={userData} />
           <ProfileForm userData={userData} handleChange={handleChange} genders={genders} countries={countries} />
-          <EmailSection
-            emails={userData.email}
-            showAllEmails={showAllEmails}
-            toggleShowEmails={() => setShowAllEmails(!showAllEmails)}
-            handleAddEmail={handleAddEmail}
-          />
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
             <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ fontWeight: 700 }}>
               Submit
