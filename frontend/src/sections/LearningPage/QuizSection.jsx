@@ -53,7 +53,7 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, content }) => (
   </Dialog>
 );
 const file = {
-  name: "2-PhatBieuBaiToan.pdf",
+  name: "visual retrieval.pdf",
   topics: [
     "Comparing SIS Platforms",
     "Importance of SIS in Education",
@@ -156,6 +156,7 @@ const questions = [
 ];
 
 export default function QuizSection() {
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const [numberQuiz, setNumberQuiz] = useState(1);
   const [openDialog, setOpenDialog] = useState(false);
@@ -165,6 +166,14 @@ export default function QuizSection() {
   );
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const process = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+        setIsLoading(false);
+        window.location.href = "/learning/course?section=quizzes&historyItem=overview";
+    }, 5000);
+};
 
   const moveToNextQuestion = () => {
     setCurrentQuestion((prev) => Math.min(prev + 1, questions.length - 1));
@@ -275,12 +284,19 @@ export default function QuizSection() {
               <TextField
                 fullWidth
                 label="Quiz Type"
-                placeholder="Multiple answers or Yes/No question"
                 variant="outlined"
+                select
+                defaultValue="Multiple choice"
                 InputProps={{
                   sx: { borderRadius: 3 },
                 }}
-              />
+              >
+                {["Multiple choice", "Yes no question"].map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
           </Grid>
           <Divider sx={{ my: 3 }} />
@@ -291,7 +307,7 @@ export default function QuizSection() {
             <Stack direction="row" justifyContent="space-between" mt={1}>
               <Typography>{numberQuiz}x quiz</Typography>
               <Typography fontWeight={600}>
-                400{" "}
+                {40 * numberQuiz}{" "}
                 <img
                   src="/Partials/Ecoin.png"
                   height={30}
@@ -304,7 +320,7 @@ export default function QuizSection() {
             <Stack direction="row" justifyContent="space-between">
               <Typography fontWeight={600}>Total</Typography>
               <Typography fontWeight={600}>
-                400{" "}
+                {40 * numberQuiz}{" "}
                 <img
                   src="/Partials/Ecoin.png"
                   height={30}
@@ -320,6 +336,7 @@ export default function QuizSection() {
             color="primary"
             sx={{ mt: 3, borderRadius: 2, py: 1.5 }}
             onClick={() => setOpenDialog(true)}
+            loading={isLoading}
           >
             Create
           </Button>
@@ -327,8 +344,8 @@ export default function QuizSection() {
             open={openDialog}
             onClose={() => setOpenDialog(false)}
             onConfirm={() => {
-              console.log("Confirmed!");
               setOpenDialog(false);
+              process();
             }}
             title="Confirm Payment"
             content="Are you sure you want to proceed with the payment? This action cannot be undone."
@@ -522,9 +539,7 @@ export default function QuizSection() {
           ) : (
             <CancelIcon color="error" />
           )}
-          <Typography
-            sx={{ color: isCorrect ? "green" : "salmon", mt: 1 }}
-          >
+          <Typography sx={{ color: isCorrect ? "green" : "salmon", mt: 1 }}>
             {currentQuestionData.explanation}
           </Typography>
         </Box>
@@ -578,7 +593,7 @@ export default function QuizSection() {
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary" mt={2}>
-          You have already answered <b>4 / 10</b> questions.
+          You have already answered <b>0 / 10</b> questions.
         </Typography>
         <Stack
           direction="row"
@@ -587,7 +602,7 @@ export default function QuizSection() {
         >
           <LinearProgress
             variant="determinate"
-            value={40}
+            value={0}
             sx={{
               width: "70%",
               height: 6,
@@ -596,7 +611,7 @@ export default function QuizSection() {
             }}
           />
           <Typography variant="body2" color="text.secondary">
-            40%
+            0%
           </Typography>
         </Stack>
 
@@ -609,7 +624,7 @@ export default function QuizSection() {
           sx={{ mt: 2, px: 4 }}
           onClick={() =>
             (window.location.href =
-              "/learning/course?section=quizzes&historyItem=quiz1&question=4")
+              "/learning/course?section=quizzes&historyItem=visual retrieval&question=1")
           }
         >
           Continue Studying
