@@ -14,34 +14,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github.css";
-
-const botMessages = [
-  "Hello Im Soft-AI bot, how can I help you with visual retrieval course ?",
-  `## What is CLIP Model and How to Use it with FAISS
-  CLIP (Contrastive Language-Image Pretraining) is an AI model by OpenAI that understands images and text together. It converts both into a shared embedding space, allowing similarity searches between text and images.
-### Using CLIP with FAISS for Image Search
-1. **Load CLIP model** (from \`openai/CLIP\` or \`sentence-transformers\`):
-   \`\`\`python
-   from sentence_transformers import SentenceTransformer
-   model = SentenceTransformer("clip-ViT-B-32")
-   \`\`\`
-2. **Extract embeddings**:
-   \`\`\`python
-   image_embedding = model.encode(["image_path"])
-   text_embedding = model.encode(["search query"])
-   \`\`\`
-3. **Index embeddings with FAISS**:
-   \`\`\`python
-   import faiss
-   index = faiss.IndexFlatL2(512)  # 512D for CLIP ViT-B/32
-   index.add(image_embedding)
-   \`\`\`
-4. **Search**:
-   \`\`\`python
-   _, indices = index.search(text_embedding, k=5)  # Get top 5 matches
-   \`\`\`
-This enables fast image retrieval using CLIP and FAISS. 🚀`,
-];
+import { botMessages, chatSuggestions } from "../constants";
 
 export default function ChatSection() {
 
@@ -54,11 +27,6 @@ export default function ChatSection() {
   const [isPaused, setIsPaused] = useState(true);
   const [autoScroll, setAutoScroll] = useState(true);
   const isPausedRef = useRef(isPaused);
-  const chatSuggestions = [
-    "What is the top themes of this article?",
-    "Enhance the model's performance!",
-    "What is the conclusion?",
-  ];
 
   const updateIsPaused = (value) => {
     isPausedRef.current = value;
@@ -103,7 +71,7 @@ export default function ChatSection() {
       setBotTyping(true);
       updateIsPaused(false);
       const botResponse = botMessages[index3];
-      setIndex((index3 + 1) );
+      setIndex((index3 + 1));
 
       let typedMessage = "";
       let index = 0;
@@ -161,20 +129,15 @@ export default function ChatSection() {
   return (
     <Box
       sx={{
-        height: '80vh', 
+        height: '80vh',
         mt: 5,
         display: "flex",
         flexDirection: "column",
         width: "100%",
       }}
     >
-      {/* <Box>
-        <Typography variant="h6" fontWeight="bold">
-          {historyItem || "New chat"}
-        </Typography>
-      </Box> */}
       <Box
-      ref={chatContainerRef}
+        ref={chatContainerRef}
         sx={{
           flexGrow: 1,
           maxHeight: "100%",
@@ -217,8 +180,8 @@ export default function ChatSection() {
               <Button
                 variant="outlined"
                 onClick={() =>
-                  (window.location.href =
-                    "/learning/course?section=quizzes&historyItem=overview")
+                (window.location.href =
+                  "/learning/course?section=quizzes&historyItem=overview")
                 }
                 startIcon={<QuizIcon sx={{ color: "green" }} />}
                 sx={{
@@ -233,8 +196,8 @@ export default function ChatSection() {
               <Button
                 variant="outlined"
                 onClick={() =>
-                  (window.location.href =
-                    "/learning/course?section=studyGuides&historyItem=overview")
+                (window.location.href =
+                  "/learning/course?section=studyGuides&historyItem=overview")
                 }
                 startIcon={<MenuBookIcon sx={{ color: "blue" }} />}
                 sx={{
@@ -249,8 +212,8 @@ export default function ChatSection() {
               <Button
                 variant="outlined"
                 onClick={() =>
-                  (window.location.href =
-                    "/learning/course?section=learningByVideo&historyItem=video2")
+                (window.location.href =
+                  "/learning/course?section=learningByVideo&historyItem=video2")
                 }
                 startIcon={<VideocamIcon sx={{ color: "orange" }} />}
                 sx={{
@@ -330,16 +293,16 @@ export default function ChatSection() {
           >
             {msg.type === "text" ? (
               msg.sender === "bot" ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}  components={{
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={{
                   p: ({ ...props }) => <span {...props} />,
                 }}
-                sx={{
-                  "& p": { margin: 0, padding: 0, lineHeight: 1 },
-                  "& pre": { margin: 0, padding: 0, lineHeight: 1 },
-                  "& li": { marginBottom: 0 },
-                }}>
-                {msg.content}
-              </ReactMarkdown>
+                  sx={{
+                    "& p": { margin: 0, padding: 0, lineHeight: 1 },
+                    "& pre": { margin: 0, padding: 0, lineHeight: 1 },
+                    "& li": { marginBottom: 0 },
+                  }}>
+                  {msg.content}
+                </ReactMarkdown>
               ) : (
                 <Typography>{msg.content}</Typography>
               )
@@ -364,6 +327,7 @@ export default function ChatSection() {
         ))}
         <div ref={messageRef} />
       </Box>
+      
       <Box
         sx={{
           display: "flex",
@@ -421,9 +385,9 @@ export default function ChatSection() {
             <IconButton
               component="label"
               htmlFor="image-upload"
-              
+
             >
-              <ImageIcon/>
+              <ImageIcon />
             </IconButton>
             <IconButton sx={{ mr: "auto" }}>
               <MicIcon />
