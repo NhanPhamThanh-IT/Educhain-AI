@@ -1,7 +1,7 @@
 from app.database.study_guide import save_section, save_study_guide, save_subsection
 from app.database.chat_history import save_chat_history
 from app.database.course import save_course
-from app.database.document import save_document
+from app.database.document import save_document, get_doc_id, delete_doc
 from app.database.exam import save_exam
 from app.database.quiz import save_quiz
 from app.database.user_info import save_user_info
@@ -11,6 +11,7 @@ from uuid import UUID
 from app.models import StudyGuide, ExamQuestion, Course, QuizQuestion, ChatHistory, Document  # Importing Pydantic models
 
 router = APIRouter()
+
 
 @router.post("/{course_id}/create_sg")
 def process_study_guide(study_guide_info: StudyGuide, course_id: UUID) -> bool:
@@ -26,9 +27,9 @@ def process_exam(exam_info: ExamQuestion, course_id: UUID) -> bool:
 
 @router.post("/{user_id}/create_course")
 def process_course(user_id: int, course_info: Course) -> bool:
-    course_id = save_course(user_id, course_info.name, course_info.category, course_info.introduction,
+    course = save_course(user_id, course_info.name, course_info.category, course_info.introduction,
                             course_info.description)
-    return True if course_id else False
+    return course['id'] if course else False
 
 @router.post("/{course_id}/create_doc")
 def create_document(course_id: UUID, doc: Document):

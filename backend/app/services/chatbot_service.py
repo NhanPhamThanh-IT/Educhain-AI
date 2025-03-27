@@ -67,6 +67,7 @@ For educate-related questions:
      * course_name: fetch from database and provided by the system
    - Present knowledge in a clear format
    - Example: get_knowledge_tool(query="What is photosynthesis?", course_name="Biology", mode = "naive", only_need_context=True)
+   - IF no information found, respond with use your own knowledge and experience to answer the question
 
    
 IMPORTANT RULES:
@@ -214,7 +215,7 @@ if __name__ == "__main__":
             print('event:', event)
         print('done')
 
-    
+        
     asyncio.run(test())
 
 # API cho chatbot thì frontend gửi một cái là 

@@ -8,6 +8,8 @@ from lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
 from lightrag.utils import EmbeddingFunc
 from lightrag.kg.shared_storage import initialize_pipeline_status
 
+from app.utils.hashing import hash_course_name
+
 load_dotenv()
 ROOT_DIR = os.getcwd()
 WORKING_DIR = f"{ROOT_DIR}/lightrag"
@@ -77,6 +79,7 @@ async def query_rag(query, course_name="papers", mode="naive", only_need_context
     Returns:s
         dict: Response from the RAG system
     """
+    course_name = hash_course_name(course_name)
     rag = await initialize_rag(course_name)
     
     param = QueryParam(mode=mode, only_need_context=only_need_context)

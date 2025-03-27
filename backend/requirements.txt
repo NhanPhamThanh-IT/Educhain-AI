@@ -19,7 +19,7 @@ azure.core.credentials
 pymupdf
 pdfplumber
 bcrypt
-
+httptools
 
 
 

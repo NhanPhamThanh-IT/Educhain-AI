@@ -7,9 +7,12 @@ from azure.ai.documentintelligence import DocumentIntelligenceClient
 from azure.ai.documentintelligence.models import AnalyzeResult
 
 from app.utils.lightrag_functions import insert_document
+from app.utils.hashing import hash_course_name
 
 endpoint = os.environ.get("AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT")
 key = os.environ.get("AZURE_DOCUMENT_INTELLIGENCE_KEY")
+
+    
 
 async def process_pdf_file(file: UploadFile, course_name: str) -> bool:
     """
@@ -62,6 +65,7 @@ async def process_pdf_file(file: UploadFile, course_name: str) -> bool:
                     document_text += line.content + "\n"
             
             # Insert document text into database
+            course_name = hash_course_name(course_name)
             success = await insert_document(document_text, course_name)
             
             return success

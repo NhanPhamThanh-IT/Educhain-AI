@@ -34,7 +34,7 @@ async def upload_to_blob(file, ext):
     file_data = await file.read()
     await blob_client.upload_blob(file_data)
 
-    return {"url": blob_client.url}, 200
+    return {"url": blob_client.url}, 200, ext
 
 
 

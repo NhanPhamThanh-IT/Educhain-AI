@@ -48,7 +48,7 @@ def save_course(user_id: int, name:str, category:str, introduction:str, descript
                 INSERT INTO course (user_id, name, category, introduction, description, lessons,
                                   created_at, updated_at)
                 VALUES (%s, %s, %s, %s, %s,%s, %s, %s)
-                RETURNING id
+                RETURNING *
                 """,
                 (user_id, name, category, introduction, description, lessons,
                  datetime.now(), datetime.now())
@@ -66,7 +66,6 @@ def save_course(user_id: int, name:str, category:str, introduction:str, descript
                     """,
                     (course_id, user_id)
                 )
-                result = cur.fetchone()
         conn.commit()
         return result
 

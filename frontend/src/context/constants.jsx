@@ -210,7 +210,7 @@ export const addTokenToMetaMask = async () => {
     const tokenDecimals = tokenDetails?.decimals;
     const tokenAddress = TOKEN_ADDRESS;
     const tokenSymbol = tokenDetails?.symbol;
-    const tokenImage = "";
+    const tokenImage = "https://phamgiabao.blob.core.windows.net/images/file.png";
 
     try {
       const wasAdded = await window.ethereum.request({

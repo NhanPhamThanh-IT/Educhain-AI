@@ -56,7 +56,7 @@ def get_user_by_email(email: str) -> dict:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM user_info WHERE email = %s", (email,))
             result = cur.fetchone()
-    return result["password"] if result else None
+    return result if result else None
 
 # def get_user_info(user_id: int) -> Dict:
 #     """Get user information from database"""

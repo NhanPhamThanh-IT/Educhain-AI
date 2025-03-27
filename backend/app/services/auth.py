@@ -1,5 +1,5 @@
 from fastapi import HTTPException, Depends
-from app.database.user_info import get_user_by_email, save_user_info
+from app.database.user_info import get_user_by_email, save_user_info, get_user_id_by_email
 from datetime import datetime, timedelta
 from typing import Dict
 import jwt
@@ -8,7 +8,7 @@ from app.models import RegisterRequest, LoginRequest, Token
 from fastapi.security import OAuth2PasswordBearer
 
 
-SECRET_KEY = "your_secret_key"
+SECRET_KEY = "Educhain123@"
 ALGORITHM = "HS256"
 
 # Hàm mã hóa mật khẩu
@@ -18,6 +18,16 @@ def hash_password(password: str) -> str:
 # Hàm xác thực mật khẩu
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+
+def verify_token(token: str) -> Dict:
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token has expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
 
 # Tạo JWT Token
 def create_access_token(data: Dict, expires_delta: timedelta = timedelta(hours=1)) -> str:
@@ -46,7 +56,7 @@ def register_user(user: RegisterRequest) -> Token:
 # Hàm đăng nhập người dùng
 def login_user(user: LoginRequest) -> Token:
     # Lấy thông tin người dùng từ cơ sở dữ liệu
-    db_user_password = get_user_by_email(user.email)
+    db_user_password = get_user_by_email(user.email)["password"]
     if not db_user_password or not verify_password(user.password, db_user_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
