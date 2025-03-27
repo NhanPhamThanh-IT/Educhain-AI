@@ -20,7 +20,7 @@ const MainContent = () => (
 export default function AboutUs() {
     return (
         <Page title="About Us">
-            <Box sx={{ background: 'transparent', minHeight: '100vh', pt: 6, pb: 8 }}>
+            <Box sx={{ background: 'transparent', minHeight: '100vh', pt: 10, pb: 8 }}>
                 <MainContent />
             </Box>
         </Page>

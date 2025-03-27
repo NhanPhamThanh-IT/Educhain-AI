@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PATH_AUTH } from '../routes/paths';
+import { PATH_AUTH } from '../routes/path';
 // config
 import { HOST_API } from '../config';
 

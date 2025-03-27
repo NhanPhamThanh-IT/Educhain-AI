@@ -28,7 +28,7 @@ import React from "react";
 
 // Importing necessary components from Material-UI
 import { Box, Paper, Typography, IconButton } from "@mui/material";
-import { Facebook } from "@mui/icons-material";
+import { Facebook, GitHub } from "@mui/icons-material";
 
 // Importing necessary components from framer-motion
 import { motion } from "framer-motion";
@@ -112,9 +112,16 @@ const MemberCard = ({ member }) => {
                     <IconButton
                         href={member.facebook}
                         target="_blank"
-                        sx={{ position: "absolute", bottom: 10, right: 10, color: "#1877f2" }}
+                        sx={{ position: "absolute", bottom: 10, right: 15, color: "#1877f2", bgcolor: "white" }}
                     >
-                        <Facebook fontSize="large" />
+                        <Facebook fontSize="medium" />
+                    </IconButton>
+                    <IconButton
+                        href={member.github}
+                        target="_blank"
+                        sx={{ position: "absolute", bottom: 10, right: 65, color: "black", bgcolor: "white" }}
+                    >
+                        <GitHub fontSize="medium" />
                     </IconButton>
                 </Paper>
             </motion.div>
