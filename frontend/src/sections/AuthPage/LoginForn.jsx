@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Box, CircularProgress, Snackbar, Alert } from "@mui/material";
 import { Email, Lock } from "@mui/icons-material";
 import CustomTextField from "../../components/BasicComponents/TextField";
@@ -9,6 +10,8 @@ const HOVER_COLOR = "#2B4E96";
 const TEXT_COLOR = "#555";
 
 export default function LoginForm() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -40,8 +43,11 @@ export default function LoginForm() {
         setLoading(true);
         try {
             const response = await loginApi({ email, password });
-            console.log("Login successful:", response);
+            localStorage.setItem("access_token", response.data.access_token);
             showSnackbar("Login successful!", "success");
+            setTimeout(() => {
+                navigate("/homepage");
+            }, 1000);
         } catch (error) {
             console.error(error);
             showSnackbar(error?.response?.data?.message || "Login failed.", "error");

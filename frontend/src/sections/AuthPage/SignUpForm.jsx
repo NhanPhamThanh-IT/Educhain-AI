@@ -3,12 +3,15 @@ import { Button, Box, CircularProgress, Snackbar, Alert } from "@mui/material";
 import { Email, Lock, Person } from "@mui/icons-material";
 import CustomTextField from "../../components/BasicComponents/TextField";
 import { registerApi } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const PRIMARY_COLOR = "#365ACA";
 const HOVER_COLOR = "#2B4E96";
 const TEXT_COLOR = "#555";
 
 export default function SignUpForm() {
+    const navigate = useNavigate();
+
     const [fullname, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -39,9 +42,11 @@ export default function SignUpForm() {
         setLoading(true);
         try {
             const response = await registerApi({ fullname, email, password });
-            console.log('Login successful:', response);
-
+            localStorage.setItem("access_token", response.data.access_token);
             setSuccessMsg("Sign up successful!");
+            setTimeout(() => {
+                navigate("/homepage");
+            }, 1000);
         } catch (error) {
             console.error(error);
             setErrorMsg(error?.response?.data?.message || error.message || "Sign up failed.");
