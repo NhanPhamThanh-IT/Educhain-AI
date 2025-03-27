@@ -86,8 +86,9 @@ export default function EduchainApp() {
             width: isSidebarOpen ? 300 : 60,
             boxSizing: "border-box",
             backgroundColor: "#fff",
-            padding: isSidebarOpen ? 2 : 0,
+            paddingY: 1,
             overflow: "hidden",
+            paddingX: isSidebarOpen ? 2 : 'auto',
           },
           overflow: "hidden",
           "&::-webkit-scrollbar": { display: "none" },
@@ -188,7 +189,7 @@ export default function EduchainApp() {
                   }}
                 >
                   <YouTubeIcon
-                    color="primary"
+                    sx={{ color: "red" }}
                     onClick={() => toggleSidebar()}
                   />
                 </Box>
@@ -240,7 +241,9 @@ export default function EduchainApp() {
               <Paper
                 variant="outlined"
                 sx={{
-                  p: 1,
+                  mt: 4,
+                  px: 2.5,
+                  py: 1,
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
@@ -261,30 +264,30 @@ export default function EduchainApp() {
                 </Stack>
                 <input {...getInputProps()} />
               </Paper>
-
-              <Typography my={2} color="gray">
-                Or
-              </Typography>
-
-              <Paper
-                variant="outlined"
-                sx={{
-                  p: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  borderRadius: 2,
-                }}
-              >
-                <Link color="disabled" />
-                <Input
-                  fullWidth
-                  placeholder="Paste youtube link"
-                  disableUnderline
-                />
-                <Button variant="contained">Analyze</Button>
-              </Paper>
             </Box>
+
+            <Typography my={2} color="gray" fullWidth align="center">
+              Or
+            </Typography>
+
+            <Paper
+              variant="outlined"
+              sx={{
+                p: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                borderRadius: 2,
+              }}
+            >
+              <Link color="disabled" />
+              <Input
+                fullWidth
+                placeholder="Paste youtube link"
+                disableUnderline
+              />
+              <Button variant="contained" sx={{ textTransform: "none" }}>Analyze</Button>
+            </Paper>
             <Divider sx={{ my: 2 }} />
             <List>
               {sections.map((item) => (
@@ -491,6 +494,6 @@ export default function EduchainApp() {
         {/* Content Area with fixed height */}
         <ContentArea sections={sections} selectedSection={selectedSection} selectedHistory={selectedHistory} />
       </Box>
-    </Box>
+    </Box >
   );
 }
