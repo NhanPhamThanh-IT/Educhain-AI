@@ -64,7 +64,7 @@ export const sections = [
         label: getColoredLabel("Quizzes", "#FC8181"),
         icon: <QuizIcon sx={{ color: "#FC8181" }} />,
         content: <QuizSection />,
-        history: [ "create-quiz", "overview", "visual retrieval"],
+        history: ["create-quiz", "overview", "visual retrieval"],
     },
     {
         key: "studyGuides",

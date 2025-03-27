@@ -1,23 +1,21 @@
 import { useState, useRef, useEffect } from "react";
-import { Box, Typography, IconButton, TextField, Button, Divider, Stack } from "@mui/material";
+import { Box, Typography, IconButton, TextField, Stack, Avatar } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ImageIcon from "@mui/icons-material/Image";
 import SendIcon from "@mui/icons-material/Send";
 import DownloadIcon from "@mui/icons-material/Download";
 import PauseIcon from "@mui/icons-material/Pause";
-import QuizIcon from "@mui/icons-material/Quiz";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import VideocamIcon from "@mui/icons-material/Videocam";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import MicIcon from "@mui/icons-material/Mic";
+import PersonIcon from "@mui/icons-material/Person";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github.css";
-import { botMessages, chatSuggestions } from "../constants";
+import { InitialChatMessage } from "./initial-chat-message";
+import { botMessages } from "../constants";
 
 export default function ChatSection() {
-
   const [message, setMessage] = useState("");
   const [index3, setIndex] = useState(0);
   const [messages, setMessages] = useState([]);
@@ -35,9 +33,7 @@ export default function ChatSection() {
 
   const typingIntervalRef = useRef(null);
   const scrollToBottom = () => {
-    if (autoScroll) {
-      messageRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    if (autoScroll) messageRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -46,96 +42,93 @@ export default function ChatSection() {
 
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
-
     const handleScroll = () => {
       if (!chatContainer) return;
-
       const isNearBottom =
         chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
-
       setAutoScroll(isNearBottom);
     };
-
     chatContainer?.addEventListener("scroll", handleScroll);
     return () => chatContainer?.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   const handleSend = () => {
     if (message.trim()) {
-      const newMessages = [
-        ...messages,
-        { type: "text", content: message, sender: "user" },
-      ];
-      setMessages(newMessages);
-      setBotTyping(true);
-      updateIsPaused(false);
-      const botResponse = botMessages[index3];
-      setIndex((index3 + 1));
-
-      let typedMessage = "";
-      let index = 0;
+      // Gửi tin nhắn của người dùng
+      const userMsg = { type: "text", content: message, sender: "user" };
+      setMessages((prev) => [...prev, userMsg]);
       setMessage("");
 
-      typingIntervalRef.current = setInterval(() => {
-        if (!isPausedRef.current && index < botResponse.length) {
-          typedMessage += botResponse[index];
-          setMessages([
-            ...newMessages,
-            { type: "text", content: typedMessage, sender: "bot" },
-          ]);
-          index++;
-        } else {
-          clearInterval(typingIntervalRef.current);
-          setBotTyping(false);
-        }
-      }, 5);
+      // Lấy phản hồi của bot và tăng index
+      const botResponse = botMessages[index3];
+      setIndex(index3 + 1);
+
+      // Với tin nhắn bot đầu tiên thì hiển thị hiệu ứng gõ chữ ngay lập tức
+      if (index3 === 0) {
+        setBotTyping(true);
+        updateIsPaused(false);
+
+        // Thêm tin nhắn trống để làm khung cho hiệu ứng gõ chữ
+        const typingMsg = { type: "text", content: "", sender: "bot" };
+        setMessages((prev) => [...prev, typingMsg]);
+
+        let typedMessage = "";
+        let indexChar = 0;
+        const interval = setInterval(() => {
+          if (!isPausedRef.current && indexChar < botResponse.length) {
+            typedMessage += botResponse[indexChar];
+            // Cập nhật tin nhắn cuối (tin nhắn trống sẽ được thay thế)
+            setMessages((prev) => {
+              const newMessages = [...prev];
+              newMessages[newMessages.length - 1] = { type: "text", content: typedMessage, sender: "bot" };
+              return newMessages;
+            });
+            indexChar++;
+          } else if (indexChar >= botResponse.length) {
+            clearInterval(interval);
+            setBotTyping(false);
+          }
+        }, 5); // Thay đổi khoảng delay nếu cần
+        typingIntervalRef.current = interval;
+      } else {
+        // Với các tin nhắn bot sau thì hiển thị "Thinking..." trước khi bắt đầu hiệu ứng gõ chữ
+        setBotTyping(true);
+        updateIsPaused(false);
+
+        const thinkingMsg = { type: "text", content: "Thinking...", sender: "bot" };
+        setMessages((prev) => [...prev, thinkingMsg]);
+
+        setTimeout(() => {
+          let typedMessage = "";
+          let indexChar = 0;
+          const interval = setInterval(() => {
+            if (!isPausedRef.current && indexChar < botResponse.length) {
+              typedMessage += botResponse[indexChar];
+              setMessages((prev) => {
+                const newMessages = [...prev];
+                newMessages[newMessages.length - 1] = { type: "text", content: typedMessage, sender: "bot" };
+                return newMessages;
+              });
+              indexChar++;
+            } else if (indexChar >= botResponse.length) {
+              clearInterval(interval);
+              setBotTyping(false);
+            }
+          }, 5); // Thay đổi khoảng delay nếu cần
+          typingIntervalRef.current = interval;
+        }, 2000); // Delay 2 giây hiển thị "Thinking..."
+      }
     }
   };
+
   const handlePause = () => {
     clearInterval(typingIntervalRef.current);
     setBotTyping(false);
     setIsPaused(true);
   };
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const fileSize = (file.size / 1024).toFixed(2) + " KB";
-      const newMessages = [
-        ...messages,
-        {
-          type: "file",
-          content: {
-            name: file.name,
-            size: fileSize,
-            url: URL.createObjectURL(file),
-          },
-          sender: "user",
-        },
-      ];
-      setMessages(newMessages);
-      setBotTyping(true);
-
-      setTimeout(() => {
-        setMessages([
-          ...newMessages,
-          { type: "text", content: "Tôi có thể giúp gì bạn?", sender: "bot" },
-        ]);
-        setBotTyping(false);
-      }, 1000);
-    }
-  };
 
   return (
-    <Box
-      sx={{
-        height: '80vh',
-        mt: 5,
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-      }}
-    >
+    <Box sx={{ height: "80vh", mt: 5, display: "flex", flexDirection: "column", width: "100%" }}>
       <Box
         ref={chatContainerRef}
         sx={{
@@ -146,188 +139,65 @@ export default function ChatSection() {
           borderRadius: 1,
           display: "flex",
           flexDirection: "column",
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
+          "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        {messages.length === 0 && (
-          <>
-            <Box sx={{ textAlign: "center", mb: 1 }}>
-              <Typography color="black">
-                What do you have to do today?
-              </Typography>
-              <Typography color="gray">
-                Get answers with citations to your relevant files.
-              </Typography>
-            </Box>
-
-            <Typography
-              variant="subtitle1"
-              sx={{ textAlign: "center", fontWeight: "bold", my: 10 }}
-            >
-              Create a ...
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 1,
-                flexWrap: "wrap",
-                mb: 2,
-              }}
-            >
-              <Button
-                variant="outlined"
-                onClick={() =>
-                (window.location.href =
-                  "/learning/course?section=quizzes&historyItem=overview")
-                }
-                startIcon={<QuizIcon sx={{ color: "green" }} />}
-                sx={{
-                  color: "green",
-                  borderColor: "green",
-                  flexBasis: "20%",
-                  minWidth: "120px",
-                }}
-              >
-                Quiz
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() =>
-                (window.location.href =
-                  "/learning/course?section=studyGuides&historyItem=overview")
-                }
-                startIcon={<MenuBookIcon sx={{ color: "blue" }} />}
-                sx={{
-                  color: "blue",
-                  borderColor: "blue",
-                  flexBasis: "20%",
-                  minWidth: "120px",
-                }}
-              >
-                Study Guide
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() =>
-                (window.location.href =
-                  "/learning/course?section=learningByVideo&historyItem=video2")
-                }
-                startIcon={<VideocamIcon sx={{ color: "orange" }} />}
-                sx={{
-                  color: "orange",
-                  borderColor: "orange",
-                  flexBasis: "20%",
-                  minWidth: "120px",
-                }}
-              >
-                Video
-              </Button>
-              <Button
-                variant="outlined"
-                disabled
-                startIcon={<SportsEsportsIcon sx={{ color: "red" }} />}
-                sx={{
-                  color: "red",
-                  borderColor: "red",
-                  flexBasis: "20%",
-                  minWidth: "120px",
-                  minHeight: "60px",
-                }}
-              >
-                Games
-              </Button>
-            </Box>
-
-            <Divider sx={{ mx: 10 }} />
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                justifyContent: "flex-end",
-                mb: 2,
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 1,
-                  justifyContent: "center",
-                }}
-              >
-                {chatSuggestions.map((suggestion, index) => (
-                  <Button
-                    key={index}
-                    variant="outlined"
-                    size="small"
-                    color="black"
-                    onClick={() => setMessage(suggestion)}
-                  >
-                    {suggestion}
-                  </Button>
-                ))}
-              </Box>
-            </Box>
-          </>
-        )}
-
+        {messages.length === 0 && <InitialChatMessage setMessage={setMessage} />}
         {messages.map((msg, index) => (
-          <Box
+          <Stack
             key={index}
+            direction="row"
+            spacing={1}
             sx={{
-              maxWidth: "75%",
-              alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
-              backgroundColor: msg.sender === "user" ? "#C0C0C0" : "#F5F5F5",
-              color: "#000",
-              p: 1.5,
-              m: 1,
-              borderRadius: "15px",
-              wordBreak: "break-word",
-              whiteSpace: "pre-wrap",
+              alignItems: "flex-start",
+              justifyContent: msg.sender === "user" ? "flex-end" : "flex-start",
             }}
           >
-            {msg.type === "text" ? (
-              msg.sender === "bot" ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={{
-                  p: ({ ...props }) => <span {...props} />,
-                }}
-                  sx={{
-                    "& p": { margin: 0, padding: 0, lineHeight: 1 },
-                    "& pre": { margin: 0, padding: 0, lineHeight: 1 },
-                    "& li": { marginBottom: 0 },
-                  }}>
-                  {msg.content}
-                </ReactMarkdown>
-              ) : (
-                <Typography>{msg.content}</Typography>
-              )
-            ) : (
-              <Box>
-                <Typography>{msg.content.name}</Typography>
-                <Typography variant="caption">{msg.content.size}</Typography>
-                <IconButton
-                  component="a"
-                  href={msg.content.url}
-                  download={msg.content.name}
-                  sx={{
-                    color: msg.sender === "user" ? "white" : "black",
-                    ml: 1,
-                  }}
-                >
-                  <DownloadIcon />
-                </IconButton>
-              </Box>
+            {msg.sender === "bot" && (
+              <Avatar sx={{ bgcolor: "#F5F5F5", color: "#000" }}>
+                <SmartToyIcon />
+              </Avatar>
             )}
-          </Box>
+            <Box
+              sx={{
+                maxWidth: "75%",
+                backgroundColor: msg.sender === "user" ? "#C0C0C0" : "#F5F5F5",
+                color: "#000",
+                py: 1,
+                px: 2,
+                m: 1,
+                borderRadius: "15px",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {msg.type === "text" ? (
+                msg.sender === "bot" ? (
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                    {msg.content}
+                  </ReactMarkdown>
+                ) : (
+                  <Typography>{msg.content}</Typography>
+                )
+              ) : (
+                <Box>
+                  <Typography>{msg.content.name}</Typography>
+                  <Typography variant="caption">{msg.content.size}</Typography>
+                  <IconButton component="a" href={msg.content.url} download={msg.content.name}>
+                    <DownloadIcon />
+                  </IconButton>
+                </Box>
+              )}
+            </Box>
+            {msg.sender === "user" && (
+              <Avatar sx={{ bgcolor: "#C0C0C0", color: "#000" }}>
+                <PersonIcon />
+              </Avatar>
+            )}
+          </Stack>
         ))}
         <div ref={messageRef} />
       </Box>
-      
       <Box
         sx={{
           display: "flex",
@@ -347,55 +217,19 @@ export default function ChatSection() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            sx={{
-              ml: 5,
-              "& .MuiInput-underline:before": {
-                borderBottom: "none !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottom: "none !important",
-              },
-              "& .MuiInput-underline:hover:before": {
-                borderBottom: "none !important",
-              },
-              "& .MuiInputBase-root": { boxShadow: "none" },
-            }}
             disabled={botTyping}
           />
-
           <Stack direction="row" sx={{ width: "100%" }}>
-            <input
-              type="file"
-              id="file-upload"
-              style={{ display: "none" }}
-              onChange={handleFileUpload}
-              disabled={botTyping}
-            />
             <IconButton component="label" htmlFor="file-upload">
               <AttachFileIcon />
             </IconButton>
-            <input
-              type="file"
-              id="image-upload"
-              style={{ display: "none" }}
-              accept="image/*"
-              onChange={handleFileUpload}
-              disabled={botTyping}
-            />
-            <IconButton
-              component="label"
-              htmlFor="image-upload"
-
-            >
+            <IconButton component="label" htmlFor="image-upload">
               <ImageIcon />
             </IconButton>
             <IconButton sx={{ mr: "auto" }}>
               <MicIcon />
             </IconButton>
-            <IconButton
-              onClick={botTyping ? handlePause : handleSend}
-              disabled={!message.trim() && !botTyping}
-            >
+            <IconButton onClick={botTyping ? handlePause : handleSend} disabled={!message.trim() && !botTyping}>
               {botTyping ? <PauseIcon /> : <SendIcon />}
             </IconButton>
           </Stack>
