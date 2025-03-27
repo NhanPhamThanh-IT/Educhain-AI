@@ -42,7 +42,7 @@ const pages = {
   Market: "../pages/Market",
   CourseDetails: "../pages/CourseDetails",
   LearningPage: "../pages/LearningPage/index",
-  MissionPage: "../pages/MissionPage",
+  MissionPage: "../pages/MissionPage/index",
   LeaderBoard: "../pages/LeaderBoard",
   ExchangeCoin: "../pages/ExchangeCoin",
   ProfileSetup: "../pages/ProfileSetup",
