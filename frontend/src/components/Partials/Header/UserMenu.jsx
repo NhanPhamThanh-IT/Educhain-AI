@@ -23,7 +23,8 @@ const UserMenu = ({ elevated }) => {
         ERC20,
         TOKEN_ADDRESS,
         notifySuccess,
-        notifyError, 
+        notifyError,
+        addTokenToMetaMask,
     } = useContext(RouterContext);
 
     const navigate = useNavigate();
@@ -70,6 +71,7 @@ const UserMenu = ({ elevated }) => {
                         method: 'eth_requestAccounts',
                         params: [],
                     });
+                    await addTokenToMetaMask();
                 } catch (error) {
                     // If there's a pending request, wait a bit and try again
                     if (error.code === -32002) {

@@ -108,6 +108,9 @@ export const RouterProvider = ({ children }) => {
     CONNECT_WALLET,
     BUY_TOKEN, ERC20, TOKEN_ADDRESS,
     setLoader, currency,
+    addTokenToMetaMask,
+    notifySuccess,
+    notifyError,
   };
 
   return (
