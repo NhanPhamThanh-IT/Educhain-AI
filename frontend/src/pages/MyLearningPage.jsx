@@ -74,7 +74,7 @@ const MyLearning = () => {
 
     return (
         <Page title="My Learning">
-            <Container maxWidth="xl" sx={{ mt: 15 }}>
+            <Container maxWidth="xl" sx={{ pt: 15, pb: 10 }}>
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
                     <Typography variant="h4" fontWeight="bold">My Learning</Typography>
                     <Button
