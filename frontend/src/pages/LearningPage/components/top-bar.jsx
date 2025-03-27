@@ -12,6 +12,7 @@ const WidgetContent = () => {
         { label: "Market", path: "/market" },
         { label: "Missions", path: "/learning/mission" },
         { label: "Leaderboard", path: "/learning/leaderboard" },
+        { label: "Exchange", path: "/learning/exchange" },
     ];
 
     return (

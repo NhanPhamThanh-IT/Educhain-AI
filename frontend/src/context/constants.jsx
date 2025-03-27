@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 // INTERNAL IMPORT 
 import tokenICO from "./TokenICO.json";
 import erc20 from "./ERC20.json";
+import ecoinImage from "../../public/ecoin.png"
 
 export const TOKEN_ADDRESS = "0x891973FA34b7B98a2487A3ED0aa610E797F7299E";
 export const ERC20_ABI = erc20.abi;

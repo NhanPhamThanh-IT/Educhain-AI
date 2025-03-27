@@ -6,27 +6,50 @@ import ecoin from "/ecoin.png";
 import { TOKEN_ICO_Context } from "../../context/index";
 import { initialMissions } from "./data";
 import styles from "./styles";
+import { RouterContext } from "../../routes/index";
 
 const MissionSection = () => {
-  const { CONNECT_WALLET, account, addClaimedTokens } = useContext(TOKEN_ICO_Context);
+  const {
+    account,
+    totalClaimed,
+    setTotalClaimed,
+    missionClaims,
+    setMissionClaims,
+    notifySuccess,
+    notifyError
+  } = useContext(RouterContext);
+
   const [missions, setMissions] = useState(initialMissions);
   const [claiming, setClaiming] = useState(false);
 
-  const handleClaim = (id) => {
-    const mission = missions.find((m) => m.id === id);
-    if (!mission || mission.progress < mission.total) return;
+  const handleClaim = async (missionId) => {
+    try {
+      if (!account) {
+        notifyError("Please connect your wallet first");
+        return;
+      }
 
-    if (!account) {
-      CONNECT_WALLET();
-      return;
+      if (missionClaims[missionId]) {
+        notifyError("Mission already claimed!");
+        return;
+      }
+
+      const mission = missions.find(m => m.id === missionId);
+      if (!mission) return;
+
+      setMissionClaims(prev => ({
+        ...prev,
+        [missionId]: true
+      }));
+
+      setTotalClaimed(prev => prev + mission.points);
+
+      notifySuccess(`Claimed ${mission.points} EDT!`);
+
+    } catch (error) {
+      console.error("Claim failed:", error);
+      notifyError("Failed to claim reward");
     }
-
-    setClaiming(true);
-    setTimeout(() => {
-      addClaimedTokens(mission.points);
-      setMissions((prevMissions) => prevMissions.filter((mission) => mission.id !== id));
-      setClaiming(false);
-    }, 1000);
   };
 
   return (
@@ -63,9 +86,9 @@ const MissionSection = () => {
                         variant="contained"
                         onClick={() => handleClaim(mission.id)}
                         sx={{ ...styles.claimButton, visibility: isCompleted ? "visible" : "hidden" }}
-                        disabled={claiming}
+                        disabled={claiming || missionClaims[mission.id]}
                       >
-                        {claiming ? "Claiming..." : "Claim"}
+                        {claiming ? "Claiming..." : missionClaims[mission.id] ? "Claimed" : "Claim"}
                       </Button>
                     </Box>
                   </CardContent>
