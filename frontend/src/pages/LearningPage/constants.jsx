@@ -16,7 +16,7 @@ const getColoredLabel = (text, color) => (
 
 export const data = {
     logo: {
-        src: "/logo.png",
+        src: "/Logo.jpg",
         link: "/homepage",
         title: "Educhain",
     },

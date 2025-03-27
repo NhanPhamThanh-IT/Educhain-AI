@@ -133,6 +133,7 @@ export default function EduchainApp() {
                   ml: 0.5,
                   display: { xs: "none", md: "block" },
                   fontWeight: "bold",
+                  color: "#1976d2",
                 }}
               >
                 {data.logo.title}

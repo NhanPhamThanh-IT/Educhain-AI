@@ -34,7 +34,7 @@ const AppBarComponent = () => {
                         <Typography
                             variant="subtitle1"
                             component="div"
-                            sx={{ ml: 0.5, display: { xs: "none", md: "block" }, fontWeight: "bold" }}
+                            sx={{ ml: 0.5, display: { xs: "none", md: "block" }, fontWeight: "bold", color: "#1976d2" }}
                         >
                             {data.logo.title}
                         </Typography>
