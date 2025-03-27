@@ -69,7 +69,7 @@ def save_course(user_id: int, name:str, category:str, introduction:str, descript
         conn.commit()
         return result
 
-def append_thread(course_id: int ,thread_id: str) -> Dict:
+def append_thread(course_id: str ,thread_id: str) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -86,7 +86,7 @@ def append_thread(course_id: int ,thread_id: str) -> Dict:
         return result
 
 
-def get_course_id(course_id: int) -> Dict:
+def get_course_id(course_id: str) -> Dict:
     """Get course by ID"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -94,7 +94,7 @@ def get_course_id(course_id: int) -> Dict:
             result = cur.fetchone()
         return result if result else None
 
-def get_course_all(user_id: int) -> List[Dict]:
+def get_course_all(user_id: str) -> List[Dict]:
     """Get all courses"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -108,7 +108,7 @@ def get_course_all(user_id: int) -> List[Dict]:
             rows = cur.fetchall()
         return rows
 
-def update_course(course_id: int,user_id: int, name: str, category: str, intro: str, desc: str, lessons: List[str]) -> Dict:
+def update_course(course_id: str,user_id: int, name: str, category: str, intro: str, desc: str, lessons: List[str]) -> Dict:
     """Update course information"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -126,7 +126,7 @@ def update_course(course_id: int,user_id: int, name: str, category: str, intro: 
         conn.commit()
         return result if result else None
 
-def delete_course(course_id: int) -> bool:
+def delete_course(course_id: str) -> bool:
     """Delete course"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
