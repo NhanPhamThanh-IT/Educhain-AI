@@ -162,7 +162,7 @@ const UserMenu = ({ elevated }) => {
             )}
 
             <Avatar
-                src="/user-avatar.png"
+                src="AboutUs/vantu.png"
                 alt="User"
                 onClick={() => navigate("/profilesetup")}
                 sx={{
