@@ -1,68 +1,42 @@
-// This file is used to define the routes of the application.
-
-// Importing necessary modules
 import { Suspense, lazy, createContext, useContext, useState, useEffect } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import { TOKEN_ICO_Context } from "../context/index.jsx";
 
-// ----------------------------------------------------------------------
-
-// Create Router Context
 export const RouterContext = createContext();
 
-// Importing components
 import AppBarComponent from "../components/Partials/Header/Index";
 import FooterComponent from "../components/Partials/Footer";
 import Test from "../pages/test";
 
-// ----------------------------------------------------------------------
-
-// Function to wrap the component with Suspense
 const Loadable = (Component) => (props) => (
-  <Suspense>
+  <Suspense fallback={<div>Loading...</div>}>
     <Component {...props} />
   </Suspense>
 );
 
-// ----------------------------------------------------------------------
-
-// Importing pages
-const pages = {
-  AuthPage: "../pages/authentication/AuthPage",
-  ForgotPassword: "../pages/authentication/ForgotPassword",
-  VerifyCode: "../pages/authentication/VerifyCode",
-  Page500: "../pages/Error/Page500",
-  Page404: "../pages/Error/Page404",
-  AboutUs: "../pages/IntroPages/AboutUs",
-  ComingSoon: "../pages/ComingSoon",
-  Maintenance: "../pages/Maintenance",
-  HomePage: "../pages/IntroPages/HomePage",
-  MyLearningPage: "../pages/MyLearningPage",
-  CreateCourse: "../pages/CreateCourse",
-  Market: "../pages/Market",
-  CourseDetails: "../pages/CourseDetails",
-  LearningPage: "../pages/LearningPage/index",
-  MissionPage: "../pages/MissionPage/index",
-  LeaderBoard: "../pages/LeaderBoard",
-  ExchangeCoin: "../pages/ExchangeCoin",
-  ProfileSetup: "../pages/ProfileSetup",
-  AllCourses: "../pages/AllCourses",
-  DepositAndEarn: "../pages/IntroPages/DepositAndEarn/index",
+const LazyPages = {
+  AuthPage: Loadable(lazy(() => import('../pages/authentication/AuthPage'))),
+  ForgotPassword: Loadable(lazy(() => import('../pages/authentication/ForgotPassword'))),
+  VerifyCode: Loadable(lazy(() => import('../pages/authentication/VerifyCode'))),
+  Page500: Loadable(lazy(() => import('../pages/Error/Page500'))),
+  Page404: Loadable(lazy(() => import('../pages/Error/Page404'))),
+  AboutUs: Loadable(lazy(() => import('../pages/IntroPages/AboutUs'))),
+  ComingSoon: Loadable(lazy(() => import('../pages/ComingSoon'))),
+  Maintenance: Loadable(lazy(() => import('../pages/Maintenance'))),
+  HomePage: Loadable(lazy(() => import('../pages/IntroPages/HomePage'))),
+  MyLearningPage: Loadable(lazy(() => import('../pages/MyLearningPage'))),
+  CreateCourse: Loadable(lazy(() => import('../pages/CreateCourse'))),
+  Market: Loadable(lazy(() => import('../pages/Market'))),
+  CourseDetails: Loadable(lazy(() => import('../pages/CourseDetails'))),
+  LearningPage: Loadable(lazy(() => import('../pages/LearningPage/index'))),
+  MissionPage: Loadable(lazy(() => import('../pages/MissionPage/index'))),
+  LeaderBoard: Loadable(lazy(() => import('../pages/LeaderBoard'))),
+  ExchangeCoin: Loadable(lazy(() => import('../pages/ExchangeCoin'))),
+  ProfileSetup: Loadable(lazy(() => import('../pages/ProfileSetup'))),
+  AllCourses: Loadable(lazy(() => import('../pages/AllCourses'))),
+  DepositAndEarn: Loadable(lazy(() => import('../pages/IntroPages/DepositAndEarn/index'))),
 };
 
-// ----------------------------------------------------------------------
-
-// Lazy loading pages
-const LazyPages = Object.fromEntries(
-  Object.entries(pages).map(([key, path]) => [
-    key,
-    Loadable(lazy(() => import(/* @vite-ignore */ path))),
-  ])
-);
-
-// ----------------------------------------------------------------------
-
-// Create Router Provider Component
 export const RouterProvider = ({ children }) => {
   const {
     TOKEN_ICO, BUY_TOKEN, TRANSFER_ETHER, DONATE,
@@ -73,7 +47,6 @@ export const RouterProvider = ({ children }) => {
     account, currency, notifySuccess, notifyError
   } = useContext(TOKEN_ICO_Context);
 
-  // State declarations from your Index component
   const [ownerModel, setOwnerModel] = useState(false);
   const [buyModel, setBuyModel] = useState(false);
   const [transferModel, setTransferModel] = useState(false);
@@ -83,20 +56,17 @@ export const RouterProvider = ({ children }) => {
   const [openUpdateAddress, setOpenUpdateAddress] = useState(false);
   const [detail, setDetail] = useState(null);
   const [totalClaimed, setTotalClaimed] = useState(0);
-  const [missionClaims, setMissionClaims] = useState({});  // Track individual mission claims
+  const [missionClaims, setMissionClaims] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       const ico = await TOKEN_ICO();
-      console.log('items', ico);
       const erc20 = await ERC20(TOKEN_ADDRESS);
-      console.log('erc20', erc20);
       setDetail(ico);
     };
     fetchData();
   }, [account]);
 
-  // Create context value object
   const contextValue = {
     ownerModel, setOwnerModel,
     buyModel, setBuyModel,
@@ -126,7 +96,6 @@ export const RouterProvider = ({ children }) => {
   );
 };
 
-// Update MainLayout to use context
 const MainLayout = ({ children, displayHeader = true, displayFooter = true }) => {
   const context = useContext(RouterContext);
 
@@ -139,9 +108,6 @@ const MainLayout = ({ children, displayHeader = true, displayFooter = true }) =>
   );
 };
 
-// ----------------------------------------------------------------------
-
-// Defining the routes
 const routes = [
   {
     path: "authentication",
@@ -164,7 +130,6 @@ const routes = [
   },
   { path: "/", element: <Navigate to="/homepage" replace /> },
   { path: "homepage", element: <MainLayout><LazyPages.HomePage /></MainLayout> },
-  { path: "intro", element: <MainLayout><LazyPages.Intro /></MainLayout> },
   { path: "deposit-and-earn", element: <MainLayout><LazyPages.DepositAndEarn /></MainLayout> },
   {
     path: "mylearning",
@@ -190,9 +155,6 @@ const routes = [
   { path: "/test", element: <Test /> },
 ];
 
-// ----------------------------------------------------------------------
-
-// Update Router component to include Provider
 export default function Router() {
   const routing = useRoutes(routes);
 
