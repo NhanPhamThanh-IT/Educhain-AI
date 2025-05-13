@@ -11,7 +11,6 @@ from app.utils.hashing import hash_course_name
 
 endpoint = os.environ.get("AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT")
 key = os.environ.get("AZURE_DOCUMENT_INTELLIGENCE_KEY")
-
     
 
 async def process_pdf_file(file: UploadFile, course_name: str) -> bool:

@@ -15,7 +15,7 @@ ROOT_DIR = os.getcwd()
 WORKING_DIR = f"{ROOT_DIR}/lightrag"
 
 # Configure logging
-logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
 
 # Create working directory if it doesn't exist
 if not os.path.exists(WORKING_DIR):
@@ -104,7 +104,9 @@ async def insert_document(document_text, course_name="papers"):
     rag = await initialize_rag(course_name)
     
     try:
+        print("Inserting document...")
         await rag.ainsert(document_text)
+        print("Document inserted successfully.")
         return True
     except Exception as e:
         logging.error(f"Error inserting document: {e}")

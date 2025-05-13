@@ -1,6 +1,6 @@
 from app.database.study_guide import save_section, save_study_guide, save_subsection
 from app.database.chat_history import save_chat_history
-from app.database.course import save_course
+from app.database.course import save_course, get_course_all, get_threads, get_docs
 from app.database.document import save_document, get_doc_id, delete_doc
 from app.database.exam import save_exam
 from app.database.quiz import save_quiz
@@ -61,3 +61,27 @@ def process_chat_history(course_id: UUID, chat_info: ChatHistory) -> bool:
 def process_quiz(course_id: UUID, quiz_info: QuizQuestion) -> bool:
     quiz_id = save_quiz(course_id, quiz_info.question, quiz_info.options, quiz_info.correct_answer)
     return True if quiz_id else False
+
+@router.get("/{course_id}/get_threads")
+async def get_threads_for_course(course_id: str):
+    """Get all threads for a specific course"""
+    threads = get_threads(course_id)
+    if not threads:
+        raise HTTPException(status_code=404, detail="Threads not found for this course")
+    return threads
+
+@router.get("/{course_id}/get_docs")
+async def get_docs_for_course(course_id: str):
+    """Get all documents for a specific course"""
+    docs = get_docs(course_id)
+    if not docs:
+        raise HTTPException(status_code=404, detail="Documents not found for this course")
+    return docs
+
+@router.get("/{user_id}")
+async def get_courses_for_user(user_id: int):
+    """Get all courses for a specific user"""
+    courses = get_course_all(user_id)
+    if not courses:
+        raise HTTPException(status_code=404, detail="No courses found for this user")
+    return courses

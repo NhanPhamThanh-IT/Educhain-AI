@@ -134,3 +134,35 @@ def delete_course(course_id: str) -> bool:
             deleted = cur.rowcount > 0
         conn.commit()
         return deleted
+    
+def get_threads(course_id: str):
+    """Get all threads for a specific course"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT * FROM message 
+                WHERE thread_id = ANY(SELECT unnest(threads) FROM course WHERE id = %s)
+                """,
+                (course_id,)
+            )
+            result = cur.fetchall()
+
+    return result if result else None
+
+def get_docs(course_id: str):
+    """Get all documents for a specific course"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT * FROM document 
+                WHERE id = ANY(SELECT unnest(document) FROM course WHERE id = %s)
+                """,
+                (course_id,)
+            )
+            result = cur.fetchall()
+
+    return result if result else None 
+
+

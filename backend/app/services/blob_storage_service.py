@@ -3,6 +3,7 @@ from azure.core.exceptions import ResourceExistsError
 import os
 import uuid
 import logging
+from app.database.document import save_document  # Importing the save_document function
 
 # Load Azure connection string from environment variable
 AZURE_CONNECTION_STRING = os.getenv("AZURE_CONNECTION_STRING")
@@ -11,7 +12,7 @@ if not AZURE_CONNECTION_STRING:
 
 blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
 
-async def upload_to_blob(file, ext):
+async def upload_to_blob(file, course_id, ext):
     if ext in [".pdf", ".docx", ".pptx", ".xlsx", ".txt", ".csv"]:
         container_name = "pdfs"
     elif ext in [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"]:
@@ -34,7 +35,9 @@ async def upload_to_blob(file, ext):
     file_data = await file.read()
     await blob_client.upload_blob(file_data)
 
-    return {"url": blob_client.url}, 200, ext
+    res = save_document(course_id, unique_filename, ext, blob_client.url)
+    
+    return {"doc": res["doc"]}, 200
 
 
 

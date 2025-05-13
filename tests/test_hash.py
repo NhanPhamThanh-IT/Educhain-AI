@@ -9,3 +9,6 @@ def hash_course_name(course_name: str) -> str:
     hashed_name = "".join(shift_char(c) for c in course_name)
     
     return hashed_name
+
+
+print(hash_course_name("visual data retrieval"))  # Example usage

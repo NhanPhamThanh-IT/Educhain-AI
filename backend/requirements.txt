@@ -20,7 +20,7 @@ pymupdf
 pdfplumber
 bcrypt
 httptools
-
+azure.cognitiveservices.speech
 
 
 

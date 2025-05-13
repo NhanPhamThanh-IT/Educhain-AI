@@ -63,8 +63,10 @@ For educate-related questions:
 1. When user asks about knowledge:
    - Use get_knowledge_tool tool to retrieval best match information
    - PARAMETERS (will be provided in the prompt by system) for get_knowledge_tool:
-     * query: Required - The exact question or topic to search for
-     * course_name: fetch from database and provided by the system
+     * course_name: Provided by the system on the first line of the prompt
+     * query: Required - MUST BE RE-WRITE TO ENHANCE THE QUERY -
+                         The exact question or topic to search for, start from the second line of the prompt
+     
    - Present knowledge in a clear format
    - Example: get_knowledge_tool(query="What is photosynthesis?", course_name="Biology", mode = "naive", only_need_context=True)
    - IF no information found, respond with use your own knowledge and experience to answer the question
@@ -181,7 +183,7 @@ async def get_answer_stream(course_name: str, question: str, thread_id: str, cou
     # Stream từng phần của câu trả lời
     async for event in agent.astream_events(
         {
-            "input": course_name + '\n' + question,
+            "input": "course_name: " + course_name + '\n' + question,
             "chat_history": chat_history,
         },
         version="v2"

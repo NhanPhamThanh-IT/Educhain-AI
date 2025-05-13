@@ -23,7 +23,7 @@ def init_document():
             """)
         conn.commit()
 
-def save_document(course_id:int,name_doc: str, type_doc:str,url:str) -> Dict:
+def save_document(course_id:int, name_doc: str, type_doc:str, url:str) -> Dict:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
