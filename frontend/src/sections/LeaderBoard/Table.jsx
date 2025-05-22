@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Table, TableBody, TableCell, TableContainer, Table
 import { styled } from "@mui/material/styles";
 import { StarRounded } from "@mui/icons-material";
 import { MdSecurity as Shield, MdVerifiedUser as VpnKey, MdLock as CheckCircleRounded } from "react-icons/md";
-import ecoin from "/ecoin.png";
+import ecoin from "@assets/ecoin.png";
 import { motion } from "framer-motion";
 
 const leaderboardData = [
