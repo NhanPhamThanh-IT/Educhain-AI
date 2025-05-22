@@ -9,7 +9,11 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
-import image from "@assets/homepage-hero-section.jpg"
+import { useInView } from 'react-intersection-observer';
+import image1 from "@assets/homepage-hero-section-1.jpg"
+import image2 from "@assets/homepage-hero-section-2.jpg"
+import image3 from "@assets/homepage-hero-section-3.jpg"
+import image4 from "@assets/homepage-hero-section-4.jpg"
 
 const StyledBox = styled(Box)(() => ({
     minHeight: '100vh',
@@ -28,13 +32,16 @@ const GradientText = styled(Typography)(() => ({
 
 const Introduction = () => {
     const theme = useTheme();
+    const [leftRef, leftInView] = useInView({ threshold: 0.1, triggerOnce: false });
+    const [middleRef, middleInView] = useInView({ threshold: 0.1, triggerOnce: false });
+    const [rightRef, rightInView] = useInView({ threshold: 0.1, triggerOnce: false });
 
     return (
         <StyledBox>
             <Container maxWidth="xl">
                 <Grid container spacing={4} alignItems="center">
                     {/* Left Column - Images */}
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={3} ref={leftRef}>
                         <Box sx={{
                             display: 'flex',
                             flexDirection: 'column',
@@ -43,7 +50,7 @@ const Introduction = () => {
                         }}>
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                animate={leftInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             >
                                 <Box
@@ -61,7 +68,7 @@ const Introduction = () => {
                                 >
                                     <Box
                                         component="img"
-                                        src={image}
+                                        src={image1}
                                         alt="EduChain AI Platform"
                                         sx={{
                                             width: '100%',
@@ -71,7 +78,7 @@ const Introduction = () => {
                                             borderRadius: '16px',
                                             boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                                             border: '4px solid transparent',
-                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #2196F3 30%, #21CBF3 90%) border-box',
+                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #2196F3 30%, #03A9F4 90%) border-box',
                                             backgroundClip: 'padding-box, border-box',
                                             backgroundOrigin: 'padding-box, border-box',
                                             transition: 'all 0.3s ease-in-out',
@@ -85,7 +92,7 @@ const Introduction = () => {
 
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                animate={leftInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
                             >
                                 <Box
@@ -103,7 +110,7 @@ const Introduction = () => {
                                 >
                                     <Box
                                         component="img"
-                                        src={image}
+                                        src={image2}
                                         alt="EduChain AI Platform"
                                         sx={{
                                             width: '100%',
@@ -113,12 +120,12 @@ const Introduction = () => {
                                             borderRadius: '16px',
                                             boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                                             border: '4px solid transparent',
-                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #2196F3 30%, #21CBF3 90%) border-box',
+                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #00BCD4 30%, #4DD0E1 90%) border-box',
                                             backgroundClip: 'padding-box, border-box',
                                             backgroundOrigin: 'padding-box, border-box',
                                             transition: 'all 0.3s ease-in-out',
                                             '&:hover': {
-                                                boxShadow: '0 12px 48px rgba(33, 150, 243, 0.2)',
+                                                boxShadow: '0 12px 48px rgba(0, 188, 212, 0.2)',
                                             }
                                         }}
                                     />
@@ -128,10 +135,10 @@ const Introduction = () => {
                     </Grid>
 
                     {/* Middle Column - Content */}
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={6} ref={middleRef}>
                         <motion.div
                             initial={{ opacity: 0, y: 50 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            animate={middleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                             transition={{ duration: 0.8 }}
                         >
                             <Box sx={{
@@ -158,6 +165,7 @@ const Introduction = () => {
                                         sx={{
                                             background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
                                             color: 'white',
+                                            textTransform: 'none',
                                             '&:hover': {
                                                 background: 'linear-gradient(45deg, #1976D2 30%, #1E88E5 90%)',
                                             },
@@ -169,6 +177,7 @@ const Introduction = () => {
                                         variant="outlined"
                                         size="large"
                                         sx={{
+                                            textTransform: 'none',
                                             borderColor: theme.palette.primary.main,
                                             color: theme.palette.primary.main,
                                         }}
@@ -181,7 +190,7 @@ const Introduction = () => {
                     </Grid>
 
                     {/* Right Column - Images */}
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={3} ref={rightRef}>
                         <Box sx={{
                             display: 'flex',
                             flexDirection: 'column',
@@ -190,7 +199,7 @@ const Introduction = () => {
                         }}>
                             <motion.div
                                 initial={{ opacity: 0, x: 50 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                animate={rightInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             >
                                 <Box
@@ -208,7 +217,7 @@ const Introduction = () => {
                                 >
                                     <Box
                                         component="img"
-                                        src={image}
+                                        src={image3}
                                         alt="EduChain AI Platform"
                                         sx={{
                                             width: '100%',
@@ -218,12 +227,12 @@ const Introduction = () => {
                                             borderRadius: '16px',
                                             boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                                             border: '4px solid transparent',
-                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #2196F3 30%, #21CBF3 90%) border-box',
+                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #3F51B5 30%, #5C6BC0 90%) border-box',
                                             backgroundClip: 'padding-box, border-box',
                                             backgroundOrigin: 'padding-box, border-box',
                                             transition: 'all 0.3s ease-in-out',
                                             '&:hover': {
-                                                boxShadow: '0 12px 48px rgba(33, 150, 243, 0.2)',
+                                                boxShadow: '0 12px 48px rgba(63, 81, 181, 0.2)',
                                             }
                                         }}
                                     />
@@ -232,7 +241,7 @@ const Introduction = () => {
 
                             <motion.div
                                 initial={{ opacity: 0, x: 50 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                animate={rightInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
                             >
                                 <Box
@@ -250,7 +259,7 @@ const Introduction = () => {
                                 >
                                     <Box
                                         component="img"
-                                        src={image}
+                                        src={image4}
                                         alt="EduChain AI Platform"
                                         sx={{
                                             width: '100%',
@@ -260,12 +269,12 @@ const Introduction = () => {
                                             borderRadius: '16px',
                                             boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                                             border: '4px solid transparent',
-                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #2196F3 30%, #21CBF3 90%) border-box',
+                                            background: 'linear-gradient(white, white) padding-box, linear-gradient(45deg, #009688 30%, #4DB6AC 90%) border-box',
                                             backgroundClip: 'padding-box, border-box',
                                             backgroundOrigin: 'padding-box, border-box',
                                             transition: 'all 0.3s ease-in-out',
                                             '&:hover': {
-                                                boxShadow: '0 12px 48px rgba(33, 150, 243, 0.2)',
+                                                boxShadow: '0 12px 48px rgba(0, 150, 136, 0.2)',
                                             }
                                         }}
                                     />

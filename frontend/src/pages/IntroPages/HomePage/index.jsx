@@ -14,7 +14,7 @@ const HomePage = () => {
 
     return (
         <Page title="Homepage">
-            <Box maxWidth="2xl" bgcolor={"rgb(245,245,245)"} pt={8} pb={15}>
+            <Box maxWidth="2xl" bgcolor={"rgb(245,245,245)"} pt={7} pb={15}>
                 <Suspense fallback={<CircularProgress />}>
                     <Introduction />
                 </Suspense>
