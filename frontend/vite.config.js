@@ -26,43 +26,4 @@ export default defineConfig({
       '@sections': path.resolve(__dirname, 'src/sections'),
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: (id) => {
-          // Vendor chunks
-          if (id.includes('node_modules')) {
-            if (id.includes('@mui')) return 'mui';
-            if (id.includes('react') || id.includes('react-dom')) return 'react-vendor';
-            if (id.includes('axios') || id.includes('lodash')) return 'utils';
-            return 'vendor';
-          }
-          // Page chunks
-          if (id.includes('/pages/')) {
-            const pageName = id.split('/pages/')[1].split('/')[0];
-            return `page-${pageName}`;
-          }
-        },
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
-    },
-    chunkSizeWarningLimit: 1000,
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: false,
-        drop_debugger: true,
-        pure_funcs: ['console.log'],
-        passes: 1
-      },
-      mangle: {
-        keep_fnames: true
-      },
-      format: {
-        comments: false
-      }
-    }
-  }
 })
