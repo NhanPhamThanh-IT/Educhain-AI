@@ -16,9 +16,9 @@ const DesktopNavigation = () => {
     return (
         <Hidden mdDown>
             <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-                <Tabs 
+                <Tabs
                     value={false}
-                    sx={{ 
+                    sx={{
                         minHeight: "70px",
                         "& .MuiTabs-indicator": {
                             height: "3px",
@@ -33,7 +33,14 @@ const DesktopNavigation = () => {
                             label={label}
                             onClick={() => {
                                 if (link === null) {
-                                    handleScroll(section_id);
+                                    if (window.location.pathname !== '/homepage') {
+                                        navigate('/homepage');
+                                        setTimeout(() => {
+                                            handleScroll(section_id);
+                                        }, 100);
+                                    } else {
+                                        handleScroll(section_id);
+                                    }
                                 } else {
                                     navigate(link);
                                 }
