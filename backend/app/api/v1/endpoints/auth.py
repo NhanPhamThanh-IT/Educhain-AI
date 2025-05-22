@@ -9,7 +9,7 @@ def register(user: RegisterRequest):
     token = register_user(user)
     if not token:
         raise HTTPException(status_code=400, detail="Registration failed")
-    return token
+    return token    
 
 @router.post("/login", response_model=Token)
 def login(user: LoginRequest):

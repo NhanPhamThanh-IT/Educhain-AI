@@ -23,7 +23,7 @@ async def upload_and_process_pdf(
     
     Args:
         file: The PDF file to process
-        course_name: The course name to associate with the document
+        course_name: The course name to associate with the document 
     
     Returns:
         JSON response indicating success or failure
@@ -34,7 +34,7 @@ async def upload_and_process_pdf(
             status_code=400,
             detail="Only PDF files are supported"
         )
-    
+        
     try:
         # Process the file using the service
         print("start processing")
@@ -69,7 +69,7 @@ async def upload_and_process_pdf(
 async def upload_and_process_multiple_pdfs(
     files: list[UploadFile] = File(...),
     course_name: str = Form(...)
-):
+):  
     """
     Upload and process multiple PDF files at once.
     
