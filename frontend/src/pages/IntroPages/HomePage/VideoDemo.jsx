@@ -23,6 +23,9 @@ const VideoDemo = ({
                     src={demo}
                     autoPlay={autoPlay}
                     controls={controls}
+                    loading="lazy"
+                    preload="metadata"
+                    playsInline
                     sx={{
                         width: '100%',
                     }}
