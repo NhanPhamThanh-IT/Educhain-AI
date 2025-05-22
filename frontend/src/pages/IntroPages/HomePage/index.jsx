@@ -13,7 +13,7 @@ const HomePage = () => {
 
     return (
         <Page title="Homepage">
-            <Box maxWidth="2xl" bgcolor={"rgb(245,245,245)"} pb={15}>
+            <Box maxWidth="2xl" bgcolor={"rgb(245,245,245)"} pt={8} pb={15}>
                 <Introduction />
                 <VideoDemo />
                 <Box ref={featuresRef} id="features">
