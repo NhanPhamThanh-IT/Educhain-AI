@@ -1,10 +1,9 @@
 // Importing React and necessary MUI components
-import React from 'react';
 import { Container, Box } from '@mui/material';
 
 // Importing built-in components
-import Page from '../../components/Page';
-import TeamIntroduction from '../../sections/AboutUs/TeamIntroduction';
+import Page from '@components/Page';
+import TeamIntroduction from '@sections/AboutUs/TeamIntroduction';
 
 // Main content of the About Us page
 const MainContent = () => (
