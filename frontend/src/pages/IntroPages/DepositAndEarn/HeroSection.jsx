@@ -1,10 +1,12 @@
 import React, { Suspense } from 'react';
 import { Box, Container, Grid, Typography, Paper, useTheme, CircularProgress } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { GraduationCap, BookOpen, School } from 'lucide-react';
 
 const HeroSection = () => {
     const theme = useTheme();
+    const ref = React.useRef(null);
+    const isInView = useInView(ref, { once: true });
 
     return (
         <Suspense fallback={
@@ -12,7 +14,7 @@ const HeroSection = () => {
                 <CircularProgress />
             </Box>
         }>
-            <Box sx={{
+            <Box ref={ref} sx={{
                 mt: 4,
                 pt: { xs: 8, md: 12 },
                 pb: { xs: 6, md: 8 },
@@ -24,7 +26,7 @@ const HeroSection = () => {
                         <Grid item xs={12} md={6}>
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
                                 transition={{ duration: 0.6 }}
                             >
                                 <Typography
@@ -76,7 +78,7 @@ const HeroSection = () => {
                         <Grid item xs={12} md={6}>
                             <motion.div
                                 initial={{ opacity: 0, x: 50 }}
-                                animate={{ opacity: 1, x: 0 }}
+                                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                 transition={{ duration: 0.6, delay: 0.2 }}
                             >
                                 <Paper
@@ -108,7 +110,7 @@ const HeroSection = () => {
                                             <Grid item xs={12} key={index}>
                                                 <motion.div
                                                     initial={{ opacity: 0, y: 20 }}
-                                                    animate={{ opacity: 1, y: 0 }}
+                                                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                                     transition={{ duration: 0.5, delay: index * 0.2 }}
                                                 >
                                                     <Paper

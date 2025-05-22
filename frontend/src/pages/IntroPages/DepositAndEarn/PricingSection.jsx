@@ -1,11 +1,13 @@
 import React, { Suspense } from 'react';
 import { Box, Container, Typography, Paper, useTheme, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { deposits, earns } from './constants.js';
 
 const PricingSection = () => {
     const theme = useTheme();
+    const ref = React.useRef(null);
+    const isInView = useInView(ref, { once: true });
 
     const renderTable = (data, type) => (
         <TableContainer
@@ -120,7 +122,7 @@ const PricingSection = () => {
                 <CircularProgress />
             </Box>
         }>
-            <Box sx={{
+            <Box ref={ref} sx={{
                 py: { xs: 6, md: 8 },
                 position: 'relative',
                 overflow: 'hidden',
@@ -129,7 +131,7 @@ const PricingSection = () => {
                 <Container maxWidth="lg">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                         transition={{ duration: 0.6 }}
                     >
                         <Typography
@@ -163,7 +165,7 @@ const PricingSection = () => {
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                             transition={{ duration: 0.5 }}
                             style={{ flex: 1 }}
                         >
@@ -171,7 +173,7 @@ const PricingSection = () => {
                         </motion.div>
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                             style={{ flex: 1 }}
                         >
