@@ -1,17 +1,16 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const main = () => {
+const TitleSection = ({ title, description }) => {
     return (
         <Box textAlign="center" mb={4}>
             <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ textTransform: "none", userSelect: "none" }}>
-                Built for any use case
+                {title}
             </Typography>
             <Typography color="text.secondary" sx={{ userSelect: "none" }}>
-                Click on a learning content below, and start your learning journey ⤵
+                {description}
             </Typography>
         </Box>
     )
 }
 
-export default main;
+export default TitleSection;
