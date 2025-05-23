@@ -24,7 +24,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { CloudUpload, Link } from "@mui/icons-material";
 import { settings, topics } from "../constants";
-import { courses, categoryColors } from "../constants-fake-data";
+import { categoryColors } from "../constants-fake-data";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLearning } from '../context';
@@ -357,72 +357,6 @@ const YourCourses = ({ courses }) => {
   );
 };
 
-const ExploreTopics = () => {
-  const theme = useTheme();
-
-  return (
-    <>
-      <TitleSection title={"Explore more topics"} />
-      <Box sx={{ width: "100%", mx: "auto", overflow: "hidden" }}>
-        <Slider {...settings}>
-          {topics.map(({ img, title }, index) => (
-            <Box key={index} sx={{ px: 2 }}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                <Card
-                  sx={{
-                    bgcolor: theme.palette.background.paper,
-                    borderRadius: 3,
-                    boxShadow: theme.shadows[2],
-                    transition: "all 0.3s ease",
-                    overflow: "hidden",
-                    "&:hover": {
-                      transform: "translateY(-8px)",
-                      boxShadow: theme.shadows[8],
-                      "& .MuiCardMedia-root": {
-                        transform: "scale(1.1)",
-                      },
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="160"
-                    image={img}
-                    alt={title}
-                    sx={{
-                      borderTopLeftRadius: 12,
-                      borderTopRightRadius: 12,
-                      transition: "transform 0.3s ease",
-                    }}
-                  />
-                  <CardContent>
-                    <Typography
-                      align="center"
-                      fontWeight={600}
-                      sx={{
-                        transition: "all 0.2s ease",
-                        "&:hover": {
-                          color: theme.palette.primary.main,
-                        }
-                      }}
-                    >
-                      {title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Box>
-          ))}
-        </Slider>
-      </Box>
-    </>
-  );
-};
-
 const Content = ({ sections, selectedSection, selectedHistory }) => {
   const theme = useTheme();
 
@@ -618,7 +552,7 @@ const ContentArea = ({ sections, selectedSection, selectedHistory }) => {
         return <LeaderboardSection />;
       case 'exchange':
         return <ExchangeSection />;
-      default:
+      default: 
         return <Content sections={sections} selectedSection={selectedSection} selectedHistory={selectedHistory} />;
     }
   };
