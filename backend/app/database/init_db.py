@@ -9,12 +9,12 @@ from app.database.user_info import init_user_info
 
 def initialize_database():
     """Gọi tất cả các hàm khởi tạo bảng"""
-    #init_user_info()
-    #init_course()
-    #init_quiz()
-    #init_exam()
-    #init_study_guide()
+    init_user_info()
+    init_course()
+    init_quiz()
+    init_exam()
+    init_study_guide()
     init_document()
-    #init_chat_history_table()
+    init_chat_history_table()
 
     print("Database tables initialized successfully")

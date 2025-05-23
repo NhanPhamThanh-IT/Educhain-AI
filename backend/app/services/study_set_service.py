@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from langchain_core.messages import AIMessageChunk
 from langchain.callbacks.base import BaseCallbackHandler
 from ..utils.agent_tools import  CreateQuizTool
-from openai import 
 
 load_dotenv()
 

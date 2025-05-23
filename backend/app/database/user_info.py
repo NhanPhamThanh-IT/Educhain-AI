@@ -30,8 +30,8 @@ def init_user_info():
                     strength TEXT[], 
                     weakness TEXT[],
                     learntoken DECIMAL(10, 2) DEFAULT 0,
-                    wallet_address TEXT
-                    SUI DECIMAL(10, 2) DEFAULT 0,
+                    wallet_address TEXT,
+                    sui_coin DECIMAL(10, 2) DEFAULT 0,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )

@@ -29,6 +29,7 @@ def init_quiz():
             """)
         conn.commit()
 
+
 def save_quiz_is_finished(id: str, is_correct: bool, is_finished: bool) -> Dict:
     """Insert quiz question into database"""
     with get_db_connection() as conn:
@@ -88,33 +89,35 @@ def save_user_strength_weakness(user_id: str, quiz_id: str) -> Dict:
         return result if result else None
 
 
-
-def save_quiz(course_id: int, quiz_id: str, question: str, options: List[str], correct_answer: str) -> Dict:
+def save_quiz(course_id: str, quiz_id: str, question: str, options: List[str], correct_answer: str) -> Dict:
     """Insert quiz question"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             options_array = "{" + ",".join(f'"{option}"' for option in options) + "}"  
             cur.execute(
                 """
-                INSERT INTO quiz_question (question, options, correct_answer, created_at, updated_at)
+                INSERT INTO quiz_question (quiz_id, question, options, correct_answer,created_at, updated_at)
                 VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
-                (question, options_array, correct_answer, datetime.now(), datetime.now())
+                (quiz_id, question, options_array, correct_answer, datetime.now(), datetime.now())
             )
             quiz_res = cur.fetchone()
             quiz_id = quiz_res['id']
+            # Check if quiz_id already exists in the course's quiz_question array, if not append it
             cur.execute(
                 """
                 UPDATE course
-                SET quiz_question = array_append(quiz_question, %s)
-                WHERE quiz_question = %s
+                SET quiz_question = CASE
+                    WHEN %s = ANY(quiz_question) THEN quiz_question
+                    ELSE array_append(quiz_question, %s)
+                END 
+                WHERE id = %s
                 RETURNING *
                 """,
-                (quiz_id,course_id)
+                (quiz_id, quiz_id, course_id)
             )
             course_res = cur.fetchone()
-        conn.commit()
         return {"quiz": quiz_res, "updated_course": course_res}
 
 def get_quiz_id(quiz_id: int) -> Dict:

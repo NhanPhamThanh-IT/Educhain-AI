@@ -1,8 +1,9 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, Form, Body
+from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from typing import Dict, Any
 from pydantic import BaseModel
 
 from app.services.azure_file_processing import process_pdf_file
+from app.services.blob_storage_service import upload_to_blob
 
 router = APIRouter()
 
@@ -41,6 +42,7 @@ async def upload_and_process_pdf(
         success = await process_pdf_file(file, course_name)
         
         if success:
+            # Upload the file to Azure Blob Storage
             return FileProcessingResponse(
                 success=True,
                 message=f"Document '{file.filename}' successfully processed and stored for course '{course_name}'"

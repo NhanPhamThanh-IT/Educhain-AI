@@ -9,8 +9,6 @@ router = APIRouter()
 class LoginResponse(BaseModel):
     wallet_address: str
 
-
-
 # @router.post("/register", response_model=Token)
 # def register(user: RegisterRequest):
 #     token = register_user(user)

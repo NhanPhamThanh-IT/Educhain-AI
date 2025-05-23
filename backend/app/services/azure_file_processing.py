@@ -26,8 +26,6 @@ async def process_pdf_file(file: UploadFile, course_name: str) -> bool:
     """
     try:
         # Get Azure credentials from environment variables
-
-        
         if not endpoint or not key:
             raise ValueError("Azure Document Intelligence credentials not found in environment variables")
         
