@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useRef, useCallback } from "react";
 import PropTypes from 'prop-types';
 import {
@@ -43,9 +44,9 @@ const options = [
 ];
 
 const TitleSection = ({ title }) => (
-  <Typography 
-    variant="h5" 
-    fontWeight={700} 
+  <Typography
+    variant="h5"
+    fontWeight={700}
     color="text.primary"
     sx={{
       position: 'relative',
@@ -98,9 +99,9 @@ const YourCourses = ({ courses }) => {
           flexWrap="wrap"
           justifyContent="center"
           padding={2}
-          sx={{ 
-            display: "grid", 
-            gridTemplateColumns: "repeat(3, 1fr)", 
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
             gap: 2,
             '@media (max-width: 600px)': {
               gridTemplateColumns: "repeat(1, 1fr)",
@@ -149,23 +150,23 @@ const YourCourses = ({ courses }) => {
         variant="body1"
         color="textSecondary"
         align="center"
-        sx={{ 
-          cursor: "pointer", 
+        sx={{
+          cursor: "pointer",
           transition: "all 0.2s ease",
-          "&:hover": { 
-            color: "primary.main", 
+          "&:hover": {
+            color: "primary.main",
             transform: "translateY(-2px)",
-          } 
+          }
         }}
         onClick={() => setOpen(true)}
       >
         View more
       </Typography>
 
-      <Dialog 
-        open={open} 
-        onClose={() => setOpen(false)} 
-        fullWidth 
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullWidth
         maxWidth="lg"
         PaperProps={{
           sx: {
@@ -174,7 +175,7 @@ const YourCourses = ({ courses }) => {
           }
         }}
       >
-        <DialogTitle sx={{ 
+        <DialogTitle sx={{
           borderBottom: `1px solid ${theme.palette.divider}`,
           pb: 2,
           display: 'flex',
@@ -187,7 +188,7 @@ const YourCourses = ({ courses }) => {
           <IconButton
             aria-label="close"
             onClick={() => setOpen(false)}
-            sx={{ 
+            sx={{
               transition: "all 0.2s ease",
               "&:hover": {
                 transform: "rotate(90deg)",
@@ -218,16 +219,16 @@ const YourCourses = ({ courses }) => {
                         boxShadow: theme.shadows[2],
                         backgroundColor: theme.palette.background.paper,
                         transition: "all 0.3s ease",
-                        "&:hover": { 
+                        "&:hover": {
                           transform: "translateY(-8px)",
                           boxShadow: theme.shadows[8],
                         },
                       }}
                     >
-                      <CardMedia 
-                        component="img" 
-                        height="180" 
-                        image={item.img} 
+                      <CardMedia
+                        component="img"
+                        height="180"
+                        image={item.img}
                         alt={item.title}
                         sx={{
                           transition: "all 0.3s ease",
@@ -267,10 +268,10 @@ const YourCourses = ({ courses }) => {
                           />
                         </Stack>
 
-                        <Typography 
-                          variant="body2" 
-                          color="text.secondary" 
-                          sx={{ 
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
                             mt: 1,
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
@@ -282,14 +283,14 @@ const YourCourses = ({ courses }) => {
                           {item.description}
                         </Typography>
 
-                        <Stack 
-                          direction="row" 
-                          alignItems="center" 
-                          spacing={1} 
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          spacing={1}
                           sx={{ mt: 2 }}
                         >
-                          <Chip 
-                            label={item.duration} 
+                          <Chip
+                            label={item.duration}
                             color="default"
                             sx={{
                               transition: "all 0.2s ease",
@@ -298,8 +299,8 @@ const YourCourses = ({ courses }) => {
                               }
                             }}
                           />
-                          <Chip 
-                            label={item.level} 
+                          <Chip
+                            label={item.level}
                             color="secondary"
                             sx={{
                               transition: "all 0.2s ease",
@@ -309,10 +310,10 @@ const YourCourses = ({ courses }) => {
                             }}
                           />
                           <Box sx={{ flexGrow: 1 }} />
-                          <Button 
-                            size="small" 
-                            color="primary" 
-                            sx={{ 
+                          <Button
+                            size="small"
+                            color="primary"
+                            sx={{
                               textTransform: "none",
                               transition: "all 0.2s ease",
                               "&:hover": {
@@ -334,11 +335,11 @@ const YourCourses = ({ courses }) => {
       </Dialog>
 
       {displayedCourses.length === 0 && (
-        <Typography 
-          variant="body1" 
-          color="textSecondary" 
-          align="center" 
-          sx={{ 
+        <Typography
+          variant="body1"
+          color="textSecondary"
+          align="center"
+          sx={{
             mt: 3,
             fontStyle: 'italic',
             opacity: 0.7,
@@ -353,7 +354,7 @@ const YourCourses = ({ courses }) => {
 
 const ExploreTopics = () => {
   const theme = useTheme();
-  
+
   return (
     <>
       <TitleSection title={"Explore more topics"} />
@@ -366,7 +367,7 @@ const ExploreTopics = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <Card 
+                <Card
                   sx={{
                     bgcolor: theme.palette.background.paper,
                     borderRadius: 3,
@@ -387,15 +388,15 @@ const ExploreTopics = () => {
                     height="160"
                     image={img}
                     alt={title}
-                    sx={{ 
-                      borderTopLeftRadius: 12, 
+                    sx={{
+                      borderTopLeftRadius: 12,
                       borderTopRightRadius: 12,
                       transition: "transform 0.3s ease",
                     }}
                   />
                   <CardContent>
-                    <Typography 
-                      align="center" 
+                    <Typography
+                      align="center"
                       fontWeight={600}
                       sx={{
                         transition: "all 0.2s ease",
@@ -419,12 +420,14 @@ const ExploreTopics = () => {
 
 const Content = () => {
   const theme = useTheme();
-  
+
+  const navigate = useNavigate();
+
   return (
     <>
-      <Typography 
-        variant="h5" 
-        fontWeight={700} 
+      <Typography
+        variant="h5"
+        fontWeight={700}
         color="text.primary"
         sx={{
           mb: 4,
@@ -494,9 +497,9 @@ const Content = () => {
               )}
 
               <CardActionArea sx={{ p: 2 }}>
-                <Box 
-                  display="flex" 
-                  flexDirection="column" 
+                <Box
+                  display="flex"
+                  flexDirection="column"
                   alignItems="center"
                   sx={{
                     transition: "all 0.3s ease",
@@ -523,9 +526,9 @@ const Content = () => {
                   >
                     {icon}
                   </IconButton>
-                  <Typography 
-                    variant="h6" 
-                    fontWeight={700} 
+                  <Typography
+                    variant="h6"
+                    fontWeight={700}
                     textAlign="center"
                     sx={{
                       transition: "all 0.2s ease",
@@ -536,9 +539,9 @@ const Content = () => {
                   >
                     {title}
                   </Typography>
-                  <Typography 
-                    variant="body2" 
-                    color="text.secondary" 
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
                     textAlign="center"
                   >
                     {subtitle}
@@ -549,10 +552,10 @@ const Content = () => {
           </motion.div>
         ))}
       </Stack>
-      
+
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-        <Divider 
-          sx={{ 
+        <Divider
+          sx={{
             width: "30%",
             position: 'relative',
             '&::before, &::after': {
@@ -573,11 +576,11 @@ const Content = () => {
         >
           Or
         </Divider>
-        
-        <Button 
-          variant="contained" 
+
+        <Button
+          variant="contained"
           size="large"
-          sx={{ 
+          sx={{
             borderRadius: 3,
             px: 4,
             py: 1.5,
@@ -586,8 +589,8 @@ const Content = () => {
               transform: "translateY(-4px)",
               boxShadow: theme.shadows[8],
             }
-          }} 
-          onClick={() => window.location.href = "/mylearning/createcourse"}
+          }}
+          onClick={() => navigate("/learning/createcourse")}
         >
           Create course
         </Button>

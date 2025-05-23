@@ -1,11 +1,23 @@
-import React, { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { RouterContext } from "../../../routes";
+import { ConnectButton } from "@suiet/wallet-kit";
+import "@suiet/wallet-kit/style.css";
+import './suiet-wallet-kit-custom.css';
+import { useWallet } from '@suiet/wallet-kit';
 
 const UserMenu = ({ onAuthClick }) => {
-    const { account } = useContext(RouterContext);
-    const navigate = useNavigate();
+    const wallet = useWallet()
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    useEffect(() => {
+        if (!wallet.connected) return;
+        console.log("Wallet connected:", wallet.account?.address);
+    }, [wallet.connected])
 
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -42,6 +54,25 @@ const UserMenu = ({ onAuthClick }) => {
             >
                 Sign Up
             </Button>
+            <ConnectButton
+                style={{
+                    fontSize: '1.1rem',
+                    fontWeight: 'bold',
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    textTransform: 'none',
+                    padding: '8px 16px',
+                    width: '100%',
+                }}
+                onConnectSuccess={() => {
+                    handleClose();
+                }}
+            >
+                Connect Wallet
+            </ConnectButton>
         </Box>
     );
 };
