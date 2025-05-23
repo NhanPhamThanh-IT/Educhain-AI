@@ -46,10 +46,10 @@ const AuthModal = ({ open, handleClose, authType, onToggleAuthType }) => {
                 </Typography>
                 <AuthForm authType={authType} onSubmit={handleFormSubmit} onToggleAuthType={onToggleAuthType} />
                 {/* Replace Button with IconButton for the close action */}
-                <IconButton 
+                <IconButton
                     aria-label="close auth modal"
-                    onClick={handleClose} 
-                    sx={{ 
+                    onClick={handleClose}
+                    sx={{
                         position: 'absolute',
                         right: 8,
                         top: 8,

@@ -1,0 +1,9 @@
+.wkit-button {
+    font-family: inherit;
+    font-weight: 500;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #FFB800 0%, #FF6A00 100%);
+}
