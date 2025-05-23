@@ -1,17 +1,20 @@
 import { useState, useRef, useEffect } from "react";
-import { Box, Typography, IconButton, TextField, Stack, Avatar } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import ImageIcon from "@mui/icons-material/Image";
-import SendIcon from "@mui/icons-material/Send";
-import DownloadIcon from "@mui/icons-material/Download";
-import PauseIcon from "@mui/icons-material/Pause";
-import MicIcon from "@mui/icons-material/Mic";
-import PersonIcon from "@mui/icons-material/Person";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
+import { Box, Typography, IconButton, TextField, Stack, Avatar, useTheme, alpha } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github.css";
+import { 
+  RiSendPlaneFill, 
+  RiAttachment2, 
+  RiImageAddLine,
+  RiMicLine,
+  RiPauseFill,
+  RiDownload2Line,
+  RiRobot2Line,
+  RiUser3Line
+} from "react-icons/ri";
 import { InitialChatMessage } from "./initial-chat-message";
 import { botMessages } from "../constants";
 
@@ -25,6 +28,7 @@ export default function ChatSection() {
   const [isPaused, setIsPaused] = useState(true);
   const [autoScroll, setAutoScroll] = useState(true);
   const isPausedRef = useRef(isPaused);
+  const theme = useTheme();
 
   const updateIsPaused = (value) => {
     isPausedRef.current = value;
@@ -143,68 +147,197 @@ export default function ChatSection() {
         }}
       >
         {messages.length === 0 && <InitialChatMessage setMessage={setMessage} />}
-        {messages.map((msg, index) => (
-          <Stack
-            key={index}
-            direction="row"
-            spacing={1}
-            sx={{
-              alignItems: "flex-start",
-              justifyContent: msg.sender === "user" ? "flex-end" : "flex-start",
-            }}
-          >
-            {msg.sender === "bot" && (
-              <Avatar sx={{ bgcolor: "#F5F5F5", color: "#000" }}>
-                <SmartToyIcon />
-              </Avatar>
-            )}
-            <Box
-              sx={{
-                maxWidth: "75%",
-                backgroundColor: msg.sender === "user" ? "#C0C0C0" : "#F5F5F5",
-                color: "#000",
-                py: 1,
-                px: 2,
-                m: 1,
-                borderRadius: "15px",
-                wordBreak: "break-word",
-                whiteSpace: "pre-wrap",
-              }}
+        <AnimatePresence>
+          {messages.map((msg, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
             >
-              {msg.type === "text" ? (
-                msg.sender === "bot" ? (
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeHighlight]}
-                    components={{
-                      p: ({ node, ...props }) => <p {...props} style={{ margin: 0, padding: 0 }} />,
-                      pre: ({ node, ...props }) => <pre {...props} style={{ margin: 0, padding: 0 }} />,
-                      h2: ({ node, ...props }) => <h2 {...props} style={{ margin: 1, padding: 0 }} />,
-                      strong: ({ node, ...props }) => <strong {...props} style={{ margin: 0, padding: 0 }} />,
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "flex-start",
+                  justifyContent: msg.sender === "user" ? "flex-end" : "flex-start",
+                  mb: 2,
+                }}
+              >
+                {msg.sender === "bot" && (
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      color: theme.palette.primary.main,
+                      transition: "all 0.2s ease",
+                      "&:hover": {
+                        transform: "scale(1.1)",
+                        bgcolor: alpha(theme.palette.primary.main, 0.2),
+                      }
                     }}
                   >
-                    {msg.content}
-                  </ReactMarkdown>
-                ) : (
-                  <Typography>{msg.content}</Typography>
-                )
-              ) : (
-                <Box>
-                  <Typography>{msg.content.name}</Typography>
-                  <Typography variant="caption">{msg.content.size}</Typography>
-                  <IconButton component="a" href={msg.content.url} download={msg.content.name}>
-                    <DownloadIcon />
-                  </IconButton>
+                    <RiRobot2Line size={24} />
+                  </Avatar>
+                )}
+                <Box
+                  sx={{
+                    maxWidth: "75%",
+                    backgroundColor: msg.sender === "user" 
+                      ? alpha(theme.palette.primary.main, 0.1)
+                      : alpha(theme.palette.background.paper, 0.8),
+                    backdropFilter: "blur(8px)",
+                    color: theme.palette.text.primary,
+                    py: 1.5,
+                    px: 2.5,
+                    borderRadius: "15px",
+                    wordBreak: "break-word",
+                    whiteSpace: "pre-wrap",
+                    boxShadow: theme.shadows[1],
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      transform: "translateY(-2px)",
+                      boxShadow: theme.shadows[2],
+                    },
+                    "& pre": {
+                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                      backdropFilter: "blur(8px)",
+                      borderRadius: "8px",
+                      padding: "12px",
+                      margin: "8px 0",
+                      overflowX: "auto",
+                      "&::-webkit-scrollbar": {
+                        height: "6px",
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        background: alpha(theme.palette.background.paper, 0.1),
+                        borderRadius: "3px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        background: alpha(theme.palette.primary.main, 0.2),
+                        borderRadius: "3px",
+                        "&:hover": {
+                          background: alpha(theme.palette.primary.main, 0.3),
+                        },
+                      },
+                    },
+                    "& code": {
+                      backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                      padding: "2px 4px",
+                      borderRadius: "4px",
+                      fontSize: "0.9em",
+                    },
+                    "& p": {
+                      margin: "8px 0",
+                      lineHeight: 1.6,
+                    },
+                    "& h1, & h2, & h3, & h4, & h5, & h6": {
+                      margin: "16px 0 8px",
+                      color: theme.palette.primary.main,
+                      fontWeight: 600,
+                    },
+                    "& ul, & ol": {
+                      margin: "8px 0",
+                      paddingLeft: "20px",
+                    },
+                    "& li": {
+                      margin: "4px 0",
+                    },
+                    "& blockquote": {
+                      borderLeft: `4px solid ${theme.palette.primary.main}`,
+                      margin: "8px 0",
+                      padding: "8px 16px",
+                      backgroundColor: alpha(theme.palette.primary.main, 0.05),
+                      borderRadius: "4px",
+                    },
+                    "& a": {
+                      color: theme.palette.primary.main,
+                      textDecoration: "none",
+                      "&:hover": {
+                        textDecoration: "underline",
+                      },
+                    },
+                    "& table": {
+                      borderCollapse: "collapse",
+                      width: "100%",
+                      margin: "8px 0",
+                      "& th, & td": {
+                        border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+                        padding: "8px",
+                        textAlign: "left",
+                      },
+                      "& th": {
+                        backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                        fontWeight: 600,
+                      },
+                      "& tr:nth-of-type(even)": {
+                        backgroundColor: alpha(theme.palette.background.paper, 0.4),
+                      },
+                    },
+                    "& img": {
+                      maxWidth: "100%",
+                      borderRadius: "8px",
+                      margin: "8px 0",
+                    },
+                  }}
+                >
+                  {msg.type === "text" ? (
+                    msg.sender === "bot" ? (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeHighlight]}
+                        components={{
+                          p: ({ ...props }) => <p {...props} style={{ margin: 0, padding: 0 }} />,
+                          pre: ({ ...props }) => <pre {...props} style={{ margin: 0, padding: 0 }} />,
+                          h2: ({ ...props }) => <h2 {...props} style={{ margin: 1, padding: 0 }} />,
+                          strong: ({ ...props }) => <strong {...props} style={{ margin: 0, padding: 0 }} />,
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
+                    ) : (
+                      <Typography>{msg.content}</Typography>
+                    )
+                  ) : (
+                    <Box>
+                      <Typography>{msg.content.name}</Typography>
+                      <Typography variant="caption">{msg.content.size}</Typography>
+                      <IconButton 
+                        component="a" 
+                        href={msg.content.url} 
+                        download={msg.content.name}
+                        sx={{
+                          transition: "all 0.2s ease",
+                          "&:hover": {
+                            transform: "scale(1.1)",
+                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                          }
+                        }}
+                      >
+                        <RiDownload2Line size={24} />
+                      </IconButton>
+                    </Box>
+                  )}
                 </Box>
-              )}
-            </Box>
-            {msg.sender === "user" && (
-              <Avatar sx={{ bgcolor: "#C0C0C0", color: "#000" }}>
-                <PersonIcon />
-              </Avatar>
-            )}
-          </Stack>
-        ))}
+                {msg.sender === "user" && (
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      color: theme.palette.primary.main,
+                      transition: "all 0.2s ease",
+                      "&:hover": {
+                        transform: "scale(1.1)",
+                        bgcolor: alpha(theme.palette.primary.main, 0.2),
+                      }
+                    }}
+                  >
+                    <RiUser3Line size={24} />
+                  </Avatar>
+                )}
+              </Stack>
+            </motion.div>
+          ))}
+        </AnimatePresence>
         <div ref={messageRef} />
       </Box>
       <Box
@@ -212,10 +345,17 @@ export default function ChatSection() {
           display: "flex",
           alignItems: "center",
           p: 1,
-          backgroundColor: "#fff",
+          backgroundColor: alpha(theme.palette.background.paper, 0.8),
+          backdropFilter: "blur(8px)",
           borderRadius: 3,
           mt: 2,
-          border: "1px solid #ccc",
+          border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+          boxShadow: theme.shadows[1],
+          transition: "all 0.2s ease",
+          "&:hover": {
+            boxShadow: theme.shadows[2],
+            borderColor: alpha(theme.palette.primary.main, 0.2),
+          },
         }}
       >
         <Stack direction="column" spacing={1} sx={{ width: "100%" }}>
@@ -227,19 +367,66 @@ export default function ChatSection() {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             disabled={botTyping}
+            sx={{
+              "& .MuiInputBase-root": {
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.primary.main, 0.05),
+                },
+              },
+            }}
           />
           <Stack direction="row" sx={{ width: "100%" }}>
-            <IconButton component="label" htmlFor="file-upload">
-              <AttachFileIcon />
+            <IconButton 
+              component="label" 
+              htmlFor="file-upload"
+              sx={{
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                }
+              }}
+            >
+              <RiAttachment2 size={24} />
             </IconButton>
-            <IconButton component="label" htmlFor="image-upload">
-              <ImageIcon />
+            <IconButton 
+              component="label" 
+              htmlFor="image-upload"
+              sx={{
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                }
+              }}
+            >
+              <RiImageAddLine size={24} />
             </IconButton>
-            <IconButton sx={{ mr: "auto" }}>
-              <MicIcon />
+            <IconButton 
+              sx={{ 
+                mr: "auto",
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                }
+              }}
+            >
+              <RiMicLine size={24} />
             </IconButton>
-            <IconButton onClick={botTyping ? handlePause : handleSend} disabled={!message.trim() && !botTyping}>
-              {botTyping ? <PauseIcon /> : <SendIcon />}
+            <IconButton 
+              onClick={botTyping ? handlePause : handleSend} 
+              disabled={!message.trim() && !botTyping}
+              sx={{
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                }
+              }}
+            >
+              {botTyping ? <RiPauseFill size={24} /> : <RiSendPlaneFill size={24} />}
             </IconButton>
           </Stack>
         </Stack>

@@ -1,10 +1,24 @@
 import { useState } from "react";
-import { Box, IconButton, Tooltip, Button, Typography, Paper } from "@mui/material";
-import { Refresh as RefreshIcon, MoreVert as MoreVertIcon, Widgets as WidgetsIcon } from "@mui/icons-material";
-import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
+import { 
+  Box, 
+  IconButton, 
+  Tooltip, 
+  Button, 
+  Typography,
+  useTheme,
+  alpha,
+} from "@mui/material";
+import { 
+  Refresh as RefreshIcon, 
+  MoreVert as MoreVertIcon, 
+  Widgets as WidgetsIcon 
+} from "@mui/icons-material";
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
 const WidgetContent = () => {
+    const theme = useTheme();
     const navigate = useNavigate();
 
     const NAV_ITEMS = [
@@ -27,14 +41,19 @@ const WidgetContent = () => {
                 flexWrap: "nowrap",
                 whiteSpace: "nowrap",
                 gap: 1,
+                backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                backdropFilter: "blur(8px)",
+                borderRadius: 2,
+                p: 1,
+                boxShadow: theme.shadows[2],
             }}
         >
             {NAV_ITEMS.map((item, index) => (
                 <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }} // Hiệu ứng trượt từng button
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.4 }} // Trễ dần từng button
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
                     <Button
                         color="inherit"
@@ -42,6 +61,13 @@ const WidgetContent = () => {
                             textTransform: "none",
                             fontWeight: 600,
                             fontSize: 16,
+                            transition: "all 0.2s ease",
+                            borderRadius: 2,
+                            px: 2,
+                            "&:hover": {
+                                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                transform: "translateY(-2px)",
+                            },
                         }}
                         onClick={() => navigate(item.path)}
                     >
@@ -54,72 +80,146 @@ const WidgetContent = () => {
 };
 
 const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) => {
+    const theme = useTheme();
     const [isWidgetOpen, setWidgetOpen] = useState(true);
 
     return (
         <Box
+            component={motion.div}
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             sx={{
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                borderBottom: "1px solid #e0e0e0",
-                px: 3,
+                borderBottom: `1px solid ${theme.palette.divider}`,
+                px: { xs: 2, sm: 3 },
                 py: 2,
-                backgroundColor: "#f0f0f0",
+                backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                backdropFilter: "blur(8px)",
                 position: "fixed",
                 zIndex: 1100,
                 width: isSidebarOpen ? "calc(100% - 300px)" : "calc(100% - 60px)",
                 top: 0,
+                transition: "all 0.3s ease",
+                boxShadow: theme.shadows[1],
             }}
         >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box 
+                sx={{ 
+                    display: "flex", 
+                    alignItems: "center",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                        transform: "translateX(4px)",
+                    }
+                }}
+            >
                 {sections.find(
                     (s) => s.key === selectedSection && s.history?.includes(selectedHistory)
                 )?.icon}
-                <Typography variant="h6" sx={{ ml: 1, fontWeight: 500 }}>
+                <Typography 
+                    variant="h6" 
+                    sx={{ 
+                        ml: 1, 
+                        fontWeight: 600,
+                        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                    }}
+                >
                     {selectedHistory || selectedSection || "Dashboard"}
                 </Typography>
             </Box>
 
             <Box sx={{ display: "flex", gap: 1, position: "relative" }}>
-                {/* Nút Widget */}
+                <AnimatePresence>
+                    {isWidgetOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Box
+                                sx={{
+                                    position: "absolute",
+                                    right: "110%",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    px: 2,
+                                    minWidth: 200,
+                                }}
+                            >
+                                <WidgetContent />
+                            </Box>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
                 <Tooltip title="Widget">
-                    <IconButton size="small" onClick={() => setWidgetOpen(!isWidgetOpen)}>
+                    <IconButton 
+                        size="small" 
+                        onClick={() => setWidgetOpen(!isWidgetOpen)}
+                        sx={{
+                            transition: "all 0.2s ease",
+                            "&:hover": {
+                                transform: "rotate(90deg)",
+                                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            }
+                        }}
+                    >
                         <WidgetsIcon fontSize="small" />
                     </IconButton>
                 </Tooltip>
 
-                {/* Hộp Widget (hiển thị ngang hàng với icon) */}
-                {isWidgetOpen && (
-                    <Box
+                <Tooltip title="Refresh">
+                    <IconButton 
+                        size="small" 
+                        onClick={() => window.location.reload()}
                         sx={{
-                            position: "absolute",
-                            right: "110%",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            px: 2,
-                            minWidth: 200,
+                            transition: "all 0.2s ease",
+                            "&:hover": {
+                                transform: "rotate(180deg)",
+                                backgroundColor: alpha(theme.palette.info.main, 0.1),
+                            }
                         }}
                     >
-                        <WidgetContent />
-                    </Box>
-                )}
-
-                {/* Các nút khác */}
-                <Tooltip title="Refresh">
-                    <IconButton size="small" onClick={() => window.location.reload()}>
                         <RefreshIcon fontSize="small" />
                     </IconButton>
                 </Tooltip>
 
                 <Tooltip title="More options">
-                    <IconButton size="small">
+                    <IconButton 
+                        size="small"
+                        sx={{
+                            transition: "all 0.2s ease",
+                            "&:hover": {
+                                transform: "scale(1.1)",
+                                backgroundColor: alpha(theme.palette.action.hover, 0.1),
+                            }
+                        }}
+                    >
                         <MoreVertIcon fontSize="small" />
                     </IconButton>
                 </Tooltip>
             </Box>
         </Box>
     );
+};
+
+TopBar.propTypes = {
+    isSidebarOpen: PropTypes.bool.isRequired,
+    sections: PropTypes.arrayOf(
+        PropTypes.shape({
+            key: PropTypes.string.isRequired,
+            history: PropTypes.arrayOf(PropTypes.string),
+            icon: PropTypes.node,
+        })
+    ).isRequired,
+    selectedSection: PropTypes.string.isRequired,
+    selectedHistory: PropTypes.string.isRequired,
 };
 
 export default TopBar;
