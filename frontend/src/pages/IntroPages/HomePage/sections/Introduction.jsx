@@ -14,6 +14,8 @@ import image1 from "@assets/homepage-hero-section-1.jpg"
 import image2 from "@assets/homepage-hero-section-2.jpg"
 import image3 from "@assets/homepage-hero-section-3.jpg"
 import image4 from "@assets/homepage-hero-section-4.jpg"
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const StyledBox = styled(Box)(() => ({
     minHeight: '100vh',
@@ -36,8 +38,31 @@ const Introduction = () => {
     const [middleRef, middleInView] = useInView({ threshold: 0.1, triggerOnce: false });
     const [rightRef, rightInView] = useInView({ threshold: 0.1, triggerOnce: false });
 
+    const navigate = useNavigate();
+    const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
+
+    const handleGetStartedClick = () => {
+        if (localStorage.getItem('address')) {
+            navigate("/learning/course");
+        } else {
+            toast.error('Please connect wallet to continue!', {
+                id: singleToastId,
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+        }
+    }
+
+    const handleLearnMoreClick = () => {
+        navigate("/docs");
+    }
+
     return (
         <StyledBox>
+            <Toaster />
             <Container maxWidth="xl">
                 <Grid container spacing={4} alignItems="center">
                     {/* Left Column - Images */}
@@ -174,6 +199,7 @@ const Introduction = () => {
                                                 background: 'linear-gradient(45deg, #1976D2 30%, #1E88E5 90%)',
                                             },
                                         }}
+                                        onClick={handleGetStartedClick}
                                     >
                                         Get Started
                                     </Button>
@@ -185,6 +211,7 @@ const Introduction = () => {
                                             borderColor: theme.palette.primary.main,
                                             color: theme.palette.primary.main,
                                         }}
+                                        onClick={handleLearnMoreClick}
                                     >
                                         Learn More
                                     </Button>
