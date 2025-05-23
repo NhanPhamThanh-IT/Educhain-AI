@@ -109,7 +109,6 @@ const routes = [
     {
         path: "mylearning",
         children: [
-            { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
             { path: "", element: <MainLayout><MyLearningPage /></MainLayout> },
         ],
     },
@@ -123,6 +122,7 @@ const routes = [
             { path: "leaderboard", element: <MainLayout><LeaderBoard /></MainLayout> },
             { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
             { path: "course", element: <LearningPage /> },
+            { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
             { path: "exchange", element: <ExchangeCoin /> }
         ],
     },

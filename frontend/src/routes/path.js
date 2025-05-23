@@ -22,7 +22,6 @@ export const HOME_PAGE = {
 export const MY_LEARNING = {
   root: "/mylearning",
   main: path("/mylearning", ""),
-  createCourse: path("/mylearning", "/createcourse"),
 }
 
 export const MARKET = {
@@ -41,6 +40,7 @@ export const LEARNING_PAGE = {
   mission: path("/learning", "/mission"),
   leaderboard: path("/learning", "/leaderboard"),
   exchangeCoin: path("/learning", "/exchange"),
+  createCourse: path("/learning", "/createcourse"),
 }
 
 export const PROFILE_SETUP = {
