@@ -1,18 +1,18 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
-import { 
-  Box, 
-  IconButton, 
-  Tooltip, 
-  Button, 
-  Typography,
-  useTheme,
-  alpha,
+import {
+    Box,
+    IconButton,
+    Tooltip,
+    Button,
+    Typography,
+    useTheme,
+    alpha,
 } from "@mui/material";
-import { 
-  Refresh as RefreshIcon, 
-  MoreVert as MoreVertIcon, 
-  Widgets as WidgetsIcon 
+import {
+    Refresh as RefreshIcon,
+    MoreVert as MoreVertIcon,
+    Widgets as WidgetsIcon
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLearning } from '../context';
@@ -22,7 +22,7 @@ const WidgetContent = () => {
     const { handleNavItemClick } = useLearning();
 
     const NAV_ITEMS = [
-        { label: "Your Courses", key: "courses" },
+        { label: "My Courses", key: "courses" },
         { label: "Market", key: "market" },
         { label: "Missions", key: "missions" },
         { label: "Leaderboard", key: "leaderboard" },
@@ -32,9 +32,9 @@ const WidgetContent = () => {
     return (
         <Box
             component={motion.div}
-            initial={{ opacity: 0, x: 100 }} 
-            animate={{ opacity: 1, x: 0 }}  
-            transition={{ duration: 0.5, ease: "easeOut" }} 
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -105,9 +105,9 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 boxShadow: theme.shadows[1],
             }}
         >
-            <Box 
-                sx={{ 
-                    display: "flex", 
+            <Box
+                sx={{
+                    display: "flex",
                     alignItems: "center",
                     transition: "all 0.3s ease",
                     "&:hover": {
@@ -118,10 +118,10 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 {sections.find(
                     (s) => s.key === selectedSection && s.history?.includes(selectedHistory)
                 )?.icon}
-                <Typography 
-                    variant="h6" 
-                    sx={{ 
-                        ml: 1, 
+                <Typography
+                    variant="h6"
+                    sx={{
+                        ml: 1,
                         fontWeight: 600,
                         background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                         WebkitBackgroundClip: "text",
@@ -158,8 +158,8 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 </AnimatePresence>
 
                 <Tooltip title="Widget">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => setWidgetOpen(!isWidgetOpen)}
                         sx={{
                             transition: "all 0.2s ease",
@@ -174,8 +174,8 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 </Tooltip>
 
                 <Tooltip title="Refresh">
-                    <IconButton 
-                        size="small" 
+                    <IconButton
+                        size="small"
                         onClick={() => window.location.reload()}
                         sx={{
                             transition: "all 0.2s ease",
@@ -190,7 +190,7 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 </Tooltip>
 
                 <Tooltip title="More options">
-                    <IconButton 
+                    <IconButton
                         size="small"
                         sx={{
                             transition: "all 0.2s ease",

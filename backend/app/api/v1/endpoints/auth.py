@@ -6,6 +6,9 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+class WalletLoginRequest(BaseModel): # New Pydantic model for wallet login
+    wallet_address: str
+
 class LoginResponse(BaseModel):
     wallet_address: str
 
@@ -25,8 +28,8 @@ class LoginResponse(BaseModel):
 
 
 @router.post("/login")
-def login(wallet_address: str):
-    wallet_address = login_via_wallet_address(wallet_address)
+def login(request: WalletLoginRequest): # Changed to use the Pydantic model
+    wallet_address = login_via_wallet_address(request.wallet_address) # Access wallet_address from the request model
     if not wallet_address:
         raise HTTPException(status_code=401, detail="Invalid wallet address")
     return wallet_address

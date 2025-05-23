@@ -15,7 +15,7 @@ pipmaster
 bcrypt
 pyjwt
 azure.ai.documentintelligence 
-azure.core.credentials
+# azure.core.credentials
 pymupdf
 pdfplumber
 bcrypt

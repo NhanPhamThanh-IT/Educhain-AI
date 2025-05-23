@@ -4,6 +4,7 @@ import { ConnectButton } from "@suiet/wallet-kit";
 import "@suiet/wallet-kit/style.css";
 import './suiet-wallet-kit-custom.css';
 import { useWallet, useAccountBalance } from '@suiet/wallet-kit';
+import axios from "axios"; // Import axios for API calls
 
 const UserMenu = () => {
     const wallet = useWallet();
@@ -38,15 +39,53 @@ const UserMenu = () => {
     };
 
     useEffect(() => {
+        const loginUser = async () => {
+            if (wallet.account?.address) {
+                try {
+                    // Fetch balance from API
+                    const response = await axios.post(`http://localhost:8000/api/auth/login`, {
+                        wallet_address: wallet.account.address,
+                    });
+                    // Handle response data if needed, e.g., set user info from response
+                    console.log("Login API response:", response.data);
+                    setAccountAddress(wallet.account.address);
+                    localStorage.setItem("address", wallet.account.address);
+                    // Assuming the balance from useAccountBalance is the one to display initially
+                    // If the API returns a different balance, update setCurrentBalance accordingly
+                    setCurrentBalance(Number(balance) || 0); 
+                } catch (err) {
+                    console.error("Failed to login or fetch user data:", err);
+                    if (err.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.error("API Error Response Data:", err.response.data);
+                        console.error("API Error Response Status:", err.response.status);
+                        console.error("API Error Response Headers:", err.response.headers);
+                    } else if (err.request) {
+                        // The request was made but no response was received
+                        console.error("API Error Request:", err.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.error("API Error Message:", err.message);
+                    }
+                    // Reset account and balance info as the API call failed
+                    setAccountAddress(null);
+                    setCurrentBalance(null);
+                    localStorage.removeItem("address"); // Also clear from localStorage
+                    // Optionally, set an error state here to display a message to the user
+                }
+            }
+        };
+
         if (!wallet.connected) {
             setAccountAddress(null);
             setCurrentBalance(null);
+            localStorage.removeItem("address"); // Clear address from localStorage on disconnect
             return;
         }
-        if (wallet.account?.address) {
-            setAccountAddress(wallet.account.address);
-            setCurrentBalance(Number(balance) || 0);
-        }
+
+        loginUser();
+
     }, [wallet.connected, wallet.account?.address, balance]);
 
     // Function to truncate address for display
