@@ -6,7 +6,6 @@ import {
     CreateCourse,
     CourseDetails,
     MyLearningPage,
-    LeaderBoard,
     Market,
     AllCourses,
     HomePage,
@@ -120,7 +119,6 @@ const routes = [
         path: "learning",
         children: [
             { path: "", element: <Navigate to="/learning/course" replace /> },
-            { path: "leaderboard", element: <MainLayout><LeaderBoard /></MainLayout> },
             { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
             { path: "course", element: <LearningProvider><LearningPage /></LearningProvider> },
             { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },

@@ -4,7 +4,6 @@ import { lazy } from 'react';
 export const CreateCourse = lazy(() => import('../pages/CreateCourse'));
 export const CourseDetails = lazy(() => import('../pages/CourseDetails'));
 export const MyLearningPage = lazy(() => import('../pages/MyLearningPage'));
-export const LeaderBoard = lazy(() => import('../pages/LeaderBoard'));
 export const Market = lazy(() => import('../pages/Market'));
 export const AllCourses = lazy(() => import('../pages/AllCourses'));
 export const HomePage = lazy(() => import('../pages/IntroPages/HomePage'));

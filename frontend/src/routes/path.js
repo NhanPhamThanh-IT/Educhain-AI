@@ -38,7 +38,6 @@ export const LEARNING_PAGE = {
   root: "/learning",
   learningPage: path("/learning", "/course"),
   mission: path("/learning", "/mission"),
-  leaderboard: path("/learning", "/leaderboard"),
   exchangeCoin: path("/learning", "/exchange"),
   createCourse: path("/learning", "/createcourse"),
 }
