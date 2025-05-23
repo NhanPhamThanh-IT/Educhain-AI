@@ -113,18 +113,16 @@ const routes = [
         ],
     },
     { path: "allcourse", element: <MainLayout><AllCourses /></MainLayout> },
-    { path: "market", element: <MainLayout><Market /></MainLayout> },
     { path: "coursedetails", element: <MainLayout><CourseDetails /></MainLayout> },
     {
         path: "learning",
+        element: <LearningProvider><MainLayout displayFooter={false} displayHeader={false}><LearningPage /></MainLayout></LearningProvider>,
         children: [
-            { path: "", element: <Navigate to="/learning/course" replace /> },
-            { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
-            { path: "course", element: <LearningProvider><LearningPage /></LearningProvider> },
-            { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
-            { path: "exchange", element: <ExchangeCoin /> }
+            { index: true, element: <LearningPage /> },
+            { path: ":navItem", element: <LearningPage /> },
         ],
     },
+    { path: "learning/createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
     { path: "profilesetup", element: <MainLayout><ProfileSetup /></MainLayout> },
     { path: "/test", element: <Test /> },
 ];
