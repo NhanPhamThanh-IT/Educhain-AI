@@ -29,8 +29,6 @@ def init_quiz():
             """)
         conn.commit()
 
-def save_quiz_question(quiz_id: str, question: str, options: List[str], correct_answer: str) -> Dict:
-
 
 def save_quiz_is_finished(id: str, is_correct: bool, is_finished: bool) -> Dict:
     """Insert quiz question into database"""
