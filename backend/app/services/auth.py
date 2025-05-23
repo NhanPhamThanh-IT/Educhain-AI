@@ -1,5 +1,5 @@
 from fastapi import HTTPException, Depends
-from app.database.user_info import get_user_by_email, save_user_info
+from app.database.user_info import get_user_by_email, save_user_info, get_user_by_wallet_address,create_user_via_wallet
 from datetime import datetime, timedelta
 from typing import Dict
 import jwt
@@ -18,6 +18,12 @@ def hash_password(password: str) -> str:
 # Hàm xác thực mật khẩu
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+
+def hash_wallet_address(wallet_address: str) -> str:
+    return bcrypt.hashpw(wallet_address.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def unhash_wallet_address(wallet_address: str) -> str:
+    return bcrypt.checkpw(wallet_address.encode('utf-8'), wallet_address.encode('utf-8'))
 
 def verify_token(token: str) -> Dict:
     try:
@@ -65,6 +71,38 @@ def login_user(user: LoginRequest) -> Token:
     return Token(access_token=access_token)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+def login_via_wallet_address(wallet_address: str) -> Token:
+    # Lấy thông tin người dùng từ cơ sở dữ liệu
+    db_user = get_user_by_wallet_address(wallet_address)
+    if not db_user:
+        db_user = create_user_via_wallet(wallet_address)    
+    
+    return db_user 
+
+def get_current_user_by_wallet(wallet_address: str):
+    # Lấy thông tin người dùng từ cơ sở dữ liệu
+    db_user = get_user_by_wallet_address(wallet_address)
+    if not db_user:
+        raise HTTPException(status_code=401, detail="Invalid wallet address")
+
+    return db_user
+
+# email: str, password:str, fullname: str, nickname: str, gender: str, 
+# country:str, address:str, phonenumber:str, edutoken:float, learntoken:float
+
+def update_user_info(user: RegisterRequest) -> Dict:
+    # Kiểm tra xem email đã tồn tại chưa
+    existing_user = get_current_user_by_wallet(user.wallet_address)
+    if not existing_user:
+        raise HTTPException(status_code=400, detail="Email not registered")
+    # Mã hóa mật khẩu
+    # Cập nhật thông tin người dùng vào cơ sở dữ liệu
+    updated_user = save_user_info(email = user.email, fullname= user.fullname, nickname= user.nickname, phonenumber= user.phone)
+
+    return updated_user
+                                  
+
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     payload = verify_token(token)

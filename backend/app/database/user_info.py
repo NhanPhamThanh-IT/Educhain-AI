@@ -31,12 +31,28 @@ def init_user_info():
                     weakness TEXT[],
                     learntoken DECIMAL(10, 2) DEFAULT 0,
                     wallet_address TEXT
+                    SUI DECIMAL(10, 2) DEFAULT 0,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
         conn.commit()
 
+def create_user_via_wallet(wallet_address: str, ) -> Dict:
+    """Create a new user with wallet address"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO user_info (wallet_address, created_at, updated_at)
+                VALUES (%s, %s, %s) RETURNING *
+                """,
+                (wallet_address, datetime.now(), datetime.now())
+            )
+            result = cur.fetchone()
+        conn.commit()
+        return result if result else None
+    
 
 def save_user_info(email: str, password:str, fullname: str, nickname: str, gender: str, country:str, address:str, phonenumber:str, edutoken:float, learntoken:float) -> Dict:
     """Insert user information into database"""
@@ -62,6 +78,15 @@ def get_user_by_token(token: str) -> dict:
             cur.execute("SELECT * FROM user_info WHERE wallet_address = %s", (token,))
             result = cur.fetchone()
     return result if result else None
+
+def get_user_by_wallet_address(wallet_address: str) -> dict:
+    """Get user information by wallet address"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM user_info WHERE wallet_address = %s", (wallet_address,))
+            result = cur.fetchone()
+    return result if result else None
+    
 
 def get_user_by_email(email: str) -> dict:
     with get_db_connection() as conn:

@@ -10,6 +10,7 @@ class RegisterRequest(BaseModel):
     country: Optional[str] = None
     address: Optional[str] = None
     phone: Optional[str] = None
+    wallet_address: Optional[str] = None
 
 class LoginRequest(BaseModel):
     email: str
