@@ -62,7 +62,7 @@ const DesktopNavigation = () => {
                             sx={{
                                 textTransform: "none",
                                 color: "#fff",
-                                fontWeight: 500,
+                                fontWeight: 700,
                                 fontSize: "1.1rem",
                                 minHeight: "70px",
                                 px: 2,

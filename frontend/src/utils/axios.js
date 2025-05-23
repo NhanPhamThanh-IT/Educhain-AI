@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { PATH_AUTH } from '../routes/path';
 // config
 import { HOST_API } from '../config';
 
@@ -39,8 +38,7 @@ axiosInstance.interceptors.response.use(
       if (status === 403) {
         console.log('Access forbidden');
       } else if (status === 401) {
-        // Redirect to the login page
-        window.location.href = PATH_AUTH.login;
+        console.log('Unauthorized - 401. Redirection to login removed.');
       } else {
         const errorMessage = error.response.data.message || 'An error occurred';
         console.log(errorMessage);

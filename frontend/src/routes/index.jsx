@@ -8,7 +8,6 @@ import {
     MyLearningPage,
     LeaderBoard,
     Market,
-    AuthPage,
     AllCourses,
     HomePage,
     AboutUs,
@@ -97,12 +96,6 @@ const MainLayout = ({ children, displayHeader = true, displayFooter = true }) =>
 };
 
 const routes = [
-    {
-        path: "authentication",
-        children: [
-            { path: "", element: <AuthPage /> },
-        ],
-    },
     {
         path: "*",
         children: [
