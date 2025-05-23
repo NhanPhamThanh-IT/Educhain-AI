@@ -15,18 +15,18 @@ import {
   Widgets as WidgetsIcon 
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from "react-router-dom";
+import { useLearning } from '../context';
 
 const WidgetContent = () => {
     const theme = useTheme();
-    const navigate = useNavigate();
+    const { handleNavItemClick } = useLearning();
 
     const NAV_ITEMS = [
-        { label: "Your Courses", path: "/mylearning" },
-        { label: "Market", path: "/market" },
-        { label: "Missions", path: "/learning/mission" },
-        { label: "Leaderboard", path: "/learning/leaderboard" },
-        { label: "Exchange", path: "/learning/exchange" },
+        { label: "Your Courses", key: "courses" },
+        { label: "Market", key: "market" },
+        { label: "Missions", key: "missions" },
+        { label: "Leaderboard", key: "leaderboard" },
+        { label: "Exchange", key: "exchange" },
     ];
 
     return (
@@ -45,7 +45,6 @@ const WidgetContent = () => {
                 backdropFilter: "blur(8px)",
                 borderRadius: 2,
                 p: 1,
-                boxShadow: theme.shadows[2],
             }}
         >
             {NAV_ITEMS.map((item, index) => (
@@ -69,7 +68,7 @@ const WidgetContent = () => {
                                 transform: "translateY(-2px)",
                             },
                         }}
-                        onClick={() => navigate(item.path)}
+                        onClick={() => handleNavItemClick(item.key)}
                     >
                         {item.label}
                     </Button>

@@ -27,6 +27,11 @@ import { settings, topics } from "../constants";
 import { courses, categoryColors } from "../constants-fake-data";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
+import { useLearning } from '../context';
+import MarketSection from '../../../sections/LearningPage/MarketSection';
+import MissionSection from '../../../sections/LearningPage/MissionSection';
+import LeaderboardSection from '../../../sections/LearningPage/LeaderboardSection';
+import ExchangeSection from '../../../sections/LearningPage/ExchangeSection';
 
 const options = [
   {
@@ -418,7 +423,7 @@ const ExploreTopics = () => {
   );
 };
 
-const Content = () => {
+const Content = ({ sections, selectedSection, selectedHistory }) => {
   const theme = useTheme();
 
   const navigate = useNavigate();
@@ -600,10 +605,23 @@ const Content = () => {
 };
 
 const ContentArea = ({ sections, selectedSection, selectedHistory }) => {
+  const { selectedNavItem } = useLearning();
   const theme = useTheme();
-  const contentData = sections.find(
-    (s) => s.key === selectedSection && s.history?.includes(selectedHistory)
-  )?.content;
+
+  const renderNavContent = () => {
+    switch (selectedNavItem) {
+      case 'market':
+        return <MarketSection />;
+      case 'missions':
+        return <MissionSection />;
+      case 'leaderboard':
+        return <LeaderboardSection />;
+      case 'exchange':
+        return <ExchangeSection />;
+      default:
+        return <Content sections={sections} selectedSection={selectedSection} selectedHistory={selectedHistory} />;
+    }
+  };
 
   return (
     <Box
@@ -617,40 +635,15 @@ const ContentArea = ({ sections, selectedSection, selectedHistory }) => {
       }}
     >
       <AnimatePresence mode="wait">
-        {contentData ? (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {contentData}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="default"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Box
-              sx={{
-                p: { xs: 2, sm: 3, md: 4 },
-                display: "flex",
-                flexDirection: "column",
-                gap: 6,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Content />
-              <YourCourses courses={courses} />
-              <ExploreTopics />
-            </Box>
-          </motion.div>
-        )}
+        <motion.div
+          key={selectedNavItem}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          {renderNavContent()}
+        </motion.div>
       </AnimatePresence>
     </Box>
   );

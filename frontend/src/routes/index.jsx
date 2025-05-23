@@ -17,6 +17,7 @@ import {
     ProfileSetup,
     LearningPage
 } from '../components/lazyComponents';
+import { LearningProvider } from '../pages/LearningPage/context';
 
 import AppBarComponent from "../components/Partials/Header/Index";
 import FooterComponent from "../components/Partials/Footer";
@@ -121,7 +122,7 @@ const routes = [
             { path: "", element: <Navigate to="/learning/course" replace /> },
             { path: "leaderboard", element: <MainLayout><LeaderBoard /></MainLayout> },
             { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
-            { path: "course", element: <LearningPage /> },
+            { path: "course", element: <LearningProvider><LearningPage /></LearningProvider> },
             { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
             { path: "exchange", element: <ExchangeCoin /> }
         ],
