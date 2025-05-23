@@ -22,8 +22,8 @@ def init_course():
                     introduction TEXT,
                     description TEXT,
                     lesson UUID[],
-                    quiz_question INTEGER[],
-                    exam_question INTEGER[],
+                    quiz_question TEXT[],
+                    exam_question TEXT[],
                     study_guide INTEGER[],
                     document INTEGER[],
                     wallet_address TEXT,
@@ -164,5 +164,20 @@ def get_docs(course_id: str):
             result = cur.fetchall()
 
     return result if result else None 
+
+def get_quiz(course_id: str):
+    """Get all quiz for a specific course"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT * FROM quiz_question 
+                WHERE id = ANY(SELECT unnest(quiz_question) FROM course WHERE id = %s)
+                """,
+                (course_id,)
+            )
+            result = cur.fetchall()
+
+    return result if result else None
 
 

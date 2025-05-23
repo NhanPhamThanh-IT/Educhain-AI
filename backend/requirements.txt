@@ -10,7 +10,7 @@ azure-storage-blob
 azure.ai.formrecognizer
 python-multipart
 lightrag-hku==1.2.3
-"psycopg[binary,pool]"
+psycopg[binary,pool]
 pipmaster
 bcrypt
 pyjwt

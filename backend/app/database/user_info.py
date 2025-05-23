@@ -27,12 +27,16 @@ def init_user_info():
                     address TEXT,
                     phonenumber VARCHAR(20),
                     edutoken DECIMAL(10, 2) DEFAULT 0,
+                    strength TEXT[], 
+                    weakness TEXT[],
                     learntoken DECIMAL(10, 2) DEFAULT 0,
+                    wallet_address TEXT
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
         conn.commit()
+
 
 def save_user_info(email: str, password:str, fullname: str, nickname: str, gender: str, country:str, address:str, phonenumber:str, edutoken:float, learntoken:float) -> Dict:
     """Insert user information into database"""
@@ -50,6 +54,14 @@ def save_user_info(email: str, password:str, fullname: str, nickname: str, gende
             result = cur.fetchone()
         conn.commit()
         return result
+
+def get_user_by_token(token: str) -> dict:
+    """Get user information by token"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM user_info WHERE wallet_address = %s", (token,))
+            result = cur.fetchone()
+    return result if result else None
 
 def get_user_by_email(email: str) -> dict:
     with get_db_connection() as conn:

@@ -8,7 +8,7 @@ from utils.blob_storage_utils import container_exists, blob_service_client
 def create_course_container(course_id):
     if (container_exists(course_id)):
         print(f"Container {course_id} already exists")
-        return
+        return  
     container_client = blob_service_client.get_container_client(course_id)
     container_client.create_container()
 

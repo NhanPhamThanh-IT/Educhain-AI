@@ -21,7 +21,7 @@ if not OPENAI_API_KEY:
 
 # Create tools
 get_knowledge_tool = GetKnowledgeTool()
-# create_quiz_tool = CreateQuizTool()
+create_quiz_tool = CreateQuizTool()
 # create_study_guide_tool = CreateStudyGuideTool()
 # create_exam_tool = CreateExamTool()
 

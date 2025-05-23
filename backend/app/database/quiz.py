@@ -15,16 +15,81 @@ def init_quiz():
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS quiz_question (
                     id SERIAL PRIMARY KEY,
+                    quiz_id TEXT NOT NULL,
                     question TEXT NOT NULL,
-                    options TEXT[],
                     correct_answer TEXT NOT NULL,
+                    options TEXT[],
+                    is_finished BOOLEAN DEFAULT FALSE,
+                    is_correct BOOLEAN DEFAULT FALSE,
+                    course_id TEXT,
+                    explaination TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
         conn.commit()
 
-def save_quiz(course_id:int, question: str, options: List[str], correct_answer: str) -> Dict:
+def save_quiz_is_finished(id: str, is_correct: bool, is_finished: bool) -> Dict:
+    """Insert quiz question into database"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE quiz_question
+                SET is_correct = %s, is_finished = %s, updated_at = %s
+                WHERE id = %s
+                RETURNING *
+                """,
+                (is_correct, is_finished, datetime.now(), id)
+            )
+            result = cur.fetchone()
+        conn.commit()
+        return result if result else None
+
+
+def get_quiz_by_quiz_id(quiz_id: str) -> List[Dict]:
+    """Get quiz question by quiz_id"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT * FROM quiz_question WHERE quiz_id = %s",
+                (quiz_id,)
+            )
+            result = cur.fetchall()
+        return result if result else None
+
+# streghth is all quiz question that user got correct
+# weakness is all quiz question that user got wrong
+
+
+def save_user_strength_weakness(user_id: str, quiz_id: str) -> Dict:
+    """Insert user strength and weakness into database"""
+    res = get_quiz_by_quiz_id(quiz_id)
+    strength = []
+    weakness = []
+    for quiz in res:
+        if quiz['is_correct']:
+            strength.append(quiz['question'])
+        else:
+            weakness.append(quiz['question'])
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE user_info
+                SET strength = %s, weakness = %s, updated_at = %s
+                WHERE id = %s
+                RETURNING *
+                """,
+                (strength, weakness, datetime.now(), user_id)
+            )
+            result = cur.fetchone()
+        conn.commit()
+        return result if result else None
+
+
+
+def save_quiz(course_id: int, quiz_id: str, question: str, options: List[str], correct_answer: str) -> Dict:
     """Insert quiz question"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
@@ -32,7 +97,7 @@ def save_quiz(course_id:int, question: str, options: List[str], correct_answer: 
             cur.execute(
                 """
                 INSERT INTO quiz_question (question, options, correct_answer, created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
                 (question, options_array, correct_answer, datetime.now(), datetime.now())
@@ -43,7 +108,7 @@ def save_quiz(course_id:int, question: str, options: List[str], correct_answer: 
                 """
                 UPDATE course
                 SET quiz_question = array_append(quiz_question, %s)
-                WHERE id = %s
+                WHERE quiz_question = %s
                 RETURNING *
                 """,
                 (quiz_id,course_id)
@@ -84,3 +149,20 @@ def delete_quiz(quiz_id: int) -> bool:
         conn.commit()
         return deleted
 
+
+def save_quiz_explaination(id: str, explaination: str) -> Dict:
+    """Insert quiz explaination into database"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE quiz_question
+                SET explaination = %s, updated_at = %s
+                WHERE id = %s
+                RETURNING *
+                """,
+                (explaination, datetime.now(), id)
+            )
+            result = cur.fetchone()
+        conn.commit()
+        return result if result else None

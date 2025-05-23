@@ -88,6 +88,30 @@ async def query_rag(query, course_name="papers", mode="naive", only_need_context
     print(result)
     
     return result
+
+async def query_rag_quiz(query, course_name="papers", mode="global"):
+    """
+    Query the RAG system with the specified parameters for quiz generation.
+    
+    Args:
+        query (str): The query text
+        course_name (str): Name of the course to query
+        mode (str): Query mode ("naive", "local", "global", or "hybrid")
+        only_need_context (bool): Whether to return only the context
+        
+    Returns:
+        dict: Response from the RAG system
+    """
+    course_name = hash_course_name(course_name)
+    rag = await initialize_rag(course_name)
+    
+    param = QueryParam(mode=mode, only_need_context=only_need_context)
+    result = await rag.aquery(query, param=param)
+
+    print(result)
+    
+    return result
+
     
 
 async def insert_document(document_text, course_name="papers"):
