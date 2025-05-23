@@ -25,6 +25,20 @@ create_quiz_tool = CreateQuizTool()
 # create_study_guide_tool = CreateStudyGuideTool()
 # create_exam_tool = CreateExamTool()
 
+def get_message_history(thread_id: str) -> List[Dict[str, Any]]:
+    """
+    Lấy lịch sử tin nhắn từ database dựa trên thread_id
+    
+    Args:
+        thread_id (str): ID của cuộc trò chuyện
+        
+    Returns:
+        List[Dict[str, Any]]: Danh sách các tin nhắn trong cuộc trò chuyện
+    """
+    recent_chat = get_recent_chat_history(thread_id)
+    chat_history = format_chat_history(recent_chat)
+    return chat_history
+
 class CustomHandler(BaseCallbackHandler):
     """
     Lớp xử lý callback tùy chỉnh để theo dõi và xử lý các sự kiện trong quá trình chat
