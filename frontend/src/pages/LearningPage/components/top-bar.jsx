@@ -8,14 +8,26 @@ import {
     Typography,
     useTheme,
     alpha,
+    Avatar,
+    Menu,
+    MenuItem,
+    Dialog, // Added Dialog
+    DialogActions, // Added DialogActions
+    DialogContent, // Added DialogContent
+    DialogContentText, // Added DialogContentText
+    DialogTitle // Added DialogTitle
 } from "@mui/material";
 import {
     Refresh as RefreshIcon,
     MoreVert as MoreVertIcon,
-    Widgets as WidgetsIcon
+    Widgets as WidgetsIcon,
+    AccountCircle as AccountCircleIcon, // Added AccountCircleIcon
+    Logout as LogoutIcon // Added LogoutIcon
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLearning } from '../context';
+import { useNavigate } from "react-router-dom";
+import { useWallet } from "@suiet/wallet-kit"; // Added useWallet import
 
 const WidgetContent = () => {
     const theme = useTheme();
@@ -79,8 +91,48 @@ const WidgetContent = () => {
 };
 
 const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) => {
+    const navigate = useNavigate();
     const theme = useTheme();
+    const wallet = useWallet(); // Get wallet object
     const [isWidgetOpen, setWidgetOpen] = useState(true);
+    const [anchorEl, setAnchorEl] = useState(null); // State for Menu anchor
+    const [openLogoutDialog, setOpenLogoutDialog] = useState(false); // State for logout dialog
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleMyAccountClick = () => {
+        navigate("/profile");
+        handleMenuClose();
+    };
+
+    const handleLogoutClick = () => {
+        setOpenLogoutDialog(true);
+        handleMenuClose();
+    };
+
+    const handleCloseLogoutDialog = () => {
+        setOpenLogoutDialog(false);
+    };
+
+    const handleConfirmLogout = async () => { // Made async
+        if (wallet.connected) {
+            try {
+                await wallet.disconnect();
+            } catch (e) {
+                console.error("Failed to disconnect wallet", e);
+                // Optionally, inform the user that wallet disconnection failed
+            }
+        }
+        localStorage.removeItem('address');
+        navigate("/homepage");
+        handleCloseLogoutDialog();
+    };
 
     return (
         <Box
@@ -189,21 +241,63 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                     </IconButton>
                 </Tooltip>
 
-                <Tooltip title="More options">
-                    <IconButton
-                        size="small"
-                        sx={{
-                            transition: "all 0.2s ease",
-                            "&:hover": {
-                                transform: "scale(1.1)",
-                                backgroundColor: alpha(theme.palette.action.hover, 0.1),
-                            }
+                <Box onMouseLeave={handleMenuClose} sx={{ position: 'relative' }}>
+                    <Tooltip title="User options">
+                        <IconButton
+                            onClick={handleMenuOpen} // Or onMouseEnter if preferred for hover
+                            onMouseEnter={handleMenuOpen} // Open on hover
+                            size="small"
+                            sx={{ p: 0 }}
+                        >
+                            <Avatar alt="User Avatar" src="https://avatar.iran.liara.run/public/6" />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                        MenuListProps={{ onMouseLeave: handleMenuClose }} // Close when mouse leaves menu items
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
                         }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        getContentAnchorEl={null} // Ensure anchorOrigin is respected
                     >
-                        <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                </Tooltip>
+                        <MenuItem onClick={handleMyAccountClick}>
+                            <AccountCircleIcon sx={{ mr: 1, color: theme.palette.primary.main }} /> My Account
+                        </MenuItem>
+                        <MenuItem onClick={handleLogoutClick}>
+                            <LogoutIcon sx={{ mr: 1, color: theme.palette.error.main }} /> Logout
+                        </MenuItem>
+                    </Menu>
+                </Box>
             </Box>
+
+            <Dialog
+                open={openLogoutDialog}
+                onClose={handleCloseLogoutDialog}
+                aria-labelledby="logout-dialog-title"
+                aria-describedby="logout-dialog-description"
+            >
+                <DialogTitle id="logout-dialog-title">Confirm Logout</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="logout-dialog-description">
+                        Are you sure you want to logout?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseLogoutDialog} color="primary">
+                        No
+                    </Button>
+                    <Button onClick={handleConfirmLogout} color="primary" autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
