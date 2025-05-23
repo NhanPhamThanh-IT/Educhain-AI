@@ -3,9 +3,9 @@ import { Box, CircularProgress } from "@mui/material";
 import Page from "@components/Page";
 
 // Lazy load components
-const Introduction = lazy(() => import("@sections/Intro/Introduction/index"));
-const VideoDemo = lazy(() => import("./VideoDemo.jsx"));
-const Features = lazy(() => import("@sections/Intro/Features/index"));
+const Introduction = lazy(() => import("./sections/Introduction"));
+const VideoDemo = lazy(() => import("./sections/VideoDemo.jsx"));
+const Features = lazy(() => import("./sections/Features.jsx"));
 const Usecases = lazy(() => import("@sections/Intro/Usecases/index"));
 const LastSection = lazy(() => import("@sections/Intro/LastSection/index"));
 
