@@ -25,7 +25,7 @@ export const useAppBarLogic = () => {
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
         transition: "all 0.2s ease-in-out",
         backdropFilter: "none",
-        py: 2.5,
+        py: 1.8,
         borderBottom: "none",
     }), [elevated]);
 

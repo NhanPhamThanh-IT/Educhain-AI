@@ -9,7 +9,7 @@ const PRIMARY_COLOR = "#365ACA";
 const HOVER_COLOR = "#2B4E96";
 const TEXT_COLOR = "#555";
 
-export default function SignUpForm() {
+export default function SignUpForm({ onSuccess }) {
     const navigate = useNavigate();
 
     const [fullname, setFullName] = useState("");
@@ -18,6 +18,8 @@ export default function SignUpForm() {
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarType, setSnackbarType] = useState("error");
 
     const handleCloseSnackbar = () => {
         setErrorMsg("");
@@ -45,7 +47,10 @@ export default function SignUpForm() {
             localStorage.setItem("access_token", response.data.access_token);
             setSuccessMsg("Sign up successful!");
             setTimeout(() => {
-                navigate("/homepage");
+                if (onSuccess) {
+                    onSuccess();
+                }
+                navigate("/learning/course");
             }, 1000);
         } catch (error) {
             console.error(error);
@@ -90,28 +95,29 @@ export default function SignUpForm() {
             <Button
                 fullWidth
                 variant="contained"
-                sx={{
-                    mt: 1, py: 1, fontSize: "1rem", fontWeight: "bold",
-                    bgcolor: PRIMARY_COLOR, color: "white",
-                    ":hover": { transform: "scale(1.05)", bgcolor: HOVER_COLOR }
-                }}
                 onClick={handleSignUp}
                 disabled={loading}
+                sx={{
+                    mt: 1,
+                    py: 1.1,
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    bgcolor: PRIMARY_COLOR,
+                    color: "white",
+                    ":hover": { transform: "scale(1.05)", bgcolor: HOVER_COLOR }
+                }}
             >
                 {loading ? <CircularProgress size={24} color="inherit" /> : "Sign Up"}
             </Button>
 
-            {/* Snackbar thông báo lỗi */}
-            <Snackbar open={!!errorMsg} autoHideDuration={4000} onClose={handleCloseSnackbar}>
-                <Alert severity="error" onClose={handleCloseSnackbar}>
-                    {errorMsg}
-                </Alert>
-            </Snackbar>
-
-            {/* Snackbar thông báo thành công */}
-            <Snackbar open={!!successMsg} autoHideDuration={4000} onClose={handleCloseSnackbar}>
-                <Alert severity="success" onClose={handleCloseSnackbar}>
-                    {successMsg}
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbarType} sx={{ width: "100%" }}>
+                    {snackbarType === "error" ? errorMsg : successMsg}
                 </Alert>
             </Snackbar>
         </Box>
