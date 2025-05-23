@@ -70,6 +70,8 @@ const Introduction = () => {
                                         component="img"
                                         src={image1}
                                         alt="EduChain AI Platform"
+                                        loading="lazy"
+                                        decoding="async"
                                         sx={{
                                             width: '100%',
                                             height: 'auto',
@@ -112,6 +114,8 @@ const Introduction = () => {
                                         component="img"
                                         src={image2}
                                         alt="EduChain AI Platform"
+                                        loading="lazy"
+                                        decoding="async"
                                         sx={{
                                             width: '100%',
                                             height: 'auto',
@@ -219,6 +223,8 @@ const Introduction = () => {
                                         component="img"
                                         src={image3}
                                         alt="EduChain AI Platform"
+                                        loading="lazy"
+                                        decoding="async"
                                         sx={{
                                             width: '100%',
                                             height: 'auto',
@@ -261,6 +267,8 @@ const Introduction = () => {
                                         component="img"
                                         src={image4}
                                         alt="EduChain AI Platform"
+                                        loading="lazy"
+                                        decoding="async"
                                         sx={{
                                             width: '100%',
                                             height: 'auto',
