@@ -3,10 +3,10 @@ import logging
 import asyncio
 from dotenv import load_dotenv
 
-from lightrag import LightRAG, QueryParam
-from lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
-from lightrag.utils import EmbeddingFunc
-from lightrag.kg.shared_storage import initialize_pipeline_status
+from app.LightRAG.lightrag import LightRAG, QueryParam
+from app.LightRAG.lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
+from app.LightRAG.lightrag.utils import EmbeddingFunc
+from app.LightRAG.lightrag.kg.shared_storage import initialize_pipeline_status
 
 from app.utils.hashing import hash_course_name
 
@@ -85,11 +85,11 @@ async def query_rag(query, course_name="papers", mode="naive", only_need_context
     param = QueryParam(mode=mode, only_need_context=only_need_context)
     result = await rag.aquery(query, param=param)
 
-    print(result)
+    # print(result)
     
     return result
 
-async def query_rag_quiz(query, course_name="papers", mode="global"):
+async def query_rag_quiz(query, course_name="papers", mode="global", only_need_context=True):
     """
     Query the RAG system with the specified parameters for quiz generation.
     
@@ -108,7 +108,7 @@ async def query_rag_quiz(query, course_name="papers", mode="global"):
     param = QueryParam(mode=mode, only_need_context=only_need_context)
     result = await rag.aquery(query, param=param)
 
-    print(result)
+    # print(result)
     
     return result
 
