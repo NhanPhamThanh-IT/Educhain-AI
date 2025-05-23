@@ -6,7 +6,6 @@ export const CourseDetails = lazy(() => import('../pages/CourseDetails'));
 export const MyLearningPage = lazy(() => import('../pages/MyLearningPage'));
 export const LeaderBoard = lazy(() => import('../pages/LeaderBoard'));
 export const Market = lazy(() => import('../pages/Market'));
-export const AuthPage = lazy(() => import('../pages/authentication/AuthPage'));
 export const AllCourses = lazy(() => import('../pages/AllCourses'));
 export const HomePage = lazy(() => import('../pages/IntroPages/HomePage'));
 export const AboutUs = lazy(() => import('../pages/IntroPages/AboutUs'));
