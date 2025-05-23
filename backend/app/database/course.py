@@ -39,6 +39,7 @@ def init_course():
             """)
         conn.commit()
 
+
 def save_course(user_id: int, name:str, category:str, introduction:str, description:str, lessons: List[str]) -> Dict:
     """Insert course into database"""
     with get_db_connection() as conn:
