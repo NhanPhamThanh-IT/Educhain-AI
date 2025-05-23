@@ -9,7 +9,7 @@ const PRIMARY_COLOR = "#365ACA";
 const HOVER_COLOR = "#2B4E96";
 const TEXT_COLOR = "#555";
 
-export default function LoginForm() {
+export default function LoginForm({ onSuccess }) {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -46,7 +46,10 @@ export default function LoginForm() {
             localStorage.setItem("access_token", response.data.access_token);
             showSnackbar("Login successful!", "success");
             setTimeout(() => {
-                navigate("/homepage");
+                if (onSuccess) {
+                    onSuccess();
+                }
+                navigate("/learning/course");
             }, 1000);
         } catch (error) {
             console.error(error);

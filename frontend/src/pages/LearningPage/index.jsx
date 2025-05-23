@@ -21,7 +21,7 @@ import ContentArea from "./components/content-area";
 
 export default function EduchainApp() {
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [searchParams] = useSearchParams();
   const [selectedHistory, setSelectedHistory] = useState(
     searchParams.get("historyItem") || ""
