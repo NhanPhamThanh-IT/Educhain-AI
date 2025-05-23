@@ -14,6 +14,8 @@ module edutoken::EDUTOKEN {
         admin: address,
     }
 
+    struct InitFlag has key{}
+
     /// Event logs
     struct MintEvent has drop, store {
         recipient: address,
@@ -26,6 +28,11 @@ module edutoken::EDUTOKEN {
     }
 
     public entry fun init(witness: COIN, ctx: &mut TxContext): (AdminCap, TreasuryCap<COIN>) {
+        assert!(
+            !exists<InitFlag>(TxContext::sender(ctx)),
+            b"EDUTOKEN: Already initialized"
+        );
+        
         let (treasury_cap, metadata) = coin::create_currency<COIN>(
             witness, 9, b"COIN", b"First Coin", b"This is my first coin", option::none(), ctx
         );
@@ -37,6 +44,8 @@ module edutoken::EDUTOKEN {
         };
 
         transfer::public_freeze_object(metadata);
+        /// Lưu InitFlag vào storage để đánh dấu đã init
+        move_to<InitFlag>(&admin, InitFlag{});
         (admin_cap, treasury_cap)
     }
 
