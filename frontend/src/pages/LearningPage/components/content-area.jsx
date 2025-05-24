@@ -27,6 +27,7 @@ import { settings, topics } from "../constants";
 import { courses, categoryColors } from "../constants-fake-data";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
+import CourseSection from "./CourseSection"; // Assuming this is a custom component for displaying course details
 
 const options = [
   {
@@ -92,6 +93,8 @@ const YourCourses = ({ courses }) => {
   return (
     <>
       <TitleSection title={"My learning journey"} />
+
+      <CourseSection />
 
       <Box sx={{ width: "100%", mx: "auto", overflow: "hidden" }}>
         <Stack
@@ -508,24 +511,25 @@ const Content = () => {
                     }
                   }}
                 >
-                  <IconButton
-                    size="large"
-                    aria-label={title}
-                    color="primary"
+                  <Box
                     sx={{
-                      color: "white",
-                      p: 2,
-                      mb: 1,
-                      backgroundColor: alpha(color, 0.1),
-                      transition: "all 0.3s ease",
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '50%', // Maintain circular shape of IconButton
+                      color: "white",    // Set icon color to white
+                      p: 2,              // Padding from original IconButton sx
+                      mb: 1,             // Margin bottom from original IconButton sx
+                      backgroundColor: alpha(color, 0.1), // Background color from original IconButton sx
+                      transition: "all 0.3s ease",   // Transition from original IconButton sx
                       "&:hover": {
-                        backgroundColor: alpha(color, 0.2),
-                        transform: "scale(1.1)",
+                        backgroundColor: alpha(color, 0.2), // Hover background from original IconButton sx
+                        transform: "scale(1.1)",          // Hover transform from original IconButton sx
                       }
                     }}
                   >
                     {icon}
-                  </IconButton>
+                  </Box>
                   <Typography
                     variant="h6"
                     fontWeight={700}

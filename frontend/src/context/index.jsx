@@ -29,11 +29,11 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     const TOKEN_ICO = async () => {
         try {
             const address = await CHECK_WALLET_CONNECTED();
-            if (!address) {
-                notifyError("Please connect your wallet (MetaMask) and switch to the testnet.");
-                return null;
-            }
-            setLoader(true);
+            // // if (!address) {
+            // //     notifyError("Please connect your wallet (MetaMask) and switch to the testnet.");
+            // //     return null;
+            // // }
+            // setLoader(true);
 
             try {
                 // Check network first
@@ -74,11 +74,11 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         try {
             setLoader(true);
             const address = await CHECK_WALLET_CONNECTED();
-            if (!address) {
-                notifyError("Please connect your wallet and switch to the testnet.");
-                setLoader(false);
-                return;
-            }
+            // if (!address) {
+            //     notifyError("Please connect your wallet and switch to the testnet.");
+            //     setLoader(false);
+            //     return;
+            // }
 
             // Validate input
             const tokenAmount = Number(amount);

@@ -82,7 +82,7 @@ const CourseCard = ({ course }) => {
                             </Typography>
                         </Box>
                         <Typography variant="body2" color="textSecondary" fontWeight="bold">
-                            By {course.instructor}
+                            By {course.instructor.name}
                         </Typography>
                     </Box>
                     <Box mt={3} display="flex" justifyContent="space-between" flexDirection={{ xs: "column", sm: "row" }} alignItems={{ xs: "center", sm: "flex-start" }} gap={2}>
