@@ -125,7 +125,7 @@ const routes = [
             { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
             { path: "course", element: <LearningPage /> },
             { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
-            { path: "exchange", element: <ExchangeCoin /> }
+            { path: "exchange", element: <MainLayout><ExchangeCoin /></MainLayout> }
         ],
     },
     { path: "profilesetup", element: <MainLayout><ProfileSetup /></MainLayout> },
