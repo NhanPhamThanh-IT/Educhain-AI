@@ -12,7 +12,6 @@ import {
     DepositAndEarn,
     LearningPage
 } from '../components/lazyComponents';
-import { LearningProvider } from '../pages/LearningPage/context';
 
 import AppBarComponent from "../components/Partials/Header/Index";
 import FooterComponent from "../components/Partials/Footer";
@@ -114,8 +113,17 @@ const routes = [
         path: "learning",
         element: <LearningProvider><MainLayout displayFooter={false} displayHeader={false}><LearningPage /></MainLayout></LearningProvider>,
         children: [
+<<<<<<< Updated upstream
             { index: true, element: <LearningPage /> },
             { path: ":navItem", element: <LearningPage /> },
+=======
+            { path: "", element: <Navigate to="/learning/course" replace /> },
+            { path: "leaderboard", element: <MainLayout><LeaderBoard /></MainLayout> },
+            { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
+            { path: "course", element: <LearningPage /> },
+            { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
+            { path: "exchange", element: <ExchangeCoin /> }
+>>>>>>> Stashed changes
         ],
     },
     { path: "learning/createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
