@@ -46,13 +46,12 @@ const UserMenu = () => {
                 setAccountAddress(wallet.account.address);
                 localStorage.setItem("address", wallet.account.address);
                 setCurrentBalance(Number(balance) || 0); // Sets SUI balance
-                setTotalClaimed(1000); // Set totalClaimed to 1000 on connect
+                // Set totalClaimed to 1000 on connect
             }
         };
 
         if (!wallet.connected) {
             setAccountAddress(null);
-            setCurrentBalance(null); // SUI balance
             localStorage.removeItem("address");
             // If you want to reset totalClaimed on disconnect, uncomment the line below
             // setTotalClaimed(0); 

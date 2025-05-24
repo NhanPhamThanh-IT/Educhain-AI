@@ -1,58 +1,41 @@
 // Importing necessary react hooks and components
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 // Importing necessary MUI components
 import { Container, Button, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 // Importing custom components
-import Page from "../components/Page";
-import CourseList from "../components/MyLearningPage/CoursesList";
+import Page from "../../components/Page";
+import CourseList from "../../components/MyLearningPage/CoursesList";
 
-const API_URL = `${import.meta.env.VITE_MOCK_API_2}mylearningcourses`;
+// constants
+import { data } from "./constants"; // Assuming data is imported from a constants file
 
 const MyLearning = () => {
     const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const getCourses = async () => {
-            try {
-                const response = await axios.get(API_URL);
-                const data = response.data;
-                if (!Array.isArray(data)) {
-                    throw new Error("Invalid data format");
-                }
-                setCourses(data);
-            } catch (error) {
-                console.error("Error fetching courses:", error);
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        getCourses();
-    }, []);
+        // Using data imported from './constants'
+        if (data && Array.isArray(data)) {
+            setCourses(data);
+        } else {
+            // Handle cases where 'data' from constants might not be as expected
+            console.error("Imported constant data is invalid or not an array:", data);
+            setCourses([]); // Set to empty array to prevent rendering issues
+        }
+    }, []); // Empty dependency array: effect runs once on mount
 
-    if (loading) return <Typography align="center">Loading...</Typography>;
-
-    if (error || courses.length === 0) {
+    if (courses.length === 0) {
         return (
             <Container maxWidth="xl" sx={{ mt: 15, textAlign: "center" }}>
                 <Typography variant="h5" fontWeight="bold" color="textSecondary" mb={2}>
-                    {error ? "Unable to fetch courses. Please try again later." : "You have no courses yet."}
+                    {"You have no courses yet."}
                 </Typography>
-                {error && (
-                    <Typography variant="body2" color="error" mb={2}>
-                        Error: {error}
-                    </Typography>
-                )}
                 <Button
-                    onClick={() => navigate("/mylearning/createcourse")}
+                    onClick={() => navigate("/learning/createcourse")}
                     variant="contained"
                     startIcon={<AddIcon />}
                     sx={{
