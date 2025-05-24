@@ -15,7 +15,8 @@ import {
     MissionPage,
     ExchangeCoin,
     ProfileSetup,
-    LearningPage
+    LearningPage,
+    DocsPage
 } from '../components/lazyComponents';
 
 import AppBarComponent from "../components/Partials/Header/Index";
@@ -105,6 +106,7 @@ const routes = [
     },
     { path: "/", element: <Navigate to="/homepage" replace /> },
     { path: "homepage", element: <MainLayout><HomePage /></MainLayout> },
+    { path: "docs", element: <MainLayout><DocsPage /></MainLayout> },
     { path: "deposit-and-earn", element: <MainLayout><DepositAndEarn /></MainLayout> },
     {
         path: "mylearning",

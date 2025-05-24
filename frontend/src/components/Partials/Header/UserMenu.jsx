@@ -1,21 +1,21 @@
-import { useState, useEffect, useRef } from "react"; // Added useRef
-import { Box, Button, Menu, MenuItem, Typography } from "@mui/material"; // Added Menu, MenuItem, Typography
+import { useState, useEffect, useRef, useContext } from "react"; // Added useContext
+import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { ConnectButton } from "@suiet/wallet-kit";
 import "@suiet/wallet-kit/style.css";
 import './suiet-wallet-kit-custom.css';
 import { useWallet, useAccountBalance } from '@suiet/wallet-kit';
-import axios from "axios"; // Import axios for API calls
+import { RouterContext } from "../../../routes/index.jsx"; // Import RouterContext
 
 const UserMenu = () => {
     const wallet = useWallet();
+    const { totalClaimed, setTotalClaimed } = useContext(RouterContext); // Get totalClaimed and setTotalClaimed from context
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAddress, setAccountAddress] = useState(null);
-    const [currentBalance, setCurrentBalance] = useState(null);
-    const [menuWidth, setMenuWidth] = useState(null); // State for menu width
-    const buttonRef = useRef(null); // Ref for the button
-    const [tokenBalance, setTokenBalance] = useState(localStorage.getItem("tokenBalance") || null); // Added tokenBalance state
+    const [currentBalance, setCurrentBalance] = useState(null); // This is for SUI balance
+    const [menuWidth, setMenuWidth] = useState(null);
+    const buttonRef = useRef(null);
 
-    const { error, loading, balance } = useAccountBalance();
+    const { error, loading, balance } = useAccountBalance(); // SUI balance hook
 
     const handleClick = (event) => { // Renamed from handleOpen for clarity with MUI Menu
         setAnchorEl(event.currentTarget);
@@ -28,52 +28,40 @@ const UserMenu = () => {
         setAnchorEl(null);
     };
 
-    const handleDisconnectAndClose = async () => { // Combined disconnect and close
+    const handleDisconnectAndClose = async () => {
         if (wallet.connected) {
             try {
                 await wallet.disconnect();
-                localStorage.removeItem("address"); // Remove address from localStorage on disconnect
-                localStorage.removeItem("tokenBalance"); // Remove tokenBalance from localStorage
-                setTokenBalance(null); // Reset tokenBalance state
+                localStorage.removeItem("address");
             } catch (e) {
                 console.error("Failed to disconnect wallet", e);
             }
         }
-        handleClose(); // Close menu regardless of disconnect success/failure
+        handleClose();
     };
 
     useEffect(() => {
         const loginUser = async () => {
             if (wallet.account?.address) {
-                // Removed API call and try...catch block
-                console.log("Wallet connected, address:", wallet.account.address);
                 setAccountAddress(wallet.account.address);
                 localStorage.setItem("address", wallet.account.address);
-                localStorage.setItem("tokenBalance", "100"); // Set tokenBalance to 100
-                setTokenBalance("100"); // Update tokenBalance state
-                // Assuming the balance from useAccountBalance is the one to display initially
-                setCurrentBalance(Number(balance) || 0);
+                setCurrentBalance(Number(balance) || 0); // Sets SUI balance
+                setTotalClaimed(1000); // Set totalClaimed to 1000 on connect
             }
         };
 
         if (!wallet.connected) {
             setAccountAddress(null);
-            setCurrentBalance(null);
-            localStorage.removeItem("address"); // Clear address from localStorage on disconnect
-            localStorage.removeItem("tokenBalance"); // Clear tokenBalance from localStorage on disconnect
-            setTokenBalance(null); // Reset tokenBalance state
+            setCurrentBalance(null); // SUI balance
+            localStorage.removeItem("address");
+            // If you want to reset totalClaimed on disconnect, uncomment the line below
+            // setTotalClaimed(0); 
             return;
         }
 
         loginUser();
-        // Update token balance from local storage in case it was set by another tab/window
-        const storedTokenBalance = localStorage.getItem("tokenBalance");
-        if (storedTokenBalance) {
-            setTokenBalance(storedTokenBalance);
-        }
 
-
-    }, [wallet.connected, wallet.account?.address, balance]);
+    }, [wallet.connected, wallet.account?.address, balance, setTotalClaimed]); // Added setTotalClaimed to dependency array
 
     // Function to truncate address for display
     const truncateAddress = (address) => {
@@ -83,15 +71,15 @@ const UserMenu = () => {
 
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {wallet.connected && tokenBalance ? ( // Changed condition here
+            {wallet.connected && typeof totalClaimed === 'number' ? ( // Use totalClaimed from context
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Box component={"img"}
                         src="/Partials/Ecoin.png"
-                        alt="SUI Token"
+                        alt="Ecoin" // Corrected alt text
                         sx={{ width: 40, height: 40, borderRadius: '50%' }}
                     />
                     <Typography variant="body1" sx={{ fontWeight: 'bold', color: 'white' }}>
-                        {tokenBalance}
+                        {totalClaimed} {/* Display totalClaimed from context */}
                     </Typography>
                 </Box>
             ) : (
