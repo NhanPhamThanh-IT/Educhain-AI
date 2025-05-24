@@ -22,12 +22,14 @@ export const LearningProvider = ({ children }) => {
   const [selectedHistory, setSelectedHistory] = useState("");
 
   useEffect(() => {
-    const validNavItems = ['market', 'missions', 'leaderboard', 'exchange', 'courses'];
+    const validNavItems = ['market', 'missions', 'leaderboard', 'exchange', 'courses', 'profile']; // Added 'profile'
     if (navItem && validNavItems.includes(navItem)) {
       setSelectedNavItem(navItem);
     } else if (location.pathname === '/learning' || location.pathname === '/learning/' || location.pathname === '/learning/courses') {
       // If the path is /learning or /learning/courses, default to showing the 'courses' content.
       setSelectedNavItem('courses');
+    } else if (location.pathname === '/learning/profile') { // Added this condition
+      setSelectedNavItem('profile');
     } else {
       // Fallback for other non-matching /learning subpaths or if navItem is invalid
       // Consider what the default should be - perhaps 'courses' or null

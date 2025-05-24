@@ -5,7 +5,6 @@ import { useAppBarLogic } from "../../../hooks/useAppBarLogic"
 import DesktopNavigation from "./DesktopNavigation";
 import UserMenu from "./UserMenu";
 import { useState } from "react";
-import AuthForm from './AuthForm'; // Import the new AuthForm component
 
 import { data } from "./constants";
 
@@ -167,14 +166,6 @@ const AppBarComponent = () => {
                     </Toolbar>
                 </Container>
             </AppBar>
-
-            {/* Render the AuthModal */}
-            <AuthModal
-                open={isModalOpen}
-                handleClose={handleCloseModal}
-                authType={authType}
-                onToggleAuthType={toggleAuthTypeInModal} // Pass the toggle function
-            />
         </>
     );
 };

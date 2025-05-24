@@ -6,14 +6,10 @@ import {
     CreateCourse,
     CourseDetails,
     MyLearningPage,
-    Market,
     AllCourses,
     HomePage,
     AboutUs,
     DepositAndEarn,
-    MissionPage,
-    ExchangeCoin,
-    ProfileSetup,
     LearningPage
 } from '../components/lazyComponents';
 import { LearningProvider } from '../pages/LearningPage/context';
@@ -123,7 +119,6 @@ const routes = [
         ],
     },
     { path: "learning/createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
-    { path: "profilesetup", element: <MainLayout><ProfileSetup /></MainLayout> },
     { path: "/test", element: <Test /> },
 ];
 

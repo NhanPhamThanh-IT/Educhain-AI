@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Paper, Box, Button, Typography } from "@mui/material";
-import Page from "../components/Page";
-import ProfileHeader from "../sections/ProfileSetup/ProfileHeader";
-import ProfileForm from "../sections/ProfileSetup/ProfileForm";
-import defaultvalue from "../constants/ProfileSetupPage/default";
-import { getUserProfileApi } from "../utils/api";
+import Page from "@components/Page";
+import ProfileHeader from "./ProfileHeader";
+import ProfileForm from "./ProfileForm";
+import defaultvalue from "@constants/ProfileSetupPage/default";
+import { getUserProfileApi } from "@utils/api";
 
 const normalizeUserData = (data) => {
   return {

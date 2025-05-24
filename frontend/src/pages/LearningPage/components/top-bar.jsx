@@ -107,7 +107,7 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
     };
 
     const handleMyAccountClick = () => {
-        navigate("/profile");
+        navigate("/profilesetup");
         handleMenuClose();
     };
 

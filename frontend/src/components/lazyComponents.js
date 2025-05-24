@@ -11,5 +11,4 @@ export const AboutUs = lazy(() => import('../pages/IntroPages/AboutUs'));
 export const DepositAndEarn = lazy(() => import('../pages/IntroPages/DepositAndEarn'));
 export const MissionPage = lazy(() => import('../pages/MissionPage'));
 export const ExchangeCoin = lazy(() => import('../pages/ExchangeCoin'));
-export const ProfileSetup = lazy(() => import('../pages/ProfileSetup'));
 export const LearningPage = lazy(() => import('../pages/LearningPage')); 
