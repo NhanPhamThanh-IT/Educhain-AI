@@ -1,12 +1,37 @@
 export const data = [
     {
+        "id": "move-on-sui-course",
+        "title": "Move on Sui Course Course",
+        "description": "Learn everything about Move on Sui",
+        "images": [
+            "/move-on-sui.png?w=800",
+            "/move-on-sui.png?w=800",
+            "/move-on-sui.png?w=800",
+        ],
+        "duration_weeks": 8,
+        "level": "Beginner",
+        "instructor": {
+            "name": "SUI Team"
+        },
+        "curriculum": [
+            "Blockchain Fundamentals",
+            "Move Language Basics",
+            "Sui Architecture",
+            "Building Smart Contracts on Sui"
+        ],
+        "category": "AI",
+        "tags": ["Machine Learning", "AI Basics", "Classification", "Clustering"],
+        "rating": 4.6,
+        "language": "English"
+    },
+    {
         "id": "ai-prompt-engineering",
         "title": "Prompt Engineering for AI Developers",
         "description": "Master prompt engineering to build effective AI systems and enhance LLM applications.",
         "images": [
-            "https://images.unsplash.com/photo-1617295294873-e253d2be4c46?w=800",
-            "https://images.unsplash.com/photo-1581091870622-7b9b8d69bcf0?w=800",
-            "https://images.unsplash.com/photo-1534751516642-a1af1ef26a78?w=800"
+            "/prompt-engineering.png?w=800",
+            "/prompt-engineering-2.png?w=800",
+            "/prompt-engineering-3.png?w=800"
         ],
         "duration_weeks": 5,
         "level": "Intermediate",
@@ -49,29 +74,4 @@ export const data = [
         "rating": 4.9,
         "language": "English"
     },
-    {
-        "id": "ml-foundations",
-        "title": "Machine Learning Foundations",
-        "description": "Start your AI journey with the fundamentals of machine learning including supervised and unsupervised learning.",
-        "images": [
-            "https://images.unsplash.com/photo-1581090700227-1e8a8f66cdb5?w=800",
-            "https://images.unsplash.com/photo-1584697964154-6b8a8b6f0454?w=800",
-            "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?w=800"
-        ],
-        "duration_weeks": 8,
-        "level": "Beginner",
-        "instructor": {
-            "name": "Alice Johnson"
-        },
-        "curriculum": [
-            "Linear Regression",
-            "Classification Algorithms",
-            "Clustering",
-            "Model Evaluation"
-        ],
-        "category": "AI",
-        "tags": ["Machine Learning", "AI Basics", "Classification", "Clustering"],
-        "rating": 4.6,
-        "language": "English"
-    }
 ]
