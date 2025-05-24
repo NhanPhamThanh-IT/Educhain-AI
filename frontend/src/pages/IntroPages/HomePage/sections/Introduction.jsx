@@ -37,7 +37,6 @@ const Introduction = () => {
     const [leftRef, leftInView] = useInView({ threshold: 0.1, triggerOnce: false });
     const [middleRef, middleInView] = useInView({ threshold: 0.1, triggerOnce: false });
     const [rightRef, rightInView] = useInView({ threshold: 0.1, triggerOnce: false });
-
     const navigate = useNavigate();
     const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
 
@@ -59,7 +58,6 @@ const Introduction = () => {
     const handleLearnMoreClick = () => {
         navigate("/docs");
     }
-
     return (
         <StyledBox>
             <Toaster />
@@ -199,7 +197,7 @@ const Introduction = () => {
                                                 background: 'linear-gradient(45deg, #1976D2 30%, #1E88E5 90%)',
                                             },
                                         }}
-                                        onClick={handleGetStartedClick}
+                                         onClick={handleGetStartedClick}
                                     >
                                         Get Started
                                     </Button>
@@ -211,7 +209,7 @@ const Introduction = () => {
                                             borderColor: theme.palette.primary.main,
                                             color: theme.palette.primary.main,
                                         }}
-                                        onClick={handleLearnMoreClick}
+                                          onClick={handleLearnMoreClick}
                                     >
                                         Learn More
                                     </Button>

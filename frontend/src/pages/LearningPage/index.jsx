@@ -358,6 +358,24 @@ export default function EduchainApp() {
                         </IconButton>
                       </Tooltip>
                     )}
+                    {item.key === "learningByVideo" && (
+                      <Tooltip title="New video">
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          sx={{ marginLeft: "auto" }}
+                        >
+                          <YouTubeIcon
+                            sx={{ color: "gray", width: 20, height: 20 }}
+                            onClick={() =>
+                            (window.location.href =
+                              "/learning/course?section=learningByVideo&historyItem=create-video")
+                            }
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                     {openSection === item.key ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
 

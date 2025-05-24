@@ -6,10 +6,15 @@ import {
     CreateCourse,
     CourseDetails,
     MyLearningPage,
+    LeaderBoard,
+    Market,
     AllCourses,
     HomePage,
     AboutUs,
     DepositAndEarn,
+    MissionPage,
+    ExchangeCoin,
+    ProfileSetup,
     LearningPage
 } from '../components/lazyComponents';
 
@@ -108,25 +113,20 @@ const routes = [
         ],
     },
     { path: "allcourse", element: <MainLayout><AllCourses /></MainLayout> },
+    { path: "market", element: <MainLayout><Market /></MainLayout> },
     { path: "coursedetails", element: <MainLayout><CourseDetails /></MainLayout> },
     {
         path: "learning",
-        element: <LearningProvider><MainLayout displayFooter={false} displayHeader={false}><LearningPage /></MainLayout></LearningProvider>,
         children: [
-<<<<<<< Updated upstream
-            { index: true, element: <LearningPage /> },
-            { path: ":navItem", element: <LearningPage /> },
-=======
             { path: "", element: <Navigate to="/learning/course" replace /> },
             { path: "leaderboard", element: <MainLayout><LeaderBoard /></MainLayout> },
             { path: "mission", element: <MainLayout><MissionPage /></MainLayout> },
             { path: "course", element: <LearningPage /> },
             { path: "createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
             { path: "exchange", element: <ExchangeCoin /> }
->>>>>>> Stashed changes
         ],
     },
-    { path: "learning/createcourse", element: <MainLayout><CreateCourse /></MainLayout> },
+    { path: "profilesetup", element: <MainLayout><ProfileSetup /></MainLayout> },
     { path: "/test", element: <Test /> },
 ];
 

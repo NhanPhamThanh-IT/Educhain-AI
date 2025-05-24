@@ -48,11 +48,12 @@ const UserMenu = () => {
                         wallet_address: wallet.account.address,
                     });
                     // Handle response data if needed, e.g., set user info from response
+                    console.log("Login API response:", response.data);
                     setAccountAddress(wallet.account.address);
                     localStorage.setItem("address", wallet.account.address);
                     // Assuming the balance from useAccountBalance is the one to display initially
                     // If the API returns a different balance, update setCurrentBalance accordingly
-                    setCurrentBalance(Number(balance) || 0);
+                    setCurrentBalance(Number(balance) || 0); 
                 } catch (err) {
                     console.error("Failed to login or fetch user data:", err);
                     if (err.response) {

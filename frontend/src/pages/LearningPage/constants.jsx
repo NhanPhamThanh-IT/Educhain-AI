@@ -7,7 +7,7 @@ import StorageIcon from "@mui/icons-material/Storage";
 import ChatSection from "../../sections/LearningPage/chat-section/index";
 import QuizSection from "../../sections/LearningPage/quiz-section/index";
 import StudyGuidesSection from "../../sections/LearningPage/StudyGuidesSection";
-import VideoSection from "../../sections/LearningPage/VideoSection";
+import VideoSection from "./components/VideoSection";
 import MaterialsSection from "../../sections/LearningPage/MaterialsSection";
 
 const getColoredLabel = (text, color) => (
@@ -78,7 +78,7 @@ export const sections = [
         label: getColoredLabel("Learning by Video", "#FB923C"),
         icon: <VideoIcon sx={{ color: "#FB923C" }} />,
         content: <VideoSection />,
-        history: [],
+        history: ["create-video"],
     },
     {
         key: "learningMaterials",

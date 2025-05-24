@@ -1,52 +1,53 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
-import {
-    Box,
-    IconButton,
-    Tooltip,
-    Button,
-    Typography,
-    useTheme,
-    alpha,
-    Avatar,
-    Menu,
-    MenuItem,
-    Dialog, // Added Dialog
-    DialogActions, // Added DialogActions
-    DialogContent, // Added DialogContent
-    DialogContentText, // Added DialogContentText
-    DialogTitle // Added DialogTitle
+import { 
+  Box, 
+  IconButton, 
+  Tooltip, 
+  Button, 
+  Typography,
+  useTheme,
+  alpha,
+  Avatar,
+  Menu,
+  MenuItem,
+  Dialog, // Added Dialog
+  DialogActions, // Added DialogActions
+  DialogContent, // Added DialogContent
+  DialogContentText, // Added DialogContentText
+  DialogTitle // Added DialogTitle
 } from "@mui/material";
-import {
-    Refresh as RefreshIcon,
-    MoreVert as MoreVertIcon,
-    Widgets as WidgetsIcon,
-    AccountCircle as AccountCircleIcon, // Added AccountCircleIcon
-    Logout as LogoutIcon // Added LogoutIcon
+import { 
+  Refresh as RefreshIcon, 
+  MoreVert as MoreVertIcon, 
+  Widgets as WidgetsIcon,
+  AccountCircle as AccountCircleIcon, // Added AccountCircleIcon
+  Logout as LogoutIcon // Added LogoutIcon
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLearning } from '../context';
 import { useNavigate } from "react-router-dom";
 import { useWallet } from "@suiet/wallet-kit"; // Added useWallet import
 
 const WidgetContent = () => {
     const theme = useTheme();
-    const { handleNavItemClick } = useLearning();
+    const navigate = useNavigate();
+    const wallet = useWallet(); // Get wallet object
 
     const NAV_ITEMS = [
-        { label: "My Courses", key: "courses" },
-        { label: "Market", key: "market" },
-        { label: "Missions", key: "missions" },
-        { label: "Leaderboard", key: "leaderboard" },
-        { label: "Exchange", key: "exchange" },
+        { label: "Your Courses", path: "/mylearning" },
+        { label: "Market", path: "/market" },
+        { label: "Missions", path: "/learning/mission" },
+        { label: "Leaderboard", path: "/learning/leaderboard" },
+        { label: "Exchange", path: "/learning/exchange" },
     ];
+    
 
     return (
         <Box
             component={motion.div}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            initial={{ opacity: 0, x: 100 }} 
+            animate={{ opacity: 1, x: 0 }}  
+            transition={{ duration: 0.5, ease: "easeOut" }} 
             sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -57,6 +58,7 @@ const WidgetContent = () => {
                 backdropFilter: "blur(8px)",
                 borderRadius: 2,
                 p: 1,
+                boxShadow: theme.shadows[2],
             }}
         >
             {NAV_ITEMS.map((item, index) => (
@@ -80,7 +82,7 @@ const WidgetContent = () => {
                                 transform: "translateY(-2px)",
                             },
                         }}
-                        onClick={() => handleNavItemClick(item.key)}
+                        onClick={() => navigate(item.path)}
                     >
                         {item.label}
                     </Button>
@@ -89,13 +91,13 @@ const WidgetContent = () => {
         </Box>
     );
 };
-
+    
 const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) => {
-    const navigate = useNavigate();
     const theme = useTheme();
-    const wallet = useWallet(); // Get wallet object
     const [isWidgetOpen, setWidgetOpen] = useState(true);
-    const [anchorEl, setAnchorEl] = useState(null); // State for Menu anchor
+    const navigate = useNavigate();
+    const wallet = useWallet(); // Get wallet object
+const [anchorEl, setAnchorEl] = useState(null); // State for Menu anchor
     const [openLogoutDialog, setOpenLogoutDialog] = useState(false); // State for logout dialog
 
     const handleMenuOpen = (event) => {
@@ -107,7 +109,7 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
     };
 
     const handleMyAccountClick = () => {
-        navigate("/profilesetup");
+        navigate("/profile");
         handleMenuClose();
     };
 
@@ -133,7 +135,6 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
         navigate("/homepage");
         handleCloseLogoutDialog();
     };
-
     return (
         <Box
             component={motion.div}
@@ -157,9 +158,9 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 boxShadow: theme.shadows[1],
             }}
         >
-            <Box
-                sx={{
-                    display: "flex",
+            <Box 
+                sx={{ 
+                    display: "flex", 
                     alignItems: "center",
                     transition: "all 0.3s ease",
                     "&:hover": {
@@ -170,10 +171,10 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 {sections.find(
                     (s) => s.key === selectedSection && s.history?.includes(selectedHistory)
                 )?.icon}
-                <Typography
-                    variant="h6"
-                    sx={{
-                        ml: 1,
+                <Typography 
+                    variant="h6" 
+                    sx={{ 
+                        ml: 1, 
                         fontWeight: 600,
                         background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                         WebkitBackgroundClip: "text",
@@ -210,8 +211,8 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 </AnimatePresence>
 
                 <Tooltip title="Widget">
-                    <IconButton
-                        size="small"
+                    <IconButton 
+                        size="small" 
                         onClick={() => setWidgetOpen(!isWidgetOpen)}
                         sx={{
                             transition: "all 0.2s ease",
@@ -226,8 +227,8 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                 </Tooltip>
 
                 <Tooltip title="Refresh">
-                    <IconButton
-                        size="small"
+                    <IconButton 
+                        size="small" 
                         onClick={() => window.location.reload()}
                         sx={{
                             transition: "all 0.2s ease",
@@ -260,23 +261,21 @@ const TopBar = ({ isSidebarOpen, sections, selectedSection, selectedHistory }) =
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'right',
-                        }}
+                        }} 
                         transformOrigin={{
                             vertical: 'top',
                             horizontal: 'right',
                         }}
                         getContentAnchorEl={null} // Ensure anchorOrigin is respected
-                    >
-                        <MenuItem onClick={handleMyAccountClick}>
-                            <AccountCircleIcon sx={{ mr: 1, color: theme.palette.primary.main }} /> My Account
-                        </MenuItem>
-                        <MenuItem onClick={handleLogoutClick}>
-                            <LogoutIcon sx={{ mr: 1, color: theme.palette.error.main }} /> Logout
-                        </MenuItem>
-                    </Menu>
-                </Box>
+                    ><MenuItem onClick={handleMyAccountClick}>
+                    <AccountCircleIcon sx={{ mr: 1, color: theme.palette.primary.main }} /> My Account
+                </MenuItem>
+                <MenuItem onClick={handleLogoutClick}>
+                    <LogoutIcon sx={{ mr: 1, color: theme.palette.error.main }} /> Logout
+                </MenuItem>
+            </Menu>
+        </Box>
             </Box>
-
             <Dialog
                 open={openLogoutDialog}
                 onClose={handleCloseLogoutDialog}
