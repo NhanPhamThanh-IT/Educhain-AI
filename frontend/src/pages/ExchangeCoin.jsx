@@ -16,80 +16,33 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { SwapHoriz } from "@mui/icons-material";
-import axios from "axios";
-import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
 
 // ----------------------------------------------------------------------
 
-const COINS = [
-  { id: "bitcoin", code: "BTC", icon: "/bitcoin.png" },
-  { id: "bitcoin-cash", code: "BCH", icon: "/bch.png" },
-  { id: "ethereum", code: "ETH", icon: "/ethereum.png" },
-  { id: "litecoin", code: "LTC", icon: "/litecoin.png" },
-  { id: "0x", code: "ZRX", icon: "/0x.png" },
-  { id: "basic-attention-token", code: "BAT", icon: "/bat.png" },
-  { id: "decentraland", code: "MANA", icon: "/decentraland.png" },
-  { id: "kyber-network", code: "KNC", icon: "/kyber-network.png" },
-  { id: "chainlink", code: "LINK", icon: "/chainlink.png" },
-];
-
-const fetchCryptoPrices = async () => {
-  try {
-    const response = await axios.get(
-      "https://api.coingecko.com/api/v3/coins/markets",
-      {
-        params: {
-          vs_currency: "usd",
-          ids: COINS.map((coin) => coin.id).join(","),
-          order: "market_cap_desc",
-          per_page: COINS.length,
-          page: 1,
-          sparkline: false,
-          price_change_percentage: "24h",
-        },
-      }
-    );
-
-    return response.data.map((coin) => {
-      const matchedCoin = COINS.find((c) => c.id === coin.id);
-      return {
-        name: coin.name,
-        code: matchedCoin?.code || "",
-        value: coin.current_price.toLocaleString(),
-        change: `${coin.price_change_percentage_24h > 0 ? "+" : ""
-          }${coin.price_change_percentage_24h.toFixed(2)}%`,
-        icon: matchedCoin?.icon || "",
-      };
-    });
-  } catch (error) {
-    console.error("Error fetching crypto prices:", error);
-    return [];
-  }
-};
 export default function ExchangeCoin() {
   const {
     TOKEN_ICO,
     BUY_TOKEN,
     account,
-    loader,
+    loader, // Assuming this loader is for the BUY_TOKEN operation
     ERC20,
     TOKEN_ADDRESS,
     notifyError,
     notifySuccess,
     detail,
-    setLoader
+    setLoader // Assuming this setLoader is for the BUY_TOKEN operation
   } = useContext(RouterContext);
 
   const [tokenDetails, setTokenDetails] = useState(null);
   const [transferToken, setTransferToken] = useState(null);
   const [edtAmount, setEdtAmount] = useState("");
   const [maticAmount, setMaticAmount] = useState("");
-  const [exchangeRates, setExchangeRates] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true); // Renamed for clarity, for initial data load
 
   // Fetch token details
   useEffect(() => {
     const fetchData = async () => {
+      setPageLoading(true); // Start loading for page data
       try {
         const [icoData, tokenData] = await Promise.all([
           TOKEN_ICO(),
@@ -97,15 +50,15 @@ export default function ExchangeCoin() {
         ]);
         setTokenDetails(icoData);
         setTransferToken(tokenData);
-        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch token data:", error);
         notifyError("Failed to load token details");
-        setLoading(false);
+      } finally {
+        setPageLoading(false); // Stop loading for page data
       }
     };
     fetchData();
-  }, []);
+  }, [TOKEN_ICO, ERC20, TOKEN_ADDRESS, notifyError]); // Added dependencies
 
   // Handle EDT amount change and calculate MATIC needed
   const handleEdtChange = (e) => {
@@ -149,6 +102,14 @@ export default function ExchangeCoin() {
     }
   };
 
+  if (pageLoading) {
+    return (
+      <Page title="Exchange coin" sx={{ mt: 7, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+        <CircularProgress />
+      </Page>
+    );
+  }
+
   return (<Page title="Exchange coin" sx={{ mt: 7 }}>
     <Box
       sx={{
@@ -166,41 +127,50 @@ export default function ExchangeCoin() {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        gap={2}
-        p={3}
+        gap={3} // Increased gap for better spacing
+        p={4} // Increased padding
+        sx={{
+          backgroundColor: 'rgba(255, 255, 255, 0.7)', // Brighter, more distinct background
+          borderRadius: '16px', // Softer corners
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)', // More pronounced shadow
+          backdropFilter: 'blur(4px)',
+          border: '1px solid rgba(255, 255, 255, 0.18)',
+          width: 'auto',
+          maxWidth: '700px', // Max width for better layout on wider screens
+        }}
       >
-        <Typography variant="h4" fontWeight={700}>
-          Exchange
+        <Typography variant="h4" fontWeight={700} color="text.primary">
+          Exchange Tokens
         </Typography>
-        <Box display="flex" alignItems="center" gap={2}>
+        <Box display="flex" alignItems="center" justifyContent="center" gap={2} sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
           {/* MATIC Card */}
           <Card
             sx={{
-              p: 2,
-              minWidth: 250,
+              p: 2.5, // Adjusted padding
+              minWidth: 260, // Adjusted minWidth
               display: "flex",
               flexDirection: "column",
+              borderRadius: '12px', // Softer corners for cards
+              boxShadow: 'none', // Remove individual card shadow, parent has it
+              border: '1px solid rgba(0, 0, 0, 0.05)'
             }}
           >
             <Box display="flex" alignItems="center" gap={1}>
               <Avatar
-                src="/etherium.png"
-                alt="Ethereum"
+                src="/sui-coin.png"
+                alt="SUI"
                 sx={{ width: 32, height: 32 }}
               />
-              <Typography fontWeight={600}>ETH</Typography>
+              <Typography fontWeight={600}>SUI</Typography>
             </Box>
-            <Typography variant="caption" color="gray">
-              ETH
-            </Typography>
             <TextField
-              label="ETH Amount"
+              label="SUI Amount"
               value={maticAmount}
               disabled
               sx={{ m: 1, width: "25ch" }}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">ETH</InputAdornment>
+                  <InputAdornment position="start">SUI</InputAdornment>
                 ),
               }}
             />
@@ -211,23 +181,23 @@ export default function ExchangeCoin() {
           {/* Educhain Token Card */}
           <Card
             sx={{
-              p: 2,
-              minWidth: 250,
+              p: 2.5, // Adjusted padding
+              minWidth: 260, // Adjusted minWidth
               display: "flex",
               flexDirection: "column",
+              borderRadius: '12px', // Softer corners for cards
+              boxShadow: 'none', // Remove individual card shadow, parent has it
+              border: '1px solid rgba(0, 0, 0, 0.05)'
             }}
           >
             <Box display="flex" alignItems="center" gap={1}>
               <Avatar
-                src="/ecoin.png"
+                src="/Partials/Ecoin.png"
                 alt="Educhain Token"
                 sx={{ width: 32, height: 32 }}
               />
               <Typography fontWeight={600}>Educhain Token</Typography>
             </Box>
-            <Typography variant="caption" color="gray">
-              EDT
-            </Typography>
             <TextField
               label="EDT Amount"
               type="number"
@@ -257,105 +227,56 @@ export default function ExchangeCoin() {
           )}
         </Button>
 
+        {/* Token Descriptions */}
+        <Box sx={{
+          mt: 4,
+          p: 2.5,
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          borderRadius: '12px',
+          textAlign: 'left',
+          width: '100%',
+          // maxWidth: 500 
+          border: '1px solid rgba(0, 0, 0, 0.05)'
+        }}>
+          <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+            About SUI
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            Sui is a layer 1 blockchain designed to make digital asset ownership fast, private, secure, and accessible to everyone.
+          </Typography>
+          <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+            About Educhain Token (EDT)
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Educhain Token (EDT) is the native utility token of the Educhain platform, enabling access to exclusive educational content and platform governance.
+          </Typography>
+        </Box>
+
         {/* Current Balance Display */}
         {tokenDetails && (
-          <Box sx={{ mt: 2, textAlign: 'center' }}>
-            <Typography color="text.secondary">
-              Your ETH Balance: {Number(tokenDetails.maticBal).toFixed(4)} ETH
+          <Box sx={{
+            mt: 3,
+            p: 2.5,
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            borderRadius: '12px',
+            textAlign: 'center',
+            width: '100%',
+            // maxWidth: 500, 
+            border: '1px solid rgba(0, 0, 0, 0.05)'
+          }}>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              Your Balances
+            </Typography>
+            <Typography color="text.secondary" variant="body1">
+              ETH: {tokenDetails.maticBal ? Number(tokenDetails.maticBal).toFixed(4) : 'N/A'}
             </Typography>
             {transferToken && (
-              <Typography color="text.secondary">
-                Your EDT Balance: {Number(transferToken.balance).toFixed(4)} EDT
+              <Typography color="text.secondary" variant="body1">
+                EDT: {transferToken.balance ? Number(transferToken.balance).toFixed(4) : 'N/A'}
               </Typography>
             )}
           </Box>
         )}
-      </Box>
-
-      {/* Exchange Rate Box */}
-      <Box
-        p={4}
-        sx={{
-          background: "linear-gradient(to bottom, #fff, #b0c4de)",
-          borderRadius: 3,
-          width: "80%",
-        }}
-      >
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h4" fontWeight={700}>
-              Exchange Rate
-            </Typography>
-            <Typography variant="body1" color="textSecondary" mt={1}>
-              Stay updated with the latest exchange rates for Educhain Token.
-              Our platform ensures transparency and accuracy, helping you make
-              informed decisions when converting cryptocurrency.
-            </Typography>
-            <Button variant="outlined" sx={{ mt: 2 }}>
-              Get your Educhain Token!
-            </Button>
-          </Grid>
-
-          {/* Hiển thị dữ liệu */}
-          <Grid item xs={12} md={8}>
-            {loading ? (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height={200}
-              >
-                <CircularProgress />
-              </Box>
-            ) : (
-              <Box>
-                {exchangeRates.map((item, index) => (
-                  <Box
-                    key={index}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    py={1}
-                    borderBottom={1}
-                    borderColor="divider"
-                  >
-                    <Box display="flex" alignItems="center" gap={2}>
-                      <Avatar
-                        src={item.icon}
-                        alt={item.name}
-                        sx={{ width: 32, height: 32 }}
-                      />
-                      <Box>
-                        <Typography fontWeight={600} color="black">{item.name}</Typography>
-                        <Typography variant="caption" color="gray">
-                          {item.code}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box textAlign="right">
-                      <Typography fontWeight={600} color="black">${item.value}</Typography>
-                      <Typography
-                        color={item.change.startsWith("+") ? "green" : "red"}
-                        display="flex"
-                        alignItems="center"
-                      >
-                        {item.change}{" "}
-                        {item.change.startsWith("+") ? (
-                          <ArrowDropUp />
-                        ) : (
-                          <ArrowDropDown />
-                        )}
-                      </Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-            )}
-            <Button variant="contained" sx={{ mt: 2 }}>
-              More
-            </Button>
-          </Grid>
-        </Grid>
       </Box>
     </Box>
   </Page>);
