@@ -1,5 +1,5 @@
 // components
-import Page from "@components/Page";
+import Page from "../components/Page";
 import { useState } from "react";
 import {
   Box,
@@ -13,8 +13,8 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 
 // Importing custom components
-import LeaderboardHeader from "./Header";
-import LeaderboardTable from "./Table";
+import LeaderboardHeader from "../sections/LeaderBoard/Header";
+import LeaderboardTable from "../sections/LeaderBoard/Table";
 
 const LeaderboardTabs = ({ tab, setTab }) => (
   <Tabs
@@ -31,7 +31,7 @@ const LeaderboardTabs = ({ tab, setTab }) => (
 export default function LeaderBoard() {
   const [tab, setTab] = useState(0);
   return (
-    <Page title="Leader Board">
+    <Page title="Leader Board" sx={{ mt: 9 }}>
       <LeaderboardHeader />
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 4 }}>
         <Paper elevation={3} sx={{ width: "90%", maxWidth: "900px", textAlign: "center", border: "2px solid #365ACA", borderRadius: 5 }}>
