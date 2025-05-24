@@ -182,3 +182,5 @@ const UserMenu = () => {
         </Box>
     );
 };
+
+export default UserMenu;
