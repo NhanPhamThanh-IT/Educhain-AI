@@ -1,53 +1,44 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from "react"; // Import useContext
 import { Container, Grid, Card, CardContent, Typography, Box, LinearProgress, Button } from "@mui/material";
 import { HiBadgeCheck } from "react-icons/hi";
 import Page from "../../components/Page";
 import ecoin from "@assets/ecoin.png";
 import { initialMissions } from "./data";
 import styles from "./styles";
-import { RouterContext } from "../../routes/index";
+import { RouterContext } from "../../routes/index.jsx"; // Import RouterContext
 
 const MissionSection = () => {
-  const {
-    account,
-    totalClaimed,
-    setTotalClaimed,
-    missionClaims,
-    setMissionClaims,
-    notifySuccess,
-    notifyError
-  } = useContext(RouterContext);
+  const { setTotalClaimed, missionClaims, setMissionClaims } = useContext(RouterContext); // Get context values
+  const [loadingMissions, setLoadingMissions] = useState(new Set()); // State to track loading missions as a Set
 
-  const [missions, setMissions] = useState(initialMissions);
-  const [claiming, setClaiming] = useState(false);
+  // Initialize missions state by filtering out already claimed missions from context
+  const [missions, setMissions] = useState(() =>
+    initialMissions.filter(mission => !missionClaims[mission.id])
+  );
 
-  const handleClaim = async (missionId) => {
-    try {
-      if (!account) {
-        notifyError("Please connect your wallet first");
-        return;
-      }
+  const handleClaim = (missionId) => {
+    const missionToClaim = missions.find(m => m.id === missionId);
 
-      if (missionClaims[missionId]) {
-        notifyError("Mission already claimed!");
-        return;
-      }
+    if (missionToClaim && missionToClaim.progress >= missionToClaim.total && !loadingMissions.has(missionId)) { // Check if not already loading
+      setLoadingMissions(prev => new Set(prev).add(missionId)); // Add missionId to the Set
 
-      const mission = missions.find(m => m.id === missionId);
-      if (!mission) return;
+      setTimeout(() => {
+        // Update total claimed points in context
+        setTotalClaimed(prevTotal => prevTotal + missionToClaim.points);
+        // Mark mission as claimed in context
+        setMissionClaims(prevClaims => ({ ...prevClaims, [missionId]: true }));
 
-      setMissionClaims(prev => ({
-        ...prev,
-        [missionId]: true
-      }));
-
-      setTotalClaimed(prev => prev + mission.points);
-
-      notifySuccess(`Claimed ${mission.points} EDT!`);
-
-    } catch (error) {
-      console.error("Claim failed:", error);
-      notifyError("Failed to claim reward");
+        // Filter out the claimed and completed mission from local state to update UI
+        setMissions(prevMissions => prevMissions.filter(m => m.id !== missionId));
+        setLoadingMissions(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(missionId);
+          return newSet;
+        }); // Remove missionId from the Set
+      }, 5000); // 5-second delay
+    } else if (loadingMissions.has(missionId)) {
+    } else if (missionToClaim) {
+    } else {
     }
   };
 
@@ -58,8 +49,9 @@ const MissionSection = () => {
           <Typography sx={styles.title}>🎯 Today Missions 🎯</Typography>
         </Box>
         <Grid container spacing={5} rowSpacing={4} paddingX={5}>
-          {missions.map((mission) => {
+          {missions.map((mission) => { // Use the state variable 'missions' here
             const isCompleted = mission.progress >= mission.total;
+            const isLoading = loadingMissions.has(mission.id); // Check if mission.id is in the Set
             return (
               <Grid item xs={12} sm={6} md={4} key={mission.id} sx={{ display: "flex", gap: 2 }}>
                 <Card sx={styles.card}>
@@ -85,9 +77,9 @@ const MissionSection = () => {
                         variant="contained"
                         onClick={() => handleClaim(mission.id)}
                         sx={{ ...styles.claimButton, visibility: isCompleted ? "visible" : "hidden" }}
-                        disabled={claiming || missionClaims[mission.id]}
+                        disabled={isLoading} // Disable button when loading
                       >
-                        {claiming ? "Claiming..." : missionClaims[mission.id] ? "Claimed" : "Claim"}
+                        {isLoading ? "Claiming..." : "Claim"} {/* Change text when loading */}
                       </Button>
                     </Box>
                   </CardContent>
