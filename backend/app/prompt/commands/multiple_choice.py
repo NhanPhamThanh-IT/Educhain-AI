@@ -39,6 +39,8 @@ def multiple_choice_command(topic: str) -> dict:
         "prompt_type": "MULTIPLE_CHOICE"
     }
 
+
+
 # Example usage:
 topic = "machine learning"
 print(multiple_choice_command(topic))

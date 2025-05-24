@@ -3,12 +3,35 @@ import logging
 import asyncio
 from dotenv import load_dotenv
 
-from app.LightRAG.lightrag import LightRAG, QueryParam
-from app.LightRAG.lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
-from app.LightRAG.lightrag.utils import EmbeddingFunc
-from app.LightRAG.lightrag.kg.shared_storage import initialize_pipeline_status
+from lightrag import LightRAG, QueryParam
+from lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
+from lightrag.utils import EmbeddingFunc
+from lightrag.kg.shared_storage import initialize_pipeline_status
 
-from app.utils.hashing import hash_course_name
+def normalize_course_name(course_name: str) -> str:
+    """
+    Normalize the course name by removing spaces and converting to lowercase.
+    
+    Args:
+        course_name (str): The course name to normalize.
+        
+    Returns:
+        str: The normalized course name.
+    """
+    return course_name.replace(" ", "").lower()
+
+def hash_course_name(course_name: str) -> str:
+    course_name = course_name.replace(" ", "").lower()
+    
+    def shift_char(c):
+        if 'a' <= c <= 'z':
+            return chr(((ord(c) - ord('a') + 3) % 26) + ord('a'))
+        return c  
+    
+    hashed_name = "".join(shift_char(c) for c in course_name)
+    
+    return hashed_name  
+
 
 load_dotenv()
 ROOT_DIR = os.getcwd()
@@ -40,7 +63,6 @@ async def initialize_rag(course_name="papers"):
     embedding_func = get_embedding_func()
     
     rag = LightRAG(
-        course_name=course_name,
         working_dir=working_dir,
         llm_model_func=gpt_4o_mini_complete,
         llm_model_name="gpt-4o-mini",
@@ -66,7 +88,7 @@ async def initialize_rag(course_name="papers"):
     
     return rag
 
-async def query_rag(query, course_name="papers", mode="naive", only_need_context=True):
+async def query_rag(query: str, course_name: list[str], mode: str = "naive", only_need_context=True):
     """
     Query the RAG system with the specified parameters.
     
@@ -80,16 +102,41 @@ async def query_rag(query, course_name="papers", mode="naive", only_need_context
         dict: Response from the RAG system
     """
     course_name = hash_course_name(course_name)
+
     rag = await initialize_rag(course_name)
     
-    param = QueryParam(mode=mode, only_need_context=only_need_context)
+    param = QueryParam(mode=mode, only_need_context=only_need_context, ids = course_name)
+
     result = await rag.aquery(query, param=param)
 
-    # print(result)
+    return result
+    
+async def query_rag_study_guide(query_task: str, course_name: list[str], mode: str = "global", only_need_context=False): 
+    """
+    Query the RAG system with the specified parameters for study guide generation.
+    
+    Args:
+        query (str): The query text
+        course_name (str): Name of the course to query
+        mode (str): Query mode ("naive", "local", "global", or "hybrid")
+        only_need_context (bool): Whether to return only the context
+        
+    Returns:
+        dict: Response from the RAG system
+    """
+    course_name = hash_course_name(course_name)
+    rag = await initialize_rag(course_name)
+    
+    param = QueryParam(mode=mode, only_need_context=only_need_context, ids = course_name)
+
+    result = await rag.aquery(query_task, param=param)
     
     return result
 
-async def query_rag_quiz(query_task, course_name="papers", mode="global", only_need_context=True):
+# Add task as query to RAG system
+# Call LLM to generate quiz questions
+
+async def query_rag_quiz(query_task: str, course_name: list[str], mode: str = "global", only_need_context=False):
     """
     Query the RAG system with the specified parameters for quiz generation.
     
@@ -105,7 +152,8 @@ async def query_rag_quiz(query_task, course_name="papers", mode="global", only_n
     course_name = hash_course_name(course_name)
     rag = await initialize_rag(course_name)
     
-    param = QueryParam(mode=mode, only_need_context=only_need_context)
+    param = QueryParam(mode=mode, only_need_context=only_need_context, ids = course_name)
+
     result = await rag.aquery(query_task, param=param)
     
     return result
