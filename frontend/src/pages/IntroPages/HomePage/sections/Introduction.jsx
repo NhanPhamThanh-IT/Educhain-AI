@@ -41,18 +41,20 @@ const Introduction = () => {
     const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
 
     const handleGetStartedClick = () => {
-        if (localStorage.getItem('address')) {
-            navigate("/learning/course");
-        } else {
-            toast.error('Please connect wallet to continue!', {
-                id: singleToastId,
-                style: {
-                    borderRadius: '10px',
-                    background: '#333',
-                    color: '#fff',
-                },
-            });
-        }
+        navigate("/learning/course");
+        // if (localStorage.getItem('address')) {
+        //     navigate("/learning/course");
+        // } 
+        // else {
+        //     toast.error('Please connect wallet to continue!', {
+        //         id: singleToastId,
+        //         style: {
+        //             borderRadius: '10px',
+        //             background: '#333',
+        //             color: '#fff',
+        //         },
+        //     });
+        // }
     }
 
     const handleLearnMoreClick = () => {
