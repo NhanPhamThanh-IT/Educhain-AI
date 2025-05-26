@@ -4,8 +4,8 @@ import LoginLayout from '@components/layouts/LoginLayout';
 import NotLoginLayout from '@components/layouts/NotLoginLayout';
 
 import Home from '@pages/NotLoginPages/Home/index';
-import Docs from '@pages/NotLoginPages/Docs';
-import About from '@pages/NotLoginPages/About';
+import Docs from '@pages/NotLoginPages/Docs/index';
+import About from '@pages/NotLoginPages/AboutUs/index';
 import Profile from '@pages/LoginPages/Profile';
 import Settings from '@pages/LoginPages/Settings';
 import NotFound from '@pages/ErrorPages/NotFound';

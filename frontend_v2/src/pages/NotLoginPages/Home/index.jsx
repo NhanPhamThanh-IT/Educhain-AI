@@ -1,5 +1,5 @@
 import { useRef, lazy, Suspense } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress } from "@mui/material";
 
 // Lazy load components
 const Introduction = lazy(() => import("./sections/Introduction"));
@@ -12,7 +12,7 @@ const HomePage = () => {
   const featuresRef = useRef(null);
 
   return (
-    <Box maxWidth="2xl" bgcolor={"rgb(245,245,245)"} pt={7} pb={15}>
+    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }} bgcolor={"rgb(245,245,245)"} pt={7} pb={15}>
       <Suspense fallback={<CircularProgress />}>
         <Introduction />
       </Suspense>
@@ -30,7 +30,7 @@ const HomePage = () => {
       <Suspense fallback={<CircularProgress />}>
         <LastSection />
       </Suspense>
-    </Box>
+    </Container>
   );
 };
 
