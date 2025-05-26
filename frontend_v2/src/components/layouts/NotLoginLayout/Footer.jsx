@@ -18,10 +18,10 @@ const Footer = () => {
                 background: "linear-gradient(90deg, #2196F3, #00BCD4)",
             }
         }}>
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Grid container spacing={4}>
                     {/* Company Info */}
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Typography
                             variant="h5"
                             sx={{
@@ -82,7 +82,7 @@ const Footer = () => {
                     </Grid>
 
                     {/* Quick Links */}
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: "#fff" }}>
                             Quick Links
                         </Typography>
@@ -135,7 +135,7 @@ const Footer = () => {
                     </Grid>
 
                     {/* Contact Info */}
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: "#fff" }}>
                             Contact Us
                         </Typography>

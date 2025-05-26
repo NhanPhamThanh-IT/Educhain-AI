@@ -95,7 +95,7 @@ const CoursesList = () => {
     return (
         <Grid container spacing={4} justifyContent="center">
             {courses.map((course, index) => (
-                <Grid item key={index}>
+                <Grid key={index}>
                     <CourseCard course={course} />
                 </Grid>
             ))}

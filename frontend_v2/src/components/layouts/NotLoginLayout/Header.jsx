@@ -1,11 +1,12 @@
 import { AppBar, Toolbar, Box, Typography, Container, Tabs, Tab, Button, Menu, MenuItem } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 
 // --- Constants ---
 const tabData = [
-    { label: "Features" },
-    { label: "Docs" },
-    { label: "Deposit & Earn" },
-    { label: "Our Team" },
+    { label: "Home", link: "/" },
+    { label: "Docs", link: "/docs" },
+    { label: "Deposit & Earn", link: "/deposit" },
+    { label: "Our Team", link: "/about" },
 ];
 
 const data = {
@@ -17,10 +18,13 @@ const data = {
 
 // --- DesktopNavigation (UI only) ---
 function DesktopNavigation() {
+    const location = useLocation();
+    // Xác định tab đang active dựa vào pathname
+    const currentTab = tabData.findIndex(tab => tab.link === location.pathname);
     return (
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Tabs
-                value={0}
+                value={currentTab === -1 ? false : currentTab}
                 sx={{
                     minHeight: "70px",
                     "& .MuiTabs-indicator": {
@@ -30,10 +34,12 @@ function DesktopNavigation() {
                     }
                 }}
             >
-                {tabData.map(({ label }, index) => (
+                {tabData.map(({ label, link }, index) => (
                     <Tab
                         key={label}
                         label={label}
+                        component={Link}
+                        to={link}
                         sx={{
                             textTransform: "none",
                             color: "#fff",
