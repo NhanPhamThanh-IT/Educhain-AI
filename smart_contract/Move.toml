@@ -1,9 +1,0 @@
-[package]
-name = "edutoken"
-version = "0.0.1"
-
-[dependencies]
-
-[addresses]
-edutoken = "0x0"
-TokenICO = "0x1"
