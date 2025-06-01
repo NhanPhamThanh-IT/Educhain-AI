@@ -7,6 +7,9 @@ from lightrag import LightRAG, QueryParam
 from lightrag.llm.openai import openai_embed, gpt_4o_mini_complete
 from lightrag.utils import EmbeddingFunc
 from lightrag.kg.shared_storage import initialize_pipeline_status
+from typing import List, Dict, Optional
+# from app.prompt import commands
+
 
 os.environ["POSTGRES_HOST"] = os.getenv("POSTGRES_HOST", "localhost")
 os.environ["POSTGRES_PORT"] = os.getenv("POSTGRES_PORT", "5432")
@@ -39,7 +42,7 @@ def normalize_docs_id(docs_id: str) -> str:
     """
     return docs_id.replace(" ", "").lower()
 
-def hash_docs_id(docs_id: list[str]) -> str:
+def hash_docs_id(docs_id: List[str]) -> str:
     hashed_docs_id = []
 
     for doc_id in docs_id:
@@ -56,9 +59,6 @@ def hash_docs_id(docs_id: list[str]) -> str:
     return hashed_docs_id  
 
 
-
-
-
 def get_embedding_func():
     """Create and return the embedding function."""
     return EmbeddingFunc(
@@ -69,7 +69,7 @@ def get_embedding_func():
 
 async def initialize_rag():
     """Initialize and return a LightRAG instance with the specified course name."""
-    working_dir = f"{WORKING_DIR}/lightrag-version-new"
+    working_dir = f"{WORKING_DIR}/lightrag-Educhain"
     
     # Create course directory if it doesn't exist
     if not os.path.exists(working_dir):
@@ -110,7 +110,7 @@ async def initialize_rag_instance():
         rag = await initialize_rag()
 
 
-async def query_rag(query: str, docs_id: list[str], mode: str = "naive", only_need_context=False):
+async def query_rag(query: str, docs_id: List[str], mode: str = "naive", only_need_context=True):
     """
     Query the RAG system with the specified parameters.
     
@@ -126,7 +126,7 @@ async def query_rag(query: str, docs_id: list[str], mode: str = "naive", only_ne
     """
     await initialize_rag_instance()
 
-    docs_id = [hash_docs_id(docs_id)]
+    # docs_id = [hash_docs_id(docs_id)]
     
     param = QueryParam(mode=mode, only_need_context=only_need_context, ids = docs_id)
 
@@ -134,7 +134,7 @@ async def query_rag(query: str, docs_id: list[str], mode: str = "naive", only_ne
 
     return result
     
-async def query_rag_study_guide(query_task: str, docs_id: list[str], mode: str = "global", only_need_context=False): 
+async def query_rag_study_guide(query_task: str, docs_id: List[str], mode: str = "global", only_need_context=False): 
     """
     Query the RAG system with the specified parameters for study guide generation.
     
@@ -148,7 +148,7 @@ async def query_rag_study_guide(query_task: str, docs_id: list[str], mode: str =
         dict: Response from the RAG system
     """
     await initialize_rag_instance()
-    docs_id = hash_docs_id(docs_id)
+    # docs_id = hash_docs_id(docs_id)
     # rag = await initialize_rag()
     
     param = QueryParam(mode=mode, only_need_context=only_need_context, ids = docs_id)
@@ -160,7 +160,7 @@ async def query_rag_study_guide(query_task: str, docs_id: list[str], mode: str =
 # Add task as query to RAG system
 # Call LLM to generate quiz questions
 
-async def query_rag_quiz(query_task: str, docs_id: list[str], mode: str = "global", only_need_context=False):
+async def query_rag_quiz(query_task: str, docs_id: List[str], mode: str = "global", only_need_context=False):
     """
     Query the RAG system with the specified parameters for quiz generation.
     
@@ -174,7 +174,7 @@ async def query_rag_quiz(query_task: str, docs_id: list[str], mode: str = "globa
         dict: Response from the RAG system
     """
     await initialize_rag_instance()
-    docs_id = hash_docs_id(docs_id)
+    # docs_id = hash_docs_id(docs_id)
     # rag = await initialize_rag()
     
     param = QueryParam(mode=mode, only_need_context=only_need_context, ids = [docs_id])
@@ -295,7 +295,7 @@ if __name__ == "__main__":
 
     # asyncio.run(rag.aexport_data(output_path=f"{WORKING_DIR}/exported_data"))
 
-    pass
+    print(hash_docs_id(["papers", "paper 2", "paper 3"]))
 
     
 

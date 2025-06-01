@@ -40,18 +40,18 @@ def init_course():
         conn.commit()
 
 
-def save_course(user_id: int, name:str, category:str, introduction:str, description:str, lessons: List[str]) -> Dict:
+def save_course(user_id: int, course_name:str, category:str, introduction:str, description:str) -> Dict:
     """Insert course into database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO course (user_id, name, category, introduction, description, lessons,
+                INSERT INTO course (user_id, name, category, introduction, description,
                                   created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s,%s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s,%s, %s)
                 RETURNING *
                 """,
-                (user_id, name, category, introduction, description, lessons,
+                (user_id, course_name, category, introduction, description,
                  datetime.now(), datetime.now())
             )
             result = cur.fetchone()

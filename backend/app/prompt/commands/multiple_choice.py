@@ -29,18 +29,17 @@ MULTIPLE_CHOICE_RESPONSE_FORMATTING = {
 def multiple_choice_prompt_content(topic: str) -> str:
     return f"Ask me a multiple choice question about {topic} according to the notes in the first system prompt."
 
-def multiple_choice_command(topic: str) -> dict:
+def multiple_choice_command(num_questions: int) -> dict:
     return {
-        "response_tag": "MULTIPLE_CHOICE",
+        "You are going to generate multiple choice questions"
+        "number of_questions": num_questions,
         "response_description": MULTIPLE_CHOICE_RESPONSE_DESCRIPTION,
         "response_formatting": MULTIPLE_CHOICE_RESPONSE_FORMATTING,
-        "prompt_tag": "MULTIPLE_CHOICE",
-        "prompt_content": multiple_choice_prompt_content(topic),
-        "prompt_type": "MULTIPLE_CHOICE"
+        # "prompt_content": multiple_choice_prompt_content(topic),
     }
 
-
-
 # Example usage:
-topic = "machine learning"
-print(multiple_choice_command(topic))
+if __name__ == "__main__":
+    # Generate a command for 10 multiple choice questions
+    command = multiple_choice_command(num_questions=10)
+    print(command)

@@ -66,7 +66,7 @@ class CustomHandler(BaseCallbackHandler):
         
 
 def get_llm_and_agent() -> AgentExecutor:  # Phần prompt này nên làm riêng rồi import vào
-    system_message = """Your name is SoftAI-Bot. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
+    system_message = """Your name is Educhain-Mentor. You are a friendly and professional AI teacher. Your task is to help student for Question and Answering.
 
 For general questions or greetings:
 - Respond naturally without using any tools
@@ -77,12 +77,12 @@ For educate-related questions:
 1. When user asks about knowledge:
    - Use get_knowledge_tool tool to retrieval best match information
    - PARAMETERS (will be provided in the prompt by system) for get_knowledge_tool:
-     * course_name: Provided by the system on the first line of the prompt
+     * docs_id: List of Document IDs to query from, can be empty
      * query: Required - MUST BE RE-WRITE TO ENHANCE THE QUERY -
                          The exact question or topic to search for, start from the second line of the prompt
      
    - Present knowledge in a clear format
-   - Example: get_knowledge_tool(query="What is photosynthesis?", course_name="Biology", mode = "naive", only_need_context=True)
+   - Example: get_knowledge_tool(query="What is photosynthesis?", docs_id= "caj2db, caj2dc, caj2dd" , mode="naive", only_need_context=True) 
    - IF no information found, respond with use your own knowledge and experience to answer the question
 
    
@@ -91,7 +91,7 @@ IMPORTANT RULES:
 
 Example flow:
 User: What is the capital of France?
-Ambatublow: The capital of France is Paris.
+Educhain-Mentor: The capital of France is Paris.
 """
 
     chat = ChatOpenAI(
@@ -132,7 +132,6 @@ Ambatublow: The capital of France is Paris.
     return agent_executor
 
 
-
 def get_answer(question: str, thread_id: str) -> Dict:
 
     """
@@ -162,7 +161,7 @@ def get_answer(question: str, thread_id: str) -> Dict:
     
     return result
 
-async def get_answer_stream(course_name: str, question: str, thread_id: str, course_id = str) -> AsyncGenerator[Dict, None]:
+async def get_answer_stream(docs_id: List[str], question: str, thread_id: str, course_id = str) -> AsyncGenerator[Dict, None]:
     """
     Hàm lấy câu trả lời dạng stream cho một câu hỏi
     
@@ -192,16 +191,16 @@ async def get_answer_stream(course_name: str, question: str, thread_id: str, cou
     
     # Biến lưu câu trả lời hoàn chỉnh
     final_answer = ""
-    print(course_name + '\n' + question)
+    print(", ".join(docs_id) + '\n' + question)
     
     # Stream từng phần của câu trả lời
     async for event in agent.astream_events(
         {
-            "input": "course_name: " + course_name + '\n' + question,
+            "input": "docs_id: " + ", ".join(docs_id) + '\n' + question,
             "chat_history": chat_history,
         },
         version="v2"
-    ):       
+    ):
         # Lấy loại sự kiện
         kind = event["event"]
         # Nếu là sự kiện stream từ model
@@ -216,7 +215,7 @@ async def get_answer_stream(course_name: str, question: str, thread_id: str, cou
     
     # Lưu câu trả lời hoàn chỉnh vào database
     if final_answer:
-        save_chat_history(course_id = course_id, thread_id = thread_id, question = question,answer = final_answer)
+        save_chat_history(course_id = course_id, thread_id = thread_id, question = question, answer = final_answer)
 
 
 if __name__ == "__main__":
@@ -225,9 +224,9 @@ if __name__ == "__main__":
     async def test():
         # answer = get_answer_stream("hi", "test-session")
         # print(answer)
-        course_name = "papers"
+        docs_id = "papers"
         question = "which OCR model used in paper? and why?"
-        async for event in get_answer_stream(course_name, question, "Theme knowledge of paper", "354788cd-3eb4-484a-8c4f-691a78f61383"):
+        async for event in get_answer_stream(docs_id, question, "Theme knowledge of paper", "354788cd-3eb4-484a-8c4f-691a78f61383"):
             print('event:', event)
         print('done')
 

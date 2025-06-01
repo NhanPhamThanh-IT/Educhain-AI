@@ -10,14 +10,14 @@ from decimal import Decimal
 
 class GetKnowledgeInput(BaseModel):
     query: str = Field(..., title="Query", description="Query to get information from knowledge graph")
-    course_name: Optional[str] = Field(None, title="Course Name", description="Name of the course to query")
+    docs_id: List[str] = Field(None, title="Docs ID", description="List of document IDs to query from")
     mode: Optional[str] = Field("naive", title="Query Mode", description="Query mode ('naive', 'local', 'global', or 'hybrid')")
     only_need_context: Optional[bool] = Field(False, title="Only Need Context", description="Whether to return only the context")
 
 class CreateQuizInput(BaseModel):
     # List of topics to create quiz for
     topic: List[str] = Field(..., title="Topic", description="List of topics to create quiz for")
-    course_name: Optional[str] = Field(None, title="Course Name", description="Name of the course to create quiz for")
+    docs_id: List[str] = Field(None, title="Docs ID", description="List of document IDs to query from")
     mode: Optional[str] = Field("global", title="Query Mode", description="Query mode ('naive', 'local', 'global', or 'hybrid')")
 
 class GetKnowledgeTool(BaseTool):
@@ -28,14 +28,14 @@ class GetKnowledgeTool(BaseTool):
     description: Annotated[str, Field(description="Tool description")] = "Tool for search information in knowledge graph"
     args_schema: type[BaseModel] = GetKnowledgeInput
 
-    async def _arun(self, query: str, course_name: Optional[str] = None, 
+    async def _arun(self, query: str, docs_id: List[str] = None, 
              mode: str = "naive", only_need_context: bool = True) -> Dict:
         """
         Run the tool to query the knowledge graph
         
         Args:
             query: The query string to search for
-            course_name: Optional name of the course to query
+            docs_id: List of Document IDs to query from
             mode: Query mode ('naive', 'local', 'global', or 'hybrid')
             only_need_context: Whether to return only the context
             
@@ -44,19 +44,19 @@ class GetKnowledgeTool(BaseTool):
         """
         result = await query_rag(
             query=query,
-            course_name=course_name,
+            docs_id=docs_id,
             mode=mode,
             only_need_context=only_need_context
         )
         return result
     
-    def _run(self, query: str, course_name: Optional[str] = None, 
+    def _run(self, query: str, docs_id: List[str] = None, 
              mode: str = "naive", only_need_context: bool = True) -> Dict:
         """
         Synchronous run method - calls the async version
         """
         import asyncio
-        return asyncio.run(self._arun(query, course_name, mode, only_need_context))
+        return asyncio.run(self._arun(query, docs_id, mode, only_need_context))
 
 class CreateQuizTool(BaseTool):
     """
@@ -66,14 +66,14 @@ class CreateQuizTool(BaseTool):
     description: Annotated[str, Field(description="Tool description")] = "Tool for creating quiz"
     args_schema: type[BaseModel] = CreateQuizInput
 
-    async def _arun(self, topic: List[str], course_name: Optional[str] = None, 
+    async def _arun(self, topic: List[str], docs_id: List[str] = None, 
              mode: str = "global") -> Dict:
         """
         Run the tool to create a quiz
         
         Args:
             topic: List of topics to create quiz for
-            course_name: Optional name of the course to create quiz for
+            docs_id: List of Document IDs to query from
             mode: Query mode ('naive', 'local', 'global', or 'hybrid')
             
         Returns:
@@ -81,18 +81,18 @@ class CreateQuizTool(BaseTool):
         """
         result = await query_rag_quiz(
             query=topic,
-            course_name=course_name,
+            docs_id=docs_id,
             mode=mode
         )
         return result
     
-    def _run(self, topic: List[str], course_name: Optional[str] = None, 
+    def _run(self, topic: List[str], docs_id: List[str] = None, 
              mode: str = "global") -> Dict:
         """
         Synchronous run method - calls the async version
         """
         import asyncio
-        return asyncio.run(self._arun(topic, course_name, mode))
+        return asyncio.run(self._arun(topic, docs_id, mode))
     
 # class CreateStudyGuideTool(BaseTool):
 #     """
