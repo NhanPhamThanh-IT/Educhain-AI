@@ -1,9 +1,8 @@
-// filepath: c:\\Users\\NhanPham\\Desktop\\Educhain-AI\\frontend\\src\\pages\\IntroPages\\DocsPage\\index.jsx
 import { Container, Box, Typography, Card, CardContent, Grid, List, ListItem, ListItemIcon, ListItemText, Fade } from '@mui/material'; // Added Fade
 import { features } from './constants';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ArticleIcon from '@mui/icons-material/Article'; // Added for a more "docs" feel
-import { motion } from 'framer-motion'; // Import framer-motion
+import ArticleIcon from '@mui/icons-material/Article';
+import { motion } from 'framer-motion';
 
 const DocsPage = () => {
     return (

@@ -4,7 +4,7 @@ import {
     Card,
 } from '@mui/material';
 
-import demo from '@assets/demo.mp4'
+import demo from '@assets/Home/demo.mp4'
 import TitleSection from '@components/ui/TitleSection';
 
 const VideoDemo = ({

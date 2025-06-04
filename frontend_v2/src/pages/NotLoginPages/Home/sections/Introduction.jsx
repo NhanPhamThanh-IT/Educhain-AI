@@ -9,12 +9,12 @@ import {
 import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 import { useInView } from 'react-intersection-observer';
-import image1 from "@assets/homepage-hero-section-1.jpg"
-import image2 from "@assets/homepage-hero-section-2.jpg"
-import image3 from "@assets/homepage-hero-section-3.jpg"
-import image4 from "@assets/homepage-hero-section-4.jpg"
+import image1 from "@assets/Home/homepage-hero-section-1.jpg"
+import image2 from "@assets/Home/homepage-hero-section-2.jpg"
+import image3 from "@assets/Home/homepage-hero-section-3.jpg"
+import image4 from "@assets/Home/homepage-hero-section-4.jpg"
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const StyledBox = styled(Box)(() => ({
     minHeight: '100vh',
@@ -40,7 +40,7 @@ const Introduction = () => {
     const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
 
     const handleGetStartedClick = () => {
-        navigate("/learning/course");
+        navigate("/my-courses");
         // if (localStorage.getItem('address')) {
         //     navigate("/learning/course");
         // } 
