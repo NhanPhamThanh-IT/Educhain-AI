@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from app.services.chatbot_service import get_answer, get_answer_stream
 import logging
 import json
-from typing import AsyncGenerator, Dict
+from typing import AsyncGenerator, Dict, List
 
 router = APIRouter()
 
@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class ChatRequest(BaseModel):
-    course_name: str
+    docs_id: List[str]
     question: str
     thread_id: str
     course_id: str
@@ -40,9 +40,9 @@ async def chat(request: ChatRequest):
             detail=f"Internal server error: {str(e)}"
         )
 
-async def event_generator(course_name: str, question: str, thread_id: str, course_id: str) -> AsyncGenerator[str, None]:
+async def event_generator(docs_id: List[str], question: str, thread_id: str, course_id: str) -> AsyncGenerator[str, None]:
     try:
-        async for chunk in get_answer_stream(course_name, question, thread_id, course_id):
+        async for chunk in get_answer_stream(docs_id, question, thread_id, course_id):
             if chunk:  # Only yield if there's content
                 yield f"data: {json.dumps({'content': chunk})}\n\n"
     except Exception as e:
@@ -53,7 +53,7 @@ async def event_generator(course_name: str, question: str, thread_id: str, cours
 @router.post("/chat/stream")
 async def chat_stream(request: ChatRequest):
     return StreamingResponse(
-        event_generator(request.course_name, request.question, request.thread_id, request.course_id),
+        event_generator(request.docs_id, request.question, request.thread_id, request.course_id),
         media_type="text/event-stream"
     ) 
     

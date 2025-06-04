@@ -9,13 +9,13 @@ neo4j
 azure-storage-blob
 azure.ai.formrecognizer
 python-multipart
-# lightrag-hku==1.2.3
+lightrag-hku==1.3.6
 psycopg[binary,pool]
 pipmaster
 bcrypt
 pyjwt
 azure.ai.documentintelligence 
-# azure.core.credentials
+azure.core.credentials
 pymupdf
 pdfplumber
 bcrypt

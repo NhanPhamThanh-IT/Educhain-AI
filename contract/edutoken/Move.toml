@@ -33,4 +33,3 @@ edutoken = "0x3f03096aa65c92c4ec50e37c5d90ae3f6dddfd5ae3ae7e9c5c641fee4e715a9d"
 # The dev-addresses section allows overwriting named addresses for the `--test`
 # and `--dev` modes.
 # alice = "0xB0B"
-
