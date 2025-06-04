@@ -23,6 +23,9 @@ const About = lazy(() => import('@pages/NotLoginPages/AboutUs/index'));
 const Profile = lazy(() => import('@pages/LoginPages/Profile'));
 const Settings = lazy(() => import('@pages/LoginPages/Settings'));
 const NotFound = lazy(() => import('@pages/ErrorPages/NotFound'));
+const MyCourses = lazy(() => import('@pages/LoginPages/MyCourses'));
+const Missions = lazy(() => import('@pages/LoginPages/Missions'));
+const Leaderboard = lazy(() => import('@pages/LoginPages/Leaderboard'));
 
 // Loading component using MUI
 const LoadingComponent = () => (
@@ -57,6 +60,9 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<LoginLayout />}>
+        <Route path={MAIN_ROUTES.myCourses} element={<LazyLoad component={MyCourses} />} />
+        <Route path={MAIN_ROUTES.missions} element={<LazyLoad component={Missions} />} />
+        <Route path={MAIN_ROUTES.leaderboard} element={<LazyLoad component={Leaderboard} />} />
         <Route path={MAIN_ROUTES.profile} element={<LazyLoad component={Profile} />} />
         <Route path={MAIN_ROUTES.settings} element={<LazyLoad component={Settings} />} />
       </Route>

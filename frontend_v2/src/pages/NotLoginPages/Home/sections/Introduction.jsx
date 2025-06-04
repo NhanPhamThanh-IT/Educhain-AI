@@ -40,7 +40,7 @@ const Introduction = () => {
     const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
 
     const handleGetStartedClick = () => {
-        navigate("/learning/course");
+        navigate("/my-courses");
         // if (localStorage.getItem('address')) {
         //     navigate("/learning/course");
         // } 

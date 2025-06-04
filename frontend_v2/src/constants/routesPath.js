@@ -1,6 +1,8 @@
 // routesPath.js
 // Contains all application routes and navigation paths for frontend_v2
 
+import MyCourses from "../pages/LoginPages/MyCourses";
+
 /**
  * Helper function to build paths
  * @param {string} root - The root path
@@ -20,6 +22,9 @@ export const MAIN_ROUTES = {
   about: "/about",
   profile: "/profile",
   settings: "/settings",
+  myCourses: "/my-courses",
+  missions: "/missions",
+  leaderboard: "/leaderboard",
   notFound: "*",
 };
 

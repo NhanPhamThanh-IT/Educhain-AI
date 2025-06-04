@@ -1,56 +1,81 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemButton, ListItemText, Box } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import { Box, CssBaseline, Drawer } from "@mui/material";
+import { useState } from 'react';
 
-const drawerWidth = 220;
+import SideBar from "./SideBar";
+import TopBar from "./TopBar";
 
-const Header = () => (
-  <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-    <Toolbar>
-      <Typography variant="h6" noWrap component="div">
-        Educhain-AI
-      </Typography>
-    </Toolbar>
-  </AppBar>
-);
+// Sidebar width
+const drawerWidth = 240;
 
-const Sidebar = () => {
-  const navigate = useNavigate();
+const LoginLayout = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
-    <Drawer
-      variant="permanent"
+    <Box
       sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+        display: "flex",
+        height: "100vh",
+        width: "100vw",
+        backgroundColor: "#f4f4f4",
+        overflow: "hidden",
+        "&::-webkit-scrollbar": { display: "none" },
       }}
     >
-      <Toolbar />
-      <Box sx={{ overflow: 'auto' }}>
-        <List>
-          {[
-            { text: 'Profile', path: '/profile' },
-            { text: 'Settings', path: '/settings' },
-          ].map((item) => (
-            <ListItem key={item.text} disablePadding>
-              <ListItemButton onClick={() => navigate(item.path)}>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      <CssBaseline />
+
+      {/* Desktop sidebar */}
+      <SideBar />
+
+      {/* Mobile sidebar */}
+      <Box component="nav" sx={{ display: { md: 'none' } }}>
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better mobile performance
+          }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+              backgroundColor: '#1a2236',
+              color: '#ffffff',
+            },
+          }}
+        >
+          <SideBar />
+        </Drawer>
       </Box>
-    </Drawer>
+
+      {/* Main content area */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          backgroundColor: "#fff",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        {/* Top Bar */}
+        <TopBar toggleSidebar={handleDrawerToggle} />
+
+        {/* Content Area */}
+        <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
+          <Outlet />
+        </Box>
+      </Box>
+    </Box >
   );
-};
+}
 
-const UserLayoutB = () => (
-  <Box sx={{ display: 'flex' }}>
-    <Header />
-    <Sidebar />
-    <Box component="main" sx={{ flexGrow: 1, p: 3, ml: `${drawerWidth}px`, mt: 8 }}>
-      <Outlet />
-    </Box>
-  </Box>
-);
-
-export default UserLayoutB; 
+export default LoginLayout;
