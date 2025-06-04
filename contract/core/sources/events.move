@@ -11,6 +11,25 @@ module core::events {
         amount_out: u64,
         referral: address,
     }
+
+    public struct MissionClaimedEvent has copy, drop {
+        sender: address,
+        mission_id: u64,
+        reward: u64,
+    }
+
+    public(package) fun emit_mission_claimed_event(
+        mission_id: u64,
+        reward: u64,
+        ctx: &tx_context::TxContext
+    ) {
+        let event = MissionClaimedEvent{
+            sender: tx_context::sender(ctx),
+            mission_id: mission_id,
+            reward: reward,
+        };
+        event::emit<MissionClaimedEvent>(event);
+    }    
     
     public(package) fun emit_swap_completed_event(
         type_in: vector<u8>, 
