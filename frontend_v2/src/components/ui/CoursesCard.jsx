@@ -12,16 +12,17 @@ const CourseCard = ({ course }) => {
 
     return (
         <Card sx={{ maxWidth: 345, borderRadius: 1, boxShadow: 3, bgcolor: "rgba(244, 245, 248, 1)", border: "rgba(54, 90, 202, 1) 1px dashed" }}>            <Box position="relative" sx={{ paddingX: 2, paddingTop: 2 }}>
-                <CardMedia 
-                    component="img" 
-                    height="180" 
-                    image={course.image} 
-                    alt={course.title} 
-                    sx={{ borderRadius: 1 }}
-                />                <Box position="absolute" top={20} left={20} bgcolor="white" px={1} py={0.5} sx={{ borderRadius: 1 }}>
-                    <Typography variant="subtitle2" color="primary">{course.category}</Typography>
-                </Box>
+            <CardMedia
+                component="img"
+                height="180"
+                image={course.image}
+                alt={course.title}
+                sx={{ borderRadius: 1 }}
+            />
+            <Box position="absolute" top={20} left={20} bgcolor="white" px={1} py={0.5} sx={{ borderRadius: 1 }}>
+                <Typography variant="subtitle2" color="primary">{course.category}</Typography>
             </Box>
+        </Box>
             <CardContent>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mt={1}>
                     <Box display="flex" alignItems="center" gap={0.5}>
