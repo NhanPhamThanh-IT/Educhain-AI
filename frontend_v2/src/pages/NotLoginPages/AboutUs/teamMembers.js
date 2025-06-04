@@ -1,9 +1,15 @@
+import vantuImage from '@assets/AboutUs/vantu.jpg';
+import thanhnhanImage from '@assets/AboutUs/thanhnhan.jpg';
+import trungnghiaImage from '@assets/AboutUs/trungnghia.jpg';
+import giabaoImage from '@assets/AboutUs/giabao.jpg';
+import trongnhanImage from '@assets/AboutUs/trongnhan.jpg';
+
 const teamMembers = [
     {
         name: "Nguyen Van Tu",
         role: "Team Leader",
         experience: "1+ year experience in ML Engineer",
-        image: "AboutUs/vantu.png",
+        image: vantuImage,
         facebook: "https://www.facebook.com/ktu.tu.75",
         github: ""
     },
@@ -11,15 +17,14 @@ const teamMembers = [
         name: "Pham Thanh Nhan",
         role: "Full Stack Developer, DeFi Architect",
         experience: "1.5+ years experience in Software Engineer",
-        image: "AboutUs/thanhnhan.png",
+        image: thanhnhanImage,
         facebook: "https://www.facebook.com/nhan.pham.352034",
         github: ""
-    },
-    {
+    }, {
         name: "Duong Trung Nghia",
         role: "AI Developer",
         experience: "1+ year experience in AI Engineer",
-        image: "AboutUs/trungnghia.png",
+        image: trungnghiaImage,
         facebook: "https://www.facebook.com/nghia.duong.644870",
         github: ""
     },
@@ -27,7 +32,7 @@ const teamMembers = [
         name: "Pham Gia Bao",
         role: "NLP Specialist",
         experience: "1+ year experience in AI Engineer",
-        image: "AboutUs/giabao.png",
+        image: giabaoImage,
         facebook: "https://www.facebook.com/phamgiabao.pham.37",
         github: ""
     },
@@ -35,7 +40,7 @@ const teamMembers = [
         name: "Nguyen Trong Nhan",
         role: "Designer, Smart Contract Dev",
         experience: "1.5+ year experience in Software Engineer",
-        image: "AboutUs/trongnhan.png",
+        image: trongnhanImage,
         facebook: "https://www.facebook.com/nguyen.trong.nhan.42956",
         github: ""
     }

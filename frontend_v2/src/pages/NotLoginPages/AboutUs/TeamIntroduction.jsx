@@ -4,6 +4,27 @@ import { Facebook, GitHub, LinkedIn } from '@mui/icons-material';
 import { motion, useInView } from 'framer-motion';
 import teamMembers from './teamMembers';
 
+// Không cần hàm xử lý đường dẫn hình ảnh nữa vì chúng ta đã import trực tiếp trong teamMembers.js
+
+// Hàm để xử lý đường dẫn hình ảnh
+const getImagePath = (imagePath) => {
+    if (!imagePath) return '';
+
+    // Nếu đường dẫn bắt đầu với @assets, thay thế bằng định dạng import động
+    if (imagePath.startsWith('@assets/')) {
+        try {
+            // Sử dụng import.meta.url để xử lý đúng đường dẫn trong Vite
+            const path = imagePath.replace('@assets/', '/src/assets/');
+            return new URL(path, import.meta.url).href;
+        } catch (error) {
+            console.error('Error loading image:', error);
+            return '';
+        }
+    }
+
+    return imagePath;
+};
+
 // Defining the MemberCard component
 const MemberCard = ({ member }) => {
     return (
@@ -53,8 +74,7 @@ const MemberCard = ({ member }) => {
                             mx: "auto",
                             mb: 2,
                         }}
-                    >
-                        <Avatar
+                    >                        <Avatar
                             src={member.image}
                             alt={member.name}
                             sx={{
@@ -239,7 +259,7 @@ const TeamIntroduction = () => {
 
                 <Grid container spacing={4} justifyContent="center">
                     {teamMembers.map((member, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
+                        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}

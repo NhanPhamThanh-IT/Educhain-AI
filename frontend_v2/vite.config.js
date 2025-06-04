@@ -6,9 +6,31 @@ import envConfig from './vite.env.js'
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const isProd = mode === 'production'
-  
+
   return {
     // Build optimization options
+    // Resolve aliases for better imports
+    resolve: {
+      alias: {
+        '@': '/src',
+        '@assets': '/src/assets',
+        '@components': '/src/components',
+        '@constants': '/src/constants',
+        '@context': '/src/context',
+        '@hooks': '/src/hooks',
+        '@routes': '/src/routes',
+        '@styles': '/src/styles',
+        '@pages': '/src/pages',
+        '@utils': '/src/utils',
+      },
+    },
+
+    // Optimization options
+    optimizeDeps: {
+      include: ['react', 'react-dom'],
+      exclude: ['@swc/core'],
+    },
+
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
@@ -34,7 +56,7 @@ export default defineConfig(({ command, mode }) => {
         }
       } : undefined
     },
-    
+
     // Server configuration with optimized settings
     server: {
       hmr: {
@@ -45,7 +67,7 @@ export default defineConfig(({ command, mode }) => {
         ignored: ['**/node_modules/**', '**/dist/**', '**/.git/**'],
       }
     },
-    
+
     // Plugins with optimized SWC settings
     plugins: [react({
       jsxImportSource: 'react',
@@ -73,25 +95,5 @@ export default defineConfig(({ command, mode }) => {
         }
       },
     })],
-    
-    // Resolve aliases for better imports
-    resolve: {
-      alias: {
-        '@components': '/src/components',
-        '@routes': '/src/routes',
-        '@pages': '/src/pages',
-        '@assets': '/src/assets',
-        '@utils': '/src/utils',
-        '@hooks': '/src/hooks',
-        '@context': '/src/context',
-        '@styles': '/src/styles',
-      },
-    },
-    
-    // Optimization options
-    optimizeDeps: {
-      include: ['react', 'react-dom'],
-      exclude: ['@swc/core'],
-    }
   };
 })

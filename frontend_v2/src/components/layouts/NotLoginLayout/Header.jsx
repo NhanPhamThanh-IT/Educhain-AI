@@ -1,12 +1,13 @@
 import { AppBar, Toolbar, Box, Typography, Container, Tabs, Tab, Button, Menu, MenuItem } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
+import { MAIN_ROUTES } from '@/constants/routesPath';
 
 // --- Constants ---
 const tabData = [
-    { label: "Home", link: "/" },
-    { label: "Docs", link: "/docs" },
-    { label: "Deposit & Earn", link: "/deposit-and-earn" },
-    { label: "Our Team", link: "/about" },
+    { label: "Home", link: MAIN_ROUTES.home },
+    { label: "Docs", link: MAIN_ROUTES.docs },
+    { label: "Deposit & Earn", link: MAIN_ROUTES.depositAndEarn },
+    { label: "Our Team", link: MAIN_ROUTES.about },
 ];
 
 const data = {

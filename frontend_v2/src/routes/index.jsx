@@ -10,6 +10,7 @@ import {
   CircularProgress,
   Box
 } from '@mui/material';
+import { MAIN_ROUTES } from '@constants/routesPath';
 
 import LoginLayout from '@components/layouts/LoginLayout';
 import NotLoginLayout from '@components/layouts/NotLoginLayout';
@@ -48,19 +49,19 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<NotLoginLayout />}>
-        <Route path="/" element={<LazyLoad component={Home} />} />
-        <Route path="/home" element={<LazyLoad component={Home} />} />
-        <Route path="/docs" element={<LazyLoad component={Docs} />} />
-        <Route path="/deposit-and-earn" element={<LazyLoad component={DepositAndEarn} />} />
-        <Route path="/about" element={<LazyLoad component={About} />} />
+        <Route path={MAIN_ROUTES.root} element={<LazyLoad component={Home} />} />
+        <Route path={MAIN_ROUTES.home} element={<LazyLoad component={Home} />} />
+        <Route path={MAIN_ROUTES.docs} element={<LazyLoad component={Docs} />} />
+        <Route path={MAIN_ROUTES.depositAndEarn} element={<LazyLoad component={DepositAndEarn} />} />
+        <Route path={MAIN_ROUTES.about} element={<LazyLoad component={About} />} />
       </Route>
 
       <Route element={<LoginLayout />}>
-        <Route path="/profile" element={<LazyLoad component={Profile} />} />
-        <Route path="/settings" element={<LazyLoad component={Settings} />} />
+        <Route path={MAIN_ROUTES.profile} element={<LazyLoad component={Profile} />} />
+        <Route path={MAIN_ROUTES.settings} element={<LazyLoad component={Settings} />} />
       </Route>
 
-      <Route path="*" element={<LazyLoad component={NotFound} />} />
+      <Route path={MAIN_ROUTES.notFound} element={<LazyLoad component={NotFound} />} />
     </Routes>
   );
 };
