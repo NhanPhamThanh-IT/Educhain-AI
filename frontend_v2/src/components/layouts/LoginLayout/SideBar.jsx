@@ -10,20 +10,13 @@ import {
   ListItemText,
   Divider,
   Typography,
-  Collapse
 } from '@mui/material';
 import {
-  Dashboard as DashboardIcon,
   School as SchoolIcon,
-  Book as BookIcon,
-  Quiz as QuizIcon,
-  Person as PersonIcon,
   Assignment as MissionsIcon,
   Leaderboard as LeaderboardIcon,
-  Settings as SettingsIcon,
-  ExpandLess,
-  ExpandMore,
-  StarBorder,
+  LocalGroceryStore as MarketIcon,
+  CurrencyExchange as ExchangeIcon,
   Logout as LogoutIcon
 } from '@mui/icons-material';
 
@@ -42,12 +35,11 @@ const SideBar = () => {
 
   // Navigation items
   const menuItems = [
-    { text: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
     { text: 'My Courses', path: '/my-courses', icon: <SchoolIcon /> },
-    { text: 'Study Materials', path: '/materials', icon: <BookIcon /> },
-    { text: 'Quizzes & Tests', path: '/quizzes', icon: <QuizIcon /> },
+    { text: 'Market', path: '/market', icon: <MarketIcon /> },
     { text: 'Missions', path: '/missions', icon: <MissionsIcon /> },
     { text: 'Leaderboard', path: '/leaderboard', icon: <LeaderboardIcon /> },
+    { text: 'Exchange', path: '/exchange', icon: <ExchangeIcon /> },
   ];
 
   return (

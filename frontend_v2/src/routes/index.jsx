@@ -24,8 +24,10 @@ const Profile = lazy(() => import('@pages/LoginPages/Profile'));
 const Settings = lazy(() => import('@pages/LoginPages/Settings'));
 const NotFound = lazy(() => import('@pages/ErrorPages/NotFound'));
 const MyCourses = lazy(() => import('@pages/LoginPages/MyCourses'));
+const Market = lazy(() => import('@pages/LoginPages/Market'));
 const Missions = lazy(() => import('@pages/LoginPages/Missions'));
 const Leaderboard = lazy(() => import('@pages/LoginPages/Leaderboard'));
+const ExchangeCoin = lazy(() => import('@pages/LoginPages/ExchangeCoin'));
 
 // Loading component using MUI
 const LoadingComponent = () => (
@@ -61,8 +63,10 @@ const AppRoutes = () => {
 
       <Route element={<LoginLayout />}>
         <Route path={MAIN_ROUTES.myCourses} element={<LazyLoad component={MyCourses} />} />
+        <Route path={MAIN_ROUTES.market} element={<LazyLoad component={Market} />} />
         <Route path={MAIN_ROUTES.missions} element={<LazyLoad component={Missions} />} />
         <Route path={MAIN_ROUTES.leaderboard} element={<LazyLoad component={Leaderboard} />} />
+        <Route path={MAIN_ROUTES.exchangeCoin} element={<LazyLoad component={ExchangeCoin} />} />
         <Route path={MAIN_ROUTES.profile} element={<LazyLoad component={Profile} />} />
         <Route path={MAIN_ROUTES.settings} element={<LazyLoad component={Settings} />} />
       </Route>
