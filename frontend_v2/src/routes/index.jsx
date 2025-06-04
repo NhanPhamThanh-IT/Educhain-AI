@@ -1,33 +1,66 @@
-import { Routes, Route } from 'react-router-dom';
+import {
+  Routes,
+  Route
+} from 'react-router-dom';
+import {
+  Suspense,
+  lazy
+} from 'react';
+import {
+  CircularProgress,
+  Box
+} from '@mui/material';
 
 import LoginLayout from '@components/layouts/LoginLayout';
 import NotLoginLayout from '@components/layouts/NotLoginLayout';
 
-import Home from '@pages/NotLoginPages/Home/index';
-import Docs from '@pages/NotLoginPages/Docs/index';
-import About from '@pages/NotLoginPages/AboutUs/index';
-import Profile from '@pages/LoginPages/Profile';
-import Settings from '@pages/LoginPages/Settings';
-import NotFound from '@pages/ErrorPages/NotFound';
+// Replace direct imports with lazy imports
+const Home = lazy(() => import('@pages/NotLoginPages/Home/index'));
+const Docs = lazy(() => import('@pages/NotLoginPages/Docs/index'));
+const About = lazy(() => import('@pages/NotLoginPages/AboutUs/index'));
+const Profile = lazy(() => import('@pages/LoginPages/Profile'));
+const Settings = lazy(() => import('@pages/LoginPages/Settings'));
+const NotFound = lazy(() => import('@pages/ErrorPages/NotFound'));
+
+// Loading component using MUI
+const LoadingComponent = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh'
+    }}
+  >
+    <CircularProgress color="primary" size={50} thickness={4} />
+  </Box>
+);
+
+// Wrapper component for lazy loading
+const LazyLoad = ({ component: Component }) => (
+  <Suspense fallback={<LoadingComponent />}>
+    <Component />
+  </Suspense>
+);
 
 const AppRoutes = () => {
-    return (
-        <Routes>
-            <Route element={<NotLoginLayout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/docs" element={<Docs />} />
-                <Route path="/about" element={<About />} />
-            </Route>
+  return (
+    <Routes>
+      <Route element={<NotLoginLayout />}>
+        <Route path="/" element={<LazyLoad component={Home} />} />
+        <Route path="/home" element={<LazyLoad component={Home} />} />
+        <Route path="/docs" element={<LazyLoad component={Docs} />} />
+        <Route path="/about" element={<LazyLoad component={About} />} />
+      </Route>
 
-            <Route element={<LoginLayout />}>
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/settings" element={<Settings />} />
-            </Route>
+      <Route element={<LoginLayout />}>
+        <Route path="/profile" element={<LazyLoad component={Profile} />} />
+        <Route path="/settings" element={<LazyLoad component={Settings} />} />
+      </Route>
 
-            <Route path="*" element={<NotFound />} />
-        </Routes>
-    );
+      <Route path="*" element={<LazyLoad component={NotFound} />} />
+    </Routes>
+  );
 };
 
 export default AppRoutes;
