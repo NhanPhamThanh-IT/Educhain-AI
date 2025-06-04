@@ -6,15 +6,15 @@ module core::protocol_fee {
     use core::treasury;
     use core::version;
 
-    const DEV_WALLET: address = @0x0000060c049b5aea93660573019b2ed5d657245212a998e030981589726d11fe;
+    const TEST_WALLET: address = 0xfc25a4a794e71c27a6abe43920682dc31a2f8d28758e67bfd439523765f5b342;
     
     public struct ProtocolFeeConfig has store, key {
         id: object::UID,
         version: u64,
-        dev_wallet: address,
+        test_wallet: address,
         total_protocol_fee_percent_base_18: u64,
         treasury_fee_percent_base_18: u64,
-        dev_wallet_fee_percent_base_18: u64,
+        test_wallet_fee_percent_base_18: u64,
         referee_discount: u64,
     }
     
@@ -29,7 +29,7 @@ module core::protocol_fee {
         version: &mut option::Option<u64>,
         protocol_fee: &mut option::Option<u64>, 
         treasury_fee: &mut option::Option<u64>, 
-        dev_wallet_fee: &mut option::Option<u64>, 
+        test_wallet_fee: &mut option::Option<u64>, 
         referee_discount: &mut option::Option<u64>,
     ) {
         if (option::is_some<u64>(freeze(version))) {
@@ -41,10 +41,10 @@ module core::protocol_fee {
         if (option::is_some<u64>(freeze(treasury_fee))) {
             protocolFeeConfig.treasury_fee_percent_base_18 = option::extract<u64>(treasury_fee);
         };
-        if (option::is_some<u64>(freeze(dev_wallet_fee))) {
-            protocolFeeConfig.dev_wallet_fee_percent_base_18 = option::extract<u64>(dev_wallet_fee);
+        if (option::is_some<u64>(freeze(test_wallet_fee))) {
+            protocolFeeConfig.test_wallet_fee_percent_base_18 = option::extract<u64>(test_wallet_fee);
         };
-        assert!(protocolFeeConfig.treasury_fee_percent_base_18 + protocolFeeConfig.dev_wallet_fee_percent_base_18 == 1000000000000000000, 3);
+        assert!(protocolFeeConfig.treasury_fee_percent_base_18 + protocolFeeConfig.test_wallet_fee_percent_base_18 == 1000000000000000000, 3);
         if (option::is_some<u64>(freeze(referee_discount))) {
             protocolFeeConfig.referee_discount = option::extract<u64>(referee_discount);
         };
@@ -58,17 +58,17 @@ module core::protocol_fee {
         let protocolFeeConfig = ProtocolFeeConfig{
             id                                 : object::new(ctx), 
             version                            : version::current_version(), 
-            dev_wallet                         : DEV_WALLET, 
+            test_wallet                         : TEST_WALLET, 
             total_protocol_fee_percent_base_18 : 0, //0%
             treasury_fee_percent_base_18       : 1000000000000000000, 
-            dev_wallet_fee_percent_base_18     : 0, //0%
+            test_wallet_fee_percent_base_18     : 0, //0%
             referee_discount                   : 0, //0%
         };
         protocolFeeConfig
     }
     
-    public fun dev_wallet_fee(protocolFeeConfig: &ProtocolFeeConfig) : u64 {
-        protocolFeeConfig.dev_wallet_fee_percent_base_18
+    public fun test_wallet_fee(protocolFeeConfig: &ProtocolFeeConfig) : u64 {
+        protocolFeeConfig.test_wallet_fee_percent_base_18
     }
     
     #[allow(unused_variable)]
@@ -96,14 +96,14 @@ module core::protocol_fee {
                 coin::split<T0>(coin, treasury_fee, ctx)
             );
         };
-        let dev_wallet_fee = take_percent_base_18(
+        let test_wallet_fee = take_percent_base_18(
             total_protocol_fee, 
-            protocolFeeConfig.dev_wallet_fee_percent_base_18
+            protocolFeeConfig.test_wallet_fee_percent_base_18
         );
-        if (dev_wallet_fee > 0) {
+        if (test_wallet_fee > 0) {
             transfer::public_transfer<Coin<T0>>(
-                coin::split<T0>(coin, dev_wallet_fee, ctx), 
-                protocolFeeConfig.dev_wallet
+                coin::split<T0>(coin, test_wallet_fee, ctx), 
+                protocolFeeConfig.test_wallet
             );
         };
     }
@@ -125,12 +125,12 @@ module core::protocol_fee {
     }
     
     #[allow(unused_variable)]
-    public fun update_dev_wallet_address(
+    public fun update_test_wallet_address(
         adminCap: &admin::AdminCap, 
         protocolFeeConfig: &mut ProtocolFeeConfig, 
-        dev_wallet: address
+        test_wallet: address
     ) {
         check_version(protocolFeeConfig);
-        protocolFeeConfig.dev_wallet = dev_wallet;
+        protocolFeeConfig.test_wallet = test_wallet;
     }
 }
