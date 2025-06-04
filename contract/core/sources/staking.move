@@ -70,13 +70,13 @@ module core::staking {
     }
     
     public fun stake(
-        cSUITreasuryCoinfig: &mut csui::CSUITreasuryCoinfig,
+        edutokenTreasury: &mut edutoken::EDUTOKENTreasuryCoinfig,
         stakeConfig: &mut StakeConfig,
         treasury: &mut treasury::Treasury,
         coin: coin::Coin<SUI>,
         clock: &clock::Clock, 
         ctx: &mut tx_context::TxContext,
-    ): coin::Coin<csui::CSUI>
+    ): coin::Coin<edutoken::EDUTOKEN>
     {   
         check_version(stakeConfig);
         let anual_interest = protocol_fee::take_percent_base_18(
@@ -89,16 +89,16 @@ module core::staking {
         stakeConfig.total_staked = coin::value(&coin) + stakeConfig.total_staked;
         assert!( stakeConfig.total_staked <= stakeConfig.max_stake_limit, 0);
         treasury::deposit<SUI>(treasury, coin);
-        let coin_out = csui::mint_csui(cSUITreasuryCoinfig, amount_u64, ctx);
+        let coin_out = edutoken::mint_edutoken(edutokenTreasury, amount_u64, ctx);
         events::emit_stake_event(amount_u64, ctx);
         coin_out
     }  
 
     public fun unstake(
-        cSUITreasuryCoinfig: &mut csui::CSUITreasuryCoinfig,
+        edutokenTreasury: &mut edutoken::EDUTOKENTreasuryCoinfig,
         stakeConfig: &mut StakeConfig,
         treasury: &mut treasury::Treasury,
-        coin: coin::Coin<csui::CSUI>,
+        coin: coin::Coin<edutoken::EDUTOKEN>,
         clock: &clock::Clock, 
         ctx: &mut tx_context::TxContext,
     ): coin::Coin<SUI>
@@ -113,7 +113,7 @@ module core::staking {
         let amount_u64 = amount_u128 as u64;
         stakeConfig.total_staked = stakeConfig.total_staked - amount_u64;
         assert!(stakeConfig.total_staked >= amount_u64, 0);
-        csui::burn_csui(cSUITreasuryCoinfig, coin);
+        edutoken::burn_edutoken(edutokenTreasury, coin);
         let total_balance = treasury::borrow_from_treasury<SUI>(treasury);
         let balance = balance::split<SUI>(total_balance, amount_u64);
         events::emit_unstake_event(amount_u64, ctx);

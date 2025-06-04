@@ -2,16 +2,14 @@ module core::ICO {
     use sui::coin;
     use edutoken::edutoken::{EDUTOKEN};
     use sui::sui::SUI;
-    use sui::balance;
-    use sui::tx_context;
 
     /// Cấu trúc pool lưu trữ reserve token
     public struct LiquidityPool has key {
         id: object::UID,
         reserve_edutoken: u64,
         reserve_sui: u64,
-        token_edutoken: balance::Balance<EDUTOKEN>,
-        token_sui: balance::Balance<SUI>,
+        token_edutoken: coin::Coin<EDUTOKEN>,
+        token_sui: coin::Coin<SUI>,
     }
 
     /// Hàm tạo mới liquidity pool (cần gọi lần đầu)
@@ -21,17 +19,15 @@ module core::ICO {
         ctx: &mut TxContext,
     ): LiquidityPool {
         let id = object::new(ctx);
-        let mut token_edutoken = balance::zero<EDUTOKEN>();
-        let mut token_sui = balance::zero<SUI>();
+        let reserve_edutoken = coin::value(&edutoken_coins);
+        let reserve_sui = coin::value(&sui_coins);
 
-        balance::deposit(&mut token_edutoken, edutoken_coins);
-        balance::deposit(&mut token_sui, sui_coins);
         LiquidityPool {
             id,
-            reserve_edutoken: balance::value(&token_edutoken),
-            reserve_sui: balance::value(&token_sui),
-            token_edutoken,
-            token_sui,
+            reserve_edutoken,            
+            reserve_sui,
+            token_edutoken: edutoken_coins,
+            token_sui: sui_coins,
         }
     }
 
@@ -61,8 +57,9 @@ module core::ICO {
 
         // Cộng EDUTOKEN vào pool
         coin::join(&mut pool.token_edutoken, edutoken_in);
+
         // Rút SUI ra trả người swap
-        let sui_out = coin::extract(&mut pool.token_sui, sui_out_amount);
+        let sui_out = coin::split(&mut pool.token_sui, sui_out_amount, ctx);
 
         // Gọi event (nếu có module events)
         // core::events::emit_swap_completed_event(b"EDUTOKEN", amount_in, b"SUI", sui_out_amount, tx_context::sender(ctx), ctx);
@@ -88,7 +85,7 @@ module core::ICO {
         // Cộng SUI vào pool
         coin::join(&mut pool.token_sui, sui_in);
         // Rút EDUTOKEN ra trả người swap
-        let edutoken_out = coin::extract(&mut pool.token_edutoken, edutoken_out_amount);
+        let edutoken_out = coin::split(&mut pool.token_edutoken, edutoken_out_amount, ctx);
 
         // Gọi event (nếu có module events)
         // core::events::emit_swap_completed_event(b"SUI", amount_in, b"EDUTOKEN", edutoken_out_amount, tx_context::sender(ctx), ctx);
