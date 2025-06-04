@@ -14,7 +14,7 @@ import image2 from "@assets/homepage-hero-section-2.jpg"
 import image3 from "@assets/homepage-hero-section-3.jpg"
 import image4 from "@assets/homepage-hero-section-4.jpg"
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const StyledBox = styled(Box)(() => ({
     minHeight: '100vh',

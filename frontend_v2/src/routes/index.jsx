@@ -17,6 +17,7 @@ import NotLoginLayout from '@components/layouts/NotLoginLayout';
 // Replace direct imports with lazy imports
 const Home = lazy(() => import('@pages/NotLoginPages/Home/index'));
 const Docs = lazy(() => import('@pages/NotLoginPages/Docs/index'));
+const DepositAndEarn = lazy(() => import('@pages/NotLoginPages/DepositAndEarn/index'));
 const About = lazy(() => import('@pages/NotLoginPages/AboutUs/index'));
 const Profile = lazy(() => import('@pages/LoginPages/Profile'));
 const Settings = lazy(() => import('@pages/LoginPages/Settings'));
@@ -50,6 +51,7 @@ const AppRoutes = () => {
         <Route path="/" element={<LazyLoad component={Home} />} />
         <Route path="/home" element={<LazyLoad component={Home} />} />
         <Route path="/docs" element={<LazyLoad component={Docs} />} />
+        <Route path="/deposit-and-earn" element={<LazyLoad component={DepositAndEarn} />} />
         <Route path="/about" element={<LazyLoad component={About} />} />
       </Route>
 

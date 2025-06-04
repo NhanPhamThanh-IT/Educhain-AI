@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 const tabData = [
     { label: "Home", link: "/" },
     { label: "Docs", link: "/docs" },
-    { label: "Deposit & Earn", link: "/deposit" },
+    { label: "Deposit & Earn", link: "/deposit-and-earn" },
     { label: "Our Team", link: "/about" },
 ];
 
