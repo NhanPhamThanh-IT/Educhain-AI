@@ -1,7 +1,8 @@
 import { Card, CardContent, CardMedia, Box, Chip, Grid, Typography, Button } from "@mui/material";
 import { Rocket } from "lucide-react";
+import { memo } from 'react';
 
-const CourseCard = ({ course }) => {
+const CourseCard = memo(({ course }) => {
     return (
         <Grid size={{ xs: 12 }}>
             <Card
@@ -142,6 +143,9 @@ const CourseCard = ({ course }) => {
             </Card>
         </Grid>
     );
-};
+}, (prevProps, nextProps) => {
+    // Compare course objects to prevent unnecessary re-renders
+    return JSON.stringify(prevProps.course) === JSON.stringify(nextProps.course);
+});
 
 export default CourseCard;

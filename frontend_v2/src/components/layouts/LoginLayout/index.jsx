@@ -1,9 +1,16 @@
 import { Outlet } from 'react-router-dom';
-import { Box, CssBaseline, Drawer } from "@mui/material";
-import { useState } from 'react';
+import { Box, CssBaseline, Drawer, CircularProgress } from "@mui/material";
+import { useState, lazy, Suspense } from 'react';
 
-import SideBar from "./SideBar";
-import TopBar from "./TopBar";
+const SideBar = lazy(() => import("./SideBar"));
+const TopBar = lazy(() => import("./TopBar"));
+
+// Loading component for lazy-loaded elements
+const LazyComponentLoader = () => (
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2 }}>
+    <CircularProgress size={30} />
+  </Box>
+);
 
 // Sidebar width
 const drawerWidth = 240;
@@ -26,14 +33,13 @@ const LoginLayout = () => {
         "&::-webkit-scrollbar": { display: "none" },
       }}
     >
-      <CssBaseline />
-
-      {/* Desktop sidebar */}
-      <SideBar />
+      <CssBaseline />      {/* Desktop sidebar */}
+      <Suspense fallback={<LazyComponentLoader />}>
+        <SideBar />
+      </Suspense>
 
       {/* Mobile sidebar */}
-      <Box component="nav" sx={{ display: { md: 'none' } }}>
-        <Drawer
+      <Box component="nav" sx={{ display: { md: 'none' } }}>        <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
@@ -50,7 +56,9 @@ const LoginLayout = () => {
             },
           }}
         >
-          <SideBar />
+          <Suspense fallback={<LazyComponentLoader />}>
+            <SideBar />
+          </Suspense>
         </Drawer>
       </Box>
 
@@ -65,9 +73,10 @@ const LoginLayout = () => {
           flexDirection: "column",
           overflow: "hidden",
         }}
-      >
-        {/* Top Bar */}
-        <TopBar toggleSidebar={handleDrawerToggle} />
+      >        {/* Top Bar */}
+        <Suspense fallback={<LazyComponentLoader />}>
+          <TopBar toggleSidebar={handleDrawerToggle} />
+        </Suspense>
 
         {/* Content Area */}
         <Box sx={{ flexGrow: 1, overflow: 'auto' }}>

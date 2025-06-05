@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from 'react';
 
-const TitleSection = ({ title, description }) => {
+const TitleSection = memo(({ title, description }) => {
     return (
         <Box textAlign="center" mb={4}>
             <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ textTransform: "none", userSelect: "none" }}>
@@ -10,7 +11,7 @@ const TitleSection = ({ title, description }) => {
                 {description}
             </Typography>
         </Box>
-    )
-}
+    );
+});
 
 export default TitleSection;

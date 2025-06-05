@@ -1,6 +1,6 @@
 import { Container, Grid, Card, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
-import AnimatedHeading from "@components/ui/AnimateHeading";
+import SectionHeading from "@components/ui/SectionHeading";
 
 const categories = [
     { title: "Business Management", color: "#EAF6FF", icon: "/Market/Category1.png" },
@@ -22,11 +22,9 @@ const cardVariants = {
 
 const CategorySection = () => (
     <Container sx={{ py: 5 }}>
-        <AnimatedHeading
+        <SectionHeading
             title="📌 Browse By Categories"
             description="Explore a diverse range of categories powered by blockchain and AI, ensuring a personalized and innovative learning journey."
-            titleAnimation={{ initial: { opacity: 0, scale: 0.5 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 1 } }}
-            descriptionAnimation={{ initial: { opacity: 0, scale: 0.5 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 1 } }}
         />
         <Grid container spacing={3} sx={{ p: 1, justifyContent: "center" }}>
             {categories.map((item, index) => (

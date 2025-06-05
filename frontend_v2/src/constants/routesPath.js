@@ -21,6 +21,7 @@ export const MAIN_ROUTES = {
   profile: "/profile",
   settings: "/settings",
   myCourses: "/my-courses",
+  createCourse: "/create-course",
   market: "/market",
   missions: "/missions",
   leaderboard: "/leaderboard",

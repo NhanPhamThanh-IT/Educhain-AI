@@ -2,13 +2,14 @@
 
 // Importing React modules
 import { useNavigate } from "react-router-dom";
+import { lazy, Suspense } from 'react';
 
 // Importing Material-UI components
-import { Grid, Typography, Box, Button } from "@mui/material";
+import { Grid, Typography, Box, Button, CircularProgress } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
-// Importing custom components
-import CourseCard from "@components/ui/CoursesCard";
+// Lazy loading custom components
+const CourseCard = lazy(() => import("@components/ui/CoursesCard"));
 
 // Importing courses data
 import courses from "./constants.js";
@@ -43,11 +44,16 @@ const ListCourses = ({ title, subcontent }) => {
                         Load More Course
                     </Button>
                 </Box>
-            </Box>
-            <Grid container spacing={3} justifyContent="center">
+            </Box>            <Grid container spacing={3} justifyContent="center">
                 {courses.map((course, index) => (
                     <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={index}>
-                        <CourseCard course={course} />
+                        <Suspense fallback={
+                            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2, height: 300, alignItems: 'center' }}>
+                                <CircularProgress size={40} />
+                            </Box>
+                        }>
+                            <CourseCard course={course} />
+                        </Suspense>
                     </Grid>
                 ))}
             </Grid>
