@@ -29,6 +29,9 @@ export default defineConfig(({ command, mode }) => {
     optimizeDeps: {
       include: ['react', 'react-dom'],
       exclude: ['@swc/core'],
+      esbuildOptions: {
+        target: 'esnext',
+      },
     },
 
     build: {
@@ -39,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
       // Use chunk size optimization for better performance
       chunkSizeWarningLimit: 1000,
       // Better minification options for production
-      minify: isProd ? 'terser' : 'esbuild',
+      minify: 'esbuild',
       terserOptions: isProd ? {
         compress: {
           drop_console: true,

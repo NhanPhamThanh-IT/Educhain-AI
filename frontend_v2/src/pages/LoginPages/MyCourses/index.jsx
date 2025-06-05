@@ -117,7 +117,7 @@ const MyLearning = () => {
                     My Learning
                 </Typography>
                 <Button
-                    onClick={() => navigate("/mylearning/createcourse")}
+                    onClick={() => navigate("/create-course")}
                     variant="contained"
                     startIcon={<AddIcon />}
                     sx={buttonSx}

@@ -1,13 +1,26 @@
 import { Outlet } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 
-import Header from './Header';
-import Footer from './Footer';
+const Header = lazy(() => import('./Header'));
+const Footer = lazy(() => import('./Footer'));
+
+// Loading component for lazy-loaded elements
+const LazyComponentLoader = () => (
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2 }}>
+    <CircularProgress size={30} />
+  </Box>
+);
 
 const UserLayoutA = () => (
   <>
-    <Header />
+    <Suspense fallback={<LazyComponentLoader />}>
+      <Header />
+    </Suspense>
     <Outlet />
-    <Footer />
+    <Suspense fallback={<LazyComponentLoader />}>
+      <Footer />
+    </Suspense>
   </>
 );
 

@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Box, Typography, Container, Tabs, Tab, Button, Menu, MenuItem } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { MAIN_ROUTES } from '@/constants/routesPath';
+import { memo, useCallback } from 'react';
 
 // --- Constants ---
 const tabData = [
@@ -88,7 +89,7 @@ function DesktopNavigation() {
 }
 
 // --- AppBarComponent (UI only) ---
-function AppBarComponent() {
+const AppBarComponent = memo(() => {
     return (
         <AppBar
             sx={{
@@ -163,8 +164,7 @@ function AppBarComponent() {
                     <DesktopNavigation />
                 </Toolbar>
             </Container>
-        </AppBar>
-    );
-}
+        </AppBar>    );
+});
 
 export default AppBarComponent;

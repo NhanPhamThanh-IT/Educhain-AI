@@ -12,22 +12,28 @@ import {
 } from '@mui/material';
 import { MAIN_ROUTES } from '@constants/routesPath';
 
+// Layouts
 import LoginLayout from '@components/layouts/LoginLayout';
 import NotLoginLayout from '@components/layouts/NotLoginLayout';
 
-// Replace direct imports with lazy imports
+// Not Login pages
 const Home = lazy(() => import('@pages/NotLoginPages/Home/index'));
 const Docs = lazy(() => import('@pages/NotLoginPages/Docs/index'));
 const DepositAndEarn = lazy(() => import('@pages/NotLoginPages/DepositAndEarn/index'));
 const About = lazy(() => import('@pages/NotLoginPages/AboutUs/index'));
-const Profile = lazy(() => import('@pages/LoginPages/Profile'));
-const Settings = lazy(() => import('@pages/LoginPages/Settings'));
-const NotFound = lazy(() => import('@pages/ErrorPages/NotFound'));
+
+// Login pages
 const MyCourses = lazy(() => import('@pages/LoginPages/MyCourses'));
+const CreateCourse = lazy(() => import('@pages/LoginPages/CreateCourse'));
 const Market = lazy(() => import('@pages/LoginPages/Market'));
 const Missions = lazy(() => import('@pages/LoginPages/Missions'));
 const Leaderboard = lazy(() => import('@pages/LoginPages/Leaderboard'));
 const ExchangeCoin = lazy(() => import('@pages/LoginPages/ExchangeCoin'));
+const Profile = lazy(() => import('@pages/LoginPages/Profile'));
+const Settings = lazy(() => import('@pages/LoginPages/Settings'));
+
+// Error page
+const NotFound = lazy(() => import('@pages/ErrorPages/NotFound'));
 
 // Loading component using MUI
 const LoadingComponent = () => (
@@ -63,6 +69,7 @@ const AppRoutes = () => {
 
       <Route element={<LoginLayout />}>
         <Route path={MAIN_ROUTES.myCourses} element={<LazyLoad component={MyCourses} />} />
+        <Route path={MAIN_ROUTES.createCourse} element={<LazyLoad component={CreateCourse} />} />
         <Route path={MAIN_ROUTES.market} element={<LazyLoad component={Market} />} />
         <Route path={MAIN_ROUTES.missions} element={<LazyLoad component={Missions} />} />
         <Route path={MAIN_ROUTES.leaderboard} element={<LazyLoad component={Leaderboard} />} />

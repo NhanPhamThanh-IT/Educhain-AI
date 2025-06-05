@@ -2,7 +2,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import { Stars } from "@mui/icons-material";
 import { Rocket, Target } from "lucide-react";
 import { motion } from "framer-motion";
-import creditcard from "@assets/Leaderboard/creditcard.png";
+import creditcard from "/Leaderboard/creditcard.png";
 import { useNavigate } from "react-router-dom";
 const headerStyles = {
     container: {

@@ -1,34 +1,36 @@
-import { lazy, Suspense } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { lazy } from "react";
+import { Box } from "@mui/material";
+import LazyLoadWrapper from "@components/ui/LazyLoadWrapper";
 
-const IntroSection = lazy(() => import("./Intro"));
-const CategorySection = lazy(() => import("./Categories"));
-const ListCourses = lazy(() => import("./ListCourses"));
-
-const LoadingComponent = () => (
-    <Container maxWidth="xl" sx={{ mt: 5, textAlign: "center" }}>
-        <CircularProgress size={50} />
-    </Container>
+// Lazy loading for market sections with improved chunk naming
+const IntroSection = lazy(() => 
+  import(/* webpackChunkName: "market-intro" */ "./Intro")
+);
+const CategorySection = lazy(() => 
+  import(/* webpackChunkName: "market-categories" */ "./Categories")
+);
+const ListCourses = lazy(() => 
+  import(/* webpackChunkName: "market-courses" */ "./ListCourses")
 );
 
 const Market = () => {
     return (
         <Box>
-            <Suspense fallback={<LoadingComponent />}>
+            <LazyLoadWrapper height={300}>
                 <IntroSection />
-            </Suspense>
-            <Suspense fallback={<LoadingComponent />}>
+            </LazyLoadWrapper>
+            <LazyLoadWrapper height={200}>
                 <CategorySection />
-            </Suspense>
-            <Suspense fallback={<LoadingComponent />}>
+            </LazyLoadWrapper>
+            <LazyLoadWrapper height={500}>
                 <ListCourses title="Highly Recommended Courses" subcontent="Edunity Course Student Can Join With Us!" />
-            </Suspense>
-            <Suspense fallback={<LoadingComponent />}>
+            </LazyLoadWrapper>
+            <LazyLoadWrapper height={500}>
                 <ListCourses title="Courses For You" subcontent="Course Tailored Just For You!" />
-            </Suspense>
-            <Suspense fallback={<LoadingComponent />}>
+            </LazyLoadWrapper>
+            <LazyLoadWrapper height={500}>
                 <ListCourses title="Top Popular Course" subcontent="Course Tailored Just For You!" />
-            </Suspense>
+            </LazyLoadWrapper>
         </Box>
     );
 };

@@ -1,7 +1,8 @@
-import { useRef, lazy, Suspense } from "react";
-import { Box, Container, CircularProgress } from "@mui/material";
+import { useRef, lazy } from "react";
+import { Box, Container } from "@mui/material";
+import LazyLoadWrapper from "@components/ui/LazyLoadWrapper";
 
-// Lazy load components
+// Lazy load components with code splitting
 const Introduction = lazy(() => import("./sections/Introduction"));
 const VideoDemo = lazy(() => import("./sections/VideoDemo.jsx"));
 const Features = lazy(() => import("./sections/Features.jsx"));
@@ -13,23 +14,23 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }} bgcolor={"rgb(245,245,245)"} pt={7} pb={15}>
-      <Suspense fallback={<CircularProgress />}>
+      <LazyLoadWrapper height={300}>
         <Introduction />
-      </Suspense>
-      <Suspense fallback={<CircularProgress />}>
+      </LazyLoadWrapper>
+      <LazyLoadWrapper height={400}>
         <VideoDemo />
-      </Suspense>
+      </LazyLoadWrapper>
       <Box ref={featuresRef} id="features">
-        <Suspense fallback={<CircularProgress />}>
+        <LazyLoadWrapper height={400}>
           <Features />
-        </Suspense>
+        </LazyLoadWrapper>
       </Box>
-      <Suspense fallback={<CircularProgress />}>
+      <LazyLoadWrapper height={500}>
         <Usecases />
-      </Suspense>
-      <Suspense fallback={<CircularProgress />}>
+      </LazyLoadWrapper>
+      <LazyLoadWrapper height={300}>
         <LastSection />
-      </Suspense>
+      </LazyLoadWrapper>
     </Container>
   );
 };

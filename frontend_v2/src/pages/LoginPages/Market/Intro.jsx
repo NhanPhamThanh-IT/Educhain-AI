@@ -9,7 +9,7 @@ const IntroSection = () => (
             justifyContent: "space-between",
             padding: "4rem",
             minHeight: "80vh",
-            backgroundImage: "url('public/Market/Background.png')",
+            backgroundImage: "url('/Market/Background.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             color: "#fff",

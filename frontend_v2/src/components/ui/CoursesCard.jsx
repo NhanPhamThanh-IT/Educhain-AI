@@ -1,8 +1,9 @@
 import { Avatar, Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { Person as PersonIcon, Schedule as ScheduleIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 
-const CourseCard = ({ course }) => {
+const CourseCard = memo(({ course }) => {
 
     const navigate = useNavigate();
 
@@ -53,8 +54,10 @@ const CourseCard = ({ course }) => {
                     <Button variant="contained" color="primary" sx={{ textTransform: "none" }} onClick={() => handleEnrollClick()}>Enroll →</Button>
                 </Box>
             </CardContent>
-        </Card>
-    );
-};
+        </Card>    );
+}, (prevProps, nextProps) => {
+    // Compare course objects to prevent unnecessary re-renders
+    return JSON.stringify(prevProps.course) === JSON.stringify(nextProps.course);
+});
 
 export default CourseCard;

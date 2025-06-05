@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -23,7 +23,7 @@ import {
 // Sidebar width
 const drawerWidth = 240;
 
-const SideBar = () => {
+const SideBar = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -129,6 +129,6 @@ const SideBar = () => {
       </Box>
     </Drawer>
   );
-};
+});
 
 export default SideBar;

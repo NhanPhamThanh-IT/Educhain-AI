@@ -1,8 +1,8 @@
-import vantuImage from '@assets/AboutUs/vantu.jpg';
-import thanhnhanImage from '@assets/AboutUs/thanhnhan.jpg';
-import trungnghiaImage from '@assets/AboutUs/trungnghia.jpg';
-import giabaoImage from '@assets/AboutUs/giabao.jpg';
-import trongnhanImage from '@assets/AboutUs/trongnhan.jpg';
+import vantuImage from '/AboutUs/vantu.jpg';
+import thanhnhanImage from '/AboutUs/thanhnhan.jpg';
+import trungnghiaImage from '/AboutUs/trungnghia.jpg';
+import giabaoImage from '/AboutUs/giabao.jpg';
+import trongnhanImage from '/AboutUs/trongnhan.jpg';
 
 const teamMembers = [
     {
