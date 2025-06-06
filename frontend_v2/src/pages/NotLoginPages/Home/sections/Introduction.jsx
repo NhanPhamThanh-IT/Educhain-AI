@@ -6,7 +6,6 @@ import {
     Button,
     useTheme,
 } from '@mui/material';
-import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 import { useInView } from 'react-intersection-observer';
 import image1 from "/Home/homepage-hero-section-1.jpg"
@@ -15,6 +14,7 @@ import image3 from "/Home/homepage-hero-section-3.jpg"
 import image4 from "/Home/homepage-hero-section-4.jpg"
 import { useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { motion } from "framer-motion";
 
 const StyledBox = styled(Box)(() => ({
     minHeight: '100vh',
@@ -35,9 +35,8 @@ const Introduction = () => {
     const theme = useTheme();
     const [leftRef, leftInView] = useInView({ threshold: 0.1, triggerOnce: false });
     const [middleRef, middleInView] = useInView({ threshold: 0.1, triggerOnce: false });
-    const [rightRef, rightInView] = useInView({ threshold: 0.1, triggerOnce: false });
-    const navigate = useNavigate();
-    const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
+    const [rightRef, rightInView] = useInView({ threshold: 0.1, triggerOnce: false });    const navigate = useNavigate();
+    // const singleToastId = 'user-auth-toast'; // Define a consistent ID for the toast
 
     const handleGetStartedClick = () => {
         navigate("/my-courses");

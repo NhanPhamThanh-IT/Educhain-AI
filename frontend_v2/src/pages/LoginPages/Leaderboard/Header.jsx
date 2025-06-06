@@ -44,9 +44,7 @@ const LeaderboardHeader = () => {
             <Grid container spacing={4} alignItems="center">
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Typography variant="h3" fontWeight="bold" gutterBottom sx={headerStyles.title}>
-                        <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
-                            <Stars sx={{ fontSize: { xs: "2.5rem", md: "3.5rem" }, color: "#FFC107" }} />
-                        </motion.div>
+                        <Stars sx={{ fontSize: { xs: "2.5rem", md: "3.5rem" }, color: "#FFC107" }} />
                         Be The Best<br />Get Rewarded!
                     </Typography>
                     <Typography variant="body1" sx={headerStyles.description}>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Grid, Stack, Container, Typography, useTheme, Card, CardContent, IconButton, Avatar, Chip } from '@mui/material';
 import { Facebook, GitHub, LinkedIn } from '@mui/icons-material';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import teamMembers from './teamMembers';
+import { motion } from "framer-motion";
 
 // Không cần hàm xử lý đường dẫn hình ảnh nữa vì chúng ta đã import trực tiếp trong teamMembers.js
 
-// Hàm để xử lý đường dẫn hình ảnh
+/* Removed unused function
 const getImagePath = (imagePath) => {
     if (!imagePath) return '';
 
@@ -24,6 +25,7 @@ const getImagePath = (imagePath) => {
 
     return imagePath;
 };
+*/
 
 // Defining the MemberCard component
 const MemberCard = ({ member }) => {

@@ -1,10 +1,11 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import envConfig from './vite.env.js'
+// import envConfig from './vite.env.js' // Commented out as it's not used
 
 // https://vite.dev/config/
-export default defineConfig(({ command, mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig(({ mode }) => {
+  // Loading environment variables properly
+  loadEnv(mode, '.')
   const isProd = mode === 'production'
 
   return {

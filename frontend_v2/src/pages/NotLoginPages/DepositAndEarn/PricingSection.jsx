@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react';
 import { Box, Container, Typography, Paper, useTheme, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { deposits, earns } from './constants.js';
+import { motion } from "framer-motion";
 
 const PricingSection = () => {
     const theme = useTheme();

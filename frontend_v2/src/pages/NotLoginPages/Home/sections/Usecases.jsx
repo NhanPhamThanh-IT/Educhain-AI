@@ -4,8 +4,8 @@ import TitleSection from '@components/ui/TitleSection'
 
 import React, { useState } from "react";
 import { Card, CardContent, Typography, Grid } from "@mui/material";
-import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 
 const courses = [
     {
@@ -35,7 +35,7 @@ const textVariants = {
 };
 
 const CourseCard = ({ course }) => {
-    const { ref, inView, entry } = useInView({ threshold: 0.2, triggerOnce: false });
+    const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: false });
     const [key, setKey] = useState(0);
 
     React.useEffect(() => {

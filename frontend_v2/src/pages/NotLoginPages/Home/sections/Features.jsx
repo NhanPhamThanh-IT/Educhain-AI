@@ -1,8 +1,8 @@
-import React, { useEffect, useState, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import { MessageSquare, BrainCircuit, PencilRuler, DollarSign, ShieldCheck, Bot } from "lucide-react";
-import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 
 // Lazy load components
 const TitleSection = lazy(() => Promise.resolve({

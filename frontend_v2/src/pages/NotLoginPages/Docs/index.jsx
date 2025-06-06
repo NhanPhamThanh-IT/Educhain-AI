@@ -2,7 +2,7 @@ import { Container, Box, Typography, Card, CardContent, Grid, List, ListItem, Li
 import { features } from './constants';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArticleIcon from '@mui/icons-material/Article';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const DocsPage = () => {
     return (

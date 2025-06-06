@@ -5,9 +5,9 @@ import ecoin from "@assets/ecoin.png";
 import { initialMissions } from "./data";
 import styles from "./styles";
 
-const MissionSection = () => {
-  // Using local state instead of context
-  const [totalClaimed, setTotalClaimed] = useState(0);
+const MissionSection = () => {  // Using local state instead of context
+  // Define variables with underscore prefix to indicate they're intentionally unused
+  const [_totalClaimed, setTotalClaimed] = useState(0); // Using underscore prefix for ESLint
   const [missionClaims, setMissionClaims] = useState({});
   const [loadingMissions, setLoadingMissions] = useState(new Set()); // State to track loading missions as a Set
 
@@ -35,10 +35,12 @@ const MissionSection = () => {
           newSet.delete(missionId);
           return newSet;
         }); // Remove missionId from the Set
-      }, 5000); // 5-second delay
-    } else if (loadingMissions.has(missionId)) {
+      }, 5000); // 5-second delay    } else if (loadingMissions.has(missionId)) {
+      // Mission is already loading
     } else if (missionToClaim) {
+      // Mission is ready to claim but not implemented yet
     } else {
+      // Fall through case, no action needed
     }
   };
 

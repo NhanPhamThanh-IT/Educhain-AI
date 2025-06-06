@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography, Container } from "@mui/material";
-import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
     const navigate = useNavigate();

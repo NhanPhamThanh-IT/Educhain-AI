@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import { Box, Container, Grid, Typography, Paper, useTheme, CircularProgress } from '@mui/material';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { GraduationCap, BookOpen, School } from 'lucide-react';
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
     const theme = useTheme();
