@@ -17,7 +17,7 @@ const HeroSection = () => {
     }, [inView]);
 
     const handleNavigate = () => {
-        navigate("/learning/course");
+        navigate("/my-courses");
     }
 
     return (
