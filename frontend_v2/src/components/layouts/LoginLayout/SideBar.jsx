@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
+  Home as HomeIcon,
   School as SchoolIcon,
   Assignment as MissionsIcon,
   Leaderboard as LeaderboardIcon,
@@ -44,6 +45,7 @@ const menuIconButtonStyles = (expanded) => ({
 
 // Navigation items defined as constant to prevent recreation
 const MENU_ITEMS = [
+  { text: 'Dashboard', path: '/dashboard', icon: HomeIcon },
   { text: 'Courses', path: '/my-courses', icon: SchoolIcon },
   { text: 'Market', path: '/market', icon: MarketIcon },
   { text: 'Missions', path: '/missions', icon: MissionsIcon },
@@ -153,7 +155,7 @@ const SideBar = memo(() => {
               </ListItem>
             );
           });
-        }, [expanded, location.pathname, navigate])}
+        }, [expanded, location.pathname, navigate, menuItems])}
       </List>{/* Bottom Section with Logout */}
       <Box sx={bottomBoxStyles}>
         <Divider sx={dividerStyles} />

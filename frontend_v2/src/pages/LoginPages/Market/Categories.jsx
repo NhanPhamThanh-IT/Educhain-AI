@@ -1,5 +1,4 @@
 import { Container, Grid, Card, Typography, Box } from "@mui/material";
-import { motion } from "framer-motion";
 import SectionHeading from "@components/ui/SectionHeading";
 
 const categories = [
@@ -29,26 +28,19 @@ const CategorySection = () => (
         <Grid container spacing={3} sx={{ p: 1, justifyContent: "center" }}>
             {categories.map((item, index) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        whileHover="hover"
-                        variants={cardVariants}
-                    >
-                        <Card sx={{
-                            backgroundColor: item.color,
-                            borderRadius: 3,
-                            display: "flex",
-                            alignItems: "center",
-                            p: 2,
-                            transition: "all 0.3s ease-in-out"
-                        }}>
-                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: 80, height: 80 }}>
-                                <img src={item.icon} alt={item.title} style={{ width: 60, height: 60 }} />
-                            </Box>
-                            <Typography fontWeight="bold" sx={{ ml: 3, color: "#0E2A46" }}>{item.title}</Typography>
-                        </Card>
-                    </motion.div>
+                    <Card sx={{
+                        backgroundColor: item.color,
+                        borderRadius: 3,
+                        display: "flex",
+                        alignItems: "center",
+                        p: 2,
+                        transition: "all 0.3s ease-in-out"
+                    }}>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: 80, height: 80 }}>
+                            <img src={item.icon} alt={item.title} style={{ width: 60, height: 60 }} />
+                        </Box>
+                        <Typography fontWeight="bold" sx={{ ml: 3, color: "#0E2A46" }}>{item.title}</Typography>
+                    </Card>
                 </Grid>
             ))}
         </Grid>

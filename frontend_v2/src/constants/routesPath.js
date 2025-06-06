@@ -18,14 +18,15 @@ export const MAIN_ROUTES = {
   docs: "/docs",
   depositAndEarn: "/deposit-and-earn",
   about: "/about",
-  profile: "/profile",
-  settings: "/settings",
+  dashboard: "/dashboard",
   myCourses: "/my-courses",
   createCourse: "/create-course",
   market: "/market",
   missions: "/missions",
   leaderboard: "/leaderboard",
   exchangeCoin: "/exchange",
+  profile: "/profile",
+  settings: "/settings",
   notFound: "*",
 };
 

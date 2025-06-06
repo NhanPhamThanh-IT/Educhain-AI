@@ -23,6 +23,7 @@ const DepositAndEarn = lazy(() => import('@pages/NotLoginPages/DepositAndEarn/in
 const About = lazy(() => import('@pages/NotLoginPages/AboutUs/index'));
 
 // Login pages
+const Dashboard = lazy(() => import('@pages/LoginPages/Dashboard'));
 const MyCourses = lazy(() => import('@pages/LoginPages/MyCourses'));
 const CreateCourse = lazy(() => import('@pages/LoginPages/CreateCourse'));
 const Market = lazy(() => import('@pages/LoginPages/Market'));
@@ -68,6 +69,7 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<LoginLayout />}>
+        <Route path={MAIN_ROUTES.dashboard} element={<LazyLoad component={Dashboard} />} />
         <Route path={MAIN_ROUTES.myCourses} element={<LazyLoad component={MyCourses} />} />
         <Route path={MAIN_ROUTES.createCourse} element={<LazyLoad component={CreateCourse} />} />
         <Route path={MAIN_ROUTES.market} element={<LazyLoad component={Market} />} />

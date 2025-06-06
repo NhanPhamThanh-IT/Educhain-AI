@@ -8,10 +8,8 @@ import {
     Button,
     Grid,
     CircularProgress,
-    Alert,
-    IconButton,
+    Alert, IconButton,
     InputAdornment,
-    useTheme,
     Table,
     TableBody,
     TableCell,
@@ -19,7 +17,6 @@ import {
     TableHead,
     TableRow,
     Chip,
-    Tooltip,
 } from '@mui/material';
 import {
     SwapHoriz,
@@ -32,7 +29,7 @@ import {
     CheckCircle,
     Warning,
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
+
 
 // Styles
 const styles = {
@@ -176,7 +173,7 @@ const mockTransactions = [
 ];
 
 const ExchangeCoin = () => {
-    const theme = useTheme();
+    // const theme = useTheme(); // Commented out as it's not being used
     const [fromAmount, setFromAmount] = useState('');
     const [toAmount, setToAmount] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -201,15 +198,14 @@ const ExchangeCoin = () => {
         }
 
         setIsLoading(true);
-        setError('');
-
-        try {
+        setError(''); try {
             // Add your exchange logic here
             await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
             setFromAmount('');
             setToAmount('');
-        } catch (err) {
+        } catch (error) {
             setError('Failed to process exchange. Please try again.');
+            console.error('Exchange error:', error);
         } finally {
             setIsLoading(false);
         }
@@ -239,11 +235,7 @@ const ExchangeCoin = () => {
 
     return (
         <Container maxWidth="lg" sx={styles.container}>
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
+            <Box>
                 <Typography variant="h3" sx={styles.title}>
                     <CurrencyExchange sx={{ fontSize: 40 }} />
                     Exchange Coins
@@ -255,46 +247,34 @@ const ExchangeCoin = () => {
                 <Grid container spacing={3}>
                     {/* Balance Cards */}
                     <Grid size={{ xs: 12, md: 6 }}>
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                        >
-                            <Paper sx={styles.balanceCard}>
-                                <Box display="flex" justifyContent="space-between" alignItems="center">
-                                    <Box>
-                                        <Typography variant="subtitle2" sx={styles.balanceLabel}>
-                                            Educhain Balance
-                                        </Typography>
-                                        <Typography sx={styles.balanceValue}>
-                                            {balances.educhain} EDC
-                                        </Typography>
-                                    </Box>
-                                    <AccountBalanceWallet sx={{ fontSize: 48, opacity: 0.9 }} />
+                        <Paper sx={styles.balanceCard}>
+                            <Box display="flex" justifyContent="space-between" alignItems="center">
+                                <Box>
+                                    <Typography variant="subtitle2" sx={styles.balanceLabel}>
+                                        Educhain Balance
+                                    </Typography>
+                                    <Typography sx={styles.balanceValue}>
+                                        {balances.educhain} EDC
+                                    </Typography>
                                 </Box>
-                            </Paper>
-                        </motion.div>
+                                <AccountBalanceWallet sx={{ fontSize: 48, opacity: 0.9 }} />
+                            </Box>
+                        </Paper>
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                        >
-                            <Paper sx={styles.balanceCard}>
-                                <Box display="flex" justifyContent="space-between" alignItems="center">
-                                    <Box>
-                                        <Typography variant="subtitle2" sx={styles.balanceLabel}>
-                                            USDT Balance
-                                        </Typography>
-                                        <Typography sx={styles.balanceValue}>
-                                            {balances.usdt} USDT
-                                        </Typography>
-                                    </Box>
-                                    <TrendingUp sx={{ fontSize: 48, opacity: 0.9 }} />
+                        <Paper sx={styles.balanceCard}>
+                            <Box display="flex" justifyContent="space-between" alignItems="center">
+                                <Box>
+                                    <Typography variant="subtitle2" sx={styles.balanceLabel}>
+                                        USDT Balance
+                                    </Typography>
+                                    <Typography sx={styles.balanceValue}>
+                                        {balances.usdt} USDT
+                                    </Typography>
                                 </Box>
-                            </Paper>
-                        </motion.div>
+                                <TrendingUp sx={{ fontSize: 48, opacity: 0.9 }} />
+                            </Box>
+                        </Paper>
                     </Grid>
 
                     {/* Exchange Rate Info */}
@@ -314,139 +294,127 @@ const ExchangeCoin = () => {
 
                     {/* Exchange Form */}
                     <Grid size={{ xs: 12 }}>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                        >
-                            <Paper sx={styles.paper}>
-                                {error && (
-                                    <Alert
-                                        severity="error"
-                                        sx={{
-                                            mb: 2,
-                                            borderRadius: 2,
-                                            '& .MuiAlert-icon': {
-                                                color: 'error.main'
-                                            }
+                        <Paper sx={styles.paper}>
+                            {error && (
+                                <Alert
+                                    severity="error"
+                                    sx={{
+                                        mb: 2,
+                                        borderRadius: 2,
+                                        '& .MuiAlert-icon': {
+                                            color: 'error.main'
+                                        }
+                                    }}
+                                >
+                                    {error}
+                                </Alert>
+                            )}
+
+                            <Grid container spacing={3} alignItems="center">
+                                <Grid size={{ xs: 12, md: 5 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="From"
+                                        value={fromAmount}
+                                        onChange={(e) => setFromAmount(e.target.value)}
+                                        type="number"
+                                        sx={styles.input}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <Typography fontWeight="600">EDC</Typography>
+                                                </InputAdornment>
+                                            ),
                                         }}
-                                    >
-                                        {error}
-                                    </Alert>
-                                )}
-
-                                <Grid container spacing={3} alignItems="center">
-                                    <Grid size={{ xs: 12, md: 5 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="From"
-                                            value={fromAmount}
-                                            onChange={(e) => setFromAmount(e.target.value)}
-                                            type="number"
-                                            sx={styles.input}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <Typography fontWeight="600">EDC</Typography>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </Grid>
-
-                                    <Grid size={{ xs: 12, md: 2 }} display="flex" alignItems="center" justifyContent="center">
-                                        <IconButton
-                                            color="primary"
-                                            sx={styles.swapIcon}
-                                            size="large"
-                                        >
-                                            <SwapHoriz sx={{ transform: 'rotate(90deg)' }} />
-                                        </IconButton>
-                                    </Grid>
-
-                                    <Grid size={{ xs: 12, md: 5 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="To"
-                                            value={toAmount}
-                                            onChange={(e) => setToAmount(e.target.value)}
-                                            type="number"
-                                            sx={styles.input}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <Typography fontWeight="600">USDT</Typography>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </Grid>
+                                    />
                                 </Grid>
 
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleSwap}
-                                    disabled={isLoading}
-                                    sx={styles.swapButton}
-                                    endIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <ArrowForward />}
-                                >
-                                    {isLoading ? 'Processing...' : 'Exchange Now'}
-                                </Button>
-                            </Paper>
-                        </motion.div>
+                                <Grid size={{ xs: 12, md: 2 }} display="flex" alignItems="center" justifyContent="center">
+                                    <IconButton
+                                        color="primary"
+                                        sx={styles.swapIcon}
+                                        size="large"
+                                    >
+                                        <SwapHoriz sx={{ transform: 'rotate(90deg)' }} />
+                                    </IconButton>
+                                </Grid>
+
+                                <Grid size={{ xs: 12, md: 5 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="To"
+                                        value={toAmount}
+                                        onChange={(e) => setToAmount(e.target.value)}
+                                        type="number"
+                                        sx={styles.input}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <Typography fontWeight="600">USDT</Typography>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSwap}
+                                disabled={isLoading}
+                                sx={styles.swapButton}
+                                endIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <ArrowForward />}
+                            >
+                                {isLoading ? 'Processing...' : 'Exchange Now'}
+                            </Button>
+                        </Paper>
                     </Grid>
 
                     {/* Transaction History */}
                     <Grid size={{ xs: 12 }}>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.5 }}
-                        >
-                            <Paper sx={styles.paper}>
-                                <Box display="flex" alignItems="center" gap={1} mb={2}>
-                                    <History color="primary" />
-                                    <Typography variant="h6" fontWeight={600}>
-                                        Recent Transactions
-                                    </Typography>
-                                </Box>
+                        <Paper sx={styles.paper}>
+                            <Box display="flex" alignItems="center" gap={1} mb={2}>
+                                <History color="primary" />
+                                <Typography variant="h6" fontWeight={600}>
+                                    Recent Transactions
+                                </Typography>
+                            </Box>
 
-                                <TableContainer sx={styles.tableContainer}>
-                                    <Table>
-                                        <TableHead sx={styles.tableHeader}>
-                                            <TableRow>
-                                                <TableCell>Date</TableCell>
-                                                <TableCell>From</TableCell>
-                                                <TableCell>To</TableCell>
-                                                <TableCell align="right">Status</TableCell>
+                            <TableContainer sx={styles.tableContainer}>
+                                <Table>
+                                    <TableHead sx={styles.tableHeader}>
+                                        <TableRow>
+                                            <TableCell>Date</TableCell>
+                                            <TableCell>From</TableCell>
+                                            <TableCell>To</TableCell>
+                                            <TableCell align="right">Status</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {mockTransactions.map((transaction) => (
+                                            <TableRow key={transaction.id}>
+                                                <TableCell>{transaction.date}</TableCell>
+                                                <TableCell>{transaction.from}</TableCell>
+                                                <TableCell>{transaction.to}</TableCell>
+                                                <TableCell align="right">
+                                                    <Chip
+                                                        icon={getStatusIcon(transaction.status)}
+                                                        label={transaction.status}
+                                                        color={getStatusColor(transaction.status)}
+                                                        size="small"
+                                                        sx={styles.statusChip}
+                                                    />
+                                                </TableCell>
                                             </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {mockTransactions.map((transaction) => (
-                                                <TableRow key={transaction.id}>
-                                                    <TableCell>{transaction.date}</TableCell>
-                                                    <TableCell>{transaction.from}</TableCell>
-                                                    <TableCell>{transaction.to}</TableCell>
-                                                    <TableCell align="right">
-                                                        <Chip
-                                                            icon={getStatusIcon(transaction.status)}
-                                                            label={transaction.status}
-                                                            color={getStatusColor(transaction.status)}
-                                                            size="small"
-                                                            sx={styles.statusChip}
-                                                        />
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Paper>
-                        </motion.div>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Paper>
                     </Grid>
                 </Grid>
-            </motion.div>
+            </Box>
         </Container>
     );
 };

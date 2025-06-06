@@ -37,8 +37,7 @@ const FlagImage = memo(({ code, name }) => (
 
 const ProfileForm = memo(({ userData, handleChange, genders, countries }) => (
   <Grid container spacing={2} sx={{ mt: 3 }}>
-    {/* Regular text fields */}
-    {["fullname", "nickname", "address", "phone"].map((field, idx) => (
+    {/* Regular text fields */}    {["fullname", "nickname", "address", "phone"].map((field) => (
       <Grid item xs={12} sm={6} key={field}>
         <CustomTextField
           fullWidth

@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Box, Typography, Container, Tabs, Tab, Button, Menu, MenuItem } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { MAIN_ROUTES } from '@/constants/routesPath';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 
 // --- Constants ---
 const tabData = [
@@ -36,7 +36,7 @@ function DesktopNavigation() {
                     }
                 }}
             >
-                {tabData.map(({ label, link }, index) => (
+                {tabData.map(({ label, link }) => (
                     <Tab
                         key={label}
                         label={label}
