@@ -1,9 +1,8 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import { Stars } from "@mui/icons-material";
-import { Rocket, Target } from "lucide-react";
-import { motion } from "framer-motion";
-import creditcard from "/Leaderboard/creditcard.png";
-import { useNavigate } from "react-router-dom";
+import { Box, Button, Grid, Typography, Link } from "@mui/material";
+import { CurrencyExchange } from "@mui/icons-material";
+import { ArrowUpDown, Wallet } from "lucide-react";
+import exchangeCard from "/Exchange/exchange_card.png";
+
 const headerStyles = {
     container: {
         background: "linear-gradient(135deg, #E3EAFD, #F8F9FF)",
@@ -37,34 +36,43 @@ const headerStyles = {
     },
 };
 
-const LeaderboardHeader = () => {
-    const navigate = useNavigate();
+const ExchangeHeader = () => {
     return (
         <Box sx={headerStyles.container}>
             <Grid container spacing={4} alignItems="center">
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Typography variant="h3" fontWeight="bold" gutterBottom sx={headerStyles.title}>
-                        <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
-                            <Stars sx={{ fontSize: { xs: "2.5rem", md: "3.5rem" }, color: "#FFC107" }} />
-                        </motion.div>
-                        Be The Best<br />Get Rewarded!
+                        <CurrencyExchange sx={{ fontSize: { xs: "2.5rem", md: "3.5rem" }, color: "#FFC107" }} />
+                        Exchange Your<br />EDT Tokens
                     </Typography>
                     <Typography variant="body1" sx={headerStyles.description}>
-                        Compete with others, showcase your skills, and win valuable Educhain Token rewards. Prove your talent and rise to the top!
+                        Convert your Educhain Tokens to other cryptocurrencies or fiat currencies. Fast, secure, and easy exchange process with competitive rates!
                     </Typography>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}>
-                        <Button variant="outlined" startIcon={<Rocket size={20} />} sx={headerStyles.button}>
-                            <Typography textTransform="capitalize" onClick={() => navigate('/my-courses')}>Learn More</Typography>
+                        <Button
+                            variant="outlined"
+                            startIcon={<ArrowUpDown size={20} />}
+                            sx={headerStyles.button}
+                            component={Link}
+                            href="/exchange"
+                        >
+                            <Typography textTransform="capitalize">Start Exchange</Typography>
                         </Button>
                         <Typography variant="body2" sx={{ color: "#333", fontSize: "1rem", lineHeight: "1.6" }}>or</Typography>
-                        <Button variant="outlined" startIcon={<Target size={20} />} sx={headerStyles.button}>
-                            <Typography textTransform="capitalize" onClick={() => navigate('/missions')}>Complete Missions</Typography>
+                        <Button
+                            variant="outlined"
+                            startIcon={<Wallet size={20} />}
+                            sx={headerStyles.button}
+                            component={Link}
+                            href="/wallet"
+                        >
+                            <Typography textTransform="capitalize">View Wallet</Typography>
                         </Button>
                     </Box>
                 </Grid>
                 <Grid size={{ xs: 12, md: 6 }} sx={{ textAlign: "right", display: { xs: "none", md: "block" } }}>
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <Box component="img" src={creditcard} alt="Reward Card" sx={{ width: "90%" }} />
+                        <Box component="img" src={exchangeCard} alt="Exchange Card" sx={{ width: "100%" }} />
                     </Box>
                 </Grid>
             </Grid>
@@ -72,4 +80,4 @@ const LeaderboardHeader = () => {
     )
 };
 
-export default LeaderboardHeader;
+export default ExchangeHeader;

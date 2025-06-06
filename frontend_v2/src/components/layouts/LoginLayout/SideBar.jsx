@@ -191,7 +191,7 @@ const SideBar = memo(() => {
         }, [expanded])}
       </Box>
     </Drawer>
-  );
+  )
 });
 
 export default SideBar;

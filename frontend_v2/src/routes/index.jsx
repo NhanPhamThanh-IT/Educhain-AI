@@ -2,7 +2,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import {
+import React, {
   Suspense,
   lazy
 } from 'react';
@@ -50,9 +50,9 @@ const LoadingComponent = () => (
 );
 
 // Wrapper component for lazy loading
-const LazyLoad = ({ component: Component }) => (
+const LazyLoad = ({ component }) => (
   <Suspense fallback={<LoadingComponent />}>
-    <Component />
+    {React.createElement(component)}
   </Suspense>
 );
 
