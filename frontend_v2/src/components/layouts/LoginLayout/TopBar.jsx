@@ -91,8 +91,9 @@ const AccountMenu = memo(({ anchorEl, open, onClose, onNavigate, onLogout }) => 
       PaperProps={MENU_PAPER_STYLES}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-    >      {MENU_ITEMS.map((item, index) => (
-      <React.Fragment key={item.id}>
+    >      
+    {MENU_ITEMS.map((item, index) => (
+      <React.Fragment key={index}>
         <MenuItem
           onClick={() => handleItemClick(item)}
           sx={MENU_ITEM_STYLES}
@@ -212,16 +213,11 @@ const TopBar = memo(({ toggleSidebar }) => {
           <MenuIcon />
         </IconButton>
 
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={TITLE_STYLES}
-        >
-          Educhain AI
+        <Typography variant="h6" component="div" sx={TITLE_STYLES}>
         </Typography>
 
-        {toolbarActions}        {/* Conditionally render the menu only when needed */}
+        {toolbarActions}
+        {/* Conditionally render the menu only when needed */}
         {open && (
           <AccountMenu
             anchorEl={anchorEl}
