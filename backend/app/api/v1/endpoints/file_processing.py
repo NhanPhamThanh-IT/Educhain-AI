@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
-from typing import Dict, Any
+from typing import Dict, Any, List
 from pydantic import BaseModel
 
 from app.services.azure_file_processing import process_pdf_file
@@ -11,11 +11,14 @@ class FileProcessingResponse(BaseModel):
     success: bool
     message: str
 
+class FileProcessingRequest(BaseModel):
+    file: UploadFile
+    doc_id: str
+    course_name: str
+
+    
 @router.post("/process-pdf", response_model=FileProcessingResponse)
-async def upload_and_process_pdf(
-    file: UploadFile = File(...),
-    course_name: str = Form(...)
-):
+async def upload_and_process_pdf(request: FileProcessingRequest):
     """
     Upload a PDF file and process it with Azure Document Intelligence.
     
@@ -30,7 +33,7 @@ async def upload_and_process_pdf(
         JSON response indicating success or failure
     """
     # Validate file type
-    if not file.filename.lower().endswith('.pdf'):
+    if not request.file.filename.lower().endswith('.pdf'):
         raise HTTPException(
             status_code=400,
             detail="Only PDF files are supported"
@@ -39,13 +42,13 @@ async def upload_and_process_pdf(
     try:
         # Process the file using the service
         print("start processing")
-        success = await process_pdf_file(file, course_name)
+        success = await process_pdf_file(request.file, request.course_name)
         
         if success:
             # Upload the file to Azure Blob Storage
             return FileProcessingResponse(
                 success=True,
-                message=f"Document '{file.filename}' successfully processed and stored for course '{course_name}'"
+                message=f"Document '{request.file.filename}' successfully processed and stored for course '{course_name}'"
             )
         else:
             return FileProcessingResponse(
