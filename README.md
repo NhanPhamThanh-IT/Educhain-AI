@@ -1,6 +1,28 @@
-# Introduction
+<div align="justify">
 
-# EduChain AI - Web3 Educational Platform
+# <div align="center">EduChain AI - Web3 Educational Platform</div>
+
+<div align="center">
+
+[![GitHub stars](https://img.shields.io/github/stars/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=ffcc00&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/stargazers) [![GitHub forks](https://img.shields.io/github/forks/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=4285f4&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/network) [![GitHub issues](https://img.shields.io/github/issues/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=ea4335&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/issues) [![GitHub license](https://img.shields.io/github/license/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=open-source-initiative&color=34a853&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/blob/main/LICENSE)
+
+[![Website](https://img.shields.io/badge/🌐_Website-Live-brightgreen?style=for-the-badge&color=00d4aa)](https://educhain-ai.vercel.app) [![Demo](https://img.shields.io/badge/🚀_Demo-Try_Now-blue?style=for-the-badge&color=667eea)](https://educhain-ai.vercel.app/demo) [![Documentation](https://img.shields.io/badge/📚_Docs-Read-orange?style=for-the-badge&color=f093fb)](https://github.com/NhanPhamThanh-IT/Educhain-AI/wiki)
+
+[![Python](https://img.shields.io/badge/Python-3.8+-306998?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/) [![FastAPI](https://img.shields.io/badge/FastAPI-Latest-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/) [![React](https://img.shields.io/badge/React-19.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+[![Sui](https://img.shields.io/badge/Sui-Blockchain-4FC3F7?style=for-the-badge&logo=blockchain.info&logoColor=white)](https://sui.io/) [![Move](https://img.shields.io/badge/Move-Smart_Contracts-000000?style=for-the-badge&logo=ethereum&logoColor=white)](https://move-language.github.io/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/) [![Neo4j](https://img.shields.io/badge/Neo4j-Graph_DB-018bff?style=for-the-badge&logo=neo4j&logoColor=white)](https://neo4j.com/)
+
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/) [![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)](https://azure.microsoft.com/) [![LangChain](https://img.shields.io/badge/LangChain-0.3.7-FF6B35?style=for-the-badge&logo=chainlink&logoColor=white)](https://python.langchain.com/) [![LightRAG](https://img.shields.io/badge/LightRAG-Knowledge_Graph-ff6b6b?style=for-the-badge&logo=graphql&logoColor=white)](https://github.com/HKUDS/LightRAG)
+
+[![Build Status](https://img.shields.io/badge/Build-✅_Passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Code Quality](https://img.shields.io/badge/Code_Quality-A+-brightgreen?style=for-the-badge&logo=codeclimate)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Security](https://img.shields.io/badge/Security-🔒_Verified-green?style=for-the-badge&logo=security)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Maintained](https://img.shields.io/badge/Maintained-✅_Active-brightgreen?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-💝_Welcome-ff69b4?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI/pulls) [![Contributors](https://img.shields.io/badge/Contributors-🤝_Welcome-orange?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI/graphs/contributors) [![Discord](https://img.shields.io/badge/Discord-💬_Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/educhain-ai) [![Twitter](https://img.shields.io/badge/Twitter-🐦_Follow-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/educhain_ai)
+
+</div>
+
+---
+
+## ✨ Introduction
 
 **EduChain AI** is an innovative Web3-based educational platform that integrates artificial intelligence (AI) and blockchain technology to revolutionize online learning. With features like AI-powered personalized learning tools, a tokenized economy for document exchange and rewards systems, and blockchain-secured transactions. Educhain offers a comprehensive ecosystem for both learners and educators. The platform leverages **LLMs (e.g., Llama-3,3-chatQA-finetuned, Llama-3.2-Vision, DeepSeek-Coder-V2) and knowledge-augmented generation** (combine of knowledge graph and vector retrieval) techniques to create a seamless and engaging experience and allow users to achieve their educational goals, while **Web3 technology** (e.g., **smart contracts, cryptocurrencies**) builds a secure and transparent system that includes a rewards mechanism based on users effort.
 
@@ -1482,7 +1504,6 @@ public entry fun create_mission(
 ### Community
 
 - [GitHub Issues](https://github.com/NhanPhamThanh-IT/Educhain-AI/issues)
-- [Discord Community](https://discord.gg/educhain-ai)
 - [Documentation Wiki](https://github.com/NhanPhamThanh-IT/Educhain-AI/wiki)
 
 ## 📄 License
@@ -1501,10 +1522,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For questions, support, or collaboration opportunities:
 
 - **Project Maintainer**: NhanPhamThanh-IT
-- **Email**: [your-email@example.com]
+- **Email**: [ptnhanit230104@gmail.com]
 - **GitHub**: [@NhanPhamThanh-IT](https://github.com/NhanPhamThanh-IT)
 - **Website**: [https://educhain-ai.vercel.app](https://educhain-ai.vercel.app)
 
 ---
 
-**EduChain AI** - Transforming Education Through AI and Web3 Technology 🚀
+<div align="center">
+
+🚀 **EduChain AI** - Transforming Education Through AI and Web3 Technology 🚀
+
+</div>
+
+</div>
