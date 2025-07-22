@@ -4,9 +4,11 @@
 
 <div align="center">
 
-[![GitHub stars](https://img.shields.io/github/stars/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=ffcc00&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/stargazers) [![GitHub forks](https://img.shields.io/github/forks/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=4285f4&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/network) [![GitHub issues](https://img.shields.io/github/issues/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=ea4335&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/issues) [![GitHub license](https://img.shields.io/github/license/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=open-source-initiative&color=34a853&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/blob/main/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-💝_Welcome-ff69b4?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI/pulls) [![Contributors](https://img.shields.io/badge/Contributors-🤝_Welcome-orange?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI/graphs/contributors) [![Website](https://img.shields.io/badge/🌐_Website-Live-brightgreen?style=for-the-badge&color=00d4aa)](https://educhain-ai.vercel.app) [![Demo](https://img.shields.io/badge/🚀_Demo-Try_Now-blue?style=for-the-badge&color=667eea)](https://educhain-ai.vercel.app/demo) [![Documentation](https://img.shields.io/badge/📚_Docs-Read-orange?style=for-the-badge&color=f093fb)](https://github.com/NhanPhamThanh-IT/Educhain-AI/wiki)
+[![Code Quality](https://img.shields.io/badge/Code_Quality-A+-brightgreen?style=for-the-badge&logo=codeclimate)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![GitHub stars](https://img.shields.io/github/stars/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=ffcc00&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/stargazers) [![GitHub forks](https://img.shields.io/github/forks/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=4285f4&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/network) [![GitHub issues](https://img.shields.io/github/issues/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=github&color=ea4335&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/issues) [![GitHub license](https://img.shields.io/github/license/NhanPhamThanh-IT/Educhain-AI?style=for-the-badge&logo=open-source-initiative&color=34a853&logoColor=white)](https://github.com/NhanPhamThanh-IT/Educhain-AI/blob/main/LICENSE)
 
-[![Build Status](https://img.shields.io/badge/Build-✅_Passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Code Quality](https://img.shields.io/badge/Code_Quality-A+-brightgreen?style=for-the-badge&logo=codeclimate)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Security](https://img.shields.io/badge/Security-🔒_Verified-green?style=for-the-badge&logo=security)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Maintained](https://img.shields.io/badge/Maintained-✅_Active-brightgreen?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI)
+[![Website](https://img.shields.io/badge/🌐_Website-Live-brightgreen?style=for-the-badge&color=00d4aa)](https://educhain-ai.vercel.app) [![Build Status](https://img.shields.io/badge/Build-✅_Passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/NhanPhamThanh-IT/Educhain-AI) [![Maintained](https://img.shields.io/badge/Maintained-✅_Active-brightgreen?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-💝_Welcome-ff69b4?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI/pulls) [![Contributors](https://img.shields.io/badge/Contributors-🤝_Welcome-orange?style=for-the-badge&logo=github)](https://github.com/NhanPhamThanh-IT/Educhain-AI/graphs/contributors) [![Documentation](https://img.shields.io/badge/📚_Docs-Read-orange?style=for-the-badge&color=f093fb)](https://github.com/NhanPhamThanh-IT/Educhain-AI/wiki)
 
 </div>
 
@@ -56,9 +58,9 @@ EduChain-AI/
 
 ## 🛠️ Technology Stack
 
-### <div align="center">Backend Technologies</div>
+### Backend Technologies
 
-<div align="center">
+<div align="left">
 
 [![Python](https://img.shields.io/badge/Python-3.8+-306998?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/) [![FastAPI](https://img.shields.io/badge/FastAPI-Latest-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/) [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/) [![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)](https://azure.microsoft.com/) [![LangChain](https://img.shields.io/badge/LangChain-0.3.7-FF6B35?style=for-the-badge&logo=chainlink&logoColor=white)](https://python.langchain.com/) [![LightRAG](https://img.shields.io/badge/LightRAG-Knowledge_Graph-ff6b6b?style=for-the-badge&logo=graphql&logoColor=white)](https://github.com/HKUDS/LightRAG)
 
@@ -80,11 +82,11 @@ EduChain-AI/
   - Azure Speech Services - Text-to-speech functionality
 - **Authentication**: JWT tokens, bcrypt for password hashing
 
-### <div align="center">Frontend Technologies</div>
+### Frontend Technologies
 
-<div align="center">
+<div align="left">
 
-[![React](https://img.shields.io/badge/React-19.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![MUI](https://img.shields.io/badge/MUI-5.15+-007FFF?style=for-the-badge&logo=mui&logoColor=white)](https://mui.com/) [![Vite](https://img.shields.io/badge/Vite-5.2+-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/) [![SWC](https://img.shields.io/badge/SWC-compiler-F7B93E?style=for-the-badge&logo=swc&logoColor=black)](https://swc.rs/) [![ESLint](https://img.shields.io/badge/ESLint-8.0+-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
 
 </div>
 
@@ -99,9 +101,9 @@ EduChain-AI/
   - Wagmi - React hooks for Ethereum
 - **Additional**: Axios, React Hot Toast, React Markdown
 
-### <div align="center">Blockchain Technologies</div>
+### Blockchain Technologies
 
-<div align="center">
+<div align="left">
 
 [![Sui](https://img.shields.io/badge/Sui-Blockchain-4FC3F7?style=for-the-badge&logo=blockchain.info&logoColor=white)](https://sui.io/) [![Move](https://img.shields.io/badge/Move-Smart_Contracts-000000?style=for-the-badge&logo=ethereum&logoColor=white)](https://move-language.github.io/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/) [![Neo4j](https://img.shields.io/badge/Neo4j-Graph_DB-018bff?style=for-the-badge&logo=neo4j&logoColor=white)](https://neo4j.com/)
 
